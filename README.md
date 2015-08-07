@@ -1,3 +1,4 @@
 ## blog
 currently nothing here, testing jekyll
-blog.arogozhnikov.github.io
+
+http://arogozhnikov.github.io
