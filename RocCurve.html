@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js" charset="utf-8"></script>
+		<script src="jquery-2.1.4.js" charset="utf-8"></script>
+        <style type="text/css">
+            body{
+                font-family: "Helvetica Neue Light", "HelveticaNeue-Light", "Helvetica Neue", Calibri, Helvetica, Arial, sans-serif;
+            }
+            .layout-wrapper{
+                max-width: 850px;
+                margin: auto;
+
+            }
+
+            input{
+                width: 60px;
+                margin-right: 20px;
+            }
+			
+			.axis path,
+			.axis line {
+				fill: none;
+				stroke: black;
+				shape-rendering: crispEdges;
+			}
+			
+			.axis text {
+				font-family: sans-serif;
+				font-size: 11px;
+			}
+			
+			svg path {
+    			fill: none;
+    			stroke-width: 2;
+			}
+			
+			.block1 {
+			    background: none;
+                padding: 5px;
+                display: inline-block;
+            }
+			
+			.block2 {
+				background: none;
+                padding: 5px;
+                display: inline-block;
+			}
+
+			.controls{
+				padding: 10px;
+                background-color: #cdf;
+			}
+
+            .thresholdLine{
+                cursor: ew-resize;
+            }
+
+            .pdf_area1{
+                fill: rgba(250, 100, 100, 0.2);
+
+            }
+
+            .pdf_area2{
+                fill: rgba(100, 100, 250, 0.2);
+
+            }
+		</style>
+    </head>
+    <body>
+        <div class="layout-wrapper">
+            <h2 style="padding-left: 20px;">
+                ROC curve demo
+            </h2>
+            <div class="controls">
+                <label for="mean1">mean #1:</label><input id="mean1" type = "number" size = "5" value = "0" onchange="draw()">
+                <label for="mean2">mean #2:</label><input id="mean2" type = "number" size = "5" value = "2" onchange="draw()">
+                <label for="var1">variance #1:</label><input id="var1" type = "number" size = "5" value = "4" onchange="draw()">
+                <label for="var2">variance #2:</label><input id="var2" type = "number" size = "5" value = "4" onchange="draw()">
+            </div>
+            <div id="renderer">
+                <!-- here all the plots will be rendered -->
+            </div>
+            <div style="padding: 20px;">
+                <h3>Instructions</h3>
+                <p>
+                    On the right plot: two compared distributions (for demonstration normal distributions were taken).
+                </p>
+                <p>
+                    On the left plot: corresponding
+                    <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">ROC curve.</a>
+                </p>
+                <p>
+                    Controls:
+                </p>
+                <ul>
+                    <li>4 inputs with means and variances of distributions</li>
+                    <li>Also vertical line corresponding to threshold can be moved</li>
+                </ul>
+                <p>
+                    Presentation was prepared by Oleg Alenkin and Alex Rogozhnikov.
+                </p>
+
+
+            </div>
+        </div>
+
+        <script type = "text/javascript">
+			// defining global constants
+	        var w = 345., h = 350., padding = 30.;
+	        var mean1 = 1., mean2 = 0., var1 = 2., var2 = 2.;
+	        var threshold = 1.;
+
+	        var tMin = -3;
+        	var	tMax = 5.;
+        	var maxValue = 2.;
+
+        
+	        function erf(x) {
+                var sign = (x >= 0) ? 1 : -1;
+                x = Math.abs(x);
+
+                // constants
+                var a1 =  0.254829592;
+                var a2 = -0.284496736;
+                var a3 =  1.421413741;
+                var a4 = -1.453152027;
+                var a5 =  1.061405429;
+                var p  =  0.3275911;
+
+                var t = 1.0/(1.0 + p*x);
+                var y = 1.0 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x);
+                return sign * y; // erf(-x) = -erf(x);
+            }
+
+	        function cdf(x, mean, variance) {
+                var normed_x = (x - mean) / (Math.sqrt(2 * variance));
+                return 0.5 * (1 + erf(normed_x));
+			}
+
+	        function pdf(x, mean, variance) {
+	        	return 1 / Math.sqrt(variance * 2 * Math.PI) * Math.exp(-(x - mean) * (x - mean) / 2. / variance);
+	        }
+	        
+
+
+        	var xScaleDev = d3.scale.linear()
+				.domain([tMin, tMax])
+				.range([0., w]);
+
+			var yScaleDev = d3.scale.linear()
+				.domain([0, maxValue])
+				.range([h, 0]);
+
+	        var xScale = d3.scale.linear()
+        		.domain([0, 1])
+        		.range([0., w]);
+
+        	var yScale = d3.scale.linear()
+        		.domain([0, 1])
+        		.range([h, 0]);
+
+        	var div_left  = d3.select("#renderer").append("div");
+
+            div_left.attr("class", "block1");
+        	
+        	var svg = div_left
+        		.append("svg")
+        		.attr("width", w + 2 * padding)
+       	 		.attr("height", h + 2 * padding);
+
+            svg = svg.append('g')
+                .attr("transform", "translate(" + padding + "," + padding + ")")
+        	
+        	// Define X axis
+			var xAxis = d3.svg.axis()
+							  .scale(xScale)
+							  .orient("bottom")
+							  .ticks(5);
+
+			// Define Y axis
+			var yAxis = d3.svg.axis()
+							  .scale(yScale)
+							  .orient("left")
+							  .ticks(5);
+			
+        	//Create X axis
+			svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(" + 0 +"," + h + ")")
+				.call(xAxis);
+			
+			//Create Y axis
+			svg.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(" + 0 + ",0)")
+				.call(yAxis);
+
+            svg.append("text")
+                .attr("class", "x label")
+                .attr("text-anchor", "end")
+                .attr("x", w - 20)
+                .attr("y", h - 10)
+                .text("fpr = bkg efficiency");
+
+            svg.append("text")
+                .attr("class", "y label")
+                .attr("text-anchor", "end")
+                .attr("y", 6)
+                .attr("dy", ".75em")
+                .attr("transform", "rotate(-90)")
+                .text("tpr = signal efficiency");
+
+			var roc_curve_line = d3.svg.line()
+            	.x(function(d) {return xScale(1. - cdf(d, mean1, var1));})
+            	.y(function(d) {return yScale(1. - cdf(d, mean2, var2));});
+			
+			var roc_curve_path = svg
+				.append("path")
+				.attr("class", "line")
+                .attr("stroke", "green");
+			
+			var circle = svg
+				.append("circle")
+				.attr("cx", xScale(1 - cdf(threshold, mean1, var1)))
+				.attr("cy", yScale(1 - cdf(threshold, mean2, var2)))
+				.attr("r", 4);
+			
+			//-------------------------------
+        	var div_right = d3.select("#renderer")
+    			.append("div")
+    			.attr("class", "block2");
+        	
+        	var svg2 = div_right
+        		.append("svg")
+        		.attr("width", w + 2 * padding)
+       	 		.attr("height", h + 2 * padding);
+
+            svg2 = svg2.append('g')
+                .attr("transform", "translate(" + padding + "," + padding + ")")
+
+        	var pdf_path1 = svg2
+        		.append("path")
+        		.attr("class","line")
+                .attr("stroke", "red");
+
+
+        	var pdf_path2 = svg2
+        		.append("path")
+        		.attr("class", "line")
+                .attr("stroke", "blue");
+
+            var pdf_area1 = svg2.append('path').attr('class', 'pdf_area1');
+            var pdf_area2 = svg2.append('path').attr('class', 'pdf_area2');
+
+        	var drag = d3.behavior.drag()
+	        	.on("drag", function() {
+	        		var thr = threshold + d3.event.dx * (tMax - tMin) / w;
+		            threshold = Math.min(tMax, Math.max(thr, tMin));
+		            d3.select(this).attr("x1", xScaleDev(threshold)).attr("x2", xScaleDev(threshold));
+		            circle
+			            .attr("cx", xScale(1 - cdf(threshold, mean1, var1)))
+						.attr("cy", yScale(1 - cdf(threshold, mean2, var2)));
+                    draw();
+	           });
+        	
+        	var thresholdLine = svg2.append("line")
+                .call(drag)
+                .attr('class', 'thresholdLine')
+                .attr("stroke", "orange")
+                .attr('stroke-width', '2');
+
+
+			//Create X axis
+			xAxDev = svg2.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(" + 0 + "," + h + ")");
+			
+			//Create Y axis
+			yAxDev = svg2.append("g")
+				.attr("class", "axis")
+				.attr("transform", "translate(" + 0 + ",0)");
+							  
+        	function draw(){
+				// parsing arguments
+				mean1 = parseFloat($('#mean1').val());
+				mean2 = parseFloat($('#mean2').val());
+				var1 = parseFloat($('#var1').val());
+				var2 = parseFloat($('#var2').val());
+
+
+	        	var thresholds = [];
+                var right_thresholds = [];
+	        	
+	        	tMin = Math.min(mean1 - 3 * Math.sqrt(var1), mean2 - 3 * Math.sqrt(var2));
+	        	tMax = Math.max(mean1 + 3 * Math.sqrt(var1), mean2 + 3 * Math.sqrt(var2));
+	        	var N = 1000;
+	        	var delta = (tMax - tMin) / N;
+
+	        	thresholds[0] = tMin;
+                right_thresholds[0] = threshold;
+
+	        	for (var i = 1; i <= N; i++) {
+	        		thresholds[i] = thresholds[i - 1] + delta;
+                    right_thresholds[i] = right_thresholds[i - 1] + delta;
+	        	}
+
+	        	
+	        	maxValue = Math.max(pdf(mean1, mean1, var1), pdf(mean2, mean2, var2)) * 1.05;
+	        		
+	        	roc_curve_path.attr("d", roc_curve_line(thresholds));
+
+	        	xScaleDev.domain([tMin, tMax]);
+
+	    		yScaleDev.domain([0, maxValue]);
+	    		
+	    		//Define X axis
+				var xAxisDev = d3.svg.axis()
+					.orient("bottom")
+					.scale(xScaleDev)
+				  	.ticks(5);
+
+				//Define Y axis
+				var yAxisDev = d3.svg.axis()
+					.orient("left")
+					.scale(yScaleDev)
+					.ticks(5);		    		
+	    		
+	    		xAxDev.call(xAxisDev);
+	    		yAxDev.call(yAxisDev);
+				
+				var deviation1 = d3.svg.line()
+	        		.x(function(d) {return xScaleDev(d);})
+	        		.y(function(d) {return yScaleDev(pdf(d, mean1, var1));});
+	        	
+	        	var deviation2 = d3.svg.line()
+	    			.x(function(d) {return xScaleDev(d);})
+	    			.y(function(d) {return yScaleDev(pdf(d, mean2, var2));});
+
+
+	        	pdf_path1.attr("d", deviation1(thresholds));
+
+	        	pdf_path2.attr("d", deviation2(thresholds));
+
+                var _area1 = d3.svg.area()
+                    .x(function(d) {return xScaleDev(d);})
+                    .y0(function(d) {return yScaleDev(d * 0);})
+                    .y1(function(d) {return yScaleDev(pdf(d, mean1, var1));});
+
+                var _area2 = d3.svg.area()
+                    .x(function(d) {return xScaleDev(d);})
+                    .y0(function(d) {return yScaleDev(d * 0);})
+                    .y1(function(d) {return yScaleDev(pdf(d, mean2, var2));});
+
+                pdf_area1.attr('d', _area1(right_thresholds));
+
+                pdf_area2.attr('d', _area2(right_thresholds));
+
+	        	thresholdLine
+		        	.attr("x1", xScaleDev(threshold))
+		            .attr("y1", yScaleDev(0))
+		            .attr("x2", xScaleDev(threshold))
+		            .attr("y2", yScaleDev(maxValue));
+
+	        	circle
+		        	.attr("cx", xScale(1 - cdf(threshold, mean1, var1)))
+					.attr("cy", yScale(1 - cdf(threshold, mean2, var2)));
+	        }
+        	
+        	draw();
+        </script>
+    </body>
+</html>
