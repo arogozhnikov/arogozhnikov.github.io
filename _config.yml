@@ -1,0 +1,13 @@
+# Site settings
+title: Brilliantly wrong
+email: alex.rogozhnikov@yandex.ru
+description: > # this means to ignore newlines until "baseurl:"
+	Brilliantly Wrong - a blog about math, machine learning, high energy physics.
+	Written by Alex Rogozhnikov.
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://arogozhnikov.github.io" # the base hostname & protocol for your site
+#twitter_username: jekyllrb
+github_username:  arogozhnikov
+
+# Build settings
+markdown: kramdown

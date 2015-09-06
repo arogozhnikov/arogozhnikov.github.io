@@ -1,0 +1,13 @@
+---
+layout: post
+title: Very deep neural network
+date: '2015-05-10T14:04:00.003-07:00'
+author: Alex
+tags:
+- Neural Networks
+modified_time: '2015-05-10T14:04:57.990-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-6272625430873275712
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/05/very-deep-neural-network.html
+---
+
+<p>Link to article: <a href='http://arxiv.org/abs/1505.00387'>http://arxiv.org/abs/1505.00387</a></p> <p>With proposed technique one can build very deep neural networks (up to hundreds of layers). The key principle why this works is very simple: $$ x_{n+1} = x_n + f(x_n), $$ where the second summand is small enough.  </p> <p>There are two points actually:</p> <ul><li> First, one uses very many layers, and is are able to approximate all needed functions. </li><li> Second, since the first summand dominates, there is no vanishing gradient problem. </li></ul> <p>Not sure if this really has some advantages over shallow ANNs, but still an interesting approach. </p> <p>So, it's a way to train deep network, though doesn't have any attitude to what people usually call 'deep learning', since here we are not trying to establish some new hidden categories. </p>

@@ -1,0 +1,16 @@
+---
+layout: post
+title: Decision train classifier
+date: '2015-05-22T04:54:00.000-07:00'
+author: Alex
+tags:
+- Machine Learning
+- Experiments
+- bit-hacks
+- vectorization
+modified_time: '2015-05-22T04:54:19.085-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-1585621610654534431
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/05/decision-train-classifier.html
+---
+
+During the weekend I've been working on implementation of <b>decision train</b>.<br /><br /><div data-select-like-a-boss="1">Decision train is a classification/regression model, which I first introduced as a way to speed up gradient boosting with bit-hacks, so it's main purpose was to demonstrate how bit operations coupled with proper preprocessing of data plus revisiting can speed up training/application of trained formula. It may sound strange, &nbsp;but this incredibly fast algorithm was written in python (all the computationally expensive things are using numpy).</div><br />In general, I found it's basic version to be no worse than GBRT from scikit-learn. And my implementation is of course much faster.<br /><br />Am interesting moment of my approach: I am writing hep_ml library in modular way, for instance, considering GBRT implementation, there are separate classes/functions for:<br /><br /><ul><li>boosting algorithm</li><li>base estimator (at this moment only different trees supported, but I believe that one can use any clustering algorithm, like k-means, which sounds a bit strange, but after experiments with pruning this becomes obvious, that getting estimators from some predefined pool can yield very good results in classification)</li><li>loss function. The only difference between regression, binary classification and ranking for gradient boosting is in the loss you use.&nbsp;</li><li>splitting criterion (actually, this may be called loss function too), the FOM we minimize when building a new tree, but GBRT usually uses simply MSE as such criterion)</li></ul><div>This 'modular structure' made it possible to write loss functions once and use with different classifiers.</div><div>Maybe, I'll find a time to provide a support of <a href="http://arxiv.org/abs/1410.4140">FlatnessLoss</a> inside <a href="http://brilliantlywrong.blogspot.com/2015/05/libraries-of-machine-learning.html">my neural networks</a>&nbsp;(since it is flexible and uses only gradient, this should be not very complicated).</div><div><br /></div>

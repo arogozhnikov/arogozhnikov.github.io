@@ -1,0 +1,15 @@
+---
+layout: post
+title: Numpy exercises
+date: '2015-04-30T12:31:00.000-07:00'
+author: Alex
+tags:
+- numpy one-liners
+- Python
+- numpy
+modified_time: '2015-04-30T12:31:13.299-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-7890012778117168020
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/04/numpy-exercises.html
+---
+
+<div dir="ltr" style="text-align: left;" trbidi="on">When one starts writing in python, the typical reaction is disappointment about how slow it is compared to any compilable language. After a while, you learn numpy and find out it's actually not so bad.<br /><br />Having spent a month with numpy, I found out that many things can be written in it.<br />Having spent a year with it, I found out that almost any algorithm may be vectorized, though it's sometimes non-trivial.<br /><br />I'm still quite disappointed about the most answers at stackoverflow, where people prefer plain python for any nontrivial thing.<br /><br /><div>For instance, you need to <a href="http://stackoverflow.com/questions/12414043/map-each-list-value-to-its-corresponding-percentile?rq=1">compute statistics</a> of values in array. Well, you can sort array and keep track of initial position.&nbsp;Alternatively, you can do it in numpy-one-liner:</div><br /><pre>order_statistics = numpy.argsort(numpy.argsort(initial_array))<br /></pre><br />Don't believe? Check this! <br>Want to compute mean value over the group of events? Another one-liner: <pre><br />means = numpy.bincount(group_indices, weights=values) / numpy.bincount(group_indices)<br /></pre><br>Writing oblivious decision tree in numpy is very simple and can be done really fast. <br><br>As a non-trivial problem: will you be able to write application of usual decision tree in pure numpy? For simplicity, you can first consider only trees with equal depth of all leaves.  </div>   

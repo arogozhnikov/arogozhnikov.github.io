@@ -1,0 +1,30 @@
+table.comparison{
+	margin: 10px;
+	border-collapse: collapse;
+	border-spacing: 0px;
+}
+table.comparison td{
+	border: 1px solid black;
+	padding: 2px 4px;
+}
+table.comparison th{
+	font-weight: bold;
+}
+
+figure.image{
+	width: 800px;
+	text-align: center;
+	margin: 10px auto;
+	display: table-cell;
+}
+
+figure.image img{
+    margin: auto;
+    max-width: 800px;
+}
+
+.site-header{
+	color: #000000;
+	/*background: url(http://images2.fanpop.com/images/photos/7000000/Space-Art-Wallpaper-space-7076692-1440-900.jpg) no-repeat fixed center; */
+	background: url(space_background.jpg) fixed center; 
+}

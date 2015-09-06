@@ -1,0 +1,14 @@
+---
+layout: post
+title: LibFM in python
+date: '2015-07-04T14:33:00.000-07:00'
+author: Alex
+tags:
+- Machine Learning
+- Python
+modified_time: '2015-07-06T15:56:09.367-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-3821345336935899679
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/07/libfm-in-python.html
+---
+
+<a href="http://libfm.org/">LibFM</a>&nbsp;is library for factorization machines using an approach proposed by Steffen Rendle. However it seems that there is no python wrapper for this famous library.<br><br>However, if you're looking for python version of it, take a look at these projects:<br><br><br><ul><li><a href="https://github.com/coreylynch/pyFM">https://github.com/coreylynch/pyFM</a><br>Lovely minimalistic implementation of Factorization Machines using cython (previous version used numpy).<br>This library has an interface similar to scikit-learn.<br></li><li><a href="http://ibayer.github.io/fastFM/index.html">http://ibayer.github.io/fastFM/index.html</a><br>fastFM is another option. Library supports both classification and regression.<br>Contains three different solvers (SGD, ALS, MCMC). ALS = alternative least squares.<br>In the paper written by author of algorithm, he argues that other algorithms are comparable to SGD.<br><br>This library is completely following scikit-learn interface (even deriving from BaseEstimator and appropriate mixin classes).<br></li><li>I was also looking for code in theano, but the only code I found was very dirty and minimalistic (so I'm not hoping it is usable)<br><a href="https://github.com/instagibbs/FactorizationMachine">https://github.com/instagibbs/FactorizationMachine</a><br></li></ul><div><br></div>

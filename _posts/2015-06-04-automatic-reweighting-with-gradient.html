@@ -1,0 +1,18 @@
+---
+layout: post
+title: Automatic reweighting with gradient boosting
+date: '2015-06-04T08:24:00.002-07:00'
+author: Alex
+tags:
+- Machine Learning
+- CERN
+- High Energy Physics
+- Gradient Boosting
+- Reweighting of Distributions
+modified_time: '2015-06-04T08:24:38.912-07:00'
+thumbnail: http://2.bp.blogspot.com/-y_BRgR1pvR0/VXBpJgVzH_I/AAAAAAAAADU/Niqmc4bVXXI/s72-c/FIG_ttbar_detector_MixedEventSub.png
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-7434511693429824669
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/06/automatic-reweighting-with-gradient.html
+---
+
+In high energy physics there is frequently used trick: <b>reweighting of distribution</b>. The most frequent reason to reweight data is to introduce some kind of constistency between real data and simulated one. The typical picture of how it looks like you can find below:<br /><br /><div class="separator" style="clear: both; text-align: center;"></div><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-y_BRgR1pvR0/VXBpJgVzH_I/AAAAAAAAADU/Niqmc4bVXXI/s1600/FIG_ttbar_detector_MixedEventSub.png" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="282" src="http://2.bp.blogspot.com/-y_BRgR1pvR0/VXBpJgVzH_I/AAAAAAAAADU/Niqmc4bVXXI/s400/FIG_ttbar_detector_MixedEventSub.png" width="400" /></a></div><br />The aim is to find such weights for MC, that makes original distribution look like target distribution. I've found a way to use here gradient boosting over regression trees, though it is quite different from usual GBRT in loss, update rule and splitting criterion.<br /><br /><b>Update rule of reweighting GB</b><br />Here is the definition of weights:<br />$$w = \begin{cases}w, \text{event from target distribution} \\ e^{pred} w, \text{event from original distribution} \end{cases}, $$<br />so as you see, we are looking for multiplier $e^{pred}$, which will reweight the original distribution.<br /><br />Pred is raw prediction of gradient boosting.<br /><br /><b>Splitting criterion of reweighting GB</b><br />The most obvious way to select splitting is to maximize binned $\chi^2$ statistics, so we are looking for the tree, which splits the space on the most 'informative' cells, where the difference is significant.<br /><br />$$ \chi^2 = \sum_{\text{bins}} \dfrac{ (w_{target} - w_{original} )^2}{w_{target} + w_{original} } $$<br /><br />Here I selected a bit more symmetric version, though this was not necessary.<br /><br /><b>Computing optimal value in the leaf</b><br />since we are going to remove difference in distributions, the optimal value is obviously:<br />$$ \text{leaf_value} = \log{\dfrac{w_{target}}{ w_{original} }} $$<br /><br />

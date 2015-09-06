@@ -1,0 +1,14 @@
+---
+layout: post
+title: Anomaly detection at CERN experiments
+date: '2015-05-10T03:21:00.001-07:00'
+author: Alex
+tags:
+- Machine Learning
+- CERN
+modified_time: '2015-05-10T03:51:31.001-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-7210903929316194665
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/05/anomaly-detection-at-cern-experiments.html
+---
+
+<p>Yesterday I dot a brilliant idea on how to implement automatic anomaly detection at CERN experiments. Today this work is done manually - many students / PhD students are looking at different distributions online. This first is quite inreliable, second - it's quite expensive, since you need many people to work all the time (nobody is paid for this - but you anyway spend money on travels). </p> <p>So, the basic idea is quite simple: one can bin each variable and look at distributions within each of bins. Knowing, that number of events observed inside each bin is Poisson-distributed, one can detect anomalies. </p> <p>However, this detects only deviations of single variable. How to compute deviations of many variables? <br />  Inside LHCb experiment, for instance, we have topological trigger, which uses gradient-boosted regression trees to filter out events. Trees are actually splitting data into bins, so one can use this and eatimate for one tree the probability of observing anomaly. Here we can apply  <a href='http://en.wikipedia.org/wiki/Likelihood-ratio_test#Distribution:_Wilks.27s_theorem'>Wilks theorem</a>, but only for every particular tree, since bins of different trees are correlated. </p>

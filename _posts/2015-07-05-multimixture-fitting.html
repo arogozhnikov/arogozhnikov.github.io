@@ -1,0 +1,14 @@
+---
+layout: post
+title: Multimixture fitting
+date: '2015-07-04T14:36:00.000-07:00'
+author: Alex
+tags:
+- Machine Learning
+- Graphical Models
+modified_time: '2015-07-04T14:36:00.664-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-1319838903330630919
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/07/multimixture-fitting.html
+---
+
+I was wondering how one can modify Expectation-Maximization procedure for fitting mixtures (well, gaussian mixtures, because it's the only distribution that can be fitted easily) to support really <b>many overlapping summands in mixture</b>.<br /><br />Randomization probably can be a solution to this problem.<br /><br />Let me first remind how EM works. There are two steps that are computed iteratively<br /><br /><ol><li>(Expectation) where we compute probability that each particular event belongs to each distribution</li><li>(Maximization) where given the probabilities we maximize parameters of each distribution.</li></ol><div>What if we sample events according to distribution from expectation step? At each stage we will attribute each event to one (in simplest case) component of mixture, or maybe several of them. This kind of randomization should prevent us from 'shrinking' of distribution.</div><div><br />Ok, this again needs time for experiments.</div>

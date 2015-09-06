@@ -1,0 +1,14 @@
+---
+layout: post
+title: Good list of NN training methods
+date: '2015-03-15T16:27:00.000-07:00'
+author: Alex
+tags:
+- Machine Learning
+- Neural Networks
+modified_time: '2015-03-30T13:09:51.992-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-5188535836322744029
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/03/good-list-of-nn-trainin-methods.html
+---
+
+<div dir="ltr" style="text-align: left;" trbidi="on">Dived deeper into the methods of training NNs.<br />Good yet incomplete list of what people did in this area is given in <a href="http://jmlr.csail.mit.edu/papers/volume7/castillo06a/castillo06a.pdf">this article</a> dated 2006.<br /><br />But there is no my favourite Rprop and it's modifications (IRprop+, IRprop-).<br /><br />BTW, recently dived deeper into experiments with neural networks, and I decided to improve IRprop by keeping track about not simply moving along each axis, but as well along directions<br />$w_i + w_j$, $w_i - w_j$, being sure that this should speed up training progress.<br /><br />Well, it increased the speed for the first time, but very fast it stops decreasing loss function and when it is close to the minimal value, it starts serious oscillations and becomes simply unstable.</div>

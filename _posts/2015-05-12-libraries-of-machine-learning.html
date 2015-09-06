@@ -1,0 +1,16 @@
+---
+layout: post
+title: Theano-based libraries for machine learning
+date: '2015-05-12T07:44:00.001-07:00'
+author: Alex
+tags:
+- Machine Learning
+- Deep Learning
+- Theano
+- Neural Networks
+modified_time: '2015-05-22T04:20:23.817-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-4594518966614646355
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/05/libraries-of-machine-learning.html
+---
+
+<div dir="ltr" style="text-align: left;" trbidi="on">I wrote several times about mathematical vector engine <a data-select-like-a-boss="1" href="http://brilliantlywrong.blogspot.com/2014/11/theano-python-library.html">theano</a> and its benefits.<br /><div><br /></div><div>If you're going to dive deep into neural networks, I recommend learning it and using pure&nbsp;<b>theano</b>. However, there are numerous neural network libraries based on theano, let's list some of them:</div><div><ul style="text-align: left;"><li>Theanets,&nbsp;<a href="http://theanets.readthedocs.org/">http://theanets.readthedocs.org/</a>&nbsp;(pay attention - it is different from theanet, which I haven't found useful)<br />theanets is a good option to start, &nbsp;quite efficient and simple, provides also posssibilities for recurrent neural networks. However, notice, that rprop implementation uses mini-batches, which makes it unstable.</li><li>Keras,&nbsp;<a href="http://keras.io/">http://keras.io/</a><br />so far seems to be very adequate theano library, contains several minibatch-based optimizers and several loss functions, mostly for regression. Authors compare it to Torch.</li><li>Pylearn2,&nbsp;<a href="http://deeplearning.net/software/pylearn2/">http://deeplearning.net/software/pylearn2/</a><br />this library was written by LISA-lab, authors of theano, however library though being very advanced, itself is terribly complex. Usually it is easier (at lest for me) to write things from the scratch then writing YAML configuration</li><li data-select-like-a-boss="1">others which I consider to be not as mature and partially forgotten:<br /><a href="https://github.com/benanne/Lasagne">lasagne</a>,&nbsp;<a href="https://github.com/bartvm/blocks">blocks</a>, <a href="https://github.com/jlerouge/crino">crino</a>,&nbsp;<a href="https://github.com/glorotxa/DeepANN">deepANN</a>&nbsp;(last one in deprecated), .</li><li>finally, want to note my nano-library (500 lines of code!), which allows using 5 trainers + 6 losses on feedforward networks. Supports weights, and extremely flexible, because it's main paradygm: <i>write an expression</i>. Yes, use theano and just write activation function, blackbox optimization methods will do everything for you. This allows writing amazingly complex activations since you're not more restricted to 'layers' model and fitting of arbitrary functions:<br /><br /><a href="https://github.com/iamfullofspam/hep_ml/blob/master/hep_ml/nnet.py">https://github.com/iamfullofspam/hep_ml/blob/master/hep_ml/nnet.py</a><br /><br />One more notable thing: it uses scikit-learn interface, so you can use at as a part of, say, &nbsp;pipeline. Or run AdaBoost over neural networks (which is very fast, &nbsp;by the way).</li></ul></div></div>
