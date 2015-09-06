@@ -25,6 +25,7 @@ figure.image img{
 
 .site-header{
 	color: #000000;
-	/*background: url(http://images2.fanpop.com/images/photos/7000000/Space-Art-Wallpaper-space-7076692-1440-900.jpg) no-repeat fixed center; */
-	background: url(space_background.jpg) fixed center; 
+	background: url(space_background.jpg) fixed;
+	background-repeat: repeat-x;
+	background-position: top center;
 }
