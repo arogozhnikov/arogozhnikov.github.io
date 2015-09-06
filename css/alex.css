@@ -29,3 +29,13 @@ figure.image img{
 	background-repeat: repeat-x;
 	background-position: top center;
 }
+
+table.image-wrapper td{
+	text-align: center;
+	font-size: 80%;
+}
+
+table.image-wrapper{
+	width: 100%;
+	margin: auto auto 10px;
+}

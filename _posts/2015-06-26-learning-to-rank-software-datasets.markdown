@@ -102,7 +102,7 @@ However, there are some algorithms that are available (apart from regression, of
 ### Some comparison (randomly sampled pictures from net):
 
 <figure class='image'>
-<img src="http://3.bp.blogspot.com/-U_C84v4_WZU/VY2ollTlRHI/AAAAAAAAAFM/8G1c8hieciQ/s1600/letor_number1.png" >
+<img src="/images/letor_number1.png" >
 </img>
 <caption>Taken from&nbsp;<a href="http://www2009.org/pdf/T7A-LEARNING%20TO%20RANK%20TUTORIAL.pdf">http://www2009.org/pdf/T7A-LEARNING%20TO%20RANK%20TUTORIAL.pdf</a></caption>
 </figure>
@@ -110,7 +110,7 @@ However, there are some algorithms that are available (apart from regression, of
 <br />
 
 <figure class='image'>
-<img src="http://3.bp.blogspot.com/-6TBwXCVcb40/VY2rXXl3R8I/AAAAAAAAAFY/ObWWkBgFP9g/s1600/letor_numbers2.png" />
+<img src="/images/letor_numbers2.png" />
 <caption>Comparison from&nbsp;<a href="http://www.ke.tu-darmstadt.de/events/PL-12/papers/07-busa-fekete.pdf">http://www.ke.tu-darmstadt.de/events/PL-12/papers/07-busa-fekete.pdf</a>, <br />though paper was about comparison of nDCG implementations.</caption>
 </figure>
 
