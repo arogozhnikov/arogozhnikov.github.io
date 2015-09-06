@@ -1,7 +1,7 @@
 # Site settings
 title: Brilliantly wrong
 email: alex.rogozhnikov@yandex.ru
-description: Brilliantly Wrong - Alex Rogozhnikov's blog about math, machine learning, prgramming and high energy physics.
+description: Brilliantly Wrong - Alex Rogozhnikov's blog about math, machine learning, programming and high energy physics.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://arogozhnikov.github.io" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
