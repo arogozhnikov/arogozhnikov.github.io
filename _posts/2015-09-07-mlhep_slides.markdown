@@ -1,11 +1,10 @@
 ---
 layout: post
 title:  "MLHEP 2015 lectures slides"
-date: 2015-09-07
+date: 2015-09-07 12:00:00
 tags: 
 - teaching
 - materials
-  
 ---
 
 In the end of this august our team from Yandex organized MLHEP 2015 - summer school on Machine Learning in High Energy Physics.
