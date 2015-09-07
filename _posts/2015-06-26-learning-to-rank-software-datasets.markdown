@@ -30,47 +30,47 @@ are available, which were published in 2008 and 2009. Those datasets are smaller
 MQ stays for million queries.
 
 * [Yahoo! LETOR dataset](http://webscope.sandbox.yahoo.com/catalog.php?datatype=c),&nbsp;from challenge organized in 2010. There are currently two versions: 1.0(400Mb) and 2.0 (600Mb). Here is more info about two sets within this data<br />
-<table class='comparison'>
-	<tbody>
-		<tr>
-			<td></td>
-			<td colspan="3">Set 1</td>
-			<td colspan="3">Set 2</td>
-		</tr>
-		<tr>
-			<td></td>
-			<td>Train</td>
-			<td>Val</td>
-			<td>Test</td>
-			<td>Train</td>
-			<td>Val</td>
-			<td>Test</td>
-		</tr>
-		<tr>
-			<td># queries</td>
-			<td>19,944</td>
-			<td>2,994</td>
-			<td>6,983</td>
-			<td>1,266</td>
-			<td>1,266</td>
-			<td>3,798</td>
-		</tr>
-		<tr>
-			<td># urls</td>
-			<td>473,134</td>
-			<td>71,083</td>
-			<td>165,660</td>
-			<td>34,815</td>
-			<td>34,881</td>
-			<td>103,174</td>
-		</tr>
-		<tr>
-			<td># features</td>
-			<td colspan="3">519</td>
-			<td colspan="3">596</td>
-		</tr>
-	</tbody>
-</table>
+	<table class='comparison'>
+		<tbody>
+			<tr>
+				<td></td>
+				<td colspan="3">Set 1</td>
+				<td colspan="3">Set 2</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td>Train</td>
+				<td>Val</td>
+				<td>Test</td>
+				<td>Train</td>
+				<td>Val</td>
+				<td>Test</td>
+			</tr>
+			<tr>
+				<td># queries</td>
+				<td>19,944</td>
+				<td>2,994</td>
+				<td>6,983</td>
+				<td>1,266</td>
+				<td>1,266</td>
+				<td>3,798</td>
+			</tr>
+			<tr>
+				<td># urls</td>
+				<td>473,134</td>
+				<td>71,083</td>
+				<td>165,660</td>
+				<td>34,815</td>
+				<td>34,881</td>
+				<td>103,174</td>
+			</tr>
+			<tr>
+				<td># features</td>
+				<td colspan="3">519</td>
+				<td colspan="3">596</td>
+			</tr>
+		</tbody>
+	</table>
 
 * There is also [Yandex imat'2009](http://imat2009.yandex.ru/en/datasets) (Интернет-Математика 2009) dataset, which is rather small. (~100000 query-pairs in test and the same in train, 245 features).&nbsp;
 
@@ -102,8 +102,7 @@ However, there are some algorithms that are available (apart from regression, of
 ### Some comparison (randomly sampled pictures from net):
 
 <figure class='image'>
-<img src="/images/letor_number1.png" >
-</img>
+<img src="/images/letor_number1.png" />
 <caption>Taken from&nbsp;<a href="http://www2009.org/pdf/T7A-LEARNING%20TO%20RANK%20TUTORIAL.pdf">http://www2009.org/pdf/T7A-LEARNING%20TO%20RANK%20TUTORIAL.pdf</a></caption>
 </figure>
 
