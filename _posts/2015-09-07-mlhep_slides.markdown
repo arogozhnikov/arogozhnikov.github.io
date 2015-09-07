@@ -49,7 +49,7 @@ Despite this limitations, course contained
  * using classifiers' output to test physical hypotheses
  * unsupervised ML: PCA, autoencoders 
 
-Also I significally reduced number of formulas and replaced them with different demonstrations of how different things work.
+Also I significantly reduced number of formulas and replaced them with different demonstrations of how different things work.
   
 This is really much for introductory 4-days course, but I consider this to be ok to give more during the course. 
 The problem is I forgot to put some important notes with conclusions, next time I'll add them explicitly to slides :) 
