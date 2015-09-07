@@ -18,13 +18,13 @@ No, this is not everything: we organized [inclass kaggle competition](http://inc
 based on the COMET tracking problem I wrote about ([part 1]({% post_url 2015-06-22-machine-learning-used-in-tracking-of%}), 
 [part 2]({% post_url 2015-07-05-machine-learning-in-comet-experiment %})), so participants played with ML methods on real-world problem.
 
-I gave lectures on introductory track. This was really challenging - put the course of ML to people who have no experience in ML 
+I gave lectures on introductory track. This was really challenging - put the course of ML in 4 days to people who have no experience in ML 
 and have different background (while major part of introductory track listeners were particle physicists, but this is not very helpful).
  
 One more caveat: since the schedule was completely filled, we decided to give no tasks (and thus all the theoretical knowledge
 will be obtained from slides). 
 
-For this purpose I decided to minimize the number of things used in course. The only non-trivial notion I used was decision function.
+For this purpose I decided to minimize the number of things introduced in course. The only non-trivial notion I used was decision function.
 No $F(x)$, no $h_i(x)$, no $Q(x, y)$, no margins and other stuff.
 
 Despite this limitations, course contained
@@ -48,7 +48,7 @@ Despite this limitations, course contained
  * using classifiers' output to test physical hypotheses
  * unsupervised ML: PCA, autoencoders 
 
-Also I significantly reduced number of formulas and replaced them with different demonstrations of how different things work.
+Also I significantly reduced number of formulas and added different demonstrations of how different algorithms work.
   
 This is really much for introductory 4-days course, but I consider this to be ok to give more during the course. 
 The problem is I forgot to put some important notes with conclusions, next time I'll add them explicitly to slides :) 
