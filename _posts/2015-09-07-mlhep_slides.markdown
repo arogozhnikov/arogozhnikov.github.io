@@ -7,7 +7,7 @@ tags:
 - materials
 ---
 
-In the end of this august our team from Yandex organized MLHEP 2015 - summer school on Machine Learning in High Energy Physics.
+In the end of this August our team from Yandex organized MLHEP 2015 - summer school on Machine Learning in High Energy Physics.
 
 School lasted only for 4 days, but even in this little time we managed to teach many things.
 
@@ -16,7 +16,7 @@ Also in each evening there was a special physical talk by invited speakers from 
 
 No, this is not everything: we organized [inclass kaggle competition](http://inclass.kaggle.com/c/comet-track-recognition-mlhep-2015)
 based on the COMET tracking problem I wrote about ([part 1]({% post_url 2015-06-22-machine-learning-used-in-tracking-of%}), 
-[part 2]()), 
+[part 2]({% post_url 2015-07-05-machine-learning-in-comet-experiment %})), 
 so participants played with ML methods on real-world problem.
 
 I gave lectures on introductory track. This was really challenging - put the course of ML in 4 days to people who have no experience in ML 
