@@ -2,6 +2,7 @@
 layout: post
 title:  "MLHEP 2015 lectures slides"
 date: 2015-09-07 12:00:00
+author: Alex Rogozhnikov
 tags: 
 - teaching
 - materials
