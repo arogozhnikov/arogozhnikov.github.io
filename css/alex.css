@@ -39,3 +39,29 @@ table.image-wrapper{
 	width: 100%;
 	margin: auto auto 10px;
 }
+
+
+/* This is for notebooks */
+
+div.prompt{
+	margin-left: -90px;
+	display: inline-block;
+	width: 80px;
+	/* margin-bottom: -30px; */
+	position: absolute;
+	text-align: right;
+}
+
+div.input_prompt{
+	color: #336;
+}
+
+div.output_prompt{
+	color: #933;
+}
+
+div.output_text pre{
+	background: #e5e5e5;
+}
+
+/* this is not for notebooks */
