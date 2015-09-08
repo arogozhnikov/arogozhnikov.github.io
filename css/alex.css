@@ -25,9 +25,7 @@ figure.image img{
 
 .site-header{
 	color: #000000;
-	background: url(space_background.jpg) fixed;
-	background-repeat: repeat-x;
-	background-position: top center;
+	background: black url(space_background.jpg) repeat-x fixed top center;
 }
 
 table.image-wrapper td{
@@ -47,6 +45,7 @@ div.prompt{
 	margin-left: -90px;
 	display: inline-block;
 	width: 80px;
+	padding: 6px;
 	/* margin-bottom: -30px; */
 	position: absolute;
 	text-align: right;

@@ -1,3 +1,7 @@
 _site/
 .sass-cache/
-.idea/
+.mr.developer.cfg
+.project
+.pydevproject
+.idea
+.ipynb_checkpoints
