@@ -5,6 +5,8 @@ date: 2015-09-07 12:00:00
 tags: 
 - teaching
 - materials
+- Machine Learning
+- MLHEP 2015
 ---
 
 In the end of this August our team from Yandex organized MLHEP 2015 - summer school on Machine Learning in High Energy Physics.
@@ -26,9 +28,9 @@ One more caveat: since the schedule was completely filled, we decided to give no
 will be obtained from slides). 
 
 For this purpose I decided to minimize the number of things introduced in course. The only non-trivial notion I used was decision function.
-No $F(x)$, no $h_i(x)$, no $Q(x, y)$, no margins and other stuff.
+No $F(x)$, no $h_i(x)$, no $Q(x, y)$, no margins, no $\Theta$, no $C(Y, F)$ and other stuff.
 
-Despite this limitations, course contained
+Despite this limitations, course contained all the 'starter kit' and even more:
 
  * knn
  * optimal bayesian classifier, QDA
