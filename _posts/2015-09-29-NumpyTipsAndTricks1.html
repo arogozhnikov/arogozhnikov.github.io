@@ -1,0 +1,2495 @@
+---
+layout: post
+title: "Data manipulation with numpy: tips and tricks, part 1"
+date: "2015-09-29"
+author: Alex Rogozhnikov
+tags:
+- notebook
+---
+
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Data-manipulation-with-numpy:-tips-and-tricks,-part-1">Data manipulation with numpy: tips and tricks, part 1<a class="anchor-link" href="#Data-manipulation-with-numpy:-tips-and-tricks,-part-1">&#182;</a></h1><p>Some inobvious examples of what you can do with numpy are collected here.</p>
+<p>Examples are mostly coming from area of machine learning, but will be useful if you're doing number crunching in python.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">pylab</span> inline
+<span class="kn">import</span> <span class="nn">numpy</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Populating the interactive namespace from numpy and matplotlib
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="1.-numpy.argsort">1. numpy.argsort<a class="anchor-link" href="#1.-numpy.argsort">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sorting-values-of-one-array-according-to-the-other">Sorting values of one array according to the other<a class="anchor-link" href="#Sorting-values-of-one-array-according-to-the-other">&#182;</a></h3><p>Say, we want to order the people according to their age and their heights.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">ages</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">heights</span> <span class="o">=</span>  <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">210</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">ages</span>
+<span class="k">print</span> <span class="n">heights</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[48 57 40 53 50 59 54 53 32 36]
+[166 171 202 168 156 181 195 160 153 178]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">sorter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">ages</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">ages</span><span class="p">[</span><span class="n">sorter</span><span class="p">]</span>
+<span class="k">print</span> <span class="n">heights</span><span class="p">[</span><span class="n">sorter</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[32 36 40 48 50 53 53 54 57 59]
+[153 178 202 166 156 168 160 195 171 181]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>once you computed permutation, you can apply it many times - this is fast.</p>
+<p>Frequently to solve this problem people use sorted(zip(ages, heights)), which is much slower (10-20 times slower on large arrays).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Computing-inverse-of-permutation">Computing inverse of permutation<a class="anchor-link" href="#Computing-inverse-of-permutation">&#182;</a></h3><p>permutations in numpy are simply arrays:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">permutation</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">original</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s">&#39;abcdefghij&#39;</span><span class="p">))</span>
+
+<span class="k">print</span> <span class="n">permutation</span>
+<span class="k">print</span> <span class="n">original</span>
+<span class="k">print</span> <span class="n">original</span><span class="p">[</span><span class="n">permutation</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[3 6 2 5 8 0 9 1 7 4]
+[&apos;a&apos; &apos;b&apos; &apos;c&apos; &apos;d&apos; &apos;e&apos; &apos;f&apos; &apos;g&apos; &apos;h&apos; &apos;i&apos; &apos;j&apos;]
+[&apos;d&apos; &apos;g&apos; &apos;c&apos; &apos;f&apos; &apos;i&apos; &apos;a&apos; &apos;j&apos; &apos;b&apos; &apos;h&apos; &apos;e&apos;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Inverse permutation</strong> is computed using numpy.argsort (again!)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">inverse_permutation</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">permutation</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">original</span><span class="p">[</span><span class="n">permutation</span><span class="p">][</span><span class="n">inverse_permutation</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&apos;a&apos; &apos;b&apos; &apos;c&apos; &apos;d&apos; &apos;e&apos; &apos;f&apos; &apos;g&apos; &apos;h&apos; &apos;i&apos; &apos;j&apos;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>This is true because of two facts</strong>:</p>
+<ol>
+<li><p>indexing operation is associative (dramatically simple and interesting fact):</p>
+
+<pre><code>a[b][c] = a[b[c]]</code></pre>
+<p>provided that <code>a</code>, <code>b</code>, <code>c</code> are 1-dimensional arrays</p>
+</li>
+<li><p>`permutation[inverse_permutation] is identical permutation:</p>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">permutation</span><span class="p">[</span><span class="n">inverse_permutation</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[6]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Computing-order-of-elements-in-array">Computing order of elements in array<a class="anchor-link" href="#Computing-order-of-elements-in-array">&#182;</a></h3><p>frequently it is important to compute order of each value in array.</p>
+<p>In other words, for each element in array we want to find the number of elements smaller than given.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">data</span>
+<span class="k">print</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0.18876798  0.33988201  0.57112439  0.17273985  0.85323547  0.45800298
+  0.22264742  0.61841973  0.95750711  0.464747  ]
+[1 3 6 0 8 4 2 7 9 5]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>NB:</strong> there is scipy function which does the same, but it's more general and faster, so prefer using it:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">rankdata</span>
+<span class="n">rankdata</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[8]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1.,  3.,  6.,  0.,  8.,  4.,  2.,  7.,  9.,  5.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="IronTransform-(flattener-of-distribution)">IronTransform (flattener of distribution)<a class="anchor-link" href="#IronTransform-(flattener-of-distribution)">&#182;</a></h3><p>Sometimes you need to write monotonic tranformation, which turns one distribution into uniform.</p>
+<p>This method is useful to compare distributions or to work with distributions with heavy tails or strange shape.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">class</span> <span class="nc">IronTransform</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+        <span class="n">sorter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">sorter</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">sorter</span><span class="p">])</span>
+        <span class="k">return</span> <span class="bp">self</span>
+        
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's apply <strong>Iron</strong> transformation to data</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">sig_pred</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">bck_pred</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">hist</span><span class="p">(</span><span class="n">sig_pred</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">bck_pred</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="k">pass</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+JzohAPB1tHsAAAAASUVORK5CYII=
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can see that <strong>IronTransform</strong> actually was able to turn signal distribution to uniform:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">iron</span> <span class="o">=</span> <span class="n">IronTransform</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">sig_pred</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sig_pred</span><span class="p">)))</span>
+
+<span class="n">hist</span><span class="p">(</span><span class="n">iron</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">sig_pred</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">hist</span><span class="p">(</span><span class="n">iron</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">bck_pred</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="k">pass</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Also worth mentioning: to fight very small / large numbers, use <code>numpy.clip</code>. Simple and very handy:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">clip</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">],</span> <span class="n">a_min</span><span class="o">=-</span><span class="mi">15</span><span class="p">,</span> <span class="n">a_max</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[13]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-15, -10,   0,  10,  15])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">x</span> <span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">x</span>
+<span class="k">print</span> <span class="n">x</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[-5 -4 -3 -2 -1  0  1  2  3  4]
+[0 0 0 0 0 0 1 2 3 4]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="2.-Broadcasting,-numpy.newaxis">2. Broadcasting, numpy.newaxis<a class="anchor-link" href="#2.-Broadcasting,-numpy.newaxis">&#182;</a></h1><p><a href="http://docs.scipy.org/doc/numpy/user/basics.broadcasting.html">Broadcasting</a> is very useful trick, which simplifies many operations.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Weighted-covariation-matrix">Weighted covariation matrix<a class="anchor-link" href="#Weighted-covariation-matrix">&#182;</a></h3><p>numpy has <code>cov</code> function, but it doesn't support weights of samples. Let's write our own covariation matrix.</p>
+<p>Let $X_{ij}$ be the original data. $i$ is indexing samples, $j$ is indexing features.
+$COV_{jk} = \sum_i X_{ij} w_i X_{ik}$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">covariation</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">weights</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">weights</span><span class="p">[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">cov</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[ 0.90685165,  0.00356514, -0.12894716,  0.03937398,  0.1663906 ],
+       [ 0.00356514,  0.8246978 , -0.01201887,  0.10577941,  0.18562202],
+       [-0.12894716, -0.01201887,  1.32759486,  0.03333471, -0.08284814],
+       [ 0.03937398,  0.10577941,  0.03333471,  1.02440454, -0.06659497],
+       [ 0.1663906 ,  0.18562202, -0.08284814, -0.06659497,  0.94100981]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">covariation</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[18]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[  9.09816762e-01,  -3.12337423e-04,  -1.26838506e-01,
+          6.67539288e-02,   1.40262953e-01],
+       [ -3.12337423e-04,   8.17677359e-01,  -1.21602154e-02,
+          9.58546593e-02,   1.91576029e-01],
+       [ -1.26838506e-01,  -1.21602154e-02,   1.31437468e+00,
+          3.48920447e-02,  -8.36850199e-02],
+       [  6.67539288e-02,   9.58546593e-02,   3.48920447e-02,
+          1.07826235e+00,  -1.22391496e-01],
+       [  1.40262953e-01,   1.91576029e-01,  -8.36850199e-02,
+         -1.22391496e-01,   9.81333236e-01]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">covariation</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[19]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[  9.82174593e-01,  -2.38659658e-02,  -1.52640434e-01,
+          1.59653486e-01,   1.70825366e-01],
+       [ -2.38659658e-02,   7.90875598e-01,   3.09576460e-02,
+          1.30379765e-02,   1.78000700e-01],
+       [ -1.52640434e-01,   3.09576460e-02,   1.37891092e+00,
+         -5.91108276e-04,   2.21618059e-02],
+       [  1.59653486e-01,   1.30379765e-02,  -5.91108276e-04,
+          1.05140876e+00,  -1.36853522e-01],
+       [  1.70825366e-01,   1.78000700e-01,   2.21618059e-02,
+         -1.36853522e-01,   1.11695337e+00]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>alternative way to do this is via <code>numpy.einsum</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s">&#39;ij, ik, i -&gt; jk&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">weights</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[20]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[  9.82174593e-01,  -2.38659658e-02,  -1.52640434e-01,
+          1.59653486e-01,   1.70825366e-01],
+       [ -2.38659658e-02,   7.90875598e-01,   3.09576460e-02,
+          1.30379765e-02,   1.78000700e-01],
+       [ -1.52640434e-01,   3.09576460e-02,   1.37891092e+00,
+         -5.91108276e-04,   2.21618059e-02],
+       [  1.59653486e-01,   1.30379765e-02,  -5.91108276e-04,
+          1.05140876e+00,  -1.36853522e-01],
+       [  1.70825366e-01,   1.78000700e-01,   2.21618059e-02,
+         -1.36853522e-01,   1.11695337e+00]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Pearson-correlation">Pearson correlation<a class="anchor-link" href="#Pearson-correlation">&#182;</a></h3><p>One more example of broadcasting: computation of Pearson coefficient.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">corrcoef</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[ 1.        ,  0.0041225 , -0.11751976,  0.04085126,  0.18012069],
+       [ 0.0041225 ,  1.        , -0.01148639,  0.11508481,  0.21070992],
+       [-0.11751976, -0.01148639,  1.        ,  0.02858434, -0.07412299],
+       [ 0.04085126,  0.11508481,  0.02858434,  1.        , -0.06782794],
+       [ 0.18012069,  0.21070992, -0.07412299, -0.06782794,  1.        ]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">my_corrcoef</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span> <span class="o">-</span> <span class="n">numpy</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="n">shifted_cov</span> <span class="o">=</span> <span class="n">covariation</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+    <span class="n">cov_diag</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">shifted_cov</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">shifted_cov</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">cov_diag</span><span class="p">[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">*</span> <span class="n">cov_diag</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])</span>
+
+<span class="n">my_corrcoef</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[ 1.        ,  0.0041225 , -0.11751976,  0.04085126,  0.18012069],
+       [ 0.0041225 ,  1.        , -0.01148639,  0.11508481,  0.21070992],
+       [-0.11751976, -0.01148639,  1.        ,  0.02858434, -0.07412299],
+       [ 0.04085126,  0.11508481,  0.02858434,  1.        , -0.06782794],
+       [ 0.18012069,  0.21070992, -0.07412299, -0.06782794,  1.        ]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Pairwise-distances-between-vectors">Pairwise distances between vectors<a class="anchor-link" href="#Pairwise-distances-between-vectors">&#182;</a></h3><p>we're given a set of vectors (say, 1000 vectors). The problem is to compute their pairwise distances.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">X</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+<span class="n">distances</span> <span class="o">=</span> <span class="p">((</span><span class="n">X</span><span class="p">[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">X</span><span class="p">[</span><span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:])</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>also, since algebra is you friend, you can do it times faster: 
+$$||x_i - x_j||^2 = ||x_i||^2 + ||x_j||^2 - 2 (x_i, x_j) $$
+so dot products is the only thing you need.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">products</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">distances2</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()[:,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span> <span class="o">+</span> <span class="n">products</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()[</span><span class="n">numpy</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">products</span>
+<span class="n">distances2</span> <span class="o">**=</span> <span class="mf">0.5</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>... but keep in mind there is <strong>sklearn.metrics.pairwise</strong> which does it for you and has different options</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">pairwise_distances</span>
+<span class="n">distances_sklearn</span> <span class="o">=</span> <span class="n">pairwise_distances</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">distances</span><span class="p">,</span> <span class="n">distances_sklearn</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">distances2</span><span class="p">,</span> <span class="n">distances_sklearn</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[25]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(True, True)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="3.-numpy.unique,-numpy.searchsorted">3. numpy.unique, numpy.searchsorted<a class="anchor-link" href="#3.-numpy.unique,-numpy.searchsorted">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Converting-categories-to-small-integers">Converting categories to small integers<a class="anchor-link" href="#Converting-categories-to-small-integers">&#182;</a></h3><p>Despite categories are easier to read, operating with them is much faster after you represent them as small numbers <br /> (for instance, in range [0, n_categories - 1])</p>
+<p>First generate some categories:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+<span class="n">possible_categories</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="s">&#39;abcdefghijklmn&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
+<span class="n">categories</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">possible_categories</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">categories</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&apos;di&apos; &apos;jk&apos; &apos;ik&apos; ..., &apos;dl&apos; &apos;af&apos; &apos;af&apos;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we use <strong>numpy.unique</strong> to convert them to numbers (pay attention to <code>return_inverse=True</code>)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">unique_categories</span><span class="p">,</span> <span class="n">new_categories</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="n">return_inverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">print</span> <span class="n">unique_categories</span>
+<span class="k">print</span> <span class="n">new_categories</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&apos;ab&apos; &apos;ac&apos; &apos;ad&apos; &apos;ae&apos; &apos;af&apos; &apos;ag&apos; &apos;ah&apos; &apos;ai&apos; &apos;aj&apos; &apos;ak&apos; &apos;al&apos; &apos;am&apos; &apos;an&apos; &apos;bc&apos; &apos;bd&apos;
+ &apos;be&apos; &apos;bf&apos; &apos;bg&apos; &apos;bh&apos; &apos;bi&apos; &apos;bj&apos; &apos;bk&apos; &apos;bl&apos; &apos;bm&apos; &apos;bn&apos; &apos;cd&apos; &apos;ce&apos; &apos;cf&apos; &apos;cg&apos; &apos;ch&apos;
+ &apos;ci&apos; &apos;cj&apos; &apos;ck&apos; &apos;cl&apos; &apos;cm&apos; &apos;cn&apos; &apos;de&apos; &apos;df&apos; &apos;dg&apos; &apos;dh&apos; &apos;di&apos; &apos;dj&apos; &apos;dk&apos; &apos;dl&apos; &apos;dm&apos;
+ &apos;dn&apos; &apos;ef&apos; &apos;eg&apos; &apos;eh&apos; &apos;ei&apos; &apos;ej&apos; &apos;ek&apos; &apos;el&apos; &apos;em&apos; &apos;en&apos; &apos;fg&apos; &apos;fh&apos; &apos;fi&apos; &apos;fj&apos; &apos;fk&apos;
+ &apos;fl&apos; &apos;fm&apos; &apos;fn&apos; &apos;gh&apos; &apos;gi&apos; &apos;gj&apos; &apos;gk&apos; &apos;gl&apos; &apos;gm&apos; &apos;gn&apos; &apos;hi&apos; &apos;hj&apos; &apos;hk&apos; &apos;hl&apos; &apos;hm&apos;
+ &apos;hn&apos; &apos;ij&apos; &apos;ik&apos; &apos;il&apos; &apos;im&apos; &apos;in&apos; &apos;jk&apos; &apos;jl&apos; &apos;jm&apos; &apos;jn&apos; &apos;kl&apos; &apos;km&apos; &apos;kn&apos; &apos;lm&apos; &apos;ln&apos;
+ &apos;mn&apos;]
+[40 81 77 ..., 43  4  4]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Also we can reconstruct old categories if needed:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">print</span> <span class="n">categories</span>
+<span class="k">print</span> <span class="n">unique_categories</span><span class="p">[</span><span class="n">new_categories</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&apos;di&apos; &apos;jk&apos; &apos;ik&apos; ..., &apos;dl&apos; &apos;af&apos; &apos;af&apos;]
+[&apos;di&apos; &apos;jk&apos; &apos;ik&apos; ..., &apos;dl&apos; &apos;af&apos; &apos;af&apos;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Mapping-new-categories">Mapping new categories<a class="anchor-link" href="#Mapping-new-categories">&#182;</a></h3><p>When we need to map new categories using the same lookup table, we can use <code>numpy.searchsorted</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">categories2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">possible_categories</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+<span class="n">new_categories2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">unique_categories</span><span class="p">,</span> <span class="n">categories2</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">categories2</span>
+<span class="k">print</span> <span class="n">unique_categories</span><span class="p">[</span><span class="n">new_categories2</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[&apos;ak&apos; &apos;be&apos; &apos;jn&apos; ..., &apos;fg&apos; &apos;dk&apos; &apos;ei&apos;]
+[&apos;ak&apos; &apos;be&apos; &apos;jn&apos; ..., &apos;fg&apos; &apos;dk&apos; &apos;ei&apos;]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Checking-values-present-in-the-lookup">Checking values present in the lookup<a class="anchor-link" href="#Checking-values-present-in-the-lookup">&#182;</a></h3><p>Usually, we use <code>set</code> to have many checks that each element exists in array. But <strong>numpy.unique</strong> is better option - it works dozens times faster.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">in1d</span><span class="p">([</span><span class="s">&#39;ab&#39;</span><span class="p">,</span> <span class="s">&#39;ac&#39;</span><span class="p">,</span> <span class="s">&#39;something new&#39;</span><span class="p">],</span> <span class="n">unique_categories</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ True,  True, False], dtype=bool)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Handling-missing-categories">Handling missing categories<a class="anchor-link" href="#Handling-missing-categories">&#182;</a></h3><p>When some new category appears in test data, this is always a trouble. Possible solutions:</p>
+<ul>
+<li>map randomly to one of present categories (this, i.e. is done by hashing trick)</li>
+<li>make a special category 'unknown' where all new values will be mapped. Then special value may be chosen for it.
+This approach is more general, but requires more efforts.</li>
+</ul>
+<p>Below you can find the transformer for second approach:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">class</span> <span class="nc">CategoryMapper</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categories</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lookup</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span>
+        
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categories</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Converts categories to numbers, 0 is reserved for new values (not present in fitted data)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lookup</span><span class="p">,</span> <span class="n">categories</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="n">categories</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lookup</span><span class="p">)</span>    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">CategoryMapper</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="n">unique_categories</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s">&#39;abc&#39;</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([1, 0])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="4.-numpy.percentile,-numpy.bincount">4. numpy.percentile, numpy.bincount<a class="anchor-link" href="#4.-numpy.percentile,-numpy.bincount">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Splitting-data-into-bins">Splitting data into bins<a class="anchor-link" href="#Splitting-data-into-bins">&#182;</a></h3><p>Splitting data into bins is frequently necessary. Simplest way done e.g. by <code>numpy.histogram</code> is splitting region with even bins of same size.</p>
+<p>This usually works poorly with distributions with long tails (or strange shape) and requires additional transformation to avoid empty or too large bins.</p>
+<p>However, for most cases creating the bins with equal number of events gives more convenient and stable results.
+Selecting the edges of bins can be done with <code>numpy.percentile</code>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">20000</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+5K4kBWPwS1IwXRj8PZRKpapbb29/uxsoSW01l+WcHeISteYAJiYW47SGJLVOF/b4JUm1GPySFIzB
+L0nBGPySFIzBL0nBGPySFIzBL0nBGPySFIzBL0nBGPySFIzBL0nBGPySFIzBL0nBGPySFIzBL0nB
+GPySFIzBL0nBGPySFIzBL0nBGPySFIzBL0nBGPySFIzBL0nBGPySFIzBL0nBGPySFIzBL0nBGPyS
+FIzBL0nBGPySFEzA4O+hVCrV3Hp7+9vdSElaMD3tbkDrXQIqNc+YmCi1pimS1Ab19PjXAa8ArwHf
+BR7M9f3AIeAkcBBYUbhmO3AKOAHcVqi/CTiejz05n4ZLkhpTT/BfBH4f+FngFuALwEeBbaTgvwE4
+nPcBNgL35NchYDcw2YV+CngA2JC3oWa8CUlS/eoJ/rPAsVz+MfA6sAa4AxjO9cPAXbl8J7CHdMM4
+A5wGNgGrgOXAkXzeM4VrJEktMtfJ3fXAJ4BXgQFgPNeP532A1cBo4ZpR0o1iev1YrpcktdBcgv8q
+4OvAQ8DEtGMVZpsxlSQtCvWu6rmSFPrPAntz3TiwkjQUtAo4l+vHSBPCk9aSevpjuVysH5v51+0o
+lAfzJkkCKJfLlMvlhq+vZ91iiTSG/yZpknfS47nuMdLE7or8uhF4DriZNJTzMnA96RPBq6RVQUeA
+l4AvAwem/b5KtQ8PfX2bOX/+MLU/XJTmeTydU6n4AUZSZyiVSlBfngP19fg/DfwW8B3gaK7bDuwC
+niet0jkD3J2PjeT6EdKi+a1MJe1W4GlgGbCfD4a+JGmBLcYnlezxS9IczLXHH/ArGyQpNoNfkoIx
++CUpGINfkoIx+CUpGINfkoIx+CUpGINfkoIx+CUpGINfkoIx+CUpGINfkoIx+CUpGINfkoIx+GfU
+Q6lUqrr19va3u4GS1LB6//RiMJeo9Z39ExOL8c8YSFJ97PFLUjAGvyQFY/BLUjAGvyQFY/BLUjAG
+vyQFY/BLUjAGvyQFY/BLUjAGvyQFY/BLUjAGvyQFY/BLUjAGvyQFY/BLUjAGvyQFY/A3xL/QJalz
++Re4GuJf6JLUuezxS1IwBr8kBVNP8H8FGAeOF+r6gUPASeAgsKJwbDtwCjgB3Faovyn/jFPAk403
+WZI0H/UE/1eBoWl120jBfwNwOO8DbATuya9DwG5gcsD7KeABYEPepv9MSVIL1BP8/wy8Pa3uDmA4
+l4eBu3L5TmAPcBE4A5wGNgGrgOXAkXzeM4VrJEkt1OgY/wBp+If8OpDLq4HRwnmjwJoZ6sdyvSSp
+xZqxnLNCrbWNDdlRKA/mTZIEUC6XKZfLDV/faPCPAyuBs6RhnHO5fgxYVzhvLamnP5bLxfqx6j9+
+R4PNkqTuNzg4yODg4Pv7O3funNP1jQ717AO25PIWYG+h/l5gKXAtaRL3COkGcYE03l8C7itcI0lq
+oXp6/HuAW4FrgO8DfwzsAp4nrdI5A9ydzx3J9SOkx1u3MjUMtBV4GlgG7AcONKH9kqQ5WozfLVCp
+NmXQ17eZ8+cPU3tKoTTP4834GSUqlSZPe0hSFaVSCeaQ5z65K0nBGPySFIzBvyD82mZJi5dfy7wg
+/NpmSYuXPX5JCsbgl6RgDH5JCsbgl6RgDH5JCsbgl6RgDH5JCsbgb4vaD3j5kJekheQDXG1R+wEv
+8CEvSQvHHr8kBWPwS1IwBr8kBWPwS1IwBv+i5Vc7S1oYrupZtPxqZ0kLwx6/JAVj8EtSMAa/JAVj
+8EtSMAa/JAVj8Hcsl3tKaozLOTuWyz0lNcYevyQFY/BLUjAGf9dyDkDSzBzj71rOAUiamT1+SQrG
+4JekYAz+sPyD71JUBn9Yk3MA1beJiQlvDFIXcnJXNThBLHWjdvT4h4ATwCngkTb8fjWNS0alTtTq
+4F8C/Dkp/DcCvwF8tMVtaKNyuxvQZNOHi17h8qGit9vYtuYrl8vtbsKC8v3F0ergvxk4DZwBLgJ/
+A9zZ4ja0UbndDVhg5Wn7s00gL+2oCeZuDw7fXxytDv41wPcL+6O5Tl1ptgnki7Mcn32Cebabx2K6
+cUiLRasnd6vPFBb09v76jPXvvHOsqY1RJ6g9wQylmscnJq6kVKo1CX0l6QZUy9Q5O3fubOBn1D6+
+fPnVXLjwVs0W9Pb21xw6q+dnSJNavSzjFmAHaYwfYDvwHvBY4ZzTwHWtbZYkdbTvAde3uxHV9JAa
+uB5YChwj1OSuJMX0a8B/kHr229vcFkmSJEmt0s0Pdq0jLXJ/Dfgu8GB7m7MglgBHgRfb3ZAFsAJ4
+AXgdGCHNVXWT7aR/m8eB54APtbc58/YVYJz0fib1A4eAk8BB0n/TTjXT+/tT0r/Pfwe+AfS1oV1z
+toQ09LOetASi28b+VwI35vJVpKGubnp/AH8AfA3Y1+6GLIBh4P5c7qFD/qeq03rgP5kK+78FtrSt
+Nc3xi8AnuDwYHwcezuVHgF2tblQTzfT+foWp5fm76JD39wvAgcL+trx1q73AL7e7EU20FngZ+Czd
+1+PvIwVjt+ondUSuJt3UXgQ2t7VFzbGey4PxBDCQyyvzfidbz+Xvr+jzwF/XunixfDtnpAe71pPu
+1q+2uR3N9ATwRdLS3G5zLfBD4KvAvwF/CXykrS1qrreAPwP+G/gf4Eekm3i3GSANj5BfB2qc2+nu
+B/bXOmGxBH9dD3Z1gatIY8UPAT9uc1ua5XPAOdL4fjd+XWcP8PPA7vz6v3TXp9HrgN8jdUhWk/6N
+/mY7G9QCk4+Gd6M/At4lzdVUtViCf4w0ATppHanX302uBL5O+gi2t81taaZPAXcAbwB7gF8Cnmlr
+i5prNG/fzPsvkG4A3eKTwL8Ab5Iek/4G6b9ptxknDfEArCJ1VrrNbwO300E37m5/sKtECsMn2t2Q
+BXYr3TfGD/BPwA25vIPLnzTvdB8nrTRbRvp3Ogx8oa0tao71fHByd3K14DY6ZPKzhvVc/v6GSCuz
+rmlLa+ahmx/s+gxp/PsYaUjkKFNfW9FNbqU7V/V8nNTj76ilcnPwMFPLOYdJn0472R7SfMW7pLnD
+3yFNYr9MdyznnP7+7ictg/8vpvJld9taJ0mSJEmSJEmSJEmSJEmSJEmSJEmR/T+GEroBEqOOPAAA
+AABJRU5ErkJggg==
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">edges</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">hist</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">edges</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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
+8KwAAAAASUVORK5CYII=
+"
+>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>the number of events within each bin is equal now.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Defining-the-index-of-bin">Defining the index of bin<a class="anchor-link" href="#Defining-the-index-of-bin">&#182;</a></h3><p>Use <code>numpy.searchsorted</code> to compute the index of bin for each value in <code>x</code>. (<code>numpy.digitize</code> is the other option, it does the same).</p>
+<p><code>numpy.searchsorted</code> assumes that first array is sorted and uses binary search, so it is effective even for large amount of bins.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">searchsorted</span><span class="p">(</span><span class="n">edges</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[36]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([16, 10, 10, ..., 11,  8,  6])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Counter">Counter<a class="anchor-link" href="#Counter">&#182;</a></h3><p>Need to know number of occurences for each category? Use <code>numpy.bincount</code> to compute the statistics:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">new_categories</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([40, 81, 77, ..., 43,  4,  4])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This will compute how many times each category present in the data:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">new_categories</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([106, 112, 122, 112, 130, 114, 105, 105, 139, 120,  94,  96, 112,
+       112,  97, 110, 115, 122, 101,  98, 117,  98,  96, 125,  94, 120,
+       103, 101, 103, 108,  93, 103, 113, 131, 123, 107,  95, 121, 117,
+        88, 107, 106, 108, 113, 123, 120, 116, 125, 126,  92,  96, 108,
+       116, 102, 102, 101, 110, 111, 124, 112, 128,  99,  88, 113, 119,
+       124, 103, 111, 123, 126, 102,  96, 116, 117,  98, 118, 115, 110,
+       101, 106,  96, 103, 123, 120, 113, 111, 107, 102, 107, 103, 106])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>the same done with <code>collections.Counter</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">new_categories</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()))[:,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([106, 112, 122, 112, 130, 114, 105, 105, 139, 120,  94,  96, 112,
+       112,  97, 110, 115, 122, 101,  98, 117,  98,  96, 125,  94, 120,
+       103, 101, 103, 108,  93, 103, 113, 131, 123, 107,  95, 121, 117,
+        88, 107, 106, 108, 113, 123, 120, 116, 125, 126,  92,  96, 108,
+       116, 102, 102, 101, 110, 111, 124, 112, 128,  99,  88, 113, 119,
+       124, 103, 111, 123, 126, 102,  96, 116, 117,  98, 118, 115, 110,
+       101, 106,  96, 103, 123, 120, 113, 111, 107, 102, 107, 103, 106])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Replace-category-with-number-of-occurences">Replace category with number of occurences<a class="anchor-link" href="#Replace-category-with-number-of-occurences">&#182;</a></h3><p>There are several tricks important to process the categorical features. 
+Most known one is one-hot encoding, but let's speak about others.</p>
+<p>One of tricks is to replace in each event category (which cannot be processed by most algorithms) with a number of times it presents in data.</p>
+<p>This can be written in <strong>numpy</strong> one-liner:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">new_categories</span><span class="p">)[</span><span class="n">new_categories</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[40]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([107, 103, 110, ..., 113, 130, 130])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Averaging-predictions-over-category">Averaging predictions over category<a class="anchor-link" href="#Averaging-predictions-over-category">&#182;</a></h3><p>Another important trick: replace category with average prediction for events from this category.</p>
+<p>This is more tricky, since we need to add weights to <code>numpy.bincount</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">predictions</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">new_categories</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">means_over_category</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">new_categories</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">predictions</span><span class="p">)</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">new_categories</span><span class="p">)</span>
+<span class="n">means_over_category</span><span class="p">[</span><span class="n">new_categories</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[42]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([-0.12953239, -0.17997224, -0.16147434, ..., -0.11826536,
+        0.22681523,  0.22681523])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Variation-of-predictions-over-category">Variation of predictions over category<a class="anchor-link" href="#Variation-of-predictions-over-category">&#182;</a></h3><p>The same trick can be applied to measure deviation after invloving some math:
+$$ \mathbb{V}x = \mathbb{E}x^2 - (\mathbb{E}x)^2 $$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">means_of_squares_over_category</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">new_categories</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">predictions</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">new_categories</span><span class="p">)</span>
+<span class="n">var_over_category</span> <span class="o">=</span> <span class="n">means_of_squares_over_category</span> <span class="o">-</span> <span class="n">means_over_category</span> <span class="o">**</span> <span class="mi">2</span>
+<span class="n">var_over_category</span><span class="p">[</span><span class="n">new_categories</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[43]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1.12103301,  0.7602834 ,  1.06631312, ...,  0.9993211 ,
+        0.90302807,  0.90302807])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>You can also assign weights to events and compute weighted mean / weighted variation using the same functions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Even-faster-inverse-permutation">Even faster inverse permutation<a class="anchor-link" href="#Even-faster-inverse-permutation">&#182;</a></h3><p>As was said, numpy.argsort returns inverse permutation, but it takes $O(n \log(n))$ time, while computing inverse permutation should take $O(n)$.</p>
+<p>This optimal way (<code>inplace sort</code>) can be written in numpy.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">print</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">permutation</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">permutation</span><span class="p">,</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">permutation</span><span class="p">)))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[5 7 2 0 9 3 1 8 4 6]
+[5 7 2 0 9 3 1 8 4 6]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="5.-Numpy.ufunc.at">5. Numpy.ufunc.at<a class="anchor-link" href="#5.-Numpy.ufunc.at">&#182;</a></h2><p>To proceed futher, we need to know that there is class of binary (and unary) functions: <code>numpy.ufuncs</code></p>
+<p>Examples: <code>numpy.add</code>, <code>numpy.subtract</code>, <code>numpy.multiply</code>, <code>numpy.maximum</code>, <code>numpy.minimum</code></p>
+<p>In the following example we preapre a new column with max predictions over category using <code>ufunc.at</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">max_over_category</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">new_categories</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">numpy</span><span class="o">.</span><span class="n">infty</span>
+<span class="n">numpy</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">max_over_category</span><span class="p">,</span> <span class="n">new_categories</span><span class="p">,</span> <span class="n">predictions</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">max_over_category</span><span class="p">[</span><span class="n">new_categories</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 3.61783384  2.46205985  2.44882542 ...,  2.89520716  2.6390576   2.6390576 ]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Important note: <code>numpy.add.at</code> and <code>numpy.bincount</code> are very similar, but latter is dozens of times faster. Always prefer it to <code>numpy.add.at</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> numpy.add.at(max_over_category, new_categories, predictions)
+<span class="o">%</span><span class="k">timeit</span> numpy.bincount(new_categories, weights=predictions)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 1.9 ms per loop
+10000 loops, best of 3: 35.4 µs per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Multidimensional-statistics:-numpy.add.at-and-smart-indexing">Multidimensional statistics: numpy.add.at and smart indexing<a class="anchor-link" href="#Multidimensional-statistics:-numpy.add.at-and-smart-indexing">&#182;</a></h3><p>When need to compute number of times each combination met, there are two ways:</p>
+<ol>
+<li>convert couple of variables to new variable, e.g. by feature1 * (numpy.max(feature2) + 1) + feature2</li>
+<li>create multidimensional table</li>
+</ol>
+<p>I prefer first, code below is demonstration of second approach and it's benefits.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">first_category</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_categories</span><span class="p">))</span>
+<span class="n">second_category</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">new_categories</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">counters</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">first_category</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">second_category</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">numpy</span><span class="o">.</span><span class="n">add</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">counters</span><span class="p">,</span> <span class="p">[</span><span class="n">first_category</span><span class="p">,</span> <span class="n">second_category</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now some useful things we can do with colected statistic. First thing is create feature, for which we use fancy indexing:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">counters</span><span class="p">[</span><span class="n">first_category</span><span class="p">,</span> <span class="n">second_category</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[49]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 3.,  2.,  3., ...,  2.,  1.,  1.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can also infer different statistics like:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># occurences of second category</span>
+<span class="n">counters</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">second_category</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[50]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 105.,   84.,  116., ...,   98.,   88.,  111.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># maximal occurences of second category with same value of first category</span>
+<span class="n">counters</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">second_category</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 4.,  4.,  4., ...,  6.,  4.,  4.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># number of occurences of second category with fixed first category:</span>
+<span class="n">counters</span><span class="p">[</span><span class="mi">42</span><span class="p">,</span> <span class="n">second_category</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[52]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 2.,  0.,  3., ...,  0.,  1.,  1.])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<ul>
+<li>you are not limited to numpy.add, remember there are other ufuncs.</li>
+<li>Few space to keep whole matrix? Use <code>scipy.sparse</code> if there are too many zero elements. 
+Alternatively, you can use matrix decompositions to keep approximation of matrix and compute result on-the-fly.</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Computing-ROC-curve">Computing ROC curve<a class="anchor-link" href="#Computing-ROC-curve">&#182;</a></h3><p>As an important exercise, let's implement the computation of ROC curve.</p>
+<p>We will write the same as <code>sklearn.metrics.roc_curve</code>, 
+but this time no C++, only <code>numpy</code>.</p>
+<p>ROC curve takes three arrays: labels (binary, 0 or 1), predictions (real-valued) and weights.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">roc_curve</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="p">):</span>
+    <span class="n">sig_weights</span> <span class="o">=</span> <span class="n">sample_weight</span> <span class="o">*</span> <span class="p">(</span><span class="n">labels</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">bck_weights</span> <span class="o">=</span> <span class="n">sample_weight</span> <span class="o">*</span> <span class="p">(</span><span class="n">labels</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">thresholds</span><span class="p">,</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">return_inverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">tpr</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">sig_weights</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">fpr</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">bck_weights</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span>
+    <span class="n">tpr</span> <span class="o">/=</span> <span class="n">tpr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">fpr</span> <span class="o">/=</span> <span class="n">fpr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">thresholds</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">size</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+<span class="n">weights</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">fpr1</span><span class="p">,</span> <span class="n">tpr1</span><span class="p">,</span> <span class="n">thr1</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># sometims sklearn adds one more element to all arrays.</span>
+<span class="c"># I have no idea why this is needed and when, but in this case all answers turn to False</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">roc_curve</span> <span class="k">as</span> <span class="n">sklearn_roc_curve</span>
+<span class="n">fpr2</span><span class="p">,</span> <span class="n">tpr2</span><span class="p">,</span> <span class="n">thr2</span> <span class="o">=</span> <span class="n">sklearn_roc_curve</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+<span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">fpr1</span><span class="p">,</span> <span class="n">fpr2</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">tpr1</span><span class="p">,</span> <span class="n">tpr2</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">thr1</span><span class="p">,</span> <span class="n">thr2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[56]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(True, True, True)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Weighted-Kolmogorov-Smirnov-distance">Weighted Kolmogorov-Smirnov distance<a class="anchor-link" href="#Weighted-Kolmogorov-Smirnov-distance">&#182;</a></h3><p>ROC curve is an important object by itself and freqently used in ML to compare distribution, 
+but the magic is that it contains all order-based information about original distributions.</p>
+<p>Next we compute KS distance based on ROC curve:</p>
+$$ KS = \max_x \left| F_1(x) - F_2(x) \right| $$<p>(Order-based information == information, which is preserved under monotonic transformations)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">ks_2samp</span><span class="p">(</span><span class="n">distribution1</span><span class="p">,</span> <span class="n">distribution2</span><span class="p">,</span> <span class="n">weights1</span><span class="p">,</span> <span class="n">weights2</span><span class="p">):</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">distribution1</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">distribution2</span><span class="p">))</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">distribution1</span><span class="p">,</span> <span class="n">distribution2</span><span class="p">])</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">weights1</span><span class="p">,</span> <span class="n">weights2</span><span class="p">])</span>
+
+    <span class="n">fpr</span><span class="p">,</span> <span class="n">tpr</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">roc_curve</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">,</span> <span class="n">sample_weight</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">fpr</span> <span class="o">-</span> <span class="n">tpr</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">data1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+<span class="n">data2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+<span class="n">weights1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span> 
+<span class="n">weights2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Compare results</strong> with standard function:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">ks_2samp</span> <span class="k">as</span> <span class="n">ks_2samp_scipy</span>
+<span class="k">print</span> <span class="n">ks_2samp</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">,</span> <span class="n">weights1</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">size</span><span class="p">),</span> <span class="n">weights2</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">size</span><span class="p">))</span>
+<span class="k">print</span> <span class="n">ks_2samp_scipy</span><span class="p">(</span><span class="n">data1</span><span class="p">,</span> <span class="n">data2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>0.416
+0.416
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Important moment that written function supports weights, while scipy version doesn't.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>Many things can be written in numpy in efficient way, moreover resulting code will be short and (surpise!) more readable.</p>
+<p>But this skill requires much practice.</p>
+<h2 id="See-also">See also<a class="anchor-link" href="#See-also">&#182;</a></h2><ul>
+<li>Second part of post: <a href="/2015/09/30/NumpyTipsAndTricks2.html">numpy tips and tricks 2</a></li>
+<li><a href="/2015/09/08/SpeedBenchmarks.html">Numpy log-likelihood benchmark</a></li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<p>
+    This post was written in IPython. You can download the notebook from
+     <a href='https://github.com/arogozhnikov/arogozhnikov.github.io/tree/master/notebooks'>
+    repository</a>.
+</p>
+
