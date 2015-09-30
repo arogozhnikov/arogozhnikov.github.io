@@ -1,0 +1,2092 @@
+---
+layout: post
+title: "Data manipulation with numpy: tips and tricks, part 2"
+date: "2015-09-30"
+author: Alex Rogozhnikov
+tags:
+- notebook
+---
+
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Data-manipulation-with-numpy:-tips-and-tricks,-part-2">Data manipulation with numpy: tips and tricks, part 2<a class="anchor-link" href="#Data-manipulation-with-numpy:-tips-and-tricks,-part-2">&#182;</a></h1><p>More examples on fast manipulations with data using numpy.</p>
+<p>First part may be found <a href="/2015/09/29/NumpyTipsAndTricks1.html">here</a>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">pylab</span> inline
+<span class="kn">import</span> <span class="nn">numpy</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Populating the interactive namespace from numpy and matplotlib
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Rolling-window,--strided-tricks">Rolling window,  strided tricks<a class="anchor-link" href="#Rolling-window,--strided-tricks">&#182;</a></h2><p>When working with time series / images it is frequently needed to do some operations on windows.</p>
+<p>Simplest case: taking mean for running window:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">sequence</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Very bad idea</strong> is to do this with pure python</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">running_average_simple</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">-</span> <span class="n">window</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)):</span>
+        <span class="n">result</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">window</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">running_average_simple</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[3]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([   49.49060641,    50.51874223,    51.49031696, ...,  9946.39683121,
+        9947.40315226,  9948.42025969])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A bit better is to use <code>as_strided</code></p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">numpy.lib.stride_tricks</span> <span class="kn">import</span> <span class="n">as_strided</span>
+<span class="k">def</span> <span class="nf">running_average_strides</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">stride</span> <span class="o">=</span> <span class="n">seq</span><span class="o">.</span><span class="n">strides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">sequence_strides</span> <span class="o">=</span> <span class="n">as_strided</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">-</span> <span class="n">window</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">window</span><span class="p">],</span> <span class="n">strides</span><span class="o">=</span><span class="p">[</span><span class="n">stride</span><span class="p">,</span> <span class="n">stride</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">sequence_strides</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">running_average_strides</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[5]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([   49.49060641,    50.51874223,    51.49031696, ...,  9947.40315226,
+        9948.42025969,  9949.39908107])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>From computation side, <strong>as_strided</strong> does nothing. No copies and no computations, it only gives new view to the data, which is two-dimensional this time.</p>
+<p>See also for this purpose:</p>
+<ul>
+<li>scipy.signal.smooth</li>
+<li>np.convolve</li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="numpy.cumsum">numpy.cumsum<a class="anchor-link" href="#numpy.cumsum">&#182;</a></h2><p>However the right way to compute mean over rolling window is using numpy.cumsum:</p>
+<p>(this one is unbeatable in speed if <code>n</code> is not small)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">running_average_cumsum</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">window</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">seq</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">window</span> <span class="p">:]</span> <span class="o">-</span> <span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="n">window</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.</span> <span class="o">/</span> <span class="n">window</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">running_average_cumsum</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[7]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([   49.49060641,    50.51874223,    51.49031696, ...,  9947.40315227,
+        9948.42025969,  9949.39908107])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Remark</strong>: <code>numpy.cumsum</code> is equivalent to <code>numpy.add.accumulate</code>,
+but there are also:</p>
+<ul>
+<li><code>numpy.maximum.accumulate</code>, <code>numpy.minimum.accumulate</code> - running max and min</li>
+<li><code>numpy.multiply.accumulate</code>, which is equivalent to <code>numpy.cumprod</code></li>
+</ul>
+<p><strong>Remark</strong>: for computing rolling mean, <code>numpy.cumsum</code> is best, however for other window statistics like min/max/percentile, use strides trick.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Strides-and-training-on-sequences">Strides and training on sequences<a class="anchor-link" href="#Strides-and-training-on-sequences">&#182;</a></h2><p>ML algorithms in python are often taking <code>numpy.arrays</code>. In many cases when working with sequences you need to pass some data many times as part of different chunks.</p>
+<p>Example: you have exhange rates for a year, you want GBDT to predict next exchange rate based on the previous 10.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">window</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">rates</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+<span class="c"># target in training</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">rates</span><span class="p">[</span><span class="n">window</span><span class="p">:]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Typically the solution used is:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">X1</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span> <span class="o">-</span> <span class="n">window</span><span class="p">,</span> <span class="n">window</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">day</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X1</span><span class="p">)):</span>
+    <span class="n">X1</span><span class="p">[</span><span class="n">day</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">rates</span><span class="p">[</span><span class="n">day</span><span class="p">:</span><span class="n">day</span> <span class="o">+</span> <span class="n">window</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But strided tricks are better way, since they don't need additional space:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">stride</span><span class="p">,</span> <span class="o">=</span> <span class="n">rates</span><span class="o">.</span><span class="n">strides</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">stride_tricks</span><span class="o">.</span><span class="n">as_strided</span><span class="p">(</span><span class="n">rates</span><span class="p">,</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">rates</span><span class="p">)</span> <span class="o">-</span> <span class="n">window</span> <span class="p">,</span> <span class="n">window</span><span class="p">],</span> <span class="n">strides</span><span class="o">=</span><span class="p">[</span><span class="n">stride</span><span class="p">,</span> <span class="n">stride</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[11]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>True</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Strides-and-images">Strides and images<a class="anchor-link" href="#Strides-and-images">&#182;</a></h2><p>The same tricks work with images. For instance, for each window of size <code>[window_w, window_h]</code> we want to compute max, mean and variance. Let's compare naive and strided approach.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">compute_window_mean_and_var</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">window_w</span><span class="p">,</span> <span class="n">window_h</span><span class="p">):</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">w_new</span><span class="p">,</span> <span class="n">h_new</span> <span class="o">=</span> <span class="n">w</span> <span class="o">-</span> <span class="n">window_w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">window_h</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">w_new</span><span class="p">,</span> <span class="n">h_new</span><span class="p">])</span>
+    <span class="n">maximums</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">w_new</span><span class="p">,</span> <span class="n">h_new</span><span class="p">])</span>
+    <span class="n">variations</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">w_new</span><span class="p">,</span> <span class="n">h_new</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">w_new</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">h_new</span><span class="p">):</span>
+            <span class="n">window</span> <span class="o">=</span> <span class="n">image</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">window_w</span><span class="p">,</span> <span class="n">j</span><span class="p">:</span><span class="n">j</span><span class="o">+</span><span class="n">window_h</span><span class="p">]</span>
+            <span class="n">means</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">window</span><span class="p">)</span>
+            <span class="n">maximums</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">window</span><span class="p">)</span> 
+            <span class="n">variations</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">window</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">means</span><span class="p">,</span> <span class="n">maximums</span><span class="p">,</span> <span class="n">variations</span>    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">compute_window_mean_and_var_strided</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">window_w</span><span class="p">,</span> <span class="n">window_h</span><span class="p">):</span>
+    <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">strided_image</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">stride_tricks</span><span class="o">.</span><span class="n">as_strided</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> 
+                                                       <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">w</span> <span class="o">-</span> <span class="n">window_w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">window_h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">window_w</span><span class="p">,</span> <span class="n">window_h</span><span class="p">],</span>
+                                                       <span class="n">strides</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">strides</span> <span class="o">+</span> <span class="n">image</span><span class="o">.</span><span class="n">strides</span><span class="p">)</span>
+    <span class="c"># important: trying to reshape image will create complete 4-dimensional compy</span>
+    <span class="n">means</span> <span class="o">=</span> <span class="n">strided_image</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> 
+    <span class="n">mean_squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">strided_image</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> 
+    <span class="n">maximums</span> <span class="o">=</span> <span class="n">strided_image</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+    
+    <span class="n">variations</span> <span class="o">=</span> <span class="n">mean_squares</span> <span class="o">-</span> <span class="n">means</span> <span class="o">**</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">means</span><span class="p">,</span> <span class="n">maximums</span><span class="p">,</span> <span class="n">variations</span>    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">image</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">500</span><span class="p">,</span> <span class="mi">500</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">time</span> a1, b1, c1 = compute_window_mean_and_var(image, 20, 20)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CPU times: user 20.7 s, sys: 140 ms, total: 20.8 s
+Wall time: 21 s
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">time</span> a2, b2, c2 = compute_window_mean_and_var_strided(image, 20, 20)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CPU times: user 921 ms, sys: 351 ms, total: 1.27 s
+Wall time: 1.28 s
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">b1</span><span class="p">,</span> <span class="n">b2</span><span class="p">),</span> <span class="n">numpy</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(True, True, True)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Remark</strong>: <code>numpy.cumsum</code> allows awesomely fast computations in this case as well (but not for the max).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Oblivious-decision-trees">Oblivious decision trees<a class="anchor-link" href="#Oblivious-decision-trees">&#182;</a></h2><p>Oblivious decision tree is tree, which has the same splits in all nodes at particular depth.</p>
+<p>ODT of depth $n$ consists of $n$ pairs (feature index, split) and $2^n$ real values, which correspond to predictions in each leaf.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">predict_odt</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">splits</span><span class="p">,</span> <span class="n">leaf_values</span><span class="p">):</span>
+    <span class="c"># first compute leaf for each sample in data</span>
+    <span class="n">leaf_indices</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">split</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">splits</span><span class="p">):</span>
+        <span class="n">leaf_indices</span> <span class="o">*=</span> <span class="mi">2</span>
+        <span class="n">leaf_indices</span> <span class="o">+=</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">feature</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">split</span>
+        
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">leaf_values</span><span class="p">[</span><span class="n">leaf_indices</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">predictions</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That's it. It was really simple, now let's create some fake data and fake ODT to measure speed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">11</span><span class="p">])</span>
+
+<span class="n">depth</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">depth</span><span class="p">)</span>
+<span class="n">splits</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">depth</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+<span class="n">leaf_values</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">depth</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> predict_odt(data, features, splits, leaf_values)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 9.38 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is good result, but can we do this faster? Let's apply bitwise operations instead of arithmetical.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">predict_odt_bit_operations</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">splits</span><span class="p">,</span> <span class="n">leaf_values</span><span class="p">):</span>
+    <span class="n">leaf_indices</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;uint8&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">split</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">splits</span><span class="p">):</span>
+        <span class="n">leaf_indices</span> <span class="o">&lt;&lt;=</span> <span class="mi">1</span>
+        <span class="n">leaf_indices</span> <span class="o">|=</span> <span class="n">data</span><span class="p">[:,</span> <span class="n">feature</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">split</span>
+        
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">leaf_values</span><span class="p">[</span><span class="n">leaf_indices</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">predictions</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> predict_odt_bit_operations(data, features, splits, leaf_values)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 10.7 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ok, but what if we apply <strong>bitwise operations for 64-bit integers</strong>? This should require <strong>8 times less operations</strong>, because currently there are 8-bit operations (not handled natively by 64bit procesors).</p>
+<p>Result of computation is the same, but this requires the length of data to be divisible by 8.</p>
+<p>This trick significantly speeds up shift <code>&lt;&lt;</code> and bitwise or <code>|</code> in the code, and the major part of time (&gt;80%) is now spent on checking conditions.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[23]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">predict_odt_fast</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">splits</span><span class="p">,</span> <span class="n">leaf_values</span><span class="p">):</span>
+    <span class="n">leaf_indices</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;uint8&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s">&#39;uint64&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">feature</span><span class="p">,</span> <span class="n">split</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">splits</span><span class="p">):</span>
+        <span class="n">leaf_indices</span> <span class="o">&lt;&lt;=</span> <span class="mi">1</span>
+        <span class="n">leaf_indices</span> <span class="o">|=</span> <span class="p">(</span><span class="n">data</span><span class="p">[:,</span> <span class="n">feature</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">split</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s">&#39;uint64&#39;</span><span class="p">)</span>
+    
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">leaf_values</span><span class="p">[</span><span class="n">leaf_indices</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="s">&#39;uint8&#39;</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">predictions</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> predict_odt_fast(data, features, splits, leaf_values)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 6.5 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Banks-in-RAM,-strides-and-order-of-elements">Banks in RAM, strides and order of elements<a class="anchor-link" href="#Banks-in-RAM,-strides-and-order-of-elements">&#182;</a></h2><p>Data in <code>numpy</code> is stored as continuous chunk of data. This gives high flexibility (instant transpositions, reshaping, views and strided tricks), but sometimes we need to keep eye on strides (in particular, orders of dimensions).</p>
+<p>In the following simple example:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">64</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">timeit</span> predict_odt_fast(data, features, splits, leaf_values)
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100000</span><span class="p">,</span> <span class="mi">64</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;F&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="k">timeit</span> predict_odt_fast(data, features, splits, leaf_values)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 12.3 ms per loop
+1000 loops, best of 3: 1.52 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="How-happened-we-have-this-huge-difference-in-speed?">How happened we have this huge difference in speed?<a class="anchor-link" href="#How-happened-we-have-this-huge-difference-in-speed?">&#182;</a></h3><p>Operations with sequential data is faster due to CPU cache.
+By default, <code>numpy</code> uses C-order, thus elements from one column are far each from other, 
+while elements within row are placed in memory together.</p>
+<p>C-order is fine when operating rows, while our ODT code uses column-wise operations.</p>
+<p>The actual speed up may significantly differ on the structure of your CPU cache, but anyway is expected to be high.</p>
+<p>Specially this is pressing when stride is some power of 2 due to banks of memory, which are used to get parallel access to memory. In C-order the distance between two closest elements in a column:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">64</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">order</span><span class="o">=</span><span class="s">&#39;C&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">&#39;float32&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[26]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>256</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>stride is 256. We will use each time single memory bank, which is worst situation possible.</p>
+<p><strong>Conclusion</strong>: order of indexing matters. Mind the cache.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Computing-optimal-step-for-AdaLoss-function">Computing optimal step for AdaLoss function<a class="anchor-link" href="#Computing-optimal-step-for-AdaLoss-function">&#182;</a></h3><p>In GBDT there is important step after training a tree is finding optimal values in leaves.</p>
+<p>AdaLoss (also known as ExpLoss) can be written as (here $y_i = \pm 1$):</p>
+$$ \sum_i \exp[-y_i d(x_i)]$$<p>Contrary to other losses, for AdaLoss one can write exact expression of optimal value of a leaf:</p>
+$$ \text{leaf_value} = \frac{1}{2} \log \left( \dfrac{w_{leaf,+}}{w_{leaf, -}} \right),  $$<p>where $w_{leaf,+}, w_{leaf, -}$ are weights of signal and background events in the leaf. Let's write this procedure in beautiful numpy code:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">compute_optimal_leaf_values</span><span class="p">(</span><span class="n">terminal_regions</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    terminal regions are integers, correspong to the number of leaf each event belongs to</span>
+<span class="sd">    labels are +1 and -1</span>
+<span class="sd">    predictions are real numbers - sum of predictions given by previous trees in boosting</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span> <span class="n">labels</span> <span class="o">*</span> <span class="n">predictions</span><span class="p">)</span>
+    <span class="n">w_plus</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">terminal_regions</span><span class="p">,</span> <span class="n">weights</span> <span class="o">*</span> <span class="p">(</span><span class="n">labels</span> <span class="o">==</span> <span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">w_minus</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">terminal_regions</span><span class="p">,</span> <span class="n">weights</span> <span class="o">*</span> <span class="p">(</span><span class="n">labels</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">w_leafs</span> <span class="o">/</span> <span class="n">w_minus</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Logistic-function">Logistic function<a class="anchor-link" href="#Logistic-function">&#182;</a></h2><p>Logistic function is frequently used in machine learning to convert real-valued output to probability:
+$$ \sigma (x) = \dfrac{e^x}{e^x + 1} = \dfrac{1}{1 + e^{-x}} $$</p>
+<p>However, it is a bad idea to use this definition directly, because:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">logistic</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">logistic</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/axelr/venvs/rep_env/lib/python2.7/site-packages/IPython/kernel/__main__.py:2: RuntimeWarning: overflow encountered in exp
+  from IPython.kernel.zmq import kernelapp as app
+/Users/axelr/venvs/rep_env/lib/python2.7/site-packages/IPython/kernel/__main__.py:2: RuntimeWarning: invalid value encountered in double_scalars
+  from IPython.kernel.zmq import kernelapp as app
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[29]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>nan</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>First expression fails. Second expression raises warning, but returns correct answer (but earlier numpy returned Nan in this case as well).</p>
+<p>Instead use <code>scipy.special.expit</code>, which is fast and reliable:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">scipy.special</span> <span class="kn">import</span> <span class="n">expit</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[31]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">expit</span><span class="p">([</span><span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[31]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0. ,  0.5,  1. ])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Logistic-loss-function">Logistic loss function<a class="anchor-link" href="#Logistic-loss-function">&#182;</a></h2><p>being expressed via decision function, logistic loss for single event has the following expression:</p>
+$$ LogLoss = \log(1 + e^{-yd}) $$<p>For simplicity, let's implement the function
+$$\log(1 + e^x)$$</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[32]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">logloss</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">numpy</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">numpy</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[33]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">logloss</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/Users/axelr/venvs/rep_env/lib/python2.7/site-packages/IPython/kernel/__main__.py:2: RuntimeWarning: overflow encountered in exp
+  from IPython.kernel.zmq import kernelapp as app
+</pre>
+</div>
+</div>
+
+<div class="output_area"><div class="prompt output_prompt">Out[33]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([   1.31326169,   10.0000454 ,  100.        ,           inf])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Whoops, something went wrong.</strong> Of course, there was an overflow after applying exponent. Resulting number didn't fit in float64.</p>
+<p>Use <code>numpy.logaddexp</code> to avoid these problems!</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[34]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">logaddexp</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[34]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([    1.31326169,    10.0000454 ,   100.        ,  1000.        ])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><strong>Remark</strong>: <code>numpy.logaddexp.at</code> is a good replacement for <code>numpy.maximum.at</code> if you want to keep 'soft' maximum.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Masked-array">Masked array<a class="anchor-link" href="#Masked-array">&#182;</a></h1><p><code>numpy</code> doesn't support jagged arrays. But this can be partially resolved by using masked arrays.</p>
+<p>Imagine the following situation: there are $n$ houses, we want to select location to build new house. 
+For each position we analyze the price of $k$ neighbouring houses to guess the best place.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[35]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">houses_prices</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">exponential</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[36]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">n_neighs</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">position_neighbours</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">houses_prices</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="p">[</span><span class="mi">100000</span><span class="p">,</span> <span class="n">n_neighs</span><span class="p">])</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>computing <strong>average price</strong> of nearest houses is fairly simple:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[37]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">houses_prices</span><span class="p">[</span><span class="n">position_neighbours</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[37]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1.0862209 ,  1.14633261,  0.9225265 , ...,  0.92064145,
+        0.70531966,  1.52773031])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>same method is used to get total/min/max/std price of closest houses.</p>
+<p>The problem is compute these things when part of the data shall be ignored. For instance, 
+houses which are very expensive (top 5%) are probably expensive not due to their position. Can we ignore them when computing average?</p>
+<p><strong>Masked arrays</strong> come to the rescue:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[38]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># ignore houses with higher price</span>
+<span class="n">max_price</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">houses_prices</span><span class="p">,</span> <span class="mi">95</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">houses_prices</span><span class="p">[</span><span class="n">position_neighbours</span><span class="p">]</span>
+<span class="n">ignored</span> <span class="o">=</span> <span class="n">houses_prices</span><span class="p">[</span><span class="n">position_neighbours</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">max_price</span>
+
+<span class="c"># pay attention that data[~ignored] will return one-dimensional array,</span>
+<span class="c"># that&#39;s why we need masked arrays</span>
+<span class="n">masked_prices</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">ignored</span><span class="p">)</span>
+
+<span class="n">masked_prices</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[38]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>masked_array(data = [0.8446120051644183 0.8598862907005458 0.9225264987456262 ...,
+ 0.920641446297501 0.7053196587942332 0.9880460692280136],
+             mask = [False False False ..., False False False],
+       fill_value = 1e+20)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[39]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">masked_prices</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[39]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.84461201,  0.85988629,  0.9225265 , ...,  0.92064145,
+        0.70531966,  0.98804607])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Numpy.ufunc.reduceat-to-work-with-multicategories.">Numpy.ufunc.reduceat to work with multicategories.<a class="anchor-link" href="#Numpy.ufunc.reduceat-to-work-with-multicategories.">&#182;</a></h2><p>Multicategory is type of feature: each sample in dataset can belong to several (possibly zero) groups.</p>
+<p>For instance, samples are people, and we have informations about which languages they are programing. Programming languages are multicategory.</p>
+<p>Assume we have two parallel arrays, corresponding pair denote programmer id and language id he/she knows.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[40]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">salaries</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+<span class="n">programers</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">salaries</span><span class="p">),</span> <span class="n">size</span><span class="o">=</span><span class="mi">10000</span><span class="p">))</span>
+<span class="n">languages</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">programers</span><span class="p">))</span>
+
+<span class="k">print</span> <span class="n">programers</span>
+<span class="k">print</span> <span class="n">languages</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[   0    0    1 ..., 1999 1999 1999]
+[14 33 39 ..., 28 46  1]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's compute for each language average salary of its users:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[41]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">lang_average_salaries</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">languages</span><span class="p">,</span> <span class="n">salaries</span><span class="p">[</span><span class="n">programers</span><span class="p">])</span> <span class="o">/</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">languages</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>For fun, now we can compute the salary programmer can obtain for best-payed of his languages:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[42]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">programmer_top_salary</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">programers</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">numpy</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">programmer_top_salary</span><span class="p">,</span> <span class="n">programers</span><span class="p">,</span> <span class="n">lang_average_salaries</span><span class="p">[</span><span class="n">languages</span><span class="p">])</span>
+
+<span class="k">print</span> <span class="n">programmer_top_salary</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[ 0.52818057  0.51570165  0.53319595 ...,  0.5412011   0.53159731
+  0.5412011 ]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Get-the-id-of-best-payed-language">Get the id of best-payed language<a class="anchor-link" href="#Get-the-id-of-best-payed-language">&#182;</a></h3><p>We can guess the language based on price, but this can be inreliable in other cases.</p>
+<p>Let's combine tricks studied earlier:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[43]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">lang_sorter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">lang_average_salaries</span><span class="p">)</span>
+<span class="c"># languages ranked by average salaries:</span>
+<span class="n">lang_salaries_ordered</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">lang_sorter</span><span class="p">)</span>
+
+<span class="n">programmer_top_language</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">programers</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">numpy</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">at</span><span class="p">(</span><span class="n">programmer_top_language</span><span class="p">,</span> <span class="n">programers</span><span class="p">,</span> <span class="n">lang_salaries_ordered</span><span class="p">[</span><span class="n">languages</span><span class="p">])</span>
+
+<span class="c"># now we need to decode order of language back to original ID</span>
+<span class="n">programmer_top_language</span> <span class="o">=</span> <span class="n">lang_sorter</span><span class="p">[</span><span class="n">programmer_top_language</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[44]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">programmer_top_language</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[44]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([33, 32, 23, ...,  1, 13,  1])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Checking with previous result &mdash; taking average salaries for top languages.</p>
+<p>NB: there were programmers with no languages - their 'top language' became the worst payed one.
+Maybe worth creating special pseudo-language to denote this situations.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[45]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">lang_average_salaries</span><span class="p">[</span><span class="n">programmer_top_language</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[45]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 0.52818057,  0.51570165,  0.53319595, ...,  0.5412011 ,
+        0.53159731,  0.5412011 ])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="numpy.ufunc.reduceat">numpy.ufunc.reduceat<a class="anchor-link" href="#numpy.ufunc.reduceat">&#182;</a></h2><p>Numpy.maximum.at is not fast at this moment, though very convenient.</p>
+<p>Let's show faster, but more complicated way using:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[46]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">sorter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">programers</span><span class="p">)</span>
+<span class="n">ordered_programers</span> <span class="o">=</span> <span class="n">programers</span><span class="p">[</span><span class="n">sorter</span><span class="p">]</span>
+<span class="n">ordered_languages</span> <span class="o">=</span> <span class="n">languages</span><span class="p">[</span><span class="n">sorter</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[47]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">limits_in_programmers</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">programers</span><span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">programmer_top_salary</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">maximum</span><span class="o">.</span><span class="n">reduceat</span><span class="p">(</span><span class="n">lang_average_salaries</span><span class="p">[</span><span class="n">ordered_languages</span><span class="p">],</span> <span class="n">limits_in_programmers</span><span class="p">)</span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>NB:</p>
+<ul>
+<li><code>numpy.ufunc.reduceat</code> has inobvious behavior when the list of categories is empty. In this case the value for first category of next sample is returned.</li>
+<li>significant degradation in speed happens when too few categories for samples. When one category per sample, speed is comparable to <code>numpy.ufunc.at</code></li>
+</ul>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Sparse-arrays-and-multicategories">Sparse arrays and multicategories<a class="anchor-link" href="#Sparse-arrays-and-multicategories">&#182;</a></h2><p>There is an alternative to <code>numpy.bincount</code>, specially handy when using 'weights'.</p>
+<p>Minor modification of previous example: each programmer has the <code>skill</code> value, describing how well he knows programming language (and plays a role of weight).</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[48]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">skills</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">languages</span><span class="p">))</span> 
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sparse matrices contain all this information together:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[49]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">scipy.sparse</span> <span class="kn">import</span> <span class="n">coo_matrix</span>
+<span class="n">matrix</span> <span class="o">=</span> <span class="n">coo_matrix</span><span class="p">((</span><span class="n">skills</span><span class="p">,</span> <span class="p">(</span><span class="n">programers</span><span class="p">,</span> <span class="n">languages</span><span class="p">)))</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Easy tricks with normalizations are strong side of sparse matrices.</p>
+<p>Let's compute average salary with weights proportional to 'skill'</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[50]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">matrix_normed_for_language</span> <span class="o">=</span> <span class="n">matrix</span> <span class="o">/</span> <span class="p">(</span><span class="n">matrix</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">lang_average_salaries</span> <span class="o">=</span> <span class="n">matrix_normed_for_language</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">salaries</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[51]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">matrix</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">lang_average_salaries</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[51]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>matrix([[ 0.29516053],
+        [ 2.08917643],
+        [ 1.07999392],
+        ..., 
+        [ 0.6011273 ],
+        [ 1.66669504],
+        [ 0.94520783]])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sparse matrices are slower if used only once (compared to <code>bincount</code>), because of matrix creation,
+but faster when applied many times.</p>
+<h2 id="Fast-computing-of-efficiencies-for-group">Fast computing of efficiencies for group<a class="anchor-link" href="#Fast-computing-of-efficiencies-for-group">&#182;</a></h2><p>In <code>uBoost</code> algorithm we need to compute many times local efficiencies:
+for each event which part of its neighbors pass the given threshold. Sparse matrix is a good option in this case. Close things happen in other classifiers (<code>uGB+kNN</code>, <code>RankBoost</code>)</p>
+<p>As an exercise, let's compute which part of programmers knowing language <code>X</code> have salary greater then <code>salary_threshold</code> (printing result only for first 5 languages):</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[52]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">for</span> <span class="n">salary_threshold</span> <span class="ow">in</span> <span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span>
+    <span class="k">print</span> <span class="n">matrix_normed_for_language</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">salaries</span> <span class="o">&gt;</span> <span class="n">salary_threshold</span><span class="p">)[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[[ 0.99989822  0.99989824  0.9999026   0.99989421  0.99989407]]
+[[ 0.88155157  0.89019108  0.85175682  0.88955681  0.92498662]]
+[[ 0.80207624  0.83136768  0.74189869  0.75413631  0.84393328]]
+[[ 0.67644207  0.74523759  0.65143682  0.67309583  0.71145624]]
+[[ 0.59221973  0.63514656  0.5330079   0.58722865  0.58806745]]
+[[ 0.49931572  0.53249526  0.43467777  0.47433736  0.49534752]]
+[[ 0.38045226  0.38863986  0.33166669  0.4096157   0.36931804]]
+[[ 0.28760161  0.25925265  0.23166035  0.2805675   0.276591  ]]
+[[ 0.1176845   0.08798144  0.12344874  0.14336242  0.13015181]]
+[[ 0.  0.  0.  0.  0.]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Fast-residual">Fast residual<a class="anchor-link" href="#Fast-residual">&#182;</a></h2><p>when having deal with words or other categorical variables, there are frequently troubles with applying one-hot encoding (don't want to keep the mapping or too many parameters for model).</p>
+<p>Hashing trick is good alternative: each value is mapped by hash to small number.</p>
+<p>Funny fact is that integer resudial is not very cheap operation, though shall be applied many times:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[53]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">categories</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1e10</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[54]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> categories % 128
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>10 loops, best of 3: 18.6 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>if you select the number of left features to be power of 2, you can do the same with bitmask:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[55]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> categories &amp; 127
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 3.8 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>how about rocket speed? (please don't apply in practice, just to show this is not the limit)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[56]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%%</span><span class="k">timeit</span>
+mask = numpy.array(127, dtype=&#39;int64&#39;)
+for _ in range(8):
+    mask |= mask &lt;&lt; 8
+result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &amp; mask).view(&#39;uint8&#39;)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 2 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>please keep such simple bit-tricks in mind if you're going to implement some algorithm.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Online-statistics">Online statistics<a class="anchor-link" href="#Online-statistics">&#182;</a></h2><p>Finally, let's implement online statistics computation. In this case we can use only information about past.</p>
+<p>For instance, for each category we can compute how many times it was used in the past. This is online counter</p>
+<h3 id="Online-counter">Online counter<a class="anchor-link" href="#Online-counter">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[57]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="c"># plain python approach</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="k">def</span> <span class="nf">compute_online_counter</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">):</span>
+    <span class="n">online_counter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)</span>
+    <span class="n">counters</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)):</span>
+        <span class="n">online_counter</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">counters</span><span class="p">[</span><span class="n">categories_stream</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">counters</span><span class="p">[</span><span class="n">categories_stream</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">online_counter</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[58]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">categories_stream</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> online_counter = compute_online_counter(categories_stream)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1 loops, best of 3: 1.14 s per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">compute_online_counter_numpy</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">):</span>
+    <span class="n">occurences</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)</span>
+    <span class="n">before</span> <span class="o">=</span> <span class="n">occurences</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">-</span> <span class="n">occurences</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">categories_stream</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;mergesort&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s">&#39;mergesort&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">positions</span> <span class="o">-</span> <span class="n">before</span><span class="p">[</span><span class="n">categories_stream</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> compute_online_counter_numpy(categories_stream)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1 loops, best of 3: 365 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>this is the situation when numpy is really not of much help. Sorting applied twice is bad approach when no sorting shall be used.</p>
+<p><code>pandas</code> suggests a good one-line alternative, but it is ..hmhm.. <em>a bit slow</em>.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">pandas</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">&#39;cat&#39;</span><span class="p">:</span>  <span class="n">categories_stream</span><span class="p">,</span> <span class="s">&#39;ones&#39;</span><span class="p">:</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">))})</span>
+<span class="c"># truncating to first 10000, otherwise it will never finish</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[:</span><span class="mi">10000</span><span class="p">]</span>
+<span class="o">%</span><span class="k">time</span> result = df.groupby(&#39;cat&#39;)[&#39;ones&#39;].transform(pandas.Series.cumsum)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CPU times: user 3.98 s, sys: 40.2 ms, total: 4.02 s
+Wall time: 4.03 s
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Ok, then it is time to use some external tool. Let's do it with parakeet.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">parakeet</span>
+<span class="n">parakeet</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">backend</span> <span class="o">=</span> <span class="s">&#39;c&#39;</span> <span class="c"># one thread</span>
+
+<span class="nd">@parakeet.jit</span>
+<span class="k">def</span> <span class="nf">compute_online_counter_parakeet</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">):</span>
+    <span class="n">counters</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">online_counter</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)):</span>
+        <span class="n">online_counter</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">counters</span><span class="p">[</span><span class="n">categories_stream</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">counters</span><span class="p">[</span><span class="n">categories_stream</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">online_counter</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">compute_online_counter_parakeet</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)</span>
+<span class="o">%</span><span class="k">timeit</span> compute_online_counter_parakeet(categories_stream)
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 13.7 ms per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>However, keep in mind, that you'll probably not be able to use this code in windows. Use external tools only when they are really needed.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h1><ul>
+<li><code>numpy</code> is very powerful if properly used. </li>
+<li>learning numpy is harder than a + b, but it gives benefit in shortness and readability</li>
+<li>there are very few cases when you really need to switch from python code to cython or c during research.</li>
+<li>many of things from above can be implemented in other vector environments: theano / matlab / R </li>
+</ul>
+<h1 id="Links">Links<a class="anchor-link" href="#Links">&#182;</a></h1><p>There are many more things to know about numpy. Here are the some helpful links you may also be interested in:</p>
+<ol>
+<li><a href="http://ipython-books.github.io/featured-01/">Getting the Best Performance out of NumPy</a></li>
+<li><a href="http://www.labri.fr/perso/nrougier/teaching/numpy/numpy.html">Game of life and numpy reference</a></li>
+<li><a href="http://www.labri.fr/perso/nrougier/teaching/numpy.100/index.html">100 numpy exercises</a></li>
+<li><a href="https://scipy-lectures.github.io/advanced/advanced_numpy/">Advanced numpy</a></li>
+<li><a href="http://wiki.scipy.org/Tentative_NumPy_Tutorial">Tentative numpy tutorial</a></li>
+</ol>
+
+</div>
+</div>
+</div>
+
+<p>
+    This post was written in IPython. You can download the notebook from
+     <a href='https://github.com/arogozhnikov/arogozhnikov.github.io/tree/master/notebooks'>
+    repository</a>.
+</p>
+
