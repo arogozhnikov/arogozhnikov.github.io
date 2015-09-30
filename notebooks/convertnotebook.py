@@ -54,25 +54,32 @@ def read_html_contents(filename):
         return file.read()
 
 
+def convert_notebook(notebook_filename):
+    html_filename = os.path.splitext(os.path.basename(notebook_filename))[0] + '.html'
+    print('source file', notebook_filename)
+    print('will be converted to ', html_filename)
+
+    title = get_notebook_title(notebook_filename)
+
+    # using ipython nbconvert to get html representation
+    command = 'ipython nbconvert --to html {} --template basic --output {}'.format(notebook_filename, html_filename)
+    callProcess = subprocess.Popen(command, shell=True)
+    callProcess.wait()
+
+    date = notebook_filename[:len('yyyy-mm-dd')]
+    content = read_html_contents(html_filename)
+
+    with codecs.open('../_posts/' + html_filename, mode='w', encoding='utf-8') as file:
+        file.write(unicode(template).format(title=title, date=date, content=content))
+
+    # delete temptorary file
+    os.remove(html_filename)
+
+
+
 notebook_filename = sys.argv[1]
-html_filename = os.path.splitext(os.path.basename(notebook_filename))[0] + '.html'
 
 if not os.path.exists(notebook_filename):
     sys.exit('ERROR: file {} was not found!'.format(notebook_filename))
 
-print('source file', notebook_filename)
-print('will be converted to ', html_filename)
-
-title = get_notebook_title(notebook_filename)
-
-# using ipython nbconvert to get html representation
-command = 'ipython nbconvert --to html {} --template basic --output {}'.format(notebook_filename, html_filename)
-callProcess = subprocess.Popen(command, shell=True)
-callProcess.wait()
-
-date = notebook_filename[:len('yyyy-mm-dd')]
-content = read_html_contents(html_filename)
-
-with codecs.open('../_posts/' + html_filename, mode='w', encoding='utf-8') as file:
-    file.write(unicode(template).format(title=title, date=date, content=content))
-
+convert_notebook(notebook_filename=notebook_filename)
