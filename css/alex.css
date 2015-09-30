@@ -64,3 +64,21 @@ div.output_text pre{
 }
 
 /* this is not for notebooks */
+
+img.site-icon{
+	display: None;
+}
+
+/*
+a:hover img.site-icon{
+	display: inline-block;
+}
+
+.site-header a.page-link{
+	color: #eee;
+}
+*/
+
+pre{
+	overflow-x: auto;
+}
