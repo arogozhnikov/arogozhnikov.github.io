@@ -1,0 +1,175 @@
+---
+layout: post
+title:  "ROC curve demonstration"
+date: 2015-10-05 12:00:00
+author: Alex Rogozhnikov
+tags: 
+- Machine Learning
+---
+
+There are lots of applications to machine learning, and the most popular problem in practice is __binary classification__.
+Examples of things we want to predict:
+
+* user will click / buy something or not
+* page is appropriate to request or not 
+* charge of particle is positive or negative 
+* observed signal decay or something else
+* bright object on the sky is galaxy or quasar 
+
+There are many different area-specific metrics to estimate quality of classification, 
+ however the basic tool one should be able to work with regardless of the area is __ROC curve__ (which I will talk about in this post). 
+ 
+## Notions in binary classification for binary predictions, is/as notation
+ 
+We have two classes: class 0 and class 1, background and signal respectively.
+In the simplest case predictions are binary: each event is attributed by classifier to be signal or background.
+
+Unfortunately, there are too many terms used to describe this (trivial) classification result. 
+Scary [image from wikipedia](https://en.wikipedia.org/wiki/Binary_classification) shows how many different terms people were able to invent to describe a space with 4 degrees of freedom.
+ 
+Let me introduce my own notion, more systematic:
+
+* isS (isSignal), isB (isBackground) - how many events really belong to this class
+* asS (asSignal), asB (asBackground) - how many events were classified as signal (background)
+* isSasB (isSignalasBackground) - how many signal events were erroneously classified as background.
+  isSasS, isBasB, isBasS are defined in the same way.
+
+
+Hardly one can misunderstand what each of introduced numbers means.
+  
+So, there are actually only 4 basic numbers:  isSasS, isSasB, isBasS, isBasB.
+
+All the other information can be easily reconstructed:
+
+* isS = isSasS + isSasB
+* isB = isBasS + isBasB
+* asS = isSasS + isBasS
+* asB = isSasB + isBasB
+  
+Other typically used measures:
+
+* true positive rate (part of correctly classified signal, also known as __recall__, __sensitivity__ or __signal efficiency__).
+
+  ```
+  tpr = isSasS / isS 
+  ``` 
+* false positive rate (part of incorrectly classified background, aka __background efficiency__)
+
+  ```
+  fpr = isBasS / isB 
+  ```
+* also there are `tnr = isSasB / isS` and `fnr = isSasB / isS` (tnr also known as _specificity_)  
+
+Other way to define parameters is True/False Positives/Negatives:
+ 
+``` 
+TP = isSasS, FP = isBasS, TN = isBasB, FN = isSasB  
+```
+
+But it is too easy (at least for me) to mess FP and FN, so I avoid this notion.
+ 
+## Continuous predictions. ROC curve 
+
+So, there are many different ways to measure quality of binary predictions. 
+The bad thing is people frequently start by comparing them.
+
+Meanwhile, the output of classifier is __real number__, not binary.    
+
+What's wrong with using binary predictions?
+
+
+1. to estimate quality, one needs to select threshold. Either people forget about it (and use default, which is not even close to optimal one) 
+2. binary metrics are frequently unstable and need many samples in validation (statistical variation is comparable to gain obtained by changing parameters)
+3. in many cases, trained classifier is not used to make decisions, but needed reconstruct the probabilities later used in next stages of ML pipeline
+ 
+<blockquote>
+    It's a bad idea to use rough predictions of classifier (<code>classifier.predict(X)</code> in scikit-learn), 
+    instead always use probabilities <code>classifier.predict_proba(X)</code> 
+</blockquote>
+
+So the right way is to look at the whole picture and compare how well the classifier was able to split classes. 
+How 'far' distributions of output of signal and background. 
+ 
+
+## ROC curve
+
+The graphical way to compare output of two classifiers is ROC curve, 
+ which is built by checking all possible thresholds. For each threshold `tpr` and `fpr` are computed
+   (which part of signal/background event passes this threshold).
+   
+By checking all possible thresholds, we get the ROC curve. When ROC curve coincides with diagonal &mdash; this is the worst situation, 
+because two distributions coincide. The higher ROC curve &mdash; the better discrimination between signal and background.
+
+If at every point ROC curve of classifier A is higher than curve of classifier B, we are sure to say that in any application 
+ classifier A is better.
+
+![ROC curve interactive demonstration interface](/images/roc_curve.gif)
+
+## ROC curve interactive demo
+
+<div class="layout-wrapper">
+    <div class="controls">
+        <label for="mean1">mean #1:</label><input id="mean1" type = "number" size = "5" value = "0" onchange="draw()">
+        <label for="mean2">mean #2:</label><input id="mean2" type = "number" size = "5" value = "2" onchange="draw()">
+        <label for="var1">variance #1:</label><input id="var1" type = "number" size = "5" value = "4" onchange="draw()">
+        <label for="var2">variance #2:</label><input id="var2" type = "number" size = "5" value = "4" onchange="draw()">
+    </div>
+    <div id="renderer">
+        <!-- here all the plots will be rendered -->
+    </div>
+    <div style="padding: 20px;">
+        <h3>Instructions</h3>
+        <p>
+            On the right plot: two compared distributions (for demonstration normal distributions were taken).
+        </p>
+        <p>
+            On the left plot: corresponding
+            <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">ROC curve.</a>
+        </p>
+        <p>
+            Controls:
+        </p>
+        <ul>
+            <li>4 inputs with means and variances of distributions</li>
+            <li>Also vertical line corresponding to threshold can be moved</li>
+        </ul>
+        <p>
+            Presentation was prepared by Oleg Alenkin and Alex Rogozhnikov.
+        </p>
+    </div>
+    <link rel="stylesheet" href="/css/roc_curve.css">
+    <script src="/scripts/d3.min.js" charset="utf-8"></script>
+    <script src="/scripts/jquery-2.1.4.js" charset="utf-8"></script>
+    <script src="/scripts/roc_curve.js" charset="utf-8"></script>
+</div>
+
+## Area under ROC
+
+General-purpose measure of classification quality is area under ROC curve.
+ 
+In the worst case it is 0.5, while the ideal classification corresponds to area = 1.
+  
+This figure of merit is very stable, and moreover enjoys the following mathematical property:
+  
+$$\text{area under ROC} = P(x < y) $$, where $x$ and $y$ are predictions of random signal and background samples. 
+ 
+### Measures of quality through the prism of ROC
+
+Interesting moment in ROC curve is that it is completely invariant to any monotonic transformations of classifiers output.
+If you divide the predictions of classifier by two, ROC curve will stay the same.
+
+This notable property makes ROC curve the universal base for comparison of classification models, because it contains 
+all necessary information (passing dependencies) while ignoring everything inessential (real predictions)    
+
+% TODO extend with examples % 
+ 
+<!--
+* many different ways to measure
+* свойства РОК-кривой 
+* ROC AUC, но не универсальный
+-->
+
+
+
+
+
