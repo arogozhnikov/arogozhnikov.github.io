@@ -14,17 +14,29 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/07/libfm-in-python.h
 <p><a href="http://libfm.org/">LibFM</a>&nbsp;<span>is library for factorization machines using an</span>&nbsp;<span>approach proposed by</span>&nbsp;<span>Steffen Rendle. However it</span>&nbsp;<span>seems that there is</span>&nbsp;<span>no</span>&nbsp;<span>python wrapper for this famous library.</span></p>
 <p><span>However, if</span>&nbsp;<span>you’re looking for python version of</span>&nbsp;<span>it, take a</span>&nbsp;<span>look at</span>&nbsp;<span>these projects:</span></p>
 
-<ul> 
+<ul>
 	<li><a href="https://github.com/coreylynch/pyFM">https://github.com/coreylynch/pyFM</a><br/>
- Lovely minimalistic implementation of&nbsp;Factorization Machines using cython (previous version used numpy).<br/>
- This library has an&nbsp;interface similar to&nbsp;scikit-learn. 
+		<p>
+			Lovely minimalistic implementation of&nbsp;Factorization Machines using cython (previous version used numpy).<br/>
+			This library has an&nbsp;interface similar to&nbsp;scikit-learn.
+		</p>
+		<p>
+			Unfortunately, in my tests I wasn't able to get useful results with this library, while official LibFM was working fine.
+			With learning rate > $1^{-6}$ the learning process simply diverged.
+		</p>
+
 	</li>
-	<li><a href="http://ibayer.github.io/fastFM/index.html">http://ibayer.github.io/fastFM/index.html</a><br/>
- fastFM&nbsp;is another option. Library supports both classification and regression.<br/>
- Contains three different solvers (SGD, ALS, MCMC). ALS = alternative least squares.<br/>
- In&nbsp;the paper written by&nbsp;author of&nbsp;algorithm, he&nbsp;argues that other algorithms are comparable to&nbsp;SGD.<br/>
-		<br/>
- This library is&nbsp;completely following scikit-learn interface (even deriving from BaseEstimator and appropriate mixin classes). 
+	<li>
+		<p>
+			<a href="http://ibayer.github.io/fastFM/index.html">http://ibayer.github.io/fastFM/index.html</a><br/>
+			fastFM&nbsp;is another option. Library supports both classification and regression.<br/>
+			Contains three different solvers (SGD, ALS, MCMC). ALS = alternative least squares.<br/>
+			In&nbsp;the paper written by&nbsp;author of&nbsp;algorithm, he&nbsp;argues that other algorithms are comparable to&nbsp;SGD.<br/>
+		</p>
+		<p>
+			This library is&nbsp;completely following scikit-learn interface (even deriving from BaseEstimator and appropriate mixin classes),
+			another strong side is that it reimplements all official methods. In the paper written about the library It was stated that this implementation is 2-3 times faster.
+		</p>
 	</li>
 	<li>I&nbsp;was also looking for code in&nbsp;theano, but the only code&nbsp;I found was very dirty and minimalistic (so&nbsp;I’m not hoping it&nbsp;is&nbsp;usable)<br/>
 		<a href="https://github.com/instagibbs/FactorizationMachine">https://github.com/instagibbs/FactorizationMachine</a>
