@@ -178,11 +178,11 @@ one should maximize some figure of merit and take corresponding threshold.
  
 ## Links
 
-* [yhat about ROC](http://blog.yhathq.com/posts/roc-curves.html)
 * [wikipedia article on the topic](https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+* [yhat about ROC](http://blog.yhathq.com/posts/roc-curves.html)
 * [python implementation of ROC](http://scikit-learn.org/stable/auto_examples/plot_roc.html)
 * [R implementation of ROC](https://cran.r-project.org/web/packages/ROCR/index.html)
-* [writing roc curve in numpy](https://arogozhnikov.github.io/2015/09/29/NumpyTipsAndTricks1.html#Computing-ROC-curve)
+* [writing ROC curve in numpy](https://arogozhnikov.github.io/2015/09/29/NumpyTipsAndTricks1.html#Computing-ROC-curve)
 
 
 
