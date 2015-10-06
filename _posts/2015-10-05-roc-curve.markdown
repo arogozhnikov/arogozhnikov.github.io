@@ -169,18 +169,20 @@ of correctly predicted objects, you should select a threshold, which corresponds
 __weighted accuracy__: another example (which frequently corresponds to practice). 
 Imaging that for each correct guess about new object you are paid. 
 But the cost for correctly guessing signal and background are different: $c_s, c_b$. 
-To maximize the money taken from this,     
+To maximize the income, the threshold for decision rule should correspond to point at ROC curve, where
+ $$ N_s \times TPR \times c_s + N_b \times (1 - FPR) \times c_b $$ is maximal.
  
+In particle physics more complicated things are usually taken as final measure of classification model. 
+Those are corresponding to hypothesis testing (punzy metric, median significance), but the idea is still the same: 
+one should maximize some figure of merit and take corresponding threshold.  
  
-In particle physics more complicated things are usually taken as  
-  
+## Links
 
-% TODO extend with examples % 
- 
-<!--
-* ROC AUC, но не универсальный
--->
-
+* [yhat about ROC](http://blog.yhathq.com/posts/roc-curves.html)
+* [wikipedia article on the topic](https://en.wikipedia.org/wiki/Receiver_operating_characteristic)
+* [python implementation of ROC](http://scikit-learn.org/stable/auto_examples/plot_roc.html)
+* [R implementation of ROC](https://cran.r-project.org/web/packages/ROCR/index.html)
+* [writing roc curve in numpy](https://arogozhnikov.github.io/2015/09/29/NumpyTipsAndTricks1.html#Computing-ROC-curve)
 
 
 
