@@ -1883,7 +1883,7 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[59]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">categories_stream</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span>
@@ -1896,7 +1896,7 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[60]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> online_counter = compute_online_counter(categories_stream)
@@ -1906,10 +1906,24 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </div>
 </div>
 
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1 loops, best of 3: 1.23 s per loop
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[61]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">compute_online_counter_numpy</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">):</span>
@@ -1926,13 +1940,27 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[62]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">timeit</span> compute_online_counter_numpy(categories_stream)
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>1 loops, best of 3: 352 ms per loop
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -1950,7 +1978,7 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[63]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">pandas</span>
@@ -1961,6 +1989,21 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>CPU times: user 4.94 s, sys: 40.8 ms, total: 4.98 s
+Wall time: 5.04 s
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -1977,7 +2020,7 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[64]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">parakeet</span>
@@ -2000,7 +2043,7 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[65]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">compute_online_counter_parakeet</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)</span>
@@ -2008,6 +2051,20 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>100 loops, best of 3: 16.2 ms per loop
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
