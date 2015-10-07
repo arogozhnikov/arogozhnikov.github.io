@@ -1,0 +1,255 @@
+---
+layout: post
+title:  "sPlot: a technique to reconstruct components of mixture"
+date: 2015-10-07 12:00:00
+author: Alex Rogozhnikov
+tags: 
+- High energy physics
+- sPlot
+- 'hep_ml'
+---
+
+This post is devoted to explanation what is __sPlot__. This well-known method was recently added to [hep_ml library](https://github.com/arogozhnikov/hep_ml).
+
+__sPlot__ is a way to reconstruct features of mixture components based on known properties of distributions. This method is frequently used in High Energy Physics.
+
+## Simple example of sPlot
+
+First start from simple (and not very useful in practice) example.
+
+Assume we have two types of particles (say, electrons and positrons). 
+
+Distribution of some characteristic is different for them (let this be px momentum projection).
+
+![distributions](/images/splot/1-distributions.png)
+
+## Observed distributions
+
+Picture above shows how this distibution should look like, 
+but due to inaccuracies during classification we will observe different picture.
+
+Let's assume that with probability 80% particle is classified correctly (and we are not using px during classification).
+
+And when we look at distribution of px for particles which were classified as electrons or positrons,
+we see that they were distorted. We lost the original shapes of distributions.
+
+![the distributions we observe](/images/splot/2-bins-and-mixture.png)
+
+## Applying sWeights
+
+We can think of it in the following way: there are 2 bins. In first 80% are electrons, 20% are signal. And visa versa in second bin.
+
+To reconstruct initial distribution, we can plot histogram, where each event from first bin has weight 0.8, 
+and each event from second bin has weight -0.2. This numbers are called sWeights. 
+
+So, if we had 8000 $e^{-}$ + 2000 $e^{+}$ in first bin and 8000 $e^{+}$ + 2000 $e^{-}$ ($ e^-, e^+$ are electron and positron). After summing with introduced sWeights:
+
+$$
+\big[ 8000 e^{-} + 2000 e^{+} \big] \times 0.8 + \big[ 2000 e^{-} + 8000 e^{+} \big] \times (- 0.2) = 
+6800 e^{-}
+$$
+
+Positrons with positive and negative weights compensated each other, and we will get pure electrons.
+
+At this moment we ignore normalization of sWeights (because it doesn't play role when we want to reconstruct shape).
+
+![reconstructed distributions](/images/splot/3-splot-reconstructed-weights.png)
+
+### Compare
+
+let's compare reconstructed distribution for electrons with original:
+
+![original vs splot](/images/splot/4-splot-reconstructed-comparison.png)
+
+# More complex case
+
+In the case when we have only two 'bins' is simple and straightforward. But when there are more than two bins, the solution is not unique. There are many appropriate combinations of sWeights, which one to choose? 
+
+![proportions inside each bin](/images/splot/5-3bins.png)
+
+but things in practice are more complex. We have not bins, but continuos distribution (which can be treated as many bins). 
+
+Typically this is distribution over mass. By fitting mass we are able to split mixture into two parts: signal channel and everything else.
+
+# Building sPlot over mass
+
+Let's show how this works. First we generate two fake distributions (signal and background) with 2 variables: mass and momentum.
+
+![comparison of reconstructed variable](/images/splot/6-splot-reconstructed-comparison.png)
+
+### Of course we don't have labels which events are signal and which are background before we actually.
+
+And we observe the mixture of two distributions:
+
+![mixture projections](/images/splot/7-only-mixtures.png)
+
+### We have no information about real labels
+
+But we know a priori that background is distributed as exponential distribution and signal - as gaussian (more complex models can be met in practice, but idea is the same).
+
+After fitting the mixture (let me skip this process), we will get the following result:
+
+![result of distribution fit over mass](/images/splot/8-fitting-results.png)
+
+## Fitting doesn't give us information about real labels
+
+But it gives information about probabilities, thus now we can estimate number of signal and background events within each bin. 
+
+We won't use bins, but instead we will get for each event probability that it is signal or background:
+
+![reconstructed probabilities over mass](/images/splot/9-probabilities-over-mass.png)
+
+## Appying sPlot
+
+sPlot converts probabilities to sWeights, using implementation from `hep_ml`:
+
+As you can see, there are also negative sWeights, which are needed to compensate the contributions of other class.
+
+![computed sWeights dependency over mass](/images/splot/10-splot-sweights-over-mass.png)
+
+## Using sWeights to reconstruct initial distribution
+
+Let's check that we achieved our goal and can reconstruct momentum distribution for signal and background:
+
+![comparison to be checked](/images/splot/11-sweights-to-reconstruct-distribution.png)
+
+## Important requirement of sPlot
+
+Reconstructed variable (i.e. $p$) and splotted variable (i.e. mass) shall be statistically independent for each class.
+
+Read the line above again. Reconstructed and splotted variable are correlated:
+
+as a demonstration why this is important let's use sweights to reconstruct mass (obviously mass is correlated with mass):
+
+![distributions](/images/splot/12-splot-to-reconstruct-mass.png)
+
+$\def\ps{p_s(x)}$
+$\def\pb{p_b(x)}$
+$\def\ws{sw_s(x)}$
+$\def\wb{sw_b(x)}$
+
+
+
+# Derivation of sWeights
+
+Now, after we seen how this works, let's derive formula for sWeights.
+
+
+
+The only information we have from fitting over mass is  $ \ps $, $ \pb$ which are probabilities of event $x$ to be signal and background. 
+
+Our main goal is to correctly reconstruct histogram. Let's reconstruct the number of _signal_ events in _particular_ bin. Let's introduce unknown $p_s$ and $p_b$ - probability that signal or background event will be in the named bin.
+
+(Since mass and reconstructed variable are statistically independent for each class, $p_s$ and $p_b$ do not depend on mass.)
+
+The mathematical expectation should be obviously equal to $p_s N_s$, where $N_s$ is total amount of signal events available from fitting.
+
+Let's also introduce random variable $1_{x \in bin}$, which is 1 iff event $x$ lies in selected bin. 
+
+The __estimate for number of signal event in bin__ is equal to:
+$$X = \sum_x \ws \; 1_{x \in bin},$$ where $\ws$ are sPlot weights and are subject to find.
+
+## First main property of sweights
+
+
+__Property 1. __ We expect out estimation to be unbiased
+$$\mathbb{E} \, X = p_s N_s $$
+
+
+__Corollary__ 
+Let's understand what this means for sPlot weights.
+
+$ p_s N_s = \mathbb{E} \, X = \sum_x w_s \; \mathbb{E} \, 1_{x \in bin} 
+= \sum_x w_s \;  (p_s \ps + p_b \pb) $
+
+In the line above I used the assumption that variables are statistically independent for each class.
+
+Since the previous equation should hold for all possible $p_s$ and $p_b$, we get two equalities:
+<br />$ p_s N_s = \sum_x \ws \; p_s \ps  $
+<br />$ 0 = \sum_x \ws \; p_b \pb $
+
+After reduction:
+<br />$ N_s = \sum_x \ws \; \ps  $
+<br />$ 0 = \sum_x \ws \; \pb $
+
+This way we can guarantee that mean input of background are 0 (expectation is zero, but observed number will not be zero due to statistical deviation), and the expected number of background 
+
+## Under assumption of linearity:
+assuming that splot weight can be computed as linear combination of conditional probabilities:
+
+$ \ws = a_1 \pb + a_2 \ps$
+
+We can easily reconstruct those numbers, first let's rewrite our system:
+
+$ \sum_x (a_1 \pb + a_2 \ps) \; \ps = 0$ <br />
+$ \sum_x (a_1 \pb + a_2 \ps) \; \pb = N_{sig}$
+
+$ a_1 V_{bb} + a_2 V_{bs} = 0$ <br />
+$ a_1 V_{sb} + a_2 V_{ss} = N_{sig}$ <br />
+
+Where 
+$V_{ss} = \sum_x \ps \; \ps $, $V_{bs} = V_{sb} = \sum_x \ps \; \pb$, $V_{bb} = \sum_x \pb \; \pb$
+
+Having solved this linear equation, we get needed coefficients (as those in the paper)
+
+NB. There is little difference between $V$ matrix I use and $V$ matrix in the paper. <br />
+
+
+## Minimization of variation
+$\def\Var{\mathbb{V}\,}$
+
+Previous part allows one to get the correct result. But there is still no explanation of reason for linearity.
+
+
+Apart from having correct mean, we should also minimize variation of any reconstructed variable. Let's try optimize it 
+
+$$ \Var X = \sum_x \ws^2 \; \Var 1_{x \in bin} = \sum_x \ws^2 \; (p_s \ps + p_b \pb)(1 - p_s \ps - p_b \pb)$$
+
+A bit complex, isn't it? Instead of optimizing such a complex expression (which is individual for each bin), let's minimize it's __uniform upper estimate__
+
+$$ \Var X = \sum_x \ws^2 \; \Var 1_{x \in bin} \leq  \sum_x \ws^2  $$
+
+
+so if we are going to minimize this upper estimate, we should solve the following optimization problem with constraints:
+<br />$\sum_x \ws^2 \to \min $
+<br />$\sum_x \ws \; \pb = 0$ 
+<br />$\sum_x \ws \; \ps = N_{sig}$
+
+Let's write lagrangian of optimization problem:
+
+$$ \mathcal{L} =  \sum_x \ws^2 
++ \lambda_1 \left[\sum_x \ws \; \pb \right]
++ \lambda_2 \left[\sum_x \ws \; \ps - N_{sig} \right]
+$$
+
+After taking derivative with respect to $ \ws $ we get the equality:
+
+$$
+0 = \dfrac{\partial \mathcal{L}}{\partial \; \ws} =   2 \ws
++ \lambda_1  \pb
++ \lambda_2  \ps
+$$
+
+which holds for every $x$. Thus, after renaming for convenience 
+$a_1 = - \lambda_1 / 2, $
+$a_2 = - \lambda_2 / 2, $
+we are getting needed linear dependency.
+ 
+### Uncorrelatedness
+
+The main assuption we used here is that distribution inside each bin is abolutely indentical.
+
+In other words, we stated that there is no correlation between the index of bin and the reconstructed variable. Remember that bin corresponds to some interval in mass, and finaly we get:
+
+__reconstructed variable shall not be correlated with mass variables (or any other splotted variable)__
+
+# Conclusion
+
+1. sPlot allows reconstruction of some variables.
+2. the only information used is probabilities taken from fit over variable. If fact, any probability estimates fit well.
+3. the source of probabilities should be statistically independent from reconstructed variable (for each class!).
+4. mixture may contain more than 2 classes (this is supported by `hep_ml.splot` as well)
+
+## Sources and code
+
+The code for this post may be found at [`hep_ml` repository](https://github.com/arogozhnikov/hep_ml/).
