@@ -14,4 +14,42 @@ blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-425414576352520138
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/05/back-to-future-vector-representation-of.html
 ---
 
-<div dir="ltr" style="text-align: left;" trbidi="on">Today I generated an interesting idea on analysis of <b>time series</b>. Those are frequently used in pattern recognition, mathematical finance and forecastings (weather prediction, sales prediction, number of site visitors etc.). <br />Apart from different <i>window-based</i> approaches, there are two basic models that by their nature represent the sequential structure in data: <br /><ul><li><a href="http://en.wikipedia.org/wiki/Hidden_Markov_model">hidden Markov chain</a> (HMC)</li><li><a href="http://en.wikipedia.org/wiki/Recurrent_neural_network">recurrent neural network</a> (RNN)</li></ul>Both of the above are actually Markov models and have some internal state (in first case it's probabilities of each of internal states of model, in the case of RNN the state is equal do dumped states of all elements with delay). The notable difference between these models is first is generative, while the second is discriminative.<br /><br />Some pros and cons of both models I see: <br /><ul><li>HMC training is inexpensive, but requires predicted values to be binned (so it doesn't work with continuous variables, even with variables with many possible values)</li><li>RNN requires quite a long training, but has hard times to find stable mapping (since it should be continuous), so requires some regularizations built in its architecture. Training is usually based on prediction of one or several next points in sequence, which is not always adequate.</li></ul><div>Apart of setting several next observation in sequence as a target, there is plenty of various targets, like running mean over $n$ next observations. However, I'd prefer machine learning to find out these targets for me.&nbsp;</div><div><br /></div><div>Possible approach I came to:</div><div><ol style="text-align: left;"><li>train HMC in inverse time, so HMC predicts past, not future</li><li>it's predictions (probabilities of hidden states) can be treated as <b>vector representation of future</b>, because it is computed on information from future</li><li>RNN is trained to predict hidden states of HMC</li><li>Later, some other model is used based on the output of RNN to predict the value of interest.&nbsp;</li></ol><div>So the trick is that we use HMC predictions as some reliable informative target about the future, like this is done is deep learning, for instance.</div></div></div>
+<div>Today I generated an interesting idea on analysis of <b>time
+  series</b>. Those are frequently used in pattern recognition, mathematical finance and forecastings (weather
+  prediction, sales prediction, number of site visitors etc.). <br/>Apart from different <i>window-based</i> approaches,
+  there are two basic models that by their nature represent the sequential structure in data: <br/>
+  <ul>
+    <li><a href="http://en.wikipedia.org/wiki/Hidden_Markov_model">hidden Markov chain</a> (HMC)</li>
+    <li><a href="http://en.wikipedia.org/wiki/Recurrent_neural_network">recurrent neural network</a> (RNN)</li>
+  </ul>
+  Both of the above are actually Markov models and have some internal state (in first case it's probabilities of each of
+  internal states of model, in the case of RNN the state is equal do dumped states of all elements with delay). The
+  notable difference between these models is first is generative, while the second is discriminative.<br/><br/>Some pros
+  and cons of both models I see: <br/>
+  <ul>
+    <li>HMC training is inexpensive, but requires predicted values to be binned
+      (actually this works with continuous variables, but this is mostly related to gaussian visibles and this is not robust).
+    </li>
+    <li>RNN requires quite a long training, but has hard times to find stable mapping (since it should be continuous),
+      so requires some regularizations built in its architecture. Training is usually based on prediction of one or
+      several next points in sequence, which is not always adequate.
+    </li>
+  </ul>
+  <div>Apart of setting several next observation in sequence as a target, there is plenty of various targets, like
+    running mean over $n$ next observations. However, I'd prefer machine learning to find out these targets for me.&nbsp;</div>
+  <div><br/></div>
+  <div>Possible approach I came to:</div>
+  <div>
+    <ol>
+      <li>train HMC in inverse time, so HMC predicts past, not future</li>
+      <li>it's predictions (probabilities of hidden states) can be treated as <b>vector representation of future</b>,
+        because it is computed on information from future
+      </li>
+      <li>RNN is trained to predict hidden states of HMC</li>
+      <li>Later, some other model is used based on the output of RNN to predict the value of interest.&nbsp;</li>
+    </ol>
+    <div>So the trick is that we use HMC predictions as some reliable informative target about the future, like this is
+      done is deep learning, for instance.
+    </div>
+  </div>
+</div>
