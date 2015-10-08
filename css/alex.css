@@ -82,3 +82,7 @@ a:hover img.site-icon{
 pre{
 	overflow-x: auto;
 }
+
+.site-nav .page-link{
+	color: #aaa;
+}
