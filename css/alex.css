@@ -63,6 +63,13 @@ div.output_text pre{
 	background: #e5e5e5;
 }
 
+a.anchor-link{
+	font-size: 0.8em;
+	padding: 4px;
+	color: #9cb4ff
+
+}
+
 /* this is not for notebooks */
 
 img.site-icon{

@@ -18,13 +18,14 @@ I have some other degrees as well :)
   which is one of the best places (or simply best place?) to study programming, data analysis and machine learning.   
 
 
-Currently I'm working at [Yandex](http://yandex.ru), involved in [CERN](http://cern.ch) projects.
+Currently I'm working at [Yandex](http://yandex.ru), involved in [CERN](http://cern.ch) projects. 
+Area of my interest is development of Machine Learning methods (mostly, somehow applied to fundamental sciences, though not limited by those). 
 
 If you're interested in things I am doing, take a look at
  
 * [gradient boosted reweighter](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/DemoReweighting.ipynb)
 * [uniform gradient boosting](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/BoostingToUniformity.ipynb) 
-* visualization of optimal control of oscillations (to be published) 
+* visualization of optimal control of oscillations (to be published soon) 
 
 Also sometimes I participate in educational projects of Yandex Data School. 
 Take a look at MLHEP 2015 [slides]({% post_url 2015-09-07-mlhep-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2015).
