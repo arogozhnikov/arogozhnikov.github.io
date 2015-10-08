@@ -14,7 +14,7 @@ I have some other degrees as well :)
 
 * master degree in Math &amp; CS from Computer Science faculty of MSU
 * master degree from [faculty of mathematics](http://math.hse.ru) of Higher School of Economics (definitely great place if you want to devote your life to math) 
-* degree from [Yandex School of Data Analyst](http://yandexdataschool.ru), 
+* degree from [Yandex School of Data Analysis](http://yandexdataschool.ru), 
   which is one of the best places (or simply best place?) to study programming, data analysis and machine learning.   
 
 
@@ -27,6 +27,6 @@ If you're interested in things I am doing, take a look at
 * [uniform gradient boosting](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/BoostingToUniformity.ipynb) 
 * visualization of optimal control of oscillations (to be published soon) 
 
-Also sometimes I participate in educational projects of Yandex Data School. 
+Also sometimes I participate in educational projects of Yandex School of Data Analysis. 
 Take a look at MLHEP 2015 [slides]({% post_url 2015-09-07-mlhep-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2015).
  
