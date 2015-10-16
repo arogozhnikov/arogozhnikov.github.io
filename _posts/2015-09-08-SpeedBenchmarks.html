@@ -1,23 +1,23 @@
 ---
 layout: post
-title:  "Speed benchmarks of python crunchers"
-date: 2015-09-08
+title: "Log-likelihood benchmark"
+date: "2015-09-08"
 author: Alex Rogozhnikov
 tags:
-- python
-- numpy
-- theano
-- parakeet
-- numexpr
-- cython
+- notebook
 ---
+
 
 <div class="cell border-box-sizing text_cell rendered">
 <div class="prompt input_prompt">
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Log-likelihood-benchmark">Log likelihood benchmark<a class="anchor-link" href="#Log-likelihood-benchmark">&#182;</a></h2><p>tested:</p>
+<h2 id="Log-likelihood-benchmark">Log-likelihood benchmark<a class="anchor-link" href="#Log-likelihood-benchmark">&#182;</a></h2><p>This is a simple benchmark, which I use for basic test of vector-based computing engines.</p>
+<p>The problem is to find log-likelihood of normal distribution:
+$\sum_i \log \left[ \dfrac{1}{\sqrt{2 \pi \sigma}} \exp \left( - \dfrac{(x_i - x)^2}{2 \sigma^2} \right) \right] $</p>
+<p>There are elementwise subtraction, division, power, exponent, logarithm and summation of array, so this is broader test.</p>
+<p>tested:</p>
 <ol>
 <li>numpy + scipy's pdf</li>
 <li>numpy</li>
@@ -25,6 +25,8 @@ tags:
 <li>numexpr</li>
 <li>theano</li>
 <li>parakeet</li>
+<li>C++</li>
+<li>FORTRAN</li>
 </ol>
 <p>computing log-likelihood for normal distribution</p>
 <p><strong>Notes</strong></p>
@@ -312,6 +314,74 @@ tags:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="FORTRAN-implementation">FORTRAN implementation<a class="anchor-link" href="#FORTRAN-implementation">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%</span><span class="k">load_ext</span> fortranmagic
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+
+
+<div class="output_subarea output_javascript ">
+<script type="text/javascript">
+$.getScript("https://raw.github.com/marijnh/CodeMirror/master/mode/fortran/fortran.js", function () {
+IPython.config.cell_magic_highlight['magic_fortran'] = {'reg':[/^%%fortran/]};});
+
+</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">%%</span><span class="k">fortran</span> 
+subroutine llh_fortran(data, mean, sigma, result)
+    real*8, dimension(:), intent(in) :: data
+    real*8, intent(in) :: mean, sigma
+    real*8, intent(out) :: result
+            
+    real*8, dimension(size(data, 1)) :: s
+    real*8, parameter :: PI = 3.14159265358979323846
+
+    s = (data - mean) ** 2 / (2 * sigma ** 2)
+    s = exp(- s) / (sqrt(2 * PI) * sigma)
+    result = sum(log(s))
+    
+end subroutine llh_fortran
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="C++-implementation-for-comparison-of-speed">C++ implementation for comparison of speed<a class="anchor-link" href="#C++-implementation-for-comparison-of-speed">&#182;</a></h2><p>we are neither passing, nor returning anything in c++. Just doing same operations in C++ for some array to compare speed.</p>
 <p>Mind the overhead for creating new process - it is essential for small sizes.</p>
 
@@ -320,7 +390,7 @@ tags:
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
+<div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="o">%%</span><span class="k">writefile</span> test_speed.cpp
@@ -382,7 +452,7 @@ int main(int argc, char** argv) {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="o">!</span>g++ test_speed.cpp -o test_speed -O3
@@ -395,7 +465,7 @@ int main(int argc, char** argv) {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="k">def</span> <span class="nf">llh_cpp</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mean</span><span class="p">,</span> <span class="n">sigma</span><span class="p">):</span>
@@ -419,7 +489,7 @@ int main(int argc, char** argv) {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
@@ -430,6 +500,7 @@ int main(int argc, char** argv) {
 <span class="n">functions</span><span class="p">[</span><span class="s">&#39;numexpr&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_numexpr</span>
 <span class="n">functions</span><span class="p">[</span><span class="s">&#39;parakeet&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_parakeet</span>
 <span class="n">functions</span><span class="p">[</span><span class="s">&#39;theano&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_theano</span>
+<span class="n">functions</span><span class="p">[</span><span class="s">&#39;fortran&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_fortran</span>
 <span class="n">functions</span><span class="p">[</span><span class="s">&#39;c++&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_cpp</span>
 </pre></div>
 
@@ -440,7 +511,7 @@ int main(int argc, char** argv) {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">data</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="mi">1000000</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s">&#39;float64&#39;</span><span class="p">)</span>
@@ -458,12 +529,13 @@ int main(int argc, char** argv) {
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>scipy -1431620.79845
-numpy -1431620.79845
-cython -1431620.79845
-numexpr -1431620.79845
-parakeet -1431620.79845
-theano -1431620.79845
+<pre>scipy -1431841.8928
+numpy -1431841.8928
+cython -1431841.8928
+numexpr -1431841.8928
+parakeet -1431841.8928
+theano -1431841.8928
+fortran -1431841.90671
 c++ None
 </pre>
 </div>
@@ -475,7 +547,7 @@ c++ None
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">timeit</span> 
@@ -499,34 +571,38 @@ c++ None
 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>100 loops, best of 3: 10.9 ms per loop
-100 loops, best of 3: 5.97 ms per loop
-100 loops, best of 3: 10.6 ms per loop
-100 loops, best of 3: 7.01 ms per loop
-100 loops, best of 3: 6.32 ms per loop
-100 loops, best of 3: 7.7 ms per loop
-100 loops, best of 3: 17 ms per loop
-10 loops, best of 3: 131 ms per loop
-10 loops, best of 3: 62.1 ms per loop
-10 loops, best of 3: 109 ms per loop
-10 loops, best of 3: 72.6 ms per loop
-10 loops, best of 3: 64.5 ms per loop
-10 loops, best of 3: 80 ms per loop
-10 loops, best of 3: 79.8 ms per loop
-1 loops, best of 3: 1.8 s per loop
-1 loops, best of 3: 840 ms per loop
-1 loops, best of 3: 1.07 s per loop
-1 loops, best of 3: 700 ms per loop
-1 loops, best of 3: 628 ms per loop
-1 loops, best of 3: 822 ms per loop
-1 loops, best of 3: 697 ms per loop
-1 loops, best of 3: 18.9 s per loop
+<pre>100 loops, best of 3: 11.2 ms per loop
+100 loops, best of 3: 6 ms per loop
+100 loops, best of 3: 10.8 ms per loop
+100 loops, best of 3: 7.14 ms per loop
+100 loops, best of 3: 6.54 ms per loop
+100 loops, best of 3: 8.07 ms per loop
+100 loops, best of 3: 6.03 ms per loop
+100 loops, best of 3: 16.6 ms per loop
+10 loops, best of 3: 134 ms per loop
+10 loops, best of 3: 62.2 ms per loop
+10 loops, best of 3: 108 ms per loop
+10 loops, best of 3: 71 ms per loop
+10 loops, best of 3: 63.4 ms per loop
+10 loops, best of 3: 81.7 ms per loop
+10 loops, best of 3: 57.1 ms per loop
+10 loops, best of 3: 83 ms per loop
+1 loops, best of 3: 1.82 s per loop
+1 loops, best of 3: 857 ms per loop
+1 loops, best of 3: 1.08 s per loop
+1 loops, best of 3: 713 ms per loop
+1 loops, best of 3: 660 ms per loop
+1 loops, best of 3: 877 ms per loop
+1 loops, best of 3: 639 ms per loop
+1 loops, best of 3: 694 ms per loop
+1 loops, best of 3: 19.8 s per loop
+1 loops, best of 3: 9.01 s per loop
+1 loops, best of 3: 11.1 s per loop
+1 loops, best of 3: 7.12 s per loop
+1 loops, best of 3: 6.44 s per loop
 1 loops, best of 3: 8.54 s per loop
-1 loops, best of 3: 10.9 s per loop
-1 loops, best of 3: 7.16 s per loop
-1 loops, best of 3: 6.25 s per loop
-1 loops, best of 3: 8.23 s per loop
-1 loops, best of 3: 6.92 s per loop
+1 loops, best of 3: 6.39 s per loop
+1 loops, best of 3: 6.88 s per loop
 </pre>
 </div>
 </div>
@@ -546,119 +622,10 @@ c++ None
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">scores</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[17]:</div>
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div style="max-height:1000px;max-width:1500px;overflow:auto;">
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>scipy</th>
-      <th>numpy</th>
-      <th>cython</th>
-      <th>numexpr</th>
-      <th>parakeet</th>
-      <th>theano</th>
-      <th>c++</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>100000   </th>
-      <td>  0.010891</td>
-      <td> 0.005968</td>
-      <td>  0.010637</td>
-      <td> 0.007012</td>
-      <td> 0.006323</td>
-      <td> 0.007702</td>
-      <td> 0.017023</td>
-    </tr>
-    <tr>
-      <th>1000000  </th>
-      <td>  0.130639</td>
-      <td> 0.062146</td>
-      <td>  0.108749</td>
-      <td> 0.072568</td>
-      <td> 0.064520</td>
-      <td> 0.079974</td>
-      <td> 0.079771</td>
-    </tr>
-    <tr>
-      <th>10000000 </th>
-      <td>  1.795048</td>
-      <td> 0.840145</td>
-      <td>  1.067230</td>
-      <td> 0.700086</td>
-      <td> 0.627737</td>
-      <td> 0.821548</td>
-      <td> 0.696519</td>
-    </tr>
-    <tr>
-      <th>100000000</th>
-      <td> 18.917289</td>
-      <td> 8.539139</td>
-      <td> 10.910751</td>
-      <td> 7.157359</td>
-      <td> 6.250242</td>
-      <td> 8.229951</td>
-      <td> 6.924702</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered">
-<div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Comparison-to-numpy-time-(less-is-better)">Comparison to numpy time (less is better)<a class="anchor-link" href="#Comparison-to-numpy-time-(less-is-better)">&#182;</a></h2>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">normalized_scores</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">normalized_scores</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
-    <span class="n">normalized_scores</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">/=</span> <span class="n">scores</span><span class="p">[</span><span class="s">&#39;numpy&#39;</span><span class="p">]</span>    
-</pre></div>
-
-</div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[19]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">normalized_scores</span>
+<div class=" highlight hl-ipython2"><pre><span class="n">scores</span>
 </pre></div>
 
 </div>
@@ -683,49 +650,168 @@ c++ None
       <th>numexpr</th>
       <th>parakeet</th>
       <th>theano</th>
+      <th>fortran</th>
       <th>c++</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>100000   </th>
-      <td> 1.824860</td>
-      <td> 1</td>
-      <td> 1.782218</td>
-      <td> 1.174857</td>
-      <td> 1.059506</td>
-      <td> 1.290531</td>
-      <td> 2.852221</td>
+      <td>  0.011209</td>
+      <td> 0.006000</td>
+      <td>  0.010787</td>
+      <td> 0.007137</td>
+      <td> 0.006539</td>
+      <td> 0.008067</td>
+      <td> 0.006031</td>
+      <td> 0.016596</td>
     </tr>
     <tr>
       <th>1000000  </th>
-      <td> 2.102137</td>
-      <td> 1</td>
-      <td> 1.749897</td>
-      <td> 1.167704</td>
-      <td> 1.038194</td>
-      <td> 1.286867</td>
-      <td> 1.283616</td>
+      <td>  0.134079</td>
+      <td> 0.062242</td>
+      <td>  0.108327</td>
+      <td> 0.071049</td>
+      <td> 0.063404</td>
+      <td> 0.081651</td>
+      <td> 0.057135</td>
+      <td> 0.083036</td>
     </tr>
     <tr>
       <th>10000000 </th>
-      <td> 2.136593</td>
-      <td> 1</td>
-      <td> 1.270292</td>
-      <td> 0.833292</td>
-      <td> 0.747177</td>
-      <td> 0.977864</td>
-      <td> 0.829046</td>
+      <td>  1.823849</td>
+      <td> 0.857088</td>
+      <td>  1.078784</td>
+      <td> 0.713240</td>
+      <td> 0.659757</td>
+      <td> 0.876672</td>
+      <td> 0.638656</td>
+      <td> 0.694401</td>
     </tr>
     <tr>
       <th>100000000</th>
-      <td> 2.215363</td>
+      <td> 19.826547</td>
+      <td> 9.006766</td>
+      <td> 11.110369</td>
+      <td> 7.124668</td>
+      <td> 6.436616</td>
+      <td> 8.542589</td>
+      <td> 6.389464</td>
+      <td> 6.884255</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Comparison-to-numpy-time-(less-is-better)">Comparison to numpy time (less is better)<a class="anchor-link" href="#Comparison-to-numpy-time-(less-is-better)">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">normalized_scores</span> <span class="o">=</span> <span class="n">scores</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">normalized_scores</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">normalized_scores</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">/=</span> <span class="n">scores</span><span class="p">[</span><span class="s">&#39;numpy&#39;</span><span class="p">]</span>    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">normalized_scores</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div style="max-height:1000px;max-width:1500px;overflow:auto;">
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>scipy</th>
+      <th>numpy</th>
+      <th>cython</th>
+      <th>numexpr</th>
+      <th>parakeet</th>
+      <th>theano</th>
+      <th>fortran</th>
+      <th>c++</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>100000   </th>
+      <td> 1.868104</td>
       <td> 1</td>
-      <td> 1.277734</td>
-      <td> 0.838183</td>
-      <td> 0.731952</td>
-      <td> 0.963792</td>
-      <td> 0.810937</td>
+      <td> 1.797846</td>
+      <td> 1.189456</td>
+      <td> 1.089899</td>
+      <td> 1.344443</td>
+      <td> 1.005108</td>
+      <td> 2.765994</td>
+    </tr>
+    <tr>
+      <th>1000000  </th>
+      <td> 2.154161</td>
+      <td> 1</td>
+      <td> 1.740413</td>
+      <td> 1.141503</td>
+      <td> 1.018674</td>
+      <td> 1.311835</td>
+      <td> 0.917955</td>
+      <td> 1.334087</td>
+    </tr>
+    <tr>
+      <th>10000000 </th>
+      <td> 2.127960</td>
+      <td> 1</td>
+      <td> 1.258662</td>
+      <td> 0.832166</td>
+      <td> 0.769766</td>
+      <td> 1.022849</td>
+      <td> 0.745146</td>
+      <td> 0.810186</td>
+    </tr>
+    <tr>
+      <th>100000000</th>
+      <td> 2.201295</td>
+      <td> 1</td>
+      <td> 1.233558</td>
+      <td> 0.791035</td>
+      <td> 0.714642</td>
+      <td> 0.948464</td>
+      <td> 0.709407</td>
+      <td> 0.764343</td>
     </tr>
   </tbody>
 </table>
@@ -765,7 +851,7 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">multiprocessing</span>
@@ -793,69 +879,10 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">__version__</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[21]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&apos;1.9.2&apos;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">scipy</span><span class="o">.</span><span class="n">__version__</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area"><div class="prompt output_prompt">Out[22]:</div>
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&apos;0.14.0&apos;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[23]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">cython</span>
-<span class="n">cython</span><span class="o">.</span><span class="n">__version__</span>
+<div class=" highlight hl-ipython2"><pre><span class="n">numpy</span><span class="o">.</span><span class="n">__version__</span>
 </pre></div>
 
 </div>
@@ -870,7 +897,7 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&apos;0.21.1&apos;</pre>
+<pre>&apos;1.10.1&apos;</pre>
 </div>
 
 </div>
@@ -884,7 +911,7 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 <div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">numexpr</span><span class="o">.</span><span class="n">__version__</span>
+<div class=" highlight hl-ipython2"><pre><span class="n">scipy</span><span class="o">.</span><span class="n">__version__</span>
 </pre></div>
 
 </div>
@@ -899,7 +926,7 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&apos;2.4&apos;</pre>
+<pre>&apos;0.14.0&apos;</pre>
 </div>
 
 </div>
@@ -913,7 +940,8 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 <div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">parakeet</span><span class="o">.</span><span class="n">__version__</span>
+<div class=" highlight hl-ipython2"><pre><span class="kn">import</span> <span class="nn">cython</span>
+<span class="n">cython</span><span class="o">.</span><span class="n">__version__</span>
 </pre></div>
 
 </div>
@@ -928,7 +956,7 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&apos;0.23.2&apos;</pre>
+<pre>&apos;0.21.1&apos;</pre>
 </div>
 
 </div>
@@ -942,7 +970,7 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 <div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="n">theano</span><span class="o">.</span><span class="n">__version__</span>
+<div class=" highlight hl-ipython2"><pre><span class="n">numexpr</span><span class="o">.</span><span class="n">__version__</span>
 </pre></div>
 
 </div>
@@ -957,7 +985,7 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>&apos;0.7.0&apos;</pre>
+<pre>&apos;2.4&apos;</pre>
 </div>
 
 </div>
@@ -969,6 +997,64 @@ Results of this test are floating (+- 0.1), but what we can see</p>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">parakeet</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[27]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&apos;0.23.2&apos;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="n">theano</span><span class="o">.</span><span class="n">__version__</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt output_prompt">Out[28]:</div>
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&apos;0.7.0&apos;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[29]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="o">!</span>g++ -v
@@ -999,3 +1085,43 @@ gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5)
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[30]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span class="o">!</span>gfortran -v
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Using built-in specs.
+COLLECT_GCC=gfortran
+COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/4.6/lto-wrapper
+Target: x86_64-linux-gnu
+Configured with: ../src/configure -v --with-pkgversion=&apos;Ubuntu/Linaro 4.6.3-1ubuntu5&apos; --with-bugurl=file:///usr/share/doc/gcc-4.6/README.Bugs --enable-languages=c,c++,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.6 --enable-shared --enable-linker-build-id --with-system-zlib --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.6 --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-gnu-unique-object --enable-plugin --enable-objc-gc --disable-werror --with-arch-32=i686 --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
+Thread model: posix
+gcc version 4.6.3 (Ubuntu/Linaro 4.6.3-1ubuntu5) 
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+
+<p>
+    This post was written in IPython. You can download the notebook from
+     <a href='https://github.com/arogozhnikov/arogozhnikov.github.io/tree/master/notebooks'>
+    repository</a>.
+</p>
+
