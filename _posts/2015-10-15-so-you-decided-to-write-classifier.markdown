@@ -47,7 +47,7 @@ Treat this as 'awful advice collection'.
    Also, you will not add column names there, since algorithm doesn't require it. 
    
    Meta-information needed for you algorithm can be added as special file together with simple csv? 
-   Anyway, you need a new file.
+   Anyway, it's a good idea to use a new format.
        
    <!-- LibFFM, VowpalWabbit --->
 
@@ -98,13 +98,14 @@ Treat this as 'awful advice collection'.
     
    Everyone has a good cluster. Setting up distributed environment with same collection of libraries is very simple.
     
-   Finally, there is always some user who wants 'distributed' option (but never will be able to us it for different reasons).  
+   Finally, there is always some user who wants 'distributed' option (but never will be able to use it for different reasons).  
 
    <!-- xgboost -->
  
 
 10. Change interface all the time.  
-    Drop the support as soon as someone starts using your library. 
+    Drop the support as soon as someone starts using your library.
+    <!-- pybrain, nolearn.dbn ->
     
     You'll find a new area to write your-next-best-open-library.
     
@@ -127,4 +128,4 @@ Understand it's interface, how Bagging/AdaBoost work as meta-estimators. How gri
 Read the sources. 
 
 Then start writing. Leave least dependencies and write simple code (using numpy or so). 
-If it is required, you'll rewrite in more readable form. Make sure your library is installed via package manager (pip for python).  
+If it is required, you'll rewrite it to optimize for speed. Make sure your library is installed via package manager (pip for python).  
