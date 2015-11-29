@@ -105,7 +105,7 @@ Treat this as 'awful advice collection'.
 
 10. Change interface all the time.  
     Drop the support as soon as someone starts using your library.
-    <!-- pybrain, nolearn.dbn ->
+    <!-- pybrain, nolearn.dbn -->
     
     You'll find a new area to write your-next-best-open-library.
     
