@@ -4,6 +4,16 @@ title: About Author
 permalink: /about/
 ---
 
+<center>
+  <div style="width: 200px; height: 200px; border-radius: 100px; box-shadow: 0px 0px 5px 0 #000;
+              background-position: center center;
+              background-size: cover;
+              background-image: url('/images/alex_rogozhnikov.jpeg');">
+  </div>
+</center>
+
+<!-- <img src='/images/alex_rogozhnikov.jpeg' alt='Alex Rogozhnikov' /> -->
+
 Hello.
 
 My name is Alex Rogozhnikov (Алексей Михайлович Рогожников), and 'brilliantly wrong' is my personal blog.
