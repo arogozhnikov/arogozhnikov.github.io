@@ -12,7 +12,6 @@ permalink: /about/
   </div>
 </center>
 
-<!-- <img src='/images/alex_rogozhnikov.jpeg' alt='Alex Rogozhnikov' /> -->
 
 Hello.
 
