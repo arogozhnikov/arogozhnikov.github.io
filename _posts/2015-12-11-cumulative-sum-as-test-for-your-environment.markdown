@@ -113,5 +113,9 @@ to environment and situation. This is what actually happened tp many MATLAB oper
 People that were writing code in MATLAB 15 years ago had no idea, what is GPU. However, 
 today many of their programs are enjoying GPU acceleration. I.e. the [GEMM]({% post_url 2015-07-01-do-you-know-that-convolution-operation %}) operation is almost surely to be run on GPU today. 
 
+Contrary to this, fortran doesn't provide any convenient way to do this.  
+
 It would be funny to know years later that all the operation 
 in your old code are parallelized, but trivial loop for cumulative sum is still running in one thread.  
+
+
