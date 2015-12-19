@@ -1,0 +1,330 @@
+---
+layout: post
+title:  "Optimal control of oscillations [javascript demo]"
+date: 2015-12-11 12:00:00
+author: Alex Rogozhnikov
+tags: 
+- PhD thesis
+- optimal control
+- visualization
+---
+
+<p>
+    In this post I will try to briefly explain the topic and results of my PhD thesis
+    without diving deep into mathematical explanations.
+</p>
+
+<p>
+    There is large family of physical processes which are described by
+    <a href="https://en.wikipedia.org/wiki/Wave_equation">wave equation</a>.
+    Most known are electro-magnetic field oscillations, acoustic waves, rod and string oscillations.
+</p> 
+
+<p>
+    In many cases (string, rod and electro-magnetic oscillations within a wire) the process is described 
+    by one-dimensional PDE.
+</p>
+
+<h2>Controlling oscillations</h2>
+
+<p>
+    In practice, modelling the process of oscillations is not enough to make us completely happy, 
+    many oscillations are harmful, and we need to stop them (in contructions/tunnels/oil pipelines/spaceships and so on).
+</p>
+
+<p>
+    The possible (and most practical) way to do this is to use static dumping mechanism, which will 
+    decrease energy of oscillations.
+</p>
+ 
+<p>
+    However, there is more scientific, promising way &mdash; to <strong>control oscillations by active manipulating</strong>.
+    There are several possible ways to do this, but the one that seem to be implementable in practice with 
+    least efforts is boundary control.
+</p>
+
+<p>
+    As an example of problem setting in this approach: 
+    provided that I'm observing oscillations of string, I want to dump those as soon as possible.
+    I ca do this by applying forces and the ends of string (or only from one side), 
+    so I have to define the functions $\mu(t), \nu(t)$, which define dependency of applied force on the time.
+    $\mu(t), \nu(t)$ correspond to left and right ends of a string.
+</p>
+ 
+<p>
+    The information I have is initial state of string (described by string profile and profile of its velocity), 
+    and the final state (again, described by a pair of functions). This general case is reduced in a straightforward way 
+    to the <b>excitation</b> problem, when initially the string rests (profile shift = 0, velocity = 0), but the final state is
+    still arbitrary (profile shift = $\varphi(x)$, velocity = $\psi(x)$).
+</p>
+ 
+<h2>Standard approaches to control oscillations</h2>
+
+<p>
+    An optimal control theory, which was initially developed for finite-dimensional systems, cannot be applied 
+    directly to this problem, but there are several ways to overcome the limitation by using different 
+    discretizations of this problem. Many papers were devoted to this approach, and to fighting appearing problems 
+    (see papers of Zuazua E. and his co-authors). Probably, first systematic (and quite general) way to 
+    handle excitation/dumping problems was Hilbert Uniqueness Method (HUM) proposed by J.-L. Lions.
+</p>
+<p>
+    While being quite general, this approach leads to linear system on function argument,
+    which still should be solved approximately.
+</p>
+
+<h2>Analytical approach to control oscillations</h2>
+
+<p>
+    Another approach is to use analytical computations: solve explicitly mixed problem, express final state
+    as an a function of boundary conditions and then rewrite final conditions as 
+    system of functional equations + optimization problem. Solve it (again, analytically).
+</p>
+<p>
+    This approach was applied by Vladimir Il'in (rus:
+    <a href="https://ru.wikipedia.org/wiki/Ильин,_Владимир_Александрович" >академик Владимир Ильин</a>).
+    It is completely inobvious that such computations are possible in explicit way, 
+    but in the case of wave equation (and very few others) this is doable.  
+</p>
+
+<h2>
+    My contribution and result
+</h2>
+
+<p>
+    I was able to generalize the approach to the case of system of rods/strings, connected sequentially. 
+    This required some beautiful math, based on operator matrices. 
+</p>
+<p>
+    Resulting formulas are not very easy to follow, but they are <b>really fast</b>
+    (most resources in this demo are spent on drawing, not computing) and quite general
+    (compared to previous analytical results).
+    This approach is able to work with arbitrary pair of boundary conditions of first/second kind
+    (and also supports fixed or free boundaries, but I didn't add this into interface).
+</p>
+
+<p>
+    Now we pass to <strong>interactive demonstration of this approach to control vibrations.</strong>
+</p>
+
+
+<div style="width: 1100px; margin: 30px -200px;">
+    <div>
+        <h1>Optimal control of oscillations in system of rods / strings <a href="#whatisit" class="button scroll">explanations</a> </h1>
+    </div>
+    
+    <noscript>
+        <span class="font-size: 40px;">Включите выполнение скриптов, иначе ничего работать не
+            будет. Turn on the scipts in your browser!</span></noscript>
+    <table id="mainTable" width="100%">
+        <tr>
+            <td class="leftColumn">
+                <h3>
+                    Function <span class="main button">GO</span> <span class="generate button">generate problem</span>
+                </h3>
+                <canvas id="funcGraph" width="500" height="700"> <p> No canvas support in your browser.</p></canvas>
+            </td>
+            <td class="centerColumn">
+                <div>
+                    <h3>Target shift</h3>
+                    <div class="input">
+                        <!--&Phi;(x)-->
+                        <label for="finalFormula">$\varphi(x) = $</label><input type="text" id="finalFormula" value="sin(3.14 * x)" /></div>
+                    <canvas id="finalGraph">No canvas support in your browser.</canvas>
+                </div>
+                <div>
+                    <h3>Target velocity</h3>
+                    <div class="input">
+                        <label for="finalSpeedFormula">$\psi(x) = $</label><input type="text" id="finalSpeedFormula" value="1" /></div>
+                    <canvas id="finalSpeedGraph">No canvas support in your browser.</canvas>
+                </div>
+                <div>
+                    <h3>
+                        <label for="leftType">Left control $\mu(t)$</label><select id="leftType" onchange="setLeftType(this.value)">
+                            <option value="1">first kind</option>
+                            <option value="2">second kind</option>
+                        </select>
+                    </h3>
+                    <canvas id="leftGraph">No canvas support in your browser.</canvas>
+                </div>
+                <div>
+                    <h3>
+                        <label for="rightType">Right control $\nu(t)$</label><select id="rightType" onchange="setRightType(this.value)">
+                            <option value="1">first kind</option>
+                            <option value="2">second kind</option>
+                        </select>
+                    </h3>
+                    <canvas id="rightGraph">No canvas support in your browser.</canvas>
+                </div>
+            </td>
+            <td class="rightColumn">
+                <h3>System parameters</h3>
+                <label for="partsNumber">
+                    Number of parts
+                </label>
+                <select id="partsNumber" onchange="setPartsNumber(this.value)">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                </select>
+                <div id="partPattern" style="display: none;">
+                    <div class="charWrapper">
+                        <span class="partNumber"></span><span>&rho;=<input class="partDensity" type="number"
+                            value="1" /></span> <span>k=<input class="partYoung" type="number" value="1" /></span>
+                    </div>
+                </div>
+                <div id="partsChars">
+                </div>
+                <div style="padding-top: 20px;">
+                    <label for="controlTime">Time of control</label>
+                    <select id="controlTime" name="controlTime" onchange="setControlTime(this.value)">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3" selected="selected">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <p id="noteTimeEqual" style="font-weight: bold;">
+                        Control time set is equal to critical time, so the control is performed up to global shift.
+                        If you want to have complete control, please increase control time.
+                    </p>
+                    <p id="noteTimeLess" style="font-weight: bold;">
+                        Control time set is less that critical, control is impossible.
+                        Сейчас время управления меньше критического времени, управление невозможно. Увеличьте
+                        время управления или уменьшите число участков.
+                    </p>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div class="help">
+    <a id="whatisit" name="whatisit"></a>
+    <h2>Explanations</h2>
+    <p>
+        This page is a demonstration of results on analytical controllability of rod oscillations
+        (or string oscllations, which is the same), presented in the following papers:
+    </p>
+    <ul>
+        <li>Alex Rogozhnikov, Study of a mixed problem describing the oscillations of a rod consisting of several segments with arbitrary lengths [<a href="http://istina.msu.ru/publications/article/2970475/">rus</a>, <a href="http://link.springer.com/article/10.1134%2FS1064562412030313">en</a>]</li>
+        <li>Alex Rogozhnikov, Optimal control of longitudinal vibrations of composite rods with the same wave propagation time in each part [<a href="http://istina.msu.ru/publications/article/3676614/">rus</a>, <a href="http://link.springer.com/article/10.1134%2FS0012266113050091">en</a>] </li>
+        <li>Alex Rogozhnikov, On different boundary conditions [only in <a href="http://istina.msu.ru/publications/article/3803628/">russian</a>]</li>
+    </ul>
+
+    <h2>Formal setting</h2>
+    <p>
+        There is system of rods, which initially rests. There are $n$ parts in system, each having constant density $\rho_i$ and Young's modulus $k_i$ (each part is made of some material).
+    </p>
+    <p>
+        The goal is to produce such boundary control functions $\mu(t), \nu(t)$, which will drive the system to the fixed final state, defined by shift $\phi(x)$ and velocity $\psi(x)$ as the moment $T$ (time of control)
+    </p>
+    <p>
+        Suppose that time spent by wave to pass each part equal (for simplicity we also use $T$ proportional to this time).
+        Since there are infinitely many solutions of this control problem (for the exception of some situations),
+        we look for controls that minimize so-called boundary control energy.
+    </p>
+
+    <h2>How to use the demo</h2>
+    <p> Enter parameters of a problem: </p>
+    <ul>
+        <li>Set the number of parts in rod, for each part enter its density ρ&nbsp;и&nbsp;модуль Юнга k&nbsp;для каждого участка.</li>
+        <li>Set the functions $\varphi(x), \psi(x)$. Pay attention, that values are taken from [0 ≤ x ≤ 1] amd linearly stretched. </li>
+        <li>Select boundary conditions (first/second kind).</li>
+    </ul>
+    <p> Or press 'generate problem' button &mdash; then it will choose all the parameters randomly.</p>
+    <p> Press 'Go' and enjoy the process.
+        On the left plot green line is shift $u(x, t)$, grey is velocity $u_t(x, t)$.
+        Computed control function $\mu(t)$ and $\nu(t)$ are displayed on the plots in the middle column.
+        There are three lines on each plot corresponding to three values <em>y=0,1,-1</em>
+    </p>
+</div>
+
+<p>
+    Developed by  <a href="mailto:alex.rogozhnikov@yandex.ru">Alex Rogozhnikov</a> in 2013.
+</p>
+<style type="text/css">
+    .partNumber
+    {
+        width: 40px;
+        text-align: right;
+        padding-right: 15px;
+        display: inline-block;
+    }
+    td
+    {
+        vertical-align: top;
+    }
+    #mainTable > td
+    {
+        padding: 10px;
+    }
+    .rightColumn
+    {
+        width: 200px;
+        min-width: 200px;
+    }
+    .button
+    {
+        display: inline-block;
+        padding: 14px 18px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+    }
+    .button:hover
+    {
+        cursor: pointer;
+    }
+    .main.button
+    {
+        background-color: #585;
+    }
+    .main.button:hover
+    {
+        background-color: #696;
+    }
+    .generate.button
+    {
+        background-color: #558;
+    }
+    .generate.button:hover
+    {
+        background-color: #669;
+    }
+    .scroll.button
+    {
+        background-color: #8AA;
+    }
+    .scroll.button:hover
+    {
+        background-color: #ABB;
+    }
+    canvas
+    {
+        box-shadow: 0 0 5px #666;
+    }
+    div.input
+    {
+        padding: 5px 0;
+    }
+    input.partYoung, input.partDensity
+    {
+        width: 45px;
+    }
+
+</style>
+<script src="/scripts/jquery-2.1.4.js" type="text/javascript"></script>
+<script src="/scripts/oscillations_sylvester.src.js" type="text/javascript" ></script>
+<script src="/scripts/oscillations_control.js" type="text/javascript" ></script>
+
