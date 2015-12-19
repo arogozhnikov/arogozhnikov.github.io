@@ -34,7 +34,7 @@ If you're interested in things I am doing, take a look at
  
 * [gradient boosted reweighter](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/DemoReweighting.ipynb)
 * [uniform gradient boosting](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/BoostingToUniformity.ipynb) 
-* visualization of optimal control of oscillations (to be published soon) 
+* [visualization of optimal control of oscillations](http://arogozhnikov.github.io/2015/12/11/optimal-control-of-oscillations.html) 
 
 Also sometimes I participate in educational projects of Yandex School of Data Analysis. 
 Take a look at MLHEP 2015 [slides]({% post_url 2015-09-07-mlhep-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2015).
