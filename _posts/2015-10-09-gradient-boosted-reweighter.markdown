@@ -140,9 +140,10 @@ The global idea is to split the space of variables into fewer regions.
 But this regions shall be found in some more intellectual way than just 'split each variable into n parts'. 
 
 For this purpose we use decision trees. 
-Recall that decision tree by checking simple conditions like `feature i > threshold` splits the feature space into bins, each one associated with leaf of a tree.
+Recall that decision tree by checking simple conditions like $\text{feature}_i > \text{threshold}$ 
+splits the feature space into bins, each one associated with leaf of a tree.
 
-The remaining question is how to build the tree. We'll greedily optimize symmetrized binned chi-squared. 
+The remaining question is how to build the tree. We'll greedily optimize __symmetrized binned chi-squared__. 
 
 $$ \chi^2 = \sum_\text{bin}
     \dfrac{(w_\text{bin, original} - w_\text{bin, target})^2}
@@ -163,28 +164,32 @@ I am going to split this feature in two bins, so I need to find one threshold.
 By checking all possible thresholds, I find out that optimal one in the sense of $\chi^2$ is right in the middle. 
 To the left we need to decrease the weight of blue distribution, while to the right we need to increase it. Both found bins are good, and threshold seems to be close to optimal.
 
+Since we are unable to solve global optimization problem and find optimal structure of tree, 
+we optimize greedily, each time splitting some region to a couple of new regions (as it is usually done in decision trees). 
+
 ## Gradient Boosted Reweighter
 
-Let's move on. Gradient boosted reweighter consists of many such  trees. 
+Let's move on. Gradient boosted reweighter consists of many such trees. 
 During training we iteratively build trees, and each time reweight original distribution:
  
 1. build a shallow tree to maximize symmetrized $\chi^2$
 2. compute predictions in leaves: <br />
-   $\text{leaf_pred} = \log \dfrac{w_\text{leaf, target}}{w_\text{leaf, original}} $
+   $\text{leaf_pred} = \ln \dfrac{w_\text{leaf, target}}{w_\text{leaf, original}} $
 3. reweight distributions (compare with AdaBoost):
-    $$ w = \begin{cases}
-    w, & \text{if event from target (RD) distribution} \\\\
+    $$ w \leftarrow \begin{cases}
+    w, & \text{if event from target (RD) distribution} \\
     w \times e^\text{pred}, & \text{if event from original (MC) distribution}
     \end{cases}$$
  
-This process is repeated many times, tree predictions are summed as usual. 
+This process is repeated many times, tree predictions are summed as usual 
+(thus final weight, being an exponent, is obtained as product of contributions from different trees). 
 
 Note that this time we don't have problems with few events in bins, because each tree has few large bins. 
 Also, note that $\chi^2$ penalizes creation of bins with few events.
 
 ## Let's see how it works in practice.
 
-In this example I reweighted 11 variables of Monte-Carlo with GB reweighter. 
+In this example I reweighted 11 variables of Monte-Carlo with BDT reweighter (I also call it GB reweighter). 
 To the left you can see original state, there is some obvious disagreement.
 
 To the right you can see result of reweighting, and I shall admit this picture is quite boring.
@@ -327,7 +332,7 @@ And that's what we can see. Reweighting of two variables has an effect, but this
 
 So what we know about this amazing algorithm:
 
-* GB Reweighter many times builds trees with few but large leaves
+* BDT Reweighter many times builds trees with few but large leaves
 * It is applicable to data of high dimensionality
 * And when applied to same data requires less data compared to histograms method.
 * On the other hand it is slow (since this is equivalent to training of GBDT), but, given that analysis lasts for months, 
