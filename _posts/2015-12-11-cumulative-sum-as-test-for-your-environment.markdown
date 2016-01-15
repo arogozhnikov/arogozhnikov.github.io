@@ -11,13 +11,13 @@ tags:
 
 ---
 
-This post is devoted for those researchers and programmers, who work much with numerical crunching. 
+This post may be useful for those researchers and programmers, who work much with numerical crunching. 
 
 Have you ever tried to think about what will be coding like 10 years later?
 What processors and technologies will be used?
 
 Usually programmers don't care about this at all. 
-Or they theorize in this direction, but this never affects their code.   
+Or we theorize in this direction, but this never affects our code.   
 
 In principle, this is quite explainable: code written in C++ about 20 years ago is still working fine, 
 without much changes in its structure. The speed increased thanks to technological process used in processors.
@@ -87,8 +87,8 @@ So each processing unit will work with subarray of length $\text{chunk}$.
 ## Numerical stability
 
 Important question we have to keep in mind is that changing the order of computation may 
-in theory drive to numerical instability, but in our case we reduced many unstable operations 
-(add small number to large).
+in theory drive to numerical instability (that's why even smart optimizers don't touch the computational graph), 
+but in our case we reduced many unstable operations (add small number to large).
      
 Now the computational flow consists of summing over chunk, sequential summation of $m$ numbers of comparable order, 
 and again summation within chunk. This scheme is surely no worse that was initially (rare case, actually).
@@ -105,17 +105,17 @@ The optimal implementation is available in `numpy` or `MATLAB`:
 result = cumsum(input)
 </pre>
 
-Eh... Trivial, right? And this code is one-threaded actually. 
+Eh... Trivial, right? And this code is one-threaded (at this moment). 
 
 Why actually it is good idea to use third-party functions is that their implementation may be changed according 
-to environment and situation. This is what actually happened tp many MATLAB operations. 
+to environment and situation. This is what already happened to many `MATLAB` operations. 
  
-People that were writing code in MATLAB 15 years ago had no idea, what is GPU. However, 
+People that were writing code in `MATLAB` 15 years ago had no idea, what is GPU. However, 
 today many of their programs are enjoying GPU acceleration. I.e. the [GEMM]({% post_url 2015-07-01-do-you-know-that-convolution-operation %}) operation is almost surely to be run on GPU today. 
 
-Contrary to this, fortran doesn't provide any convenient way to do this.  
+Contrary to this, fortran doesn't provide any convenient way to preform computation of cumsum.  
 
-It would be funny to know years later that all the operation 
-in your old code are parallelized, but trivial loop for cumulative sum is still running in one thread.  
+It would be funny to know years later that all the operation in your old code are parallelized, 
+but trivial loop for cumulative sum is still running in one thread making the whole program slow.  
 
 
