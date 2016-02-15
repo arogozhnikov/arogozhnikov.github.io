@@ -93,3 +93,8 @@ pre{
 .site-nav .page-link{
 	color: #aaa;
 }
+
+table.dataframe{
+	border-collapse: collapse;
+	margin: 10px;
+}
