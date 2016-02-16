@@ -13,7 +13,7 @@ tags:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Testing-implementations-of-LibFM">Testing implementations of LibFM<a class="anchor-link" href="#Testing-implementations-of-LibFM">&#182;</a></h2><p>By <strong>LibFM</strong> I mean is an approach to solve classification and regression problems.
+<h2 id="Testing-implementations-of-LibFM">Testing implementations of LibFM<a class="anchor-link" href="#Testing-implementations-of-LibFM">&#182;</a></h2><p>By <strong>LibFM</strong> I mean an approach to solve classification and regression problems.
 This approach is frequently used in recommendation systems, because it generalizes the matrix decompositions.</p>
 <p><strong>LibFM</strong> proved to be quite useful to deal with highly categorical data (user id / movie id / movie language / site id / advertisement id / etc.).</p>
 <p>Implementations tested</p>
@@ -1684,7 +1684,7 @@ load_problems.py:79: ParserWarning: Falling back to the &apos;python&apos; engin
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Test-on-Avazu-dataset-(100k)">Test on Avazu dataset (100k)<a class="anchor-link" href="#Test-on-Avazu-dataset-(100k)">&#182;</a></h2><p>Avazu dataset comes from kaggle challenge, goal is to predict Click-Through Rate.</p>
-<p>All the variables given are categorical.</p>
+<p>All the variables given are categorical, LibFM gave good results in this challenge.</p>
 
 </div>
 </div>
@@ -2003,7 +2003,8 @@ load_problems.py:79: ParserWarning: Falling back to the &apos;python&apos; engin
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h1><p>composing all results in one table</p>
+<h1 id="Results">Results<a class="anchor-link" href="#Results">&#182;</a></h1><p>composing all results in one table. 
+RMSE should be minimal, ROC AUC - maximal.</p>
 
 </div>
 </div>
@@ -2216,9 +2217,9 @@ load_problems.py:79: ParserWarning: Falling back to the &apos;python&apos; engin
 <li><code>pylibfm</code> is out of the game. It is slow, it crashes on large datasets, sometimes simply diverge and hardly can compete in quality. <br />
  Nothing new, adaptive methods require babysitting</li>
 <li><code>FastFM</code> and <code>LibFM</code> are quite stable and fast</li>
-<li>but <code>LibFM</code>, being a bit slower, on average provides much better results.</li>
+<li>but <code>LibFM</code>, being a bit faster, on average provides much better results.</li>
 </ul>
-<p>As a sidenote, we saw that some feature engineering with providing quadratic features gives very significant boost in quality - even logisitic regression can work much better and faster than FMs on original features.</p>
+<p>As a sidenote, we saw on example with flight dataset that some feature engineering with providing quadratic features gives very significant boost in quality - even logisitic regression can work much better and faster than FMs on original features.</p>
 
 </div>
 </div>

@@ -96,5 +96,14 @@ pre{
 
 table.dataframe{
 	border-collapse: collapse;
-	margin: 10px;
+	margin: 5px 0px 15px;
+}
+
+table.dataframe td, table.dataframe th{
+	text-align: center;
+	padding: 1px 4px;
+}
+
+div.output div.output_html{
+	overflow-x: scroll;
 }
