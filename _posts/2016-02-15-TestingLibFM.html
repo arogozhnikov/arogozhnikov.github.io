@@ -2011,7 +2011,7 @@ RMSE should be minimal, ROC AUC - maximal.</p>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[68]:</div>
+<div class="prompt input_prompt">In&nbsp;[69]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span class="n">results_table</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
@@ -2027,7 +2027,7 @@ RMSE should be minimal, ROC AUC - maximal.</p>
     
 <span class="n">results_table</span> <span class="o">=</span> <span class="n">results_table</span><span class="o">.</span><span class="n">T</span>
 <span class="n">results_table</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_tuples</span><span class="p">(</span><span class="n">tuples</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="s">&#39;dataset&#39;</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">])</span>
-<span class="n">results_table</span>
+<span class="n">results_table</span><span class="o">.</span><span class="n">T</span>
 </pre></div>
 
 </div>
@@ -2038,163 +2038,129 @@ RMSE should be minimal, ROC AUC - maximal.</p>
 <div class="output">
 
 
-<div class="output_area"><div class="prompt output_prompt">Out[68]:</div>
+<div class="output_area"><div class="prompt output_prompt">Out[69]:</div>
 
 <div class="output_html rendered_html output_subarea output_execute_result">
 <div>
 <table border="1" class="dataframe">
   <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>logistic</th>
-      <th>libFM</th>
-      <th>fastFM</th>
-      <th>pylibfm</th>
-    </tr>
     <tr>
       <th>dataset</th>
+      <th colspan="2" halign="left">ml100k, ids</th>
+      <th colspan="2" halign="left">ml-1m,ids</th>
+      <th colspan="2" halign="left">ml100k</th>
+      <th colspan="2" halign="left">ml-1m</th>
+      <th colspan="2" halign="left">flight1m</th>
+      <th colspan="2" halign="left">flight1m, ext</th>
+      <th colspan="2" halign="left">flight10m</th>
+      <th colspan="2" halign="left">avazu100k</th>
+      <th colspan="2" halign="left">avazu1m</th>
+    </tr>
+    <tr>
       <th>value</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>time</th>
+      <th>RMSE</th>
+      <th>time</th>
+      <th>RMSE</th>
+      <th>time</th>
+      <th>RMSE</th>
+      <th>time</th>
+      <th>RMSE</th>
+      <th>time</th>
+      <th>ROC AUC</th>
+      <th>time</th>
+      <th>ROC AUC</th>
+      <th>time</th>
+      <th>ROC AUC</th>
+      <th>time</th>
+      <th>ROC AUC</th>
+      <th>time</th>
+      <th>ROC AUC</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <th rowspan="2" valign="top">ml100k, ids</th>
-      <th>time</th>
+      <th>logistic</th>
       <td>0.059469</td>
-      <td>8.970990</td>
-      <td>4.840041</td>
-      <td>13.157164</td>
-    </tr>
-    <tr>
-      <th>RMSE</th>
       <td>0.942771</td>
-      <td>0.913520</td>
-      <td>0.915184</td>
-      <td>0.944870</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">ml-1m,ids</th>
-      <th>time</th>
       <td>1.111601</td>
-      <td>275.672684</td>
-      <td>307.400295</td>
-      <td>132.618739</td>
-    </tr>
-    <tr>
-      <th>RMSE</th>
       <td>0.910718</td>
-      <td>0.861539</td>
-      <td>0.858305</td>
-      <td>0.870263</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">ml100k</th>
-      <th>time</th>
       <td>1.869114</td>
-      <td>49.632649</td>
-      <td>53.611804</td>
-      <td>55.756278</td>
-    </tr>
-    <tr>
-      <th>RMSE</th>
       <td>0.942377</td>
-      <td>0.896349</td>
-      <td>0.896543</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">ml-1m</th>
-      <th>time</th>
       <td>23.983249</td>
-      <td>779.900802</td>
-      <td>1170.468130</td>
-      <td>564.922632</td>
-    </tr>
-    <tr>
-      <th>RMSE</th>
       <td>0.911024</td>
-      <td>0.850382</td>
-      <td>0.852738</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">flight1m</th>
-      <th>time</th>
       <td>26.408147</td>
-      <td>441.534214</td>
-      <td>667.197644</td>
-      <td>316.149734</td>
-    </tr>
-    <tr>
-      <th>ROC AUC</th>
       <td>0.715099</td>
-      <td>0.720484</td>
-      <td>0.718840</td>
-      <td>0.711200</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">flight1m, ext</th>
-      <th>time</th>
       <td>130.553217</td>
-      <td>1284.598730</td>
-      <td>2398.107206</td>
-      <td>514.768003</td>
-    </tr>
-    <tr>
-      <th>ROC AUC</th>
       <td>0.739113</td>
-      <td>0.760524</td>
-      <td>0.748448</td>
-      <td>0.743312</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">flight10m</th>
-      <th>time</th>
       <td>307.085924</td>
-      <td>8500.038059</td>
-      <td>10718.261802</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>ROC AUC</th>
       <td>0.715754</td>
-      <td>0.724258</td>
-      <td>0.721615</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">avazu100k</th>
-      <th>time</th>
       <td>40.417285</td>
-      <td>7778.470057</td>
-      <td>6601.202590</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>ROC AUC</th>
       <td>0.717096</td>
-      <td>0.730173</td>
-      <td>0.699962</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">avazu1m</th>
-      <th>time</th>
       <td>228.501853</td>
-      <td>9109.968575</td>
-      <td>7962.800504</td>
-      <td>NaN</td>
+      <td>0.740987</td>
     </tr>
     <tr>
-      <th>ROC AUC</th>
-      <td>0.740987</td>
+      <th>libFM</th>
+      <td>8.970990</td>
+      <td>0.913520</td>
+      <td>275.672684</td>
+      <td>0.861539</td>
+      <td>49.632649</td>
+      <td>0.896349</td>
+      <td>779.900802</td>
+      <td>0.850382</td>
+      <td>441.534214</td>
+      <td>0.720484</td>
+      <td>1284.598730</td>
+      <td>0.760524</td>
+      <td>8500.038059</td>
+      <td>0.724258</td>
+      <td>7778.470057</td>
+      <td>0.730173</td>
+      <td>9109.968575</td>
       <td>0.748516</td>
+    </tr>
+    <tr>
+      <th>fastFM</th>
+      <td>4.840041</td>
+      <td>0.915184</td>
+      <td>307.400295</td>
+      <td>0.858305</td>
+      <td>53.611804</td>
+      <td>0.896543</td>
+      <td>1170.468130</td>
+      <td>0.852738</td>
+      <td>667.197644</td>
+      <td>0.718840</td>
+      <td>2398.107206</td>
+      <td>0.748448</td>
+      <td>10718.261802</td>
+      <td>0.721615</td>
+      <td>6601.202590</td>
+      <td>0.699962</td>
+      <td>7962.800504</td>
       <td>0.733875</td>
+    </tr>
+    <tr>
+      <th>pylibfm</th>
+      <td>13.157164</td>
+      <td>0.944870</td>
+      <td>132.618739</td>
+      <td>0.870263</td>
+      <td>55.756278</td>
+      <td>NaN</td>
+      <td>564.922632</td>
+      <td>NaN</td>
+      <td>316.149734</td>
+      <td>0.711200</td>
+      <td>514.768003</td>
+      <td>0.743312</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
       <td>NaN</td>
     </tr>
   </tbody>
