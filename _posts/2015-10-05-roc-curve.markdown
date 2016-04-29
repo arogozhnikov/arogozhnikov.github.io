@@ -27,7 +27,7 @@ In the simplest case predictions are binary: each event is attributed by classif
 Unfortunately, there are too many terms used to describe this (trivial) classification result. 
 Scary [image from wikipedia](https://en.wikipedia.org/wiki/Binary_classification) shows how many different terms people were able to invent to describe a space with 4 degrees of freedom.
  
-Let me introduce my own notion, more systematic:
+Let me introduce my own notion, more systematic (%picture about 15 standards%):
 
 * isS (isSignal), isB (isBackground) - how many events really belong to this class
 * asS (asSignal), asB (asBackground) - how many events were classified as signal (background)
