@@ -138,6 +138,15 @@ there are also some more useful visualizations.
 </table>
 <br />
 
+## Variational AutoEncoder
+
+![dreaming digits](/images/ml_demonstrations/dream_mnist.png)
+
+A [demonstration](http://dpkingma.com/sgvb_mnist_demo/demo.html) 
+by Durk Kingma shows the way to play with autoencoder:
+you can play with hidden parameters and let networks "dream"
+MNIST digits.
+
 
 ## Generative adversarial networks
 
@@ -158,6 +167,7 @@ Demonstrations I haven't found so far (but It would be nice to have those):
  - gradient boosting
  - Expectation-Maximization algorithm for fitting mixtures
  - Viterbi algorithm
+ - RBMs dropped out of the fashion, but it would be nice e.g. to demonstrate contrastive divergence. 
  
 There are some things connected to RNNs / text / word embeddings, 
 but I don't mention those here.
