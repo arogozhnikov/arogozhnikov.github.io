@@ -9,40 +9,40 @@ tags:
 - 'hep_ml'
 ---
 
-This post is devoted to explanation what is __sPlot__. This well-known method was recently added to [hep_ml library](https://github.com/arogozhnikov/hep_ml).
+This post is devoted to the explanation of what an __sPlot__ is. This well-known method was recently added to [hep_ml library](https://github.com/arogozhnikov/hep_ml).
 
-__sPlot__ is a way to reconstruct features of mixture components based on known properties of distributions. This method is frequently used in High Energy Physics.
+An __sPlot__ is a way to reconstruct features of mixture components based on known properties of distributions. This method is frequently used in High Energy Physics.
 
 ## Simple example of sPlot
 
-First start from simple (and not very useful in practice) example.
+First start from a simple (and not very useful in practice) example.
 
 Assume we have two types of particles (say, electrons and positrons). 
 
-Distribution of some characteristic is different for them (let this be px momentum projection).
+The distribution of some characteristic is different for them (let this be the px momentum projection).
 
 ![distributions](/images/splot/1-distributions.png)
 
 ## Observed distributions
 
-Picture above shows how this distibution should look like, 
-but due to inaccuracies during classification we will observe different picture.
+The picture above shows how this distibution should look like, 
+but due to inaccuracies during classification we will observe a different picture.
 
-Let's assume that with probability 80% particle is classified correctly (and we are not using px during classification).
+Let's assume that with a probability of 80% a particle is classified correctly (and we are not using px during classification).
 
-And when we look at distribution of px for particles which were classified as electrons or positrons,
+When we look at the distributions of px for particles which were classified as electrons or positrons,
 we see that they were distorted. We lost the original shapes of distributions.
 
 ![the distributions we observe](/images/splot/2-bins-and-mixture.png)
 
 ## Applying sWeights
 
-We can think of it in the following way: there are 2 bins. In first 80% are electrons, 20% are signal. And visa versa in second bin.
+We can think of it in the following way: there are 2 bins. In the first bin, 80% are electrons, 20% are signal. And vice versa in the second bin.
 
-To reconstruct initial distribution, we can plot histogram, where each event from first bin has weight 0.8, 
-and each event from second bin has weight -0.2. This numbers are called sWeights. 
+To reconstruct the initial distribution, we can plot the histogram where each event from the first bin has weight 0.8, 
+and each event from the second bin has weight -0.2. This numbers are called sWeights. 
 
-So, if we had 8000 $e^{-}$ + 2000 $e^{+}$ in first bin and 8000 $e^{+}$ + 2000 $e^{-}$ ($ e^-, e^+$ are electron and positron). After summing with introduced sWeights:
+So, let's say we had 8000 $e^{-}$ + 2000 $e^{+}$ in first bin and 8000 $e^{+}$ + 2000 $e^{-}$ ($ e^-, e^+$ are electron and positron). After summing with introduced sWeights:
 
 $$
 \big[ 8000 e^{-} + 2000 e^{+} \big] \times 0.8 + \big[ 2000 e^{-} + 8000 e^{+} \big] \times (- 0.2) = 
@@ -51,13 +51,13 @@ $$
 
 Positrons with positive and negative weights compensated each other, and we will get pure electrons.
 
-At this moment we ignore normalization of sWeights (because it doesn't play role when we want to reconstruct shape).
+At the moment we ignore the normalization of the sWeights (because it doesn't play any role when we want to reconstruct the shape).
 
 ![reconstructed distributions](/images/splot/3-splot-reconstructed-weights.png)
 
 ### Compare
 
-let's compare reconstructed distribution for electrons with original:
+Let's compare reconstructed distribution for electrons with original:
 
 ![original vs splot](/images/splot/4-splot-reconstructed-comparison.png)
 
@@ -67,9 +67,9 @@ In the case when we have only two 'bins' is simple and straightforward. But when
 
 ![proportions inside each bin](/images/splot/5-3bins.png)
 
-but things in practice are more complex. We have not bins, but continuos distribution (which can be treated as many bins). 
+But things are more complex in practice. We have not bins, but continuos distributions (which can be treated as many bins). 
 
-Typically this is distribution over mass. By fitting mass we are able to split mixture into two parts: signal channel and everything else.
+Typically this is a distribution over mass. By fitting the mass we are able to split the mixture into two parts: signal channel and everything else.
 
 # Building sPlot over mass
 
@@ -77,7 +77,7 @@ Let's show how this works. First we generate two fake distributions (signal and 
 
 ![comparison of reconstructed variable](/images/splot/6-splot-reconstructed-comparison.png)
 
-### Of course we don't have labels which events are signal and which are background before we actually.
+### Of course we don't have labels which events are signal and which are background.
 
 And we observe the mixture of two distributions:
 
@@ -85,7 +85,7 @@ And we observe the mixture of two distributions:
 
 ### We have no information about real labels
 
-But we know a priori that background is distributed as exponential distribution and signal - as gaussian (more complex models can be met in practice, but idea is the same).
+But we know a priori that the background is distributed as an exponential distribution and signal as a gaussian (more complex models can be met in practice, but idea is the same).
 
 After fitting the mixture (let me skip this process), we will get the following result:
 
@@ -93,7 +93,7 @@ After fitting the mixture (let me skip this process), we will get the following 
 
 ## Fitting doesn't give us information about real labels
 
-But it gives information about probabilities, thus now we can estimate number of signal and background events within each bin. 
+But it gives information about probabilities, which allows us to estimate the number of signal and background events within each bin. 
 
 We won't use bins, but instead we will get for each event probability that it is signal or background:
 
@@ -101,7 +101,7 @@ We won't use bins, but instead we will get for each event probability that it is
 
 ## Appying sPlot
 
-sPlot converts probabilities to sWeights, using implementation from `hep_ml`:
+sPlot converts probabilities to sWeights, using the implementation from `hep_ml`:
 
 As you can see, there are also negative sWeights, which are needed to compensate the contributions of other class.
 
@@ -119,7 +119,7 @@ Reconstructed variable (i.e. $p$) and splotted variable (i.e. mass) shall be sta
 
 Read the line above again. Reconstructed and splotted variable are correlated:
 
-as a demonstration why this is important let's use sweights to reconstruct mass (obviously mass is correlated with mass):
+as a demonstration why this is important let's use sweights to reconstruct the mass (obviously the mass is correlated with the mass):
 
 ![distributions](/images/splot/12-splot-to-reconstruct-mass.png)
 
@@ -132,7 +132,7 @@ $\def\wb{sw_b(x)}$
 
 # Derivation of sWeights
 
-Now, after we seen how this works, let's derive formula for sWeights.
+Now, after we seen how this works, let's derive the formula for sWeights.
 
 
 
