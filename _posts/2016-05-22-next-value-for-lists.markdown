@@ -122,9 +122,9 @@ class AppendableList(list):
 {% endhighlight %}
 
 
-## Why not split computing errors in two different methods?
+## Why not split computing metrics in two different methods?
  
-Because this will result in double the amount of computations.
+Splitting into separate functions should be avoided, because this will result in doubling the amount of computations.
 It is crucial in the case of neural networks, since the amount of computations may be huge. 
  
 
