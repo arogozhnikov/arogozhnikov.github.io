@@ -78,8 +78,14 @@ which demonstrates the process of building a tree.
 It's not super-useful during classes, but can be given as an additional material.
 
 
+## Gradient Boosting (and decision tree for regression) 
 
-### Mini-course on reinforcement learning
+[![gradient boosting demo](/images/ml_demonstrations/gradient_boosting_explained.png)](https://arogozhnikov.github.io/2016/06/24/gradient_boosting_explained.html)
+
+An explanatory post about [how gradient boosting works](https://arogozhnikov.github.io/2016/06/24/gradient_boosting_explained.html).
+
+
+## Mini-course on reinforcement learning
 
 <img src="/images/ml_demonstrations/reinforcejs.png" width="500" />
 
@@ -138,12 +144,19 @@ there are also some more useful visualizations.
 </table>
 <br />
 
+## Dimensionality reduction
+
+![embddings](/images/ml_demonstrations/colah_embeddings.png)
+
+A [post](http://colah.github.io/posts/2014-10-Visualizing-MNIST/) by Christopher Olah 
+visualizes different dimensionality reduction algorithms using MNIST dataset.
+
 ## Variational AutoEncoder
 
 ![dreaming digits](/images/ml_demonstrations/dream_mnist.png)
 
 A [demonstration](http://dpkingma.com/sgvb_mnist_demo/demo.html) 
-by Durk Kingma shows the way to play with autoencoder:
+by Durk Kingma, where
 you can play with hidden parameters and let networks "dream"
 MNIST digits.
 
@@ -163,8 +176,8 @@ but rather as a visualization for his version of update rule.
 
 Demonstrations I haven't found so far (but It would be nice to have those):
 
- - nice standalone demonstration of decision trees
- - gradient boosting
+ - <strike> nice standalone demonstration of decision trees </strike>
+ - <strike> gradient boosting </strike>
  - Expectation-Maximization algorithm for fitting mixtures
  - Viterbi algorithm
  - RBMs dropped out of the fashion, but it would be nice e.g. to demonstrate contrastive divergence. 
