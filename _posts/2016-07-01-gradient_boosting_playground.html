@@ -1,0 +1,168 @@
+---
+layout: post
+title:  "Gradient Boosting Interactive Playground"
+date: 2016-06-30 12:00:00
+author: Alex Rogozhnikov
+tags:
+- Machine Learning
+---
+<link rel="stylesheet" href="/css/playground.css">
+<div class="demo-wrapper">
+    <div>
+        <div>
+            <div>Dataset to classify:</div>
+            <div id="classification_datasets"></div>
+        </div>
+        <div style="display: flex; align-items: flex-start;">
+            <div class='left-column'>
+                <div>Prediction:</div>
+                <canvas id="playground_visualization_canvas"></canvas>
+                <div>&uparrow;</div>
+                <div class='display-label' style="height: 50px; text-align: center;" id="playground_prediction_label"></div>
+                <div class='display-label'><span style="color: #888;">train loss: <span id="playground_train_loss_display" class="train-loss-number"></span></span>
+                    test loss: <span id="playground_test_loss_display" class="loss-number"></span>
+                </div>
+                <canvas id="playground_learning_curves_canvas"></canvas>
+            </div>
+            <div style="width: 500px;">
+                <div>Decision functions of first <span id="span_n_shown_trees"></span> trees
+                    (from <span id="span_n_total_trees"></span>):</div>
+                <div id="playground_trees_container"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control">
+                <label for="playground_depth_control">tree depth: </label><span
+                    id="playground_depth_display"></span><br/>
+                <input type="range" min="1" max="8" value="4" id="playground_depth_control">
+            </div>
+            <div class="control">
+                <label for="playground_rate_control">learning rate: </label><span
+                    id="playground_rate_display"></span><br/>
+                <input type="range" min="5" max="100" value="10" step="5" id="playground_rate_control">
+            </div>
+            <div class="control">
+                <label for="playground_angle_control">rotate dataset: </label><br/>
+                <input type="range" min="0" max="90" value="0" step="10" id="playground_angle_control">
+            </div>
+            <div class="control" style="text-align: left; ">
+                <input type="checkbox" id="playground_rotate_control">
+                <label for="playground_rotate_control">rotate trees</label>
+                <br />
+                <input type="checkbox" id="playground_show_gradient_control" checked="checked">
+                <label for="playground_show_gradient_control">show gradients on hover</label>
+                <br />
+                <nobr>
+                <input type="checkbox" id="playground_use_newton_raphson">
+                <label for="playground_use_newton_raphson">use Newton-Raphson update</label></nobr>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <h2>What is this?</h2>
+    <p>
+        This is an interactive demonstration-explanation of <i>gradient boosting</i> algorithm applied to classification problem.
+        Boosting takes a decision ('blue' or 'orange') by iteratively building many simpler classification algorithms
+        (decision trees in our case).
+    </p>
+    <h2>Challenges</h2>
+    <p>
+        Can you ..
+    </p>
+    <ol>
+        <li>overfit the model? (from some point test loss should increase)</li>
+        <li>achieve test loss < 0.02 on 'xor' dataset (second one) using depth = 2?</li>
+        <li>same for depth = 1?
+            <!-- relax, this is impossible with 100 trees, but you still can get fine results with depth=1. -->
+            <!-- btw, you can prove that without rotating trees and dataset, it's impossible to get good classification fo this dataset -->
+        </li>
+        <li>achieve test loss < 0.1 on spiral dataset using minimal depth of trees?</li>
+        <li>fit 'stripes' dataset with trees of depth 1? Can you explain why this is possible?</li>
+        <li>get minimal possible loss on dataset with several embedded circles?</li>
+    </ol>
+    <h2>Some comments on the demo</h2>
+    <ul>
+        <li>each time you change some parameter, gradient boosting is recomputed from the scratch <br />
+            (yes, gradient boosting algorithm is quite fast)</li>
+        <li>if learning rate is small, target doesn't change much. As a result, consequent trees have similar structure
+        </li>
+        <li>to fight this, different randomizations are introduced:
+            <ul>
+                <li>
+                    subsampling (take random part of data to train each tree)
+                </li>
+                <li>
+                    and random subspaces (take random subset of features to build a tree), <br />
+                    only 2 variables in the demo, so random rotations are used instead of random subspaces.
+                </li>
+            </ul>
+        </li>
+        <li>
+            from <a href="https://arogozhnikov.github.io/2016/06/24/gradient_boosting_explained.html">other demo</a>
+            you can find why large learning rate is a bad idea and small learning rate is recommended.
+            <ul>
+                <li>did you notice? If you set learning rate to be high (without using Newton-Raphson update)
+                    only several first trees make serious contribution, other trees are almost not used</li>
+            </ul>
+        </li>
+        <li>
+            try to <strong>track the process of building</strong> an ensemble in this demonstration:
+            <ul>
+                <li>after each tree is built, gradients are recomputed (hover on any 'plus'!)</li>
+                <li>gradients for points in class 'orange' are always positive (and always negative for 'blue' points)</li>
+                <li>moduli of gradients are denoted by size of a corresponding point: the smaller the modulus,
+                    the better we classified data sample.
+                </li>
+                <li>
+                    next tree is built using computed gradients. Tree is paying more attention to events
+                    with larger module of gradient (those, which were poorly classified on the previous stages).
+                </li>
+                <li>sounds like AdaBoost, right?</li>
+                <li>(beware: gradients are scaled when displayed. Typically, gradients are diminishing over time)</li>
+            </ul>
+        </li>
+        <li>
+            datasets from other playgrounds are too easy for gradient boosting, <br />
+            that's why some challenging datasets were added
+        </li>
+        <li>
+            updating tree leaves using Newton-Raphson method is something typically ignored in the ML courses for simplicity,
+            but in practice this is a cheap way to build efficient small ensembles.
+        </li>
+        <li>
+            there are many other things about GB you can find out from this demo. Enjoy!
+        </li>
+    </ul>
+</div>
+<div>
+    <h2>See also</h2>
+    <ul>
+        <li>
+            <a href="http://arogozhnikov.github.io/2016/06/24/gradient_boosting_explained.html">gradient boosting explained in 3d</a>
+        </li>
+        <li>
+            <a href="http://playground.tensorflow.org">neural networks playground</a>
+        </li>
+        <li>
+            <a href="http://otoro.net/ml/neat-playground/">NEAT playground</a>
+        </li>
+        <li>
+            <a href="http://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html">
+                machine learning playgrounds and visualizations
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div>
+    <!--<script type="text/javascript" src="/scripts/jquery-2.1.4.js"></script>-->
+    <!--<script type="text/javascript" src="/scripts/external_scripts/range-touch.js"></script>-->
+    <script type="text/javascript" src="/scripts/external_scripts/plotly-1.13.js"></script>
+    <script type="text/javascript" src="/scripts/demonstration_scripts/utils-compiled.js"></script>
+    <script type="text/javascript" src="/scripts/demonstration_scripts/gradient_boosting-compiled.js"></script>
+    <script type="text/javascript" src="/scripts/demonstration_scripts/datasets-compiled.js"></script>
+    <script type="text/javascript" src="/scripts/demonstration_scripts/boosting_playground-compiled.js"></script>
+</div>
+<!--- Can you beat this without kNN and SVM? -->

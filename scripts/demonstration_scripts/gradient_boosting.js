@@ -5,7 +5,7 @@ class DecisionTreeRegressor {
     constructor(X, y, max_depth) {
         if (max_depth == 0 || y.length < 2) {
             this.is_leaf = true;
-            this.leaf_prediction = y.reduce((a, b) => a + b, 0) * 1. / y.length;
+            this.leaf_prediction = Utils.compute_mean(y);
         } else {
             this.is_leaf = false;
             let split_and_value = DecisionTreeRegressor.compute_optimal_split(X, y);
@@ -29,6 +29,36 @@ class DecisionTreeRegressor {
             }
             this.left_child = new DecisionTreeRegressor(X_left, y_left, max_depth - 1);
             this.right_child = new DecisionTreeRegressor(X_right, y_right, max_depth - 1);
+        }
+    }
+
+    update_using_newton_raphson(X, antigradients, hessians){
+        if(this.is_leaf){
+            this.leaf_prediction = Utils.compute_sum(antigradients) / (Utils.compute_sum(hessians) + 1e-4);
+        } else {
+            let X_left = [];
+            let g_left = [];
+            let h_left = [];
+            let X_right = [];
+            let g_right = [];
+            let h_right = [];
+
+            for (let event_id = 0; event_id < X.length; event_id++) {
+                let event_x = X[event_id];
+                let event_g = antigradients[event_id];
+                let event_h = hessians[event_id];
+                if (this.predict_subtree(event_x) == 1) {
+                    X_right.push(event_x);
+                    g_right.push(event_g);
+                    h_right.push(event_h);
+                } else {
+                    X_left.push(event_x);
+                    g_left.push(event_g);
+                    h_left.push(event_h);
+                }
+            }
+            this.left_child.update_using_newton_raphson(X_left, g_left, h_left);
+            this.right_child.update_using_newton_raphson(X_right, g_right, h_right);
         }
     }
 
@@ -126,22 +156,30 @@ class GradientBoostingRegressor {
 
 
 class GradientBoostingClassifier {
-    constructor(X, y, n_estimators, max_depth, learning_rate, use_random_rotations = true) {
+    constructor(X, y, n_estimators, max_depth, learning_rate, use_random_rotations=true, use_newton_raphson=false) {
         this.max_depth = max_depth;
         this.learning_rate = learning_rate;
         this.trees = [];
         this.use_random_rotations = use_random_rotations;
+        this.use_newton_raphson = use_newton_raphson;
 
         let event_predictions = new Array(y.length).fill(0.);
 
         for (let tree_id = 0; tree_id < n_estimators; tree_id++) {
             let target = Array(y.length);
+            let hessians = Array(y.length);
             for (let event_id = 0; event_id < y.length; event_id++) {
-                target[event_id] = y[event_id] - GradientBoostingClassifier.sigmoid(event_predictions[event_id]);
+                let sigmoid = GradientBoostingClassifier.sigmoid(event_predictions[event_id]);
+                target[event_id] = y[event_id] - sigmoid;
+                // this is wrong, but this is better
+                hessians[event_id] = 2 * sigmoid * (1 - sigmoid);
             }
 
             let tree_X = Utils.rotate_dataset(X, tree_id * this.use_random_rotations);
             let new_tree = new DecisionTreeRegressor(tree_X, target, this.max_depth);
+            if (use_newton_raphson){
+                new_tree.update_using_newton_raphson(tree_X, target, hessians);
+            }
             this.trees.push(new_tree);
 
             for (let event_id = 0; event_id < y.length; event_id++) {
@@ -170,17 +208,19 @@ class GradientBoostingClassifier {
 
     compute_learning_curve(X, y) {
         let losses = [Math.log(2)];
+        let gradients = Utils.create_2D_array(this.trees.length);
         let event_predictions = new Array(y.length).fill(0);
         for (let tree_id = 0; tree_id < this.trees.length; tree_id++) {
             let loss = 0.;
-            //let tree = this.trees[tree_id];
             for (let event_id = 0; event_id < y.length; event_id++) {
-                event_predictions[event_id] += this.learning_rate * this._predict_one_event_by_tree(X[event_id], tree_id);
                 let signed_y = 2 * y[event_id] - 1;
+                // important - first computing gradients, then ok.
+                gradients[tree_id][event_id] = 1. / (1 + Math.exp(signed_y * event_predictions[event_id]));
+                event_predictions[event_id] += this.learning_rate * this._predict_one_event_by_tree(X[event_id], tree_id);
                 loss += Math.log(1 + Math.exp(-signed_y * event_predictions[event_id]));
             }
             losses.push(loss / y.length);
         }
-        return losses;
+        return [losses, gradients];
     }
 }

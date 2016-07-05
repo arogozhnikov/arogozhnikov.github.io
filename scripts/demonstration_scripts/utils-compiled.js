@@ -93,7 +93,7 @@ var Utils = function () {
                 var x2 = (1 - X[event_id][1]) * canvas.height;
                 context.beginPath();
                 context.arc(x1, x2, sizes[event_id], 0, 2 * Math.PI, false);
-                context.fillStyle = color_scaler(2 * y[event_id] - 1);
+                context.fillStyle = color_scaler(2 * y[event_id] - 1).toString();
                 context.fill();
             }
         }
@@ -136,6 +136,55 @@ var Utils = function () {
                 result['opacity'] = opacity;
             }
             return result;
+        }
+    }, {
+        key: "draw_function_on_canvas",
+        value: function draw_function_on_canvas(canvas, values, minimum, maximum, color) {
+            var selected_point = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
+
+            // move to the first point
+            var ctx = canvas.getContext('2d');
+
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            function compute_x(index) {
+                return index / values.length * canvas.width;
+            }
+            function compute_y(value) {
+                return (1 - (value - minimum) / (maximum - minimum)) * (canvas.height - 1);
+            }
+            ctx.moveTo(0, compute_y(values[0]));
+
+            for (var i = 1; i < values.length; i++) {
+                ctx.lineTo(compute_x(i), compute_y(values[i]));
+            }
+            ctx.stroke();
+
+            if (selected_point != null) {
+                var centerX = compute_x(selected_point);
+                var centerY = compute_y(values[selected_point]);
+                var radius = 4;
+
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI, false);
+                ctx.fillStyle = color;
+                ctx.fill();
+                //context.lineWidth = 1;
+                //context.strokeStyle = '#003300';
+                ctx.stroke();
+            }
+        }
+    }, {
+        key: "compute_sum",
+        value: function compute_sum(array) {
+            return array.reduce(function (a, b) {
+                return a + b;
+            }, 0);
+        }
+    }, {
+        key: "compute_mean",
+        value: function compute_mean(array) {
+            return Utils.compute_sum(array) / array.length;
         }
     }]);
 

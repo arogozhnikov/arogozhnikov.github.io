@@ -2,6 +2,7 @@
 // - http://otoro.net/ml/neat-playground/datafit-neat.js
 // - and https://github.com/tensorflow/playground/blob/master/dataset.ts
 // - stackoverflow
+// - most datasets developed by me
 "use strict";
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -146,7 +147,6 @@ function generate_embedded_circles_data(N, noise, seed) {
     var X = [];
     var labels = [];
     for (var i = 0; i < N; i++) {
-        //let phi = random.random_float(0, 2 * Math.PI);
         var phi = i / N * (2. * Math.PI);
         var rho = Math.sqrt(random.random_float(0, 1.)) * 0.5;
         var x1 = rho * Math.cos(phi) + 0.5;
@@ -158,12 +158,33 @@ function generate_embedded_circles_data(N, noise, seed) {
     return [X, labels];
 }
 
+function generate_ying_yang_data(N, noise, seed) {
+    var random = new RandomGenerator(seed);
+    var X = [];
+    var labels = [];
+    for (var i = 0; i < N; i++) {
+        var phi = i / N * (2. * Math.PI);
+        var rho = Math.sqrt(random.random_float(0, 1.));
+        var x1 = rho * Math.cos(phi);
+        var x2 = rho * Math.sin(phi);
+        var label = 2 * x2 > Math.sin(3 * x1) ? 0 : 1;
+        if ((Math.abs(x1) - 0.55) * (Math.abs(x1) - 0.55) + x2 * x2 < 0.2 * 0.2) {
+            label = 1 - label;
+        }
+        x1 = x1 / 2 + 0.5;
+        x2 = x2 / 2 + 0.5;
+        labels.push(label);
+        X.push([x1, x2]);
+    }
+    return [X, labels];
+}
+
 function collect_datasets(n_samples, seed) {
     var datasets = [];
     datasets.push(generate_circular_classification_sample(n_samples, seed));
-    //datasets.push(generate_gaussian_data(n_samples, 0.6, seed));
     datasets.push(generate_xor_data(n_samples, seed));
     datasets.push(generate_spiral_data(n_samples, 0.05, seed));
+    datasets.push(generate_ying_yang_data(n_samples, null, seed));
     datasets.push(generate_stripes_data(n_samples, null, seed));
     datasets.push(generate_embedded_circles_data(n_samples, null, seed));
     return datasets;

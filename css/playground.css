@@ -1,0 +1,109 @@
+div.demo-wrapper {
+    width: 800px;
+    margin-bottom: 50px;
+}
+
+div.left-column{
+    width: 300px;
+    padding-right: 50px;
+    vertical-align: top;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+div.controls {
+    margin: auto;
+    padding: 15px;
+    background-color: #eee;
+    display: flex;
+}
+
+
+input[type=range] {
+    vertical-align: text-top;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+div.control {
+    font-size: 14px;
+    text-align: center;
+    margin: 0 20px;
+}
+
+#playground_visualization_canvas{
+    margin: 10px 5px 0px 5px;
+}
+
+#playground_learning_curves_canvas{
+    margin-bottom: 5px;
+}
+
+div#playground_trees_container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+canvas.separate_tree_visualization {
+    margin: 10px 8px;
+}
+
+div.plus_control_element {
+    background-image: url('/images/etc/plus-sign.png');
+    background-size: 22px 22px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+.display-label{
+    font-size: 14px;
+    line-height: 1em;
+}
+
+div.plus_control_element.participates-in-sum {
+    box-shadow: 0 0 0 5px #cbc;
+}
+
+div.plus_control_element:hover {
+    box-shadow: 0 0 0 5px #bdb;
+}
+
+canvas.separate_tree_visualization.participates-in-sum {
+    outline: 5px solid #cbc;
+}
+
+canvas.separate_tree_visualization:hover {
+    outline: 5px solid #bdb;
+}
+
+div.plus_control_element {
+    display: inline-block;
+}
+
+canvas.dataset-preview {
+    margin: 8px;
+    border: 1px solid grey;
+    cursor: pointer;
+}
+
+canvas.selected-dataset-preview{
+    outline: 5px solid #bbb;
+}
+
+canvas.dataset-preview:hover {
+    outline: 5px solid #bdb;
+}
+
+span.train-loss-number{
+    display: inline-block;
+    width: 60px;
+}
+
+span.loss-number{
+    display: inline-block;
+    width: 40px;
+}
