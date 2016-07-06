@@ -118,10 +118,20 @@ div.after-article{
 }
 
 div.recommended-links{
-	width: 650px;
+	display: flex;
+	justify-content: center;
+	align-items: stretch;
+	/*width: 650px;*/
 	margin: 10px auto;
-    font-size: 1.1em;
+    /*font-size: 1.1em;*/
 }
+
+div.recommended-links > div{
+	padding-right: 20px;
+}
+
+
+
 
 div.recommended-links a:hover{
 	color: #9cb4ff;
