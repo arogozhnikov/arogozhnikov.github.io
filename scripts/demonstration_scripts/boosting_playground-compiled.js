@@ -80,20 +80,20 @@ var PlaygroundVisualization = function () {
             canvas.width = n_ticks;
             canvas.height = n_ticks;
             // hover for canvas
-            canvas.onmouseenter = function () {
+            canvas.onmouseenter = canvas.ontouchstart = function () {
                 _this.redraw_main_canvas(1, tree_id);
             };
-            canvas.onmouseleave = function () {
+            canvas.onmouseleave = canvas.ontouchend = function () {
                 _this.redraw_main_canvas(0, null);
             };
 
             var plus_control = document.createElement('div');
             plus_control.setAttribute('class', 'plus_control_element');
-            plus_control.onmouseenter = function () {
+            plus_control.onmouseenter = canvas.ontouchstart = function () {
                 _this.set_participation_in_sum(tree_id + 1);
                 _this.redraw_main_canvas(2, tree_id);
             };
-            plus_control.onmouseleave = function () {
+            plus_control.onmouseleave = canvas.ontouchend = function () {
                 _this.set_participation_in_sum(0);
                 _this.redraw_main_canvas(0, null);
             };

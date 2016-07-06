@@ -102,9 +102,7 @@ var DecisionTreeRegressor = function () {
     }], [{
         key: 'compute_optimal_split',
         value: function compute_optimal_split(X, y) {
-            var y_sum = y.reduce(function (a, b) {
-                return a + b;
-            }, 0.);
+            var y_sum = Utils.compute_sum(y);
             var best_gain = -1;
             var best_feature = 0;
             var best_split = -999;
@@ -127,7 +125,6 @@ var DecisionTreeRegressor = function () {
                     var n_events_right = feature_and_answer.length - n_events_left;
 
                     var gain = left_sum * left_sum / n_events_left + right_sum * right_sum / n_events_right;
-                    gain += Math.random() * 1e-5;
                     if (gain > best_gain) {
                         best_gain = gain;
                         best_feature = feature;
@@ -202,7 +199,7 @@ var GradientBoostingClassifier = function () {
             for (var event_id = 0; event_id < y.length; event_id++) {
                 var sigmoid = GradientBoostingClassifier.sigmoid(event_predictions[event_id]);
                 target[event_id] = y[event_id] - sigmoid;
-                // this is wrong, but this is better
+                // this is wrong, but this is better for visualisation
                 hessians[event_id] = 2 * sigmoid * (1 - sigmoid);
             }
 
@@ -245,8 +242,8 @@ var GradientBoostingClassifier = function () {
                 var loss = 0.;
                 for (var event_id = 0; event_id < y.length; event_id++) {
                     var signed_y = 2 * y[event_id] - 1;
-                    // important - first computing gradients, then ok.
-                    gradients[tree_id][event_id] = 1. / (1 + Math.exp(signed_y * event_predictions[event_id]));
+                    // important - first updating gradients, then modifying predictions.
+                    gradients[tree_id][event_id] = GradientBoostingClassifier.sigmoid(-signed_y * event_predictions[event_id]);
                     event_predictions[event_id] += this.learning_rate * this._predict_one_event_by_tree(X[event_id], tree_id);
                     loss += Math.log(1 + Math.exp(-signed_y * event_predictions[event_id]));
                 }

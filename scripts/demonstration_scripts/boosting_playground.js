@@ -68,20 +68,20 @@ class PlaygroundVisualization {
             canvas.width = n_ticks;
             canvas.height = n_ticks;
             // hover for canvas
-            canvas.onmouseenter = () => {
+            canvas.onmouseenter = canvas.ontouchstart = () => {
                 this.redraw_main_canvas(1, tree_id);
             };
-            canvas.onmouseleave = () => {
+            canvas.onmouseleave = canvas.ontouchend  = () => {
                 this.redraw_main_canvas(0, null);
             };
 
             let plus_control = document.createElement('div');
             plus_control.setAttribute('class', 'plus_control_element');
-            plus_control.onmouseenter = () => {
+            plus_control.onmouseenter = canvas.ontouchstart = () => {
                 this.set_participation_in_sum(tree_id + 1);
                 this.redraw_main_canvas(2, tree_id);
             };
-            plus_control.onmouseleave = () => {
+            plus_control.onmouseleave = canvas.ontouchend = () => {
                 this.set_participation_in_sum(0);
                 this.redraw_main_canvas(0, null);
             };

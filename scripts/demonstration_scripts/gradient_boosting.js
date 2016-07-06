@@ -89,7 +89,7 @@ class DecisionTreeRegressor {
     }
 
     static compute_optimal_split(X, y) {
-        let y_sum = y.reduce((a, b) => a + b, 0.);
+        let y_sum = Utils.compute_sum(y);
         let best_gain = -1;
         let best_feature = 0;
         let best_split = -999;
@@ -110,7 +110,6 @@ class DecisionTreeRegressor {
                 let n_events_right = feature_and_answer.length - n_events_left;
 
                 let gain = left_sum * left_sum / n_events_left + right_sum * right_sum / n_events_right;
-                gain += Math.random() * 1e-5;
                 if (gain > best_gain) {
                     best_gain = gain;
                     best_feature = feature;
@@ -171,7 +170,7 @@ class GradientBoostingClassifier {
             for (let event_id = 0; event_id < y.length; event_id++) {
                 let sigmoid = GradientBoostingClassifier.sigmoid(event_predictions[event_id]);
                 target[event_id] = y[event_id] - sigmoid;
-                // this is wrong, but this is better
+                // this is wrong, but this is better for visualisation
                 hessians[event_id] = 2 * sigmoid * (1 - sigmoid);
             }
 
@@ -214,8 +213,8 @@ class GradientBoostingClassifier {
             let loss = 0.;
             for (let event_id = 0; event_id < y.length; event_id++) {
                 let signed_y = 2 * y[event_id] - 1;
-                // important - first computing gradients, then ok.
-                gradients[tree_id][event_id] = 1. / (1 + Math.exp(signed_y * event_predictions[event_id]));
+                // important - first updating gradients, then modifying predictions.
+                gradients[tree_id][event_id] = GradientBoostingClassifier.sigmoid(- signed_y * event_predictions[event_id]);
                 event_predictions[event_id] += this.learning_rate * this._predict_one_event_by_tree(X[event_id], tree_id);
                 loss += Math.log(1 + Math.exp(-signed_y * event_predictions[event_id]));
             }
