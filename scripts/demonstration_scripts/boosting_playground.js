@@ -77,11 +77,11 @@ class PlaygroundVisualization {
 
             let plus_control = document.createElement('div');
             plus_control.setAttribute('class', 'plus_control_element');
-            plus_control.onmouseenter = canvas.ontouchstart = () => {
+            plus_control.onmouseenter = plus_control.ontouchstart = () => {
                 this.set_participation_in_sum(tree_id + 1);
                 this.redraw_main_canvas(2, tree_id);
             };
-            plus_control.onmouseleave = canvas.ontouchend = () => {
+            plus_control.onmouseleave = plus_control.ontouchend = () => {
                 this.set_participation_in_sum(0);
                 this.redraw_main_canvas(0, null);
             };

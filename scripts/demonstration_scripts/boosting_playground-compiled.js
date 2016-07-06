@@ -89,11 +89,11 @@ var PlaygroundVisualization = function () {
 
             var plus_control = document.createElement('div');
             plus_control.setAttribute('class', 'plus_control_element');
-            plus_control.onmouseenter = canvas.ontouchstart = function () {
+            plus_control.onmouseenter = plus_control.ontouchstart = function () {
                 _this.set_participation_in_sum(tree_id + 1);
                 _this.redraw_main_canvas(2, tree_id);
             };
-            plus_control.onmouseleave = canvas.ontouchend = function () {
+            plus_control.onmouseleave = plus_control.ontouchend = function () {
                 _this.set_participation_in_sum(0);
                 _this.redraw_main_canvas(0, null);
             };
