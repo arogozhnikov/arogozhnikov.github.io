@@ -57,8 +57,8 @@ var PlaygroundVisualization = function () {
         this.ntrees_control.oninput = redraw;
         this.depth_control.oninput = redraw;
         this.angle_control.oninput = redraw;
+        this.subsample_control.oninput = redraw;
         this.rotate_trees_control.onchange = redraw;
-        this.subsample_control.onchange = redraw;
         this.show_gradients_control.onchange = redraw;
         this.use_newton_raphson_control.onchange = redraw;
 
