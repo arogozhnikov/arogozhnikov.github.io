@@ -121,7 +121,7 @@ class Utils {
     }
 
     static draw_function_on_canvas(canvas, values, minimum, maximum, color, selected_point=null){
-        // move to the first point
+        // learning curves
         let ctx = canvas.getContext('2d');
 
         ctx.beginPath();
@@ -163,6 +163,41 @@ class Utils {
         return Utils.compute_sum(array) / array.length;
     }
 
+    static get_subsample_indices(n_original, n_subsampled, random_seed) {
+        let shuffled = [];
+        for (let j = 0; j < n_original; j++) {
+            shuffled[j] = j;
+        }
+
+        let random_state = new RandomGenerator(random_seed);
+
+        let i = n_original;
+        while (i--) {
+            let index = Math.floor((i + 1) * random_state.random());
+            let temp = shuffled[index];
+            shuffled[index] = shuffled[i];
+            shuffled[i] = temp;
+        }
+        return shuffled.slice(0, n_subsampled);
+    }
+
+    static get_subsample(X, y, subsample, random_seed){
+        let n_original = X.length;
+        let n_generated = Math.ceil(subsample * n_original);
+        if (subsample == 1){
+            return [X, y]
+        } else {
+            let indices = Utils.get_subsample_indices(n_original, n_generated, random_seed);
+            let X_new = [];
+            let y_new = [];
+            for(let i = 0; i < indices.length; i++) {
+                let index = indices[i];
+                X_new.push(X[index]);
+                y_new.push(y[index]);
+            }
+            return [X_new, y_new];
+        }
+    }
 }
 
 

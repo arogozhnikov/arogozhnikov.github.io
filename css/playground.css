@@ -12,13 +12,14 @@ div.left-column{
     align-items: center;
 }
 
-div.controls {
+.controls {
+    width: 100%;
     margin: auto;
     padding: 15px;
     background-color: #eee;
-    display: flex;
+    font-size: 14px;
+    text-align: center;
 }
-
 
 input[type=range] {
     vertical-align: text-top;
@@ -26,10 +27,9 @@ input[type=range] {
     align-items: center;
 }
 
-div.control {
+.display-label{
     font-size: 14px;
-    text-align: center;
-    margin: 0 20px;
+    line-height: 1em;
 }
 
 #playground_visualization_canvas{
@@ -50,8 +50,13 @@ div#playground_trees_container{
 canvas.separate_tree_visualization {
     margin: 10px 8px;
 }
-
 div.plus_control_element {
+    width: 22px;
+    height: 22px;
+    padding: 10px 0px;
+}
+
+div.plus_control_element > div {
     background-image: url('/images/etc/plus-sign.png');
     background-size: 22px 22px;
     width: 22px;
@@ -59,16 +64,11 @@ div.plus_control_element {
     border-radius: 50%;
 }
 
-.display-label{
-    font-size: 14px;
-    line-height: 1em;
-}
-
-div.plus_control_element.participates-in-sum {
+div.plus_control_element.participates-in-sum > div{
     box-shadow: 0 0 0 5px #cbc;
 }
 
-div.plus_control_element:hover {
+div.plus_control_element:hover > div {
     box-shadow: 0 0 0 5px #bdb;
 }
 

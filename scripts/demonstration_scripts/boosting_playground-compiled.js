@@ -1,9 +1,8 @@
 // TODO unfolding of trees?
+// TODO optimize drawing?
 // TODO second-order xgboost-like building?
-// TODO show losses on hover?
-// TODO ranges for mobile devices
-// TODO subsample?
-// TODO exploss for comparison?
+// TODO show losses vs show gradients on hover?
+// TODO exploss, mse_loss for comparison?
 // TODO show test data?
 
 "use strict";
@@ -28,32 +27,38 @@ var PlaygroundVisualization = function () {
 
         _classCallCheck(this, PlaygroundVisualization);
 
-        this.main_canvas = document.getElementById('playground_visualization_canvas');
+        this.main_canvas = this.getId('playground_visualization_canvas');
         this.main_canvas.width = this.main_canvas.height = 250;
-        this.learning_curves_canvas = document.getElementById('playground_learning_curves_canvas');
+        this.learning_curves_canvas = this.getId('playground_learning_curves_canvas');
         this.learning_curves_canvas.width = 250;
         this.learning_curves_canvas.height = 60;
-        this.train_loss_display = document.getElementById('playground_train_loss_display');
-        this.test_loss_display = document.getElementById('playground_test_loss_display');
+        this.train_loss_display = this.getId('playground_train_loss_display');
+        this.test_loss_display = this.getId('playground_test_loss_display');
 
-        this.separate_trees_container_div = document.getElementById('playground_trees_container');
-        this.prediction_label = document.getElementById('playground_prediction_label');
-        this.depth_control = document.getElementById('playground_depth_control');
-        this.depth_display = document.getElementById('playground_depth_display');
-        this.rate_control = document.getElementById('playground_rate_control');
-        this.rate_display = document.getElementById('playground_rate_display');
-        this.angle_control = document.getElementById('playground_angle_control');
-        this.rotate_trees_control = document.getElementById('playground_rotate_control');
-        this.show_gradients_control = document.getElementById('playground_show_gradient_control');
-        this.use_newton_raphson_control = document.getElementById('playground_use_newton_raphson');
+        this.separate_trees_container_div = this.getId('playground_trees_container');
+        this.prediction_label = this.getId('playground_prediction_label');
+        this.depth_control = this.getId('playground_depth_control');
+        this.depth_display = this.getId('playground_depth_display');
+        this.rate_control = this.getId('playground_rate_control');
+        this.rate_display = this.getId('playground_rate_display');
+        this.ntrees_control = this.getId('playground_ntrees_control');
+        this.ntrees_display = this.getId('playground_ntrees_display');
+        this.subsample_control = this.getId('playground_subsample_control');
+        this.subsample_display = this.getId('playground_subsample_display');
+        this.angle_control = this.getId('playground_angle_control');
+        this.rotate_trees_control = this.getId('playground_rotate_control');
+        this.show_gradients_control = this.getId('playground_show_gradient_control');
+        this.use_newton_raphson_control = this.getId('playground_use_newton_raphson');
 
         var redraw = function redraw() {
             _this.redraw();
         };
         this.rate_control.oninput = redraw;
+        this.ntrees_control.oninput = redraw;
         this.depth_control.oninput = redraw;
         this.angle_control.oninput = redraw;
         this.rotate_trees_control.onchange = redraw;
+        this.subsample_control.onchange = redraw;
         this.show_gradients_control.onchange = redraw;
         this.use_newton_raphson_control.onchange = redraw;
 
@@ -66,8 +71,7 @@ var PlaygroundVisualization = function () {
 
         this.n_shown_trees = 30;
         this.n_trained_trees = 100;
-        document.getElementById('span_n_shown_trees').innerHTML = this.n_shown_trees.toString();
-        document.getElementById('span_n_total_trees').innerHTML = this.n_trained_trees.toString();
+        this.getId('span_n_shown_trees').innerHTML = this.n_shown_trees.toString();
 
         this.trees_canvases = [];
         this.plus_controls = [];
@@ -88,6 +92,7 @@ var PlaygroundVisualization = function () {
             };
 
             var plus_control = document.createElement('div');
+            plus_control.appendChild(document.createElement('div'));
             plus_control.setAttribute('class', 'plus_control_element');
             plus_control.onmouseenter = plus_control.ontouchstart = function () {
                 _this.set_participation_in_sum(tree_id + 1);
@@ -116,6 +121,13 @@ var PlaygroundVisualization = function () {
     }
 
     _createClass(PlaygroundVisualization, [{
+        key: 'getId',
+        value: function getId(id) {
+            var result = document.getElementById(id);
+            console.assert(result != null, 'no such id');
+            return result;
+        }
+    }, {
         key: 'set_participation_in_sum',
         value: function set_participation_in_sum(n_estimators) {
             // sets classes to elements participating in sum
@@ -130,11 +142,11 @@ var PlaygroundVisualization = function () {
         }
     }, {
         key: 'compute_store_predictions',
-        value: function compute_store_predictions(trainX, trainY, testX, testY, depth, learning_rate, rotate_trees, use_newton_raphson) {
+        value: function compute_store_predictions(trainX, trainY, testX, testY, depth, learning_rate, n_estimators, subsample, rotate_trees, use_newton_raphson) {
             var _this2 = this;
 
-            var n_estimators = this.n_trained_trees;
-            var gb_clf = new GradientBoostingClassifier(trainX, trainY, n_estimators, depth, learning_rate, rotate_trees, use_newton_raphson);
+            var gb_clf = new GradientBoostingClassifier(trainX, trainY, n_estimators, depth, learning_rate, subsample, rotate_trees, use_newton_raphson);
+            this.n_trained_trees = n_estimators;
             this.computed_predictions = {};
             this.computed_predictions['trees'] = [];
             this.computed_predictions['stage_predictions'] = [];
@@ -142,6 +154,7 @@ var PlaygroundVisualization = function () {
                 return 0;
             });
 
+            //for (let tree_id = 0; tree_id < this.n_shown_trees; tree_id++) {
             var _loop2 = function _loop2(tree_id) {
                 var tree_prediction = Utils.compute_grid_for_function(axis_ticks, function (x1, x2) {
                     return gb_clf._predict_one_event_by_tree([x1, x2], tree_id);
@@ -157,7 +170,7 @@ var PlaygroundVisualization = function () {
                 _this2.computed_predictions['stage_predictions'][tree_id] = stage_predictions;
             };
 
-            for (var tree_id = 0; tree_id < this.n_shown_trees; tree_id++) {
+            for (var tree_id = 0; tree_id < this.n_trained_trees; tree_id++) {
                 _loop2(tree_id);
             }
 
@@ -186,8 +199,13 @@ var PlaygroundVisualization = function () {
         value: function redraw() {
             var learning_rate = this.rate_control.value * 0.01;
             this.rate_display.innerHTML = learning_rate.toString().substr(0, 4);
+            var ntrees = this.ntrees_control.value;
+            this.ntrees_display.innerHTML = ntrees.toString();
             var depth = this.depth_control.value;
             this.depth_display.innerHTML = depth.toString();
+            var subsample = this.subsample_control.value * 0.01;
+            this.subsample_display.innerHTML = Math.ceil(subsample * 100).toString();
+
             this.show_gradients = this.show_gradients_control.checked ? 1 : 0;
             var use_newton_raphson = this.use_newton_raphson_control.checked ? 1 : 0;
 
@@ -207,7 +225,7 @@ var PlaygroundVisualization = function () {
             trainX = Utils.rotate_dataset(trainX, rotation_angle);
             testX = Utils.rotate_dataset(testX, rotation_angle);
 
-            this.compute_store_predictions(trainX, trainY, testX, testY, depth, learning_rate, rotate_trees, use_newton_raphson);
+            this.compute_store_predictions(trainX, trainY, testX, testY, depth, learning_rate, ntrees, subsample, rotate_trees, use_newton_raphson);
 
             this.redraw_main_canvas(0, null);
             this.redraw_trees_canvases();
@@ -258,7 +276,7 @@ var PlaygroundVisualization = function () {
         key: 'redraw_trees_canvases',
         value: function redraw_trees_canvases() {
             // Drawing separate trees
-            for (var tree_id = 0; tree_id < this.computed_predictions['trees'].length; tree_id++) {
+            for (var tree_id = 0; tree_id < this.n_shown_trees; tree_id++) {
                 var z_grid = this.computed_predictions['trees'][tree_id];
                 var canvas = this.trees_canvases[tree_id];
                 Utils.plot_function_to_canvas(canvas, z_grid, this.color_scaler_heatmap);
@@ -269,7 +287,7 @@ var PlaygroundVisualization = function () {
         value: function redraw_datasets() {
             var _this3 = this;
 
-            var wrapper_div = document.getElementById('classification_datasets');
+            var wrapper_div = this.getId('classification_datasets');
             wrapper_div.innerHTML = "";
 
             var _loop3 = function _loop3(dataset_id) {

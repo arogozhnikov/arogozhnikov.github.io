@@ -155,7 +155,7 @@ class GradientBoostingRegressor {
 
 
 class GradientBoostingClassifier {
-    constructor(X, y, n_estimators, max_depth, learning_rate, use_random_rotations=true, use_newton_raphson=false) {
+    constructor(X, y, n_estimators, max_depth, learning_rate, subsample, use_random_rotations=true, use_newton_raphson=false) {
         this.max_depth = max_depth;
         this.learning_rate = learning_rate;
         this.trees = [];
@@ -175,7 +175,8 @@ class GradientBoostingClassifier {
             }
 
             let tree_X = Utils.rotate_dataset(X, tree_id * this.use_random_rotations);
-            let new_tree = new DecisionTreeRegressor(tree_X, target, this.max_depth);
+            let [subsampled_X, subsampled_target] = Utils.get_subsample(tree_X, target, subsample, tree_id);
+            let new_tree = new DecisionTreeRegressor(subsampled_X, subsampled_target, this.max_depth);
             if (use_newton_raphson){
                 new_tree.update_using_newton_raphson(tree_X, target, hessians);
             }

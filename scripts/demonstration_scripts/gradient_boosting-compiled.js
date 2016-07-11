@@ -1,5 +1,7 @@
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -179,9 +181,9 @@ var GradientBoostingRegressor = function () {
 }();
 
 var GradientBoostingClassifier = function () {
-    function GradientBoostingClassifier(X, y, n_estimators, max_depth, learning_rate) {
-        var use_random_rotations = arguments.length <= 5 || arguments[5] === undefined ? true : arguments[5];
-        var use_newton_raphson = arguments.length <= 6 || arguments[6] === undefined ? false : arguments[6];
+    function GradientBoostingClassifier(X, y, n_estimators, max_depth, learning_rate, subsample) {
+        var use_random_rotations = arguments.length <= 6 || arguments[6] === undefined ? true : arguments[6];
+        var use_newton_raphson = arguments.length <= 7 || arguments[7] === undefined ? false : arguments[7];
 
         _classCallCheck(this, GradientBoostingClassifier);
 
@@ -204,7 +206,15 @@ var GradientBoostingClassifier = function () {
             }
 
             var tree_X = Utils.rotate_dataset(X, tree_id * this.use_random_rotations);
-            var new_tree = new DecisionTreeRegressor(tree_X, target, this.max_depth);
+
+            var _Utils$get_subsample = Utils.get_subsample(tree_X, target, subsample, tree_id);
+
+            var _Utils$get_subsample2 = _slicedToArray(_Utils$get_subsample, 2);
+
+            var subsampled_X = _Utils$get_subsample2[0];
+            var subsampled_target = _Utils$get_subsample2[1];
+
+            var new_tree = new DecisionTreeRegressor(subsampled_X, subsampled_target, this.max_depth);
             if (use_newton_raphson) {
                 new_tree.update_using_newton_raphson(tree_X, target, hessians);
             }

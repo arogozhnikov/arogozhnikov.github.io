@@ -142,7 +142,7 @@ var Utils = function () {
         value: function draw_function_on_canvas(canvas, values, minimum, maximum, color) {
             var selected_point = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
 
-            // move to the first point
+            // learning curves
             var ctx = canvas.getContext('2d');
 
             ctx.beginPath();
@@ -185,6 +185,44 @@ var Utils = function () {
         key: "compute_mean",
         value: function compute_mean(array) {
             return Utils.compute_sum(array) / array.length;
+        }
+    }, {
+        key: "get_subsample_indices",
+        value: function get_subsample_indices(n_original, n_subsampled, random_seed) {
+            var shuffled = [];
+            for (var j = 0; j < n_original; j++) {
+                shuffled[j] = j;
+            }
+
+            var random_state = new RandomGenerator(random_seed);
+
+            var i = n_original;
+            while (i--) {
+                var index = Math.floor((i + 1) * random_state.random());
+                var temp = shuffled[index];
+                shuffled[index] = shuffled[i];
+                shuffled[i] = temp;
+            }
+            return shuffled.slice(0, n_subsampled);
+        }
+    }, {
+        key: "get_subsample",
+        value: function get_subsample(X, y, subsample, random_seed) {
+            var n_original = X.length;
+            var n_generated = Math.ceil(subsample * n_original);
+            if (subsample == 1) {
+                return [X, y];
+            } else {
+                var indices = Utils.get_subsample_indices(n_original, n_generated, random_seed);
+                var X_new = [];
+                var y_new = [];
+                for (var i = 0; i < indices.length; i++) {
+                    var index = indices[i];
+                    X_new.push(X[index]);
+                    y_new.push(y[index]);
+                }
+                return [X_new, y_new];
+            }
         }
     }]);
 
