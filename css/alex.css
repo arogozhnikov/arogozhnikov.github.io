@@ -1,114 +1,105 @@
-table.comparison{
-	margin: 10px;
-	border-collapse: collapse;
-	border-spacing: 0px;
-}
-table.comparison td{
-	border: 1px solid black;
-	padding: 2px 4px;
-}
-table.comparison th{
-	font-weight: bold;
+table.comparison {
+    margin: 10px;
+    border-collapse: collapse;
+    border-spacing: 0px;
 }
 
-figure.image{
-	width: 800px;
-	text-align: center;
-	margin: 10px auto;
-	display: table-cell;
+table.comparison td {
+    border: 1px solid black;
+    padding: 2px 4px;
 }
 
-figure.image img{
+table.comparison th {
+    font-weight: bold;
+}
+
+figure.image {
+    width: 800px;
+    text-align: center;
+    margin: 10px auto;
+    display: table-cell;
+}
+
+figure.image img {
     margin: auto;
     max-width: 800px;
 }
 
-.site-header{
-	color: #000000;
-	background: black url(space_background.jpg) repeat-x fixed top center;
+.site-header {
+    color: #000000;
+    background: black url(space_background.jpg) repeat-x fixed top center;
 }
 
-table.image-wrapper td{
-	text-align: center;
-	font-size: 80%;
+table.image-wrapper td {
+    text-align: center;
+    font-size: 80%;
 }
 
-table.image-wrapper{
-	width: 100%;
-	margin: auto auto 10px;
+table.image-wrapper {
+    width: 100%;
+    margin: auto auto 10px;
 }
-
 
 /* This is for notebooks */
 
-div.prompt{
-	margin-left: -90px;
-	display: inline-block;
-	width: 80px;
-	padding: 6px;
-	/* margin-bottom: -30px; */
-	position: absolute;
-	text-align: right;
+div.prompt {
+    margin-left: -90px;
+    display: inline-block;
+    width: 80px;
+    padding: 6px;
+    /* margin-bottom: -30px; */
+    position: absolute;
+    text-align: right;
 }
 
-div.input_prompt{
-	color: #336;
+div.input_prompt {
+    color: #336;
 }
 
-div.output_prompt{
-	color: #933;
+div.output_prompt {
+    color: #933;
 }
 
-div.output_text pre{
-	background: #e5e5e5;
+div.output_text pre {
+    background: #e5e5e5;
 }
 
-a.anchor-link{
-	font-size: 0.8em;
-	padding: 4px;
-	color: #9cb4ff
+a.anchor-link {
+    font-size: 0.8em;
+    padding: 4px;
+    color: #9cb4ff
 
+}
+
+pre {
+    overflow-x: auto;
+}
+
+table.dataframe {
+    border-collapse: collapse;
+    margin: 5px 0px 15px;
+}
+
+table.dataframe td, table.dataframe th {
+    text-align: center;
+    padding: 1px 4px;
+}
+
+div.output div.output_html {
+    overflow-x: scroll;
 }
 
 /* this is not for notebooks */
 
-img.site-icon{
-	display: None;
+img.site-icon {
+    display: None;
 }
 
-/*
-a:hover img.site-icon{
-	display: inline-block;
+.site-nav .page-link {
+    color: #aaa;
 }
 
-.site-header a.page-link{
-	color: #eee;
-}
-*/
-
-pre{
-	overflow-x: auto;
-}
-
-.site-nav .page-link{
-	color: #aaa;
-}
-
-table.dataframe{
-	border-collapse: collapse;
-	margin: 5px 0px 15px;
-}
-
-table.dataframe td, table.dataframe th{
-	text-align: center;
-	padding: 1px 4px;
-}
-
-div.output div.output_html{
-	overflow-x: scroll;
-}
-
-div.after-article{
+div.after-article {
     background: rgb(41, 41, 41);
     color: white;
     font-weight: bold;
@@ -117,26 +108,23 @@ div.after-article{
     box-shadow: inset 0 0 40px #000000;
 }
 
-div.recommended-links{
-	display: flex;
-	justify-content: center;
-	align-items: stretch;
-	/*width: 650px;*/
-	margin: 10px auto;
-    /*font-size: 1.1em;*/
+div.recommended-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: stretch;
+    margin: 10px auto;
 }
 
-div.recommended-links > div{
-	padding-right: 20px;
+div.recommended-links > div {
+    padding-right: 20px;
+    margin: 10px 0px;
 }
 
-
-
-
-div.recommended-links a:hover{
-	color: #9cb4ff;
+div.recommended-links a:hover {
+    color: #9cb4ff;
 }
 
-div.recommended-links a:visited{
-	color: #303baa;
+div.recommended-links a:visited {
+    color: #303baa;
 }
