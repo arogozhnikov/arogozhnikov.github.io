@@ -12,7 +12,7 @@ div.left-column{
     align-items: center;
 }
 
-.controls {
+table.controls {
     width: 100%;
     margin: auto;
     padding: 15px;
@@ -48,12 +48,13 @@ div#playground_trees_container{
 }
 
 canvas.separate_tree_visualization {
-    margin: 10px 8px;
+    margin: 10px 5px;
 }
+
 div.plus_control_element {
     width: 22px;
     height: 22px;
-    padding: 10px 0px;
+    padding: 13px 3px;
 }
 
 div.plus_control_element > div {
