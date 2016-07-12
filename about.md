@@ -37,5 +37,6 @@ If you're interested in things I am doing, take a look at
 * [visualization of optimal control of oscillations](http://arogozhnikov.github.io/2015/12/19/optimal-control-of-oscillations.html) 
 
 Also sometimes I participate in educational projects of Yandex School of Data Analysis. 
-Take a look at MLHEP 2015 [slides]({% post_url 2015-09-07-mlhep-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2015).
+Take a look at MLHEP 2016 [slides]({% post_url 2016-07-12-mlhep-2016-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2016) 
+or [course](https://github.com/yandexdataschool/MLatImperial2016) at Imperial College, London.
  
