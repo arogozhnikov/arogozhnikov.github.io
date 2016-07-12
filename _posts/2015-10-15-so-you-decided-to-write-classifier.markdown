@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "So you decided to write classifier (bad advice)"
+title:  "So you decided to write a machine learning library (bad advice)"
 date: 2015-10-15 12:00:00
 author: Alex Rogozhnikov
 tags: 
