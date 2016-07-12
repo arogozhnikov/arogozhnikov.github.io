@@ -33,7 +33,8 @@ Area of my interest is development of Machine Learning methods (mostly, somehow 
 If you're interested in things I am doing, take a look at
  
 * [gradient boosted reweighter](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/DemoReweighting.ipynb)
-* [uniform gradient boosting](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/BoostingToUniformity.ipynb) 
+* [uniform gradient boosting](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/BoostingToUniformity.ipynb)
+* [machine learning demonstrations](https://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html) 
 * [visualization of optimal control of oscillations](http://arogozhnikov.github.io/2015/12/19/optimal-control-of-oscillations.html) 
 
 Also sometimes I participate in educational projects of Yandex School of Data Analysis. 
