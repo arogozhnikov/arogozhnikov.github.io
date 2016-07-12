@@ -1,0 +1,102 @@
+---
+layout: post
+title:  "MLHEP 2016 lectures slides"
+date: 2016-07-12 12:00:00
+author: Alex Rogozhnikov
+tags: 
+- teaching
+- materials
+- Machine Learning
+- MLHEP 2016
+---
+
+This year my team at Yandex organized [MLHEP](http://indico.cern.ch/event/497368/) (Machine Learning in High Energy Physics) summer school in Lund, Sweden. 
+ 
+There were two tracks: basic and advanced, lasting for three days + 2 days on neural networks for both tracks together.
+
+School was accompanied by two kaggle challenges: one for both tracks and one for advanced.
+This is the most producive way to try and learn techniques in practice.
+
+Just as [a year ago](http://arogozhnikov.github.io/2015/09/07/mlhep-slides.html), 
+I gave lectures for basic track. Previous materials were enriched with new topics and more explanations.
+
+Also, I've added many visualizations and animations compared to the previous year.
+
+This 3-day course is the *shortest course of machine learning*, and it  
+ still gives nice introduction into some advanced topics! 
+
+
+## Day 1 
+
+<iframe src="//www.slideshare.net/slideshow/embed_code/key/6GjD7DtZfLWLJA" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/mlhep-lectures-day-1-basic-track" title="MLHEP Lectures - day 1, basic track" target="_blank">MLHEP Lectures - day 1, basic track</a> </strong> from <strong><a href="//www.slideshare.net/arogozhnikov" target="_blank">arogozhnikov</a></strong> </div>
+
+Introduction to machine learning terminology. 
+Applications within High Energy Physics and outside HEP.
+
+* Basic problems: classification and regression.
+* Nearest neighbours approach and spacial indices
+* Overfitting (intro)
+* Curse of dimensionality
+* ROC curve, ROC AUC
+* Bayes optimal classifier
+* Density estimation: KDE and histograms
+* Parametric density estimation
+    * Mixtures for density estimation and EM algorithm
+* Generative approach vs discriminative approach
+* Linear models:
+    * Linear decision rule, intro to logistic regression
+    * Linear regression 
+
+
+## Day 2
+
+<iframe src="//www.slideshare.net/slideshow/embed_code/key/rY1KdZsIm9sWC8" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/mlhep-lectures-day-2-basic-track" title="MLHEP Lectures - day 2, basic track" target="_blank">MLHEP Lectures - day 2, basic track</a> </strong> from <strong><a href="//www.slideshare.net/arogozhnikov" target="_blank">arogozhnikov</a></strong> </div>
+
+* Linear models: logistic regression
+* Polynomial decision rule and polynomial regression
+* SVM (Support Vector Machine) and kernel trick
+* Overfitting: two definitions
+* Model selection
+* Regularizations: L1, L2, elastic net.
+* Decision trees 
+    * Splitting criteria for classification and regression
+    * Overfitting in trees: pre-stopping and post-pruning
+    * Non-stability of trees
+    * Feature importance
+* Ensembling
+    * RSM, subsampling, bagging. 
+    * Random Forest
+
+
+## Day 3
+
+<iframe src="//www.slideshare.net/slideshow/embed_code/key/e43kK0TpIBMIZQ" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/mlhep-lectures-day-3-basic-track" title="MLHEP Lectures - day 3, basic track" target="_blank">MLHEP Lectures - day 3, basic track</a> </strong> from <strong><a href="//www.slideshare.net/arogozhnikov" target="_blank">arogozhnikov</a></strong> </div>
+
+
+* Ensembles
+    * AdaBoost
+    * Gradient Boosting for regression
+    * Gradient Boosting for classification
+    * Second-order information
+    * Losses: regression, classification, ranking
+* Multiclass classification:
+    * ensembling 
+    * softmax modifications
+* Feature engineering and output engineering
+* Feature selection
+* Dimensionality rediction:
+    * PCA
+    * LDA, CSP
+    * LLE 
+    * Isomap
+* Hyperparameter optimization 
+    * ML-based approach
+    * Gaussian processes
+
+# Links
+
+1. All materials from school are available at [MLHEP 2016 repository](https://github.com/yandexdataschool/mlhep2016)
+2. [Official page at indico](http://indico.cern.ch/event/497368/)
+3. Kaggle competitions for school: [exotic higgs](https://inclass.kaggle.com/c/mlhep-2016-higgs-detection) and [triggers](https://inclass.kaggle.com/c/mlhep-2016-trigger-system)
+ 
+
