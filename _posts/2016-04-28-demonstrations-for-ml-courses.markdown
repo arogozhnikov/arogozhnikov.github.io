@@ -90,7 +90,7 @@ An explanatory post about [how gradient boosting works](https://arogozhnikov.git
 <img src="/images/ml_demonstrations/reinforcejs.png" width="500" />
 
 There is also a very nice mini-course of 
-[reinforcement learning](http://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html)
+[reinforcement learning](http://cs.stanford.edu/people/karpathy/reinforcejs/)
 in the format of set of interactive demonstrations, 
 which I highly recommend as a separate reading, but not part of other course.
  
