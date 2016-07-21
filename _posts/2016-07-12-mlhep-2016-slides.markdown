@@ -93,6 +93,12 @@ Applications within High Energy Physics and outside HEP.
     * ML-based approach
     * Gaussian processes
 
+## Day 4, part 1
+
+<iframe src="//www.slideshare.net/slideshow/embed_code/key/4IoUzJawfjXMCt" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/reweighting-and-boosting-to-uniforimty-in-hep" title="Reweighting and Boosting to uniforimty in HEP" target="_blank">Reweighting and Boosting to uniforimty in HEP</a> </strong> from <strong><a href="//www.slideshare.net/arogozhnikov" target="_blank">arogozhnikov</a></strong> </div>
+
+Slides of Tatiana Likhomanenko on non-trivial applications of boosting in High Energy Physics.
+
 # Links
 
 1. All materials from school are available at [MLHEP 2016 repository](https://github.com/yandexdataschool/mlhep2016)
