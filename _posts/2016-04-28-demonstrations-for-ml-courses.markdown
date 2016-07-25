@@ -3,6 +3,7 @@ layout: post
 title:  "Interactive demonstrations for ML courses"
 date: 2016-04-28 12:00:00
 author: Alex Rogozhnikov
+excerpt: Things from machine learning to try in your browser.
 tags: 
 - Machine Learning
 ---

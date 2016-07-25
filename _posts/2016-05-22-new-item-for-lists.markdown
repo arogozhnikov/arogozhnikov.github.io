@@ -3,6 +3,7 @@ layout: post
 title:  ".new_item for python lists"
 date: 2016-05-22 12:00:00
 author: Alex Rogozhnikov
+excerpt: an enhancement proposal for python lists
 tags: 
 - Python
 - AppendableList

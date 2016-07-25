@@ -3,6 +3,7 @@ layout: post
 title:  "Reweighting with Boosted Decision Trees"
 date: 2015-10-09 12:00:00
 author: Alex Rogozhnikov
+excerpt: 
 tags: 
 - High energy physics
 - reweighting of distributions
