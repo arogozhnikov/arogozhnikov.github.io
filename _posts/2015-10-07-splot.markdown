@@ -26,7 +26,7 @@ The distribution of some characteristic is different for them (let this be the p
 
 ## Observed distributions
 
-The picture above shows how this distibution should look like, 
+The picture above shows how this distribution should look like, 
 but due to inaccuracies during classification we will observe a different picture.
 
 Let's assume that with a probability of 80% a particle is classified correctly (and we are not using px during classification).
@@ -68,7 +68,7 @@ In the case when we have only two 'bins' is simple and straightforward. But when
 
 ![proportions inside each bin](/images/splot/5-3bins.png)
 
-But things are more complex in practice. We have not bins, but continuos distributions (which can be treated as many bins). 
+But things are more complex in practice. We have not bins, but continuous distributions (which can be treated as many bins). 
 
 Typically this is a distribution over mass. By fitting the mass we are able to split the mixture into two parts: signal channel and everything else.
 
@@ -139,7 +139,8 @@ Now, after we seen how this works, let's derive the formula for sWeights.
 
 The only information we have from fitting over mass is  $ \ps $, $ \pb$ which are probabilities of event $x$ to be signal and background. 
 
-Our main goal is to correctly reconstruct histogram. Let's reconstruct the number of _signal_ events in _particular_ bin. Let's introduce unknown $p_s$ and $p_b$ - probability that signal or background event will be in the named bin.
+Our main goal is to correctly reconstruct histogram. Let's reconstruct the number of _signal_ events in _particular_ bin. 
+Let's introduce unknown $p_s$ and $p_b$ - probability that signal or background event will be in the named bin.
 
 (Since mass and reconstructed variable are statistically independent for each class, $p_s$ and $p_b$ do not depend on mass.)
 
