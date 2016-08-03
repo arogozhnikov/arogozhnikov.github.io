@@ -94,12 +94,12 @@ meta: |
     <img src="/images/gbdt_attractive_picture.png" width="100%"
          alt="visualizing gradient boosting over decision trees"/>
     <p>
-        Gradient boosting (GB) is an algorithm of machine learning, which was developed in the late '90s, and still very
+        Gradient boosting (GB) is a machine learning algorithm developed in the late '90s that is still very
         popular.
-        It demonstrates state-of-the-art results in many commercial (and not only) applications.
+        It produces state-of-the-art results for many commercial (and academic) applications.
     </p>
     <p>
-        This page explains how gradient boosting algorithm is working using several interactive visualizations.
+        This page explains how the gradient boosting algorithm works using several interactive visualizations.
         \( \renewcommand{\vx}{\mathbf{x}} \)
     </p>
 
@@ -124,9 +124,9 @@ meta: |
         </div>
     </div>
     <p>
-        We take a 2-dimensional regression problem and investigate how a tree is able to reconstruct function
+        We take a 2-dimensional regression problem and investigate how a tree is able to reconstruct the function
         \( y = f(\vx) = f(x_1, x_2) \).
-        Play with the depth of a tree and also look at the process of building from above!
+        Play with the tree depth, then look at the tree-building process from above!
     </p>
 
 
@@ -134,26 +134,25 @@ meta: |
         <h2>Explanation: <span data-explained="tree" class="explanation-preview">how the tree is built?</span></h2>
         <div data-explained="tree" class="explanation-content">
             <p>
-                Firstly, let's revisit how a decision tree is working.
-                Decision tree is a fairly simple classifier, which splits the space of features into regions by
-                consequenlty
+                First, let's revisit how a decision tree works.
+                A decision tree is a fairly simple classifier which splits the space of features into regions by
                 applying trivial splitting (e.g. \( x_2 < 2.4 \) ).
-                Obtained regions have rectangular form, and in each region predictions are constant.
+                The resulting regions have a rectangular form. In each region the predictions are constant.
             </p>
             <p>
-                Gradient boosting relies on the regression trees (even when solving classification problem), which minimize
+                Gradient boosting relies on regression trees (even when solving a classification problem) which minimize
                 <i>mean squared error</i> (MSE).
                 Selecting a prediction for a leaf region is simple: to minimize MSE we should select an average target
                 value over samples in the leaf.
-                Tree is built greedily starting from the root: for each leaf a split is selected to minimize MSE (on
-                this step).
+                The tree is built greedily starting from the root: for each leaf a split is selected to minimize MSE for
+                this step.
             </p>
             <p>
-                Greediness of this process allows to build trees quite fast, but gives non-optimal results.
+                The greediness of this process allows it to build trees quite fast, but it produces suboptimal results.
                 Building an optimal tree turns out to be a very hard (NP-complete, actually) problem.
             </p>
             <p>
-                At the same time built trees do their job (better than how people typically think)
+                At the same time these built trees do their job (better than people typically think)
                 and fit well for our next step.
             </p>
         </div>
@@ -161,7 +160,7 @@ meta: |
 
     <h2>Gradient Boosting Visualized</h2>
     <p>
-        In this demo result is obtained after combining 100 decision trees.
+        This demo shows the result of combining 100 decision trees.
     </p>
     <div class="visualization-wrapper">
         <div>
@@ -183,7 +182,7 @@ meta: |
     <p>
         Not bad, right?
         As we see, gradient boosting is able to provide smooth detailed predictions by combining many trees of very
-        limited depth (cf. with single decision tree above!).
+        limited depth (cf. with the single decision tree above!).
     </p>
     <div>
         <h2>Explanation: <span data-explained="basic_gb" class="explanation-preview">what is gradient boosting?</span>
@@ -193,17 +192,17 @@ meta: |
                 To begin with, gradient boosting is an ensembling technique, which means that prediction is done by an
                 ensemble
                 of simpler estimators.
-                While theoretical framework makes it possible to create an ensemble of various estimators, in practice
+                While this theoretical framework makes it possible to create an ensemble of various estimators, in practice
                 we almost
                 always use GBDT &mdash; gradient boosting over decision trees.
-                This is the case I cover in the demo, but in principle any other estimator could be used instead of
+                This is the case I cover in the demo, but in principle any other estimator could be used instead of a
                 decision tree.
             </p>
             <p>
-                The aim of gradient boosting is to create ("train") an ensemble of trees, given that we know how to
+                The aim of gradient boosting is to create (or "train") an ensemble of trees, given that we know how to
                 train a single decision tree.
-                Technique has the name <b>boosting</b>, because we expect an ensemble to work much better compared
-                to a single estimator.
+                This technique is called <b>boosting</b> because we expect an ensemble to work much better than a
+                a single estimator.
             </p>
         </div>
     </div>
@@ -213,39 +212,39 @@ meta: |
     <p>
         Here comes the most interesting part.
         Gradient boosting builds an ensemble of trees <strong>one-by-one</strong>,
-        and predictions of individual trees <strong>are summed</strong>:
+        then the predictions of the individual trees <strong>are summed</strong>:
         $$
         D(\vx) = d_\text{tree 1}(\vx) + d_\text{tree 2}(\vx) + ...
         $$
     </p>
     <p>
-        Next decision tree is trying to cover discrepancy between target function \( f(\vx) \) and current
-        ensemble prediction <strong>by reconstructing residual</strong>.
+        The next decision tree tries to cover the discrepancy between the target function \( f(\vx) \) and the current
+        ensemble prediction <strong>by reconstructing the residual</strong>.
     </p>
     <p>
-        For example, given, that ensemble has 3 trees, prediction of an ensemble is:
+        For example, if an ensemble has 3 trees the prediction of that ensemble is:
         $$
         D(\vx) = d_\text{tree 1}(\vx) + d_\text{tree 2}(\vx) + d_\text{tree 3}(\vx)
         $$
 
-        Next tree ( \( \text{tree 4} \) ) in the ensemble should complement well existing trees and minimize
-        the training error of an ensemble. <br/>
+        The next tree ( \( \text{tree 4} \) ) in the ensemble should complement well the existing trees and minimize
+        the training error of the ensemble. <br/>
         In the ideal case we'd be happy to have:
         $$
         D(\vx) + d_\text{tree 4}(\vx) = f(\vx).
         $$
     </p>
     <p>
-        To become a bit closer to the destination, we train a tree to reconstruct the difference between
-        target function and current predictions of an ensemble, which is called <strong>residual</strong>:
+        To get a bit closer to the destination, we train a tree to reconstruct the difference between the
+        target function and the current predictions of an ensemble, which is called the <strong>residual</strong>:
         $$
         R(\vx) = f(\vx) - D(\vx).
         $$
         Did you notice? If decision tree completely reconstructs \( R(\vx) \),
-        the whole ensemble gives predictions without errors (after adding
+        the whole ensemble gives predictions without errors (after adding the
         <nobr>newly-trained</nobr>
         tree to the ensemble)!
-        In practice, however, this never happens, and we continue the iterative process of ensemble building.
+        That said, in practice this never happens, so we instead continue the iterative process of ensemble building.
     </p>
 
     <div class="visualization-wrapper">
@@ -279,24 +278,24 @@ meta: |
         </div>
     </div>
     <p>
-        (pay attention that scale of the right plot over vertical axis decreases over iterations, as the residual
+        Look at the plot on the right. pay attention to how the values on the vertical (y) axis decrease after many trees have been built (and the residual
         becomes smaller and smaller). <br/>
-        After playing with demo above you could notice some <span data-explained="comments" class="explanation-preview">interesting things:</span>
+        After playing with this residuals demo you may notice some <span data-explained="comments" class="explanation-preview">interesting things:</span>
     </p>
     <ul data-explained="comments" class="explanation-content">
-        <li>before tree is added to an ensemble, it's predictions are multiplied by some factor</li>
+        <li>before a tree is added to an ensemble, it's predictions are multiplied by some factor</li>
         <li>this factor (called \( \eta \) or learning rate) is an important parameter of GB ( \( \eta = 0.3 \) in this
             demo)
         </li>
-        <li>set number of trees to 10 and vary the depth: the higher the depth, the smaller residual, but it's more
+        <li>if we set number of trees to 10 and vary the depth: we notice that as the depth gets higher, the residual gets smaller, but it's also more
             noisy
         </li>
         <li>
-            discontinuities ('spikes') appear at those points where decision tree made a splitting
+            discontinuities ('spikes') appear at those points where a decision tree split
         </li>
         <li>
-            the larger learning rate &mdash; the larger 'step' made by a single decision tree
-            &mdash; and the larger discontinuity
+            the larger the learning rate &mdash; the larger the 'step' made by a single decision tree
+            &mdash; and the larger the discontinuity
         </li>
         <li>
             in practice GBDT is used with small learning rate ( \( 0.01 < \eta < 0.1 \) ) and large number of trees
@@ -308,9 +307,8 @@ meta: |
         Things become more interesting when we want to build an ensemble for classification.
     </p>
     <p>
-        A naive approach with covering difference between 'where we are' and 'where we want to get' seems not to be
-        working anymore,
-        and things become more interesting at this point.
+        A naive approach that covers the difference between 'where we are' and 'where we want to get' doesn't seem to work anymore,
+        and things become more interesting.
     </p>
     <p>
         But that's a topic for another post.
