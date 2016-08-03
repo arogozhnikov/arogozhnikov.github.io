@@ -3,6 +3,7 @@ layout: post
 title:  "sPlot: a technique to reconstruct components of mixture"
 date: 2015-10-07 12:00:00
 author: Alex Rogozhnikov
+excerpt: "Explanation of sPlot ans sWeight - an important tool to deal with mixtures of distributions"
 tags: 
 - High energy physics
 - sPlot
@@ -237,9 +238,9 @@ we are getting needed linear dependency.
  
 ### Uncorrelatedness
 
-The main assuption we used here is that distribution inside each bin is abolutely indentical.
+The main assumption we used here is that distribution inside each bin is absolutely indentical.
 
-In other words, we stated that there is no correlation between the index of bin and the reconstructed variable. Remember that bin corresponds to some interval in mass, and finaly we get:
+In other words, we stated that there is no correlation between the index of bin and the reconstructed variable. Remember that bin corresponds to some interval in mass, and finally we get:
 
 __reconstructed variable shall not be correlated with mass variables (or any other splotted variable)__
 
@@ -253,3 +254,7 @@ __reconstructed variable shall not be correlated with mass variables (or any oth
 ## Sources and code
 
 The code for this post may be found at [`hep_ml` repository](https://github.com/arogozhnikov/hep_ml/).
+
+## Links
+
+A very close [explanation](https://indico.cern.ch/event/257864/contributions/1587661/attachments/453353/628570/sweff.pdf) was written by Michael Schmelling
