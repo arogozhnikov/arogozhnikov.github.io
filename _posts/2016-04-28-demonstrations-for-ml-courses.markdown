@@ -173,6 +173,9 @@ but rather as a visualization for his version of update rule.
 <!-- TODO Kalman filtering http://www.anuncommonlab.com/articles/how-kalman-filters-work/ -->
 <!-- EKF http://home.wlu.edu/~levys/kalman_tutorial/ -->
 
+<!-- TODO convolutions https://github.com/vdumoulin/conv_arithmetic -->
+<!-- TODO my gradient boosting -->
+
 ### Missing things
 
 Demonstrations I haven't found so far (but It would be nice to have those):
