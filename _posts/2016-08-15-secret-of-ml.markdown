@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Occam razor vs. machine learning"
-excerpt: "Gini is MSE, Entropy is LogLoss and other secrets of machine learning textbooks don't write about"
+excerpt: "Gini is MSE, Entropy is LogLoss and other secrets of machine learning that textbooks don't write about"
 date: 2016-07-12 12:00:00
 author: Alex Rogozhnikov
 tags: 

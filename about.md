@@ -24,7 +24,8 @@ I have some other degrees as well :)
 * master degree in Math &amp; CS from Computer Science faculty of MSU
 * master degree from [faculty of mathematics](http://math.hse.ru) of Higher School of Economics (definitely great place if you want to devote your life to math) 
 * degree from [Yandex School of Data Analysis](http://yandexdataschool.com), 
-  which is one of the best places (or simply best place?) to study programming, data analysis and machine learning.   
+  which is one of the best places (or simply best place?) to study programming, data analysis and machine learning.
+* I also have many [degrees of freedom](https://en.wikipedia.org/wiki/Degrees_of_freedom_(mechanics)) (as many other complex physical systems :)     
 
 
 Currently I'm working at [Yandex](http://yandex.ru), involved in [CERN](http://cern.ch) projects. 
