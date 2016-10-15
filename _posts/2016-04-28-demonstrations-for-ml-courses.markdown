@@ -173,20 +173,20 @@ MNIST digits.
 Classical demonstrations of neural networks right in the browser. 
 Has very handy interface and also can use GPU right from the browser.
 
-![keras_js](/images/lstm_reviews.png)
+![keras_js](/images/ml_demonstrations/lstm_reviews.png)
 
 
 ## Attention and memory in neural networks
 
 are explained in a [this post](http://distill.pub/2016/augmented-rnns/) by Google Brain team
 
-![Interactive demonstration of attention and augmentation in neural networks](/images/attention_memory.png)
+![Interactive demonstration of attention and augmentation in neural networks](/images/ml_demonstrations/attention_memory.png)
 
 ## Misread tSNE
 
 Another [long-read](http://distill.pub/2016/misread-tsne/) from Google Brain team is devoted to understanding tSNE and its output
 
-![Misread tSNE blog](/images/misread-tsne.png)
+![Misread tSNE blog](/images/ml_demonstrations/misread-tsne.png)
 
 ## Generative adversarial networks
 
