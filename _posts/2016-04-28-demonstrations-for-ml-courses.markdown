@@ -111,7 +111,7 @@ while I was planning when I can contribute this feature, tensorflow team
 You can play with gradient boosting online too with my 
 [demonstration](http://arogozhnikov.github.io/2016/07/05/gradient_boosting_playground.html):
 
-![gradient boosting playground online](/images/demonstrations/gb-playground-preview.png)
+![gradient boosting playground online](/images/ml_demonstrations/gb-playground-preview.png)
    
 ## Reconstructing an image with different ML techniques
 
