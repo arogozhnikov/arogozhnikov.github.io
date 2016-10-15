@@ -104,6 +104,13 @@ What was really missing in the Karpathy's presentation about neural networks
 is demonstration of activations of inner neurons, and 
 while I was planning when I can contribute this feature, tensorflow team
   published an awesome demo, which already has this and also provides more different knobs to play with.
+  
+  
+## Gradient boosting demo for classification
+ 
+You can play with gradient boosting online too:
+
+![gradient boosting playground online](/images/gb-playground-preview.png)
    
 ## Reconstructing an image with different ML techniques
 
@@ -161,6 +168,25 @@ by Durk Kingma, where
 you can play with hidden parameters and let networks "dream"
 MNIST digits.
 
+## [Keras JS demonstrations](https://transcranial.github.io/keras-js/)
+
+Classical demonstrations of neural networks right in the browser. 
+Has very handy interface and also can use GPU right from the browser.
+
+![keras_js](/images/lstm_reviews.png)
+
+
+## Attention and memory in neural networks
+
+are explained in a [this post](http://distill.pub/2016/augmented-rnns/) by Google Brain team
+
+![Interactive demonstration of attention and augmentation in neural networks](/images/attention_memory.png)
+
+## Misread tSNE
+
+Another [long-read](http://distill.pub/2016/misread-tsne/) from Google Brain team is devoted to understanding tSNE and its output
+
+![Misread tSNE blog](/images/misread-tsne.png)
 
 ## Generative adversarial networks
 
@@ -172,9 +198,8 @@ but rather as a visualization for his version of update rule.
 
 <!-- TODO Kalman filtering http://www.anuncommonlab.com/articles/how-kalman-filters-work/ -->
 <!-- EKF http://home.wlu.edu/~levys/kalman_tutorial/ -->
-
 <!-- TODO convolutions https://github.com/vdumoulin/conv_arithmetic -->
-<!-- TODO my gradient boosting -->
+
 
 ### Missing things
 
