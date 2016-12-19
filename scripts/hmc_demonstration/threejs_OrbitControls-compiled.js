@@ -950,4 +950,4 @@ Object.defineProperties(THREE.OrbitControls.prototype, {
 
 });
 
-//# sourceMappingURL=threejs_orbitcontrols-compiled.js.map
+//# sourceMappingURL=threejs_OrbitControls-compiled.js.map
