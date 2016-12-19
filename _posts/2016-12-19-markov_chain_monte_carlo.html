@@ -1,0 +1,638 @@
+---
+layout: post
+title: "Hamiltonian Monte-Carlo explained"
+excerpt: "Understanding an effective way of sampling from complex distributions with 3d-demonstrations"
+
+date: "2016-12-19"
+author: Alex Rogozhnikov
+tags:
+- demonstration
+- interactive visualization
+- Markov chain monte carlo
+- Hamiltonian monte carlo
+meta: |
+    <meta name="twitter:card" value="summary_large_image">
+    <meta name="twitter:title" content="Hamiltonian Monte Carlo explained by Alex Rogozhnikov">
+    <meta name="twitter:description" content="Understanding an effective way of sampling from complex distributions with 3d-demonstrations">
+    <meta name="twitter:url" content="https://arogozhnikov.github.io/2016/12/19/markov_chain_monte_carlo.html">
+    <meta name="twitter:image" content="http://arogozhnikov.github.io/images/ml_demonstrations/hmc_explained.png">
+
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Hamiltonian Monte Carlo explained by Alex Rogozhnikov" />
+    <meta property="og:description" content="Understanding an effective way of sampling from complex distributions with 3d-demonstrations" />
+    <meta property="og:url" content="https://arogozhnikov.github.io/2016/12/19/markov_chain_monte_carlo.html" />
+    <meta property="og:image" content="http://arogozhnikov.github.io/images/ml_demonstrations/hmc_explained.png" />
+
+---
+
+
+	<style type="text/css">
+		div.demo-wrapper {
+			width: 800px;
+			margin: auto;
+		}
+
+		div.visualization-wrapper {
+			font-size: 14px;
+			margin-top: 0.5em;
+			margin-bottom: 0.5em;
+		}
+
+		div.controls {
+			margin: auto;
+			padding: 10px 5px;
+			background-color: #eee;
+		}
+
+		input[type=range] {
+			display: block;
+		}
+
+		div.control {
+			text-align: center;
+			display: inline-block;
+			margin: 0 12px;
+			vertical-align: text-top;
+		}
+
+		.explanation-preview {
+			color: #237;
+			cursor: pointer;
+			border-bottom: 1px dotted #237;
+		}
+
+		.explanation-content {
+			display: None;
+		}
+
+		.dataset_control canvas {
+			margin: 4px;
+			cursor: pointer;
+		}
+
+		.dataset_control canvas.selected {
+			outline: 4px solid #bcc;
+		}
+
+		.dataset_control canvas:hover {
+			outline: 5px solid #aca;
+		}
+
+		.alex-remark{
+			position: absolute;
+			right: -160px;
+			width: 120px;
+			top: 50%;
+		}
+		.katex {
+			font-size: 1em !important;
+		}
+
+		.rejected_color {color: #844; }
+		.generated_color {color: #484; }
+		.true_sample_color {color: #44a; }
+	</style>
+
+
+	<div id="demo-wrapper" class="demo-wrapper">
+		<p>
+			<strong>MCMC (Markov chain Monte Carlo)</strong> is a family of methods that are
+			applied in computational physics and chemistry and also widely used in bayesian machine learning.
+		</p>
+		<p>
+			It is used to simulate physical systems with
+			<a href="https://en.wikipedia.org/wiki/Boltzmann_distribution">Gibbs canonical distribution</a>:
+			<!-- and not only them -->
+			$$
+				p(\vx) \propto \exp\left( - \frac{U(\vx)}{T} \right)
+			$$
+            <!-- In Hamiltonian mechanics, we typically use `$q, p, H(q, p)$`, but I tried to make it as simple as I can... -->
+			Probability `$ p(\vx) $` of a system to be in the state `$ \vx $` depends on the energy of the state `$U(\vx)$` and temperature `$ T $`.
+		</p>
+		<p>
+			This distribution describes positions and velocities of particles in the gas, for instance.
+			<!-- at equilibrium with heat bath temperature T ... -->
+			In bayesian machine learning, it defines distribution of model parameters (such as weights of a neural network).
+		</p>
+		<p>
+			Example: <span  class='explanation-preview' data-explained='normal'>normal distribution is a Gibbs distribution</span>
+		</p>
+		<p class='explanation-content' data-explained='normal'>
+			For example, consider a <a href='https://en.wikipedia.org/wiki/Multivariate_normal_distribution'>multivariate normal distribution</a>:
+			$$
+				p(\vx) \propto \exp\left( - \dfrac{1}{2} (\vx - \mu)^T \Sigma^{-1} (\vx - \mu) \right)
+			$$
+			which corresponds to the following potential energy:
+			$$
+				U(\vx) = \dfrac{1}{2} (\vx - \mu)^T \Sigma^{-1} (\vx - \mu), \qquad T=1.
+			$$
+			Any distribution can be rewritten as Gibbs canonical distribution, but for many problems such energy-based distributions appear very naturally.
+		</p>
+		<h3>
+			What is Monte Carlo (and why is it needed)?
+		</h3>
+		<p>
+			Suppose that you want to study the properties of some model with thousands of variables
+			(for <a href="https://en.wikipedia.org/wiki/Lattice_model_(physics)">lattice models</a> that's very few!).
+			For instance, average energy:
+			$$
+				< U > = \int U( \vx ) \, p( \vx )  d \vx
+			$$
+			 <!--(as many other macro-characteristics)-->
+			is an integral over distribution.
+			Computing this integral isn't possible, even using numerical approximations (lattice over 1000 variables is incredibly large).
+		</p>
+		<p>
+			By sampling from `$ p(\vx) $` an empirical estimate can be obtained:
+			$$
+				< U > = \dfrac{1}{N} \sum_{i=1}^{N} U( \vx_i ), \qquad \vx_i \sim p ( \cdot )
+			$$
+
+			This is <strong>the idea of Monte Carlo</strong>: to compute average energy / speed of molecules in the gas,
+			take random molecules and average their energy / speed.
+		</p>
+		<div style="text-align: center; padding: 8px 0px;">
+			<img src="/images/ml_demonstrations/mc_integration.png" style="width: 100%; margin: auto; display: block;"/>
+			<small>
+				Integration with distribution pdf (left) is replaced with averaging over samples from distribution (blue points on the right). <br />
+				Rightmost plot demonstrates true samples on the energy surface, thus we can see corresponding energy `$ U(\vx) $`.
+			</small>
+		</div>
+		<p>
+			In modern programming languages there are functions to sample from simple distributions: uniform, normal, Poisson...
+			There is no simple procedure to sample from Gibbs distribution: it is times more complicated, but possible using Markov Chains.
+		</p>
+		<p>
+			That's <strong>our goal</strong>: learn to sample from the canonical distribution.
+		</p>
+
+
+		<h2>
+			How temperature influences canonical distribution:
+		</h2>
+		<div id='temperature_visualization_wrapper'>
+			<div class="visualization-wrapper ">
+				<div class="visualization" style="display: flex; justify-content: space-between; text-align: center; font-size: 1.3em;">
+					<div>
+						<div>unnormalized pdf `$ p(\vx) = p(x_1, x_2)$`</div>
+						<div class='visualization_right'></div>
+					</div>
+					<div>
+						<div>Energy `$ U(\vx) = U(x_1, x_2)$`</div>
+						<div class='visualization_left'></div>
+					</div>
+				</div>
+				<div class="controls">
+					<div class="control" style="text-align: left;">
+						Distribution <br />
+						<div class='dataset_control'></div>
+					</div>
+					<div class='control' style="text-align: left;">
+						Show <br />
+						<label>
+							<input type="checkbox" class="show_true_control" checked="checked" /> <span class='true_sample_color'>true samples<br/>from distribution</span>
+						</label>
+					</div>
+					<div class="control">
+						<label>
+							temperature T: <span class="temperature_display" ></span>
+                        	<input type="range" min="0" max="4" value="2" step="1" class="temperature_control" />
+						</label>
+					</div>
+					<div class='control'>
+						Play with a temperature  <br /> and look at different distributions!
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<p>
+			As intuition says, system has higher probability of staying in the states with lower energies.
+			As temperature goes down, imbalance becomes stronger.
+			When `$T$` tends to zero, the system stays in the state(s) with the lowest energy.
+		</p>
+
+		<h3>
+			— So, we minimize energy?
+		</h3>
+		<p>
+			Not really. Minimal-energy state is very important, but it is wrong to think that system can exist only in this state.
+			To get good estimates of the system properties, <strong>a representative sampling </strong> of possible states is required
+			(blue points demonstrate the desired distribution).
+		</p>
+		<p>
+			Pro tip: for bayesian people
+			using <a href='https://en.wikipedia.org/wiki/Maximum_a_posteriori_estimation'>maximum a posteriori estimation</a>
+			is the same as taking state with the lowest energy, while sampling corresponds to using
+			<a href='https://en.wikipedia.org/wiki/Posterior_probability'>bayesian posterior distribution</a>.
+			The latter has its benefits (though it's not simple to obtain!).
+		</p>
+		<h3>
+			<span class='explanation-preview' data-explained='complexity'>Why sampling from Gibbs distribution is complex?</span>
+		</h3>
+		<div class='explanation-content' data-explained='complexity'>
+			<p>
+				In Gibbs distribution probabilities `$ p(\vx) $` are unknown.
+				One can compute `$ U(\vx )$`, `$ T $` is known, but there is also a normalization coefficient `$Z$`
+				$$
+					p(\vx) = \frac{1}{Z} \exp \left( - \frac{U(\vx)}{T} \right) \qquad Z = \int \exp\left( -\frac{U(\vx)}{T} \right) d \vx,
+				$$
+				which can't be computed (except simple situations like multivariate normal).
+			</p>
+			<p>
+				All we have is a following ratio of probabilities (which doesn't depend on `$Z$`)
+				$$
+					\dfrac{p(\vx_1)}{p(\vx_2)} = \dfrac{ \exp\left( - \frac{U(\vx_1)}{T} \right) }{ \exp\left(- \frac{U(\vx_2)}{T} \right) }
+					= \exp\left( \frac{U(\vx_2) - U(\vx_1)}{T} \right)
+				$$
+				and Markov chains can sample from the distribution using <strong>only this ratio</strong>. Let's see how.
+			</p>
+		</div>
+
+		<h2>
+			Metropolis-Hastings algorithm for MCMC
+		</h2>
+		<p>
+			The simplest <a href="https://en.wikipedia.org/wiki/Markov_chain">Markov Chain</a> process that can sample from the distribution
+			picks the neighbour of the current state and either <span class='generated_color'>accepts</span>
+			it or <span class='rejected_color'>rejects</span> depending on the change in energy:
+		</p>
+		<div id="mh_visualization_wrapper" class="visualization-wrapper"></div>
+		<p>
+			Algorithm produces a chain of states: `$ \vx_1, \vx_2, ..., \vx_n $` (green points). <br>
+			Each time a candidate from a neighbourhood of the last state is selected
+			`$\vx_n' = \vx_n + noise $` (noise is usually taken to be gaussian with some spread `$\sigma$`).
+		</p>
+		<p>
+			With probability `$ p = \min \left[1, \exp\left( \frac{U(\vx_n) - U(\vx_n')}{T} \right) \right] $` system
+			<span class='generated_color'>accepts new state</span> (jumps to the new state):
+			`$ \vx_{n+1} = \vx_n' $` and with probability `$ 1 - p $`
+			<span class='rejected_color'>new state is rejected</span>: `$ \vx_{n+1} = \vx_n $`.
+		</p>
+		<p>
+			Note, when energy is lower in new state `$ U(\vx'_n) < U(\vx_n)$` it is always accepted: `$ p = 1 $`.
+			This way we give preference to the states with lower energies, while not restricting the algorithm to always decrease the energy.
+			The lower temperature, the lower probability to increase energy.
+		</p>
+		<h3>
+			<span class='explanation-preview' data-explained='MH'>Why does Metropolis-Hastings work?</span>
+		</h3>
+		<div class='explanation-content' data-explained='MH' >
+			<p>
+				The most interesting part is why this trivial algorithm is able to correctly sample from Gibbs distribution?
+			</p>
+			<p>
+				First thing to check is that single step of Metropolis-Hastings preserves canonical distribution.
+				Formally, if `$\vx_n \sim p(\cdot)$` is Gibbs-distributed, then on the next step
+				`$\vx_{n+1} \sim p(\cdot)$` is also Gibbs-distributed.
+			</p>
+			<p>
+				When the space of parameters `$\vx$` is discrete, this condition is written as:
+				$$
+					\forall \vx \quad p(\vx) = \sum_{\vx'} p(\vx') \; p(\vx' \to \vx), \qquad  p(\vx) \sim e^{-U(\vx) / T}, \; p(\vx') \sim e^{-U(\vx') / T}
+				$$
+				with `$p(\vx' \to \vx)$` being probability of jumping from the state `$ \vx_n = \vx'$` to the state `$ \vx_{n+1} = \vx $`.
+			</p>
+			<p>
+				However, there is a much stronger condition, which guarantees preservation of canonical distribution.
+				Namely, the <i>detailed balance</i> condition:
+				$$
+					\forall \vx, \vx' \quad p(\vx') \; p(\vx' \to \vx) = p(\vx) \; p(\vx \to \vx')
+				$$
+				implies previous condition (check it!). Markov chains with this condition are called <i>reversible</i>.
+			</p>
+			<p>
+				Reversibility is much easier to check. Below check is done for a Metropolis-Hastings step:
+				$$
+					\frac{ p(\vx' \to \vx) }{ p(\vx \to \vx') }
+					= \frac{ p(noise = \vx - \vx') \, p_\text{accept} (\vx' \to \vx)  }{ p(noise = \vx' - \vx) \, p_\text{accept} (\vx \to \vx') } =
+				$$
+				$$
+					= \frac{ p_\text{accept} (\vx' \to \vx)  }{ p_\text{accept} (\vx \to \vx') }
+					= \frac{ \min(1, e^{ (U(\vx') - U(\vx) ) / T }) } { \min(1, e^{ (U(\vx) - U(\vx') ) / T } )}
+					= e^{ (U(\vx') - U(\vx) ) / T }
+					= \frac{ p(\vx) }{ p(\vx') }
+				$$
+				Due to this equality the MH sampling can converge only to canonical distribution, not something else.
+			</p>
+		</div>
+		<!--
+		<h3>
+			<span class='explanation-preview' data-explained='burnin'>Burn-in process</span>
+		</h3>
+		<div class='explanation-content' data-explained='burnin' >
+			<p>
+				In the beginning generated samples look very inappropriate — definitely, it's just some candidate point found by algorithm to be ok,
+				but it doesn't seem to 'belong' to the correct distribution.
+			</p>
+			<p>
+				Markov chains CLT says that distribution of generates samples converges to the desired distribution,
+				but provides no guarantees about
+			</p>
+			<ul>
+				<li> how fast is this convergence </li>
+				<li> how long would it take to get representative sample from distribution (MH has serious problems here) </li>
+			</ul>
+			<p>
+				So we wait for algorithm to converge to the correct distribution (and discard generated samples) till some moment.
+				This process is called <i>burn-in</i>.
+			</p>
+		</div>
+		-->
+		<h3>
+			<span class='explanation-preview' data-explained='mh_problems'>Problems of Metropolis-Hastings algorithm</span>
+
+		</h3>
+		<div class='explanation-content' data-explained='mh_problems'>
+			<p>
+				MH is very simple and quite general. The only thing required by algorithm is ability to compute energy `$U(\vx)$`.
+				At the same time
+			</p>
+			<ul>
+				<li>
+					too large step size `$ \sigma $` leads to a large fraction of rejected samples,
+					while too small `$ \sigma $` makes very small steps, thus it takes long time to 'explore the distribution' (check this in demonstration!)
+				</li>
+				<li>
+					in high-dimensional spaces (very important use-case),
+					MH explores the space very inefficiently because of it's random-walk behavior.  <br />
+					Guessing good direction in 1000 dimensions is incomparably harder than doing this for 2 dimensions!
+				</li>
+				<li>
+					MH can't travel long distances (significantly larger than `$ \sigma $`) between isolated local minimums
+				</li>
+			</ul>
+		</div>
+		<p>
+			Sampling high-dimensional distributions with MH becomes very inefficient in practice. A more efficient scheme is called Hamiltonian Monte Carlo (HMC).
+		</p>
+		<h2>Hamiltonian Monte Carlo</h2>
+		<p>
+			Physical analogy to Hamiltonian MC: imagine a hockey pluck sliding over a surface without friction,
+			being stopped at some point in time and then kicked again in a random direction.
+		</p>
+		<div id="hmc_visualization_wrapper" class="visualization-wrapper"></div>
+		<p>
+			<a href='https://en.wikipedia.org/wiki/Hybrid_Monte_Carlo'>Hamiltonian MC</a>
+			employs the trick developed by nature (and well-known in statistical physics).
+			Velocity `$v$` is added to the parameters describing the system.
+			Energy of the system consists of potential and kinetic parts:
+			$$
+				E(\vx, \vv) = U(\vx) + K(\vv), \qquad K(\vv) = \sum_i \dfrac{m \, v^2_i}{2}
+			$$
+			Thus, velocities `$ \vv $` and positions `$ \vx $` have <strong>independent</strong> canonical distributions:
+			$$
+				p(\vx, \vv)
+					\propto \exp\left(  \frac{-E(\vx, \vv)}{T}  \right)
+					= \exp\left(  \frac{-U(\vx)}{T}  \right) \, \exp \left( \frac{-K(\vv)}{T} \right)
+					\propto p(\vx) \; p(\vv).
+			$$
+			So once we can sample from joint distribution `$p(\vx, \vv)$`, we also can sample `$\vx$` by ignoring computed velocities `$\vv$`.
+		</p>
+		<h3>
+			<span class='explanation-preview' data-explained='hmcsampling'> — How can we perform joint sampling? </span>
+		</h3>
+		<div class='explanation-content' data-explained='hmcsampling'>
+			<p>
+				– Just run physics simulation and get canonical distribution?
+			</p>
+			<p>
+				Very close: after you initialize the system parameters `$\vx, \vv$`
+				and let it evolve ('slide') using <a href='https://en.wikipedia.org/wiki/Hamiltonian_mechanics'>physics equations</a>
+				$$
+					\dot{x}_i = v_i, \qquad m \dot{v_i} = - \dfrac{ \partial U (\vx)}{ \partial x_i }
+				$$
+				during a long period of time, you'll <strong>not</strong> get a canonical distribution by collecting system states,
+				because <strong>energy `$ E $` is conserved in the system</strong>.
+				Physics allows only producing samples `$ (\vx, \vv) $` with the same energy `$ E(\vx, \vv) = E_0 $`,
+				so we need to add something to 'plain physics' to get correct sampling.
+			</p>
+			<p>
+				For instance, gas molecules are colliding, what changes their velocity and energy in an unpredictable way.
+				Similar idea can be used here, however there is a much simpler method – at some points in time velocity is resampled from `$p(\vv)$`,
+				thus changing the total energy
+				(this is how 'hit the puck in random direction' step appears).
+			</p>
+			<p>
+				Sampling from `$p(\vv)$` is very simple, because `$\vv$` is normally distributed.
+			</p>
+		</div>
+		<h3>
+			<span class='explanation-preview' data-explained='thatsimple'> — Is everything that simple? </span>
+		</h3>
+		<div class='explanation-content' data-explained='thatsimple'>
+			<p>
+				Hit the puck, wait, stop it and then hit again. <br />
+				This recipe sounds too simple to work, but if puck's trajectory could be computed precisely, it would be the solution.
+			</p>
+			<p>
+				However, the computer simulation is imprecise and this influences the result distribution.
+				For instance, the energy isn't conserved in the simulation.
+			</p>
+			<p>
+				To minimize this influence, we can employ two tricks:
+			</p>
+			<ul>
+				<li>
+					<a href='https://en.wikipedia.org/wiki/Leapfrog_integration'>leapfrog numerical integration</a>,
+					which is reversible in time. <br />
+					Reversibility makes it drastically easier to ensure detailed balance</li>
+				<li>Metropolis-Hastings rejections to compensate difference in energy between energy at the start and in the end.
+					This way (quite few) rejected samples appear in HMC.
+				</li>
+			</ul>
+		</div>
+		<h3>Pros and cons of Hamiltonian Monte Carlo</h3>
+		<p>
+			There is no free lunch, and Hamiltonian MC has its price: HMC uses not only energy `$U(\vx)$`, but also it's gradient.
+			Hence possible applications are limited to the case when gradient exists and can be computed in reasonable time.
+		</p>
+		<p>
+			The major differences compared to Metropolis-Hastings are:
+		</p>
+		<ul>
+			<li>distances between successive generated points are typically large, so we need less iterations to get representative sampling</li>
+			<li>'price' of a single iteration is higher, but HMC is still significantly more efficient </li>
+			<li>Hamiltonian MC in most cases accepts new states (take a look at rejected samples in the demonstrations!) </li>
+			<li>still, HMC has problems with sampling from distributions with isolated local minimums <br />
+				Investigate last distribution at low temperatures — 'puck' doesn't have enough energy to jump
+				from the first minimum to the second over the energy barrier.  </li>
+		</ul>
+		<h2>
+			Bonus part: <span class='explanation-preview' data-explained='barriers'> Passing energy barriers in Hamiltonian MC </span>
+		</h2>
+		<div class='explanation-content' data-explained='barriers'>
+			<p>
+				As you probably noticed, that at low temperatures both MH and HMC can't overcome energy barrier
+				(last distribution has two energy minima, separated by an energy barrier).
+				Once system reaches some well-isolated local minimum, it gets stuck inside
+				and probability to get to the different minimum becomes negligible, thus generated sample is 'incomplete'.
+			</p>
+			<p>
+				One empirical solution is manually restarting the generation from other start point, hoping to get stuck at the other minimum.
+				Another way is to develop some algorithm to jump over energy barriers. One of such approaches is called <strong>tempering during a trajectory:</strong>
+			</p>
+			<div id="hmc_tempering_visualization_wrapper" class="visualization-wrapper"></div>
+			<p>
+				Play with tempering `$\alpha$` and trajectory length to get to the other minimum point! <br />
+				Can you make it jumping between minimums frequently? What if you decrease temperature?
+			</p>
+			<p>
+				Idea behind tempering:
+				the trajectory is split into two halves, which take equal time.
+				During the first half,
+				velocity is increased at each step by factor `$ \alpha $`: `$ \vv_\text{next} = \alpha \vv $`,
+				during the second half velocity is decreased at each step by the same factor: `$ \vv_\text{next} = \frac{1}{\alpha} \vv $`.
+			</p>
+			<p>
+				This trick increases the energy of system during first half of trajectory and then decreases it.
+			</p>
+			<p>
+				While this process is reversible and can jump over energy barriers, the energies at the beginning and at the end are quite different.
+				To correct this, rejection rule from Metropolis-Hastings algorithm is employed.
+				Rejections become very frequent at low temperatures, thus amount of 'useless' computations becomes significant.
+			</p>
+			<p>
+				One needs to (blindly!) guess both 'slide time' and `$\alpha$`.
+				An algorithm is quite sensible to both, in some cases producing too many rejections, in the other exploring the space inefficiently.
+				<br />
+				All in all: exploration is hard.
+			</p>
+		</div>
+
+
+		<h2>Links</h2>
+		<ol>
+			<li>
+				Radford M. Neal <a href="https://arxiv.org/pdf/1206.1901.pdf">MCMC using Hamiltonian dynamics</a> <br />
+				<small>Interactive presentation mostly based on this summary.</small>
+			</li>
+			<li>
+				Charles J. Geyer, <a href="http://www.mcmchandbook.net/HandbookChapter1.pdf">Introduction to Markov Chain Monte Carlo</a><br />
+				<small>Metropolis-Hastings algorithm together with MCMC practicalities </small>
+			</li>
+			<li>
+				<a href="http://deeplearning.net/tutorial/hmc.html">HMC implementation in theano</a><br />
+				<small>When you don't want to compute derivatives in HMC...</small>
+			</li>
+			<li>
+				<a href='https://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html'>Interactive demonstrations of machine learning</a><br />
+				<small>A collection of nice visualizations</small>
+			</li>
+			<!-- <li>
+				<a href='http://www.stat.columbia.edu/~gelman/research/published/nuts.pdf'>NUTS sampler</a><br />
+				<small>NUTS sampler can automatically select appropriate parameters of HMC</small>
+			</li> -->
+			<!--<li>
+				FastML has <a href='http://fastml.com/bayesian-machine-learning/'>a nice collection of resources</a> about bayesian machine learning.
+			</li>-->
+		</ol>
+		<p>
+			Plots in this demonstration are powered by webGL shaders and <a href='https://threejs.org/'>three.js</a> library,
+			so mobile (and quite old) browsers may have problems with rendering plots correctly.
+		</p>
+	</div>
+
+	<!-- special place for templates -->
+	<div id="templates" style="display: None;">
+		<div class="visualization-wrapper mc_visualization_wrapper ">
+			<div class="visualization"></div>
+			<div class="controls">
+				<div class="control" style="text-align: left;">
+					Distribution <br />
+					<div class='dataset_control'></div>
+				</div>
+				<div class="control" style="text-align: left;">
+					<label class='method_controls'>
+					method
+					<select class="method_select_control">
+						<option value="mh">Metropolis-Hastings</option>
+						<option value="hmc">Hamiltonian MC</option>
+					</select>
+					<br />
+				</label>
+				Show <br />
+				<label>
+					<input type="checkbox" value=1 class="show_generated_control"  checked="checked" /> <span class='generated_color'>generated samples</span>
+					<br />
+				</label>
+				<label>
+					<input type="checkbox" class="show_rejected_control" /> <span class='rejected_color'>rejected samples</span>
+					<br />
+				</label>
+				<label>
+					<input type="checkbox" class="show_true_control" checked="checked" /> <span class='true_sample_color'>true samples</span>
+				</label>
+				</div>
+				<div class="control">
+					<label>
+						temperature T: <span class="temperature_display" ></span>
+						<input type="range" min="0" max="5" value="4" step="1" class="temperature_control">
+					</label>
+					<label>
+						animation: <span class="speed_display" style='font-weight: bold;' ></span>
+						<input type="range" min="0" max="2" value="0" step="1" class="speed_control">
+					</label>
+				</div>
+				<div class='control hmc_only_control'>
+					<div class=" ">
+						<label>
+							slide time: <span class="trajectory_length_display" ></span>
+							<input type="range" min="0" max="4" value="2" step="1" class="trajectory_length_control">
+						</label>
+					</div>
+					<div class="tempering_only_control">
+						<label>
+							tempering α: <span class="tempering_display" ></span>
+							<input type="range" min="0" max="5" value="0" step="1" class="tempering_control">
+						</label>
+					</div>
+				</div>
+
+				<div class="control mh_only_control">
+					<label>
+						step size σ: <span class="spread_display" ></span>
+						<input type="range" min="0" max="4" value="2" step="1" class="spread_control">
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		// replacing macros before all the js-stuff
+		var demo_element = document.getElementById('demo-wrapper');
+		demo_element.innerHTML = demo_element.innerHTML.split('\\vx').join('\\mathbf{x}');
+		demo_element.innerHTML = demo_element.innerHTML.split('\\vv').join('\\mathbf{v}');
+	</script>
+
+	<!-- only for fadeIn -->
+	<script type="text/javascript" src="/scripts/jquery-2.1.4.js"></script>
+	<script type="text/javascript" src="/scripts/external_scripts/three.min.js"></script>
+	<script type="text/javascript" src="/scripts/external_scripts/babel-polyfill.min.js"></script>
+
+	<script type="text/javascript" src="/scripts/demonstration_scripts/utils-compiled.js"></script>
+
+	<script type="text/javascript" src="/scripts/hmc_demonstration/utils-compiled.js"></script>
+	<script type="text/javascript" src="/scripts/hmc_demonstration/mcmc-compiled.js"></script>
+	<script type="text/javascript" src="/scripts/hmc_demonstration/distributions-compiled.js"></script>
+	<script type="text/javascript" src="/scripts/hmc_demonstration/threejs_OrbitControls-compiled.js"></script>
+	<script type="text/javascript" src="/scripts/hmc_demonstration/threejs_plotter-compiled.js"></script>
+	<script type="text/javascript" src="/scripts/hmc_demonstration/mcmc_explained-compiled.js"></script>
+
+	<link rel="stylesheet" href="/scripts/external_scripts/katex/katex.min.css">
+	<script src="/scripts/external_scripts/katex/katex.min.js"></script>
+	<script src="/scripts/external_scripts/katex/contrib/auto-render.min.js"></script>
+	<script>
+		var options = {
+			delimiters: [
+				{left: "$$", right: "$$", display: true},
+				{left: "\\[", right: "\\]", display: true},
+				{left: "\\(", right: "\\)", display: false},
+				{left: "`$", right: "$`", display: false}
+			],
+			macros: {'\\vx': '\\mathbf{x}'}
+		};
+
+		renderMathInElement(document.getElementById('demo-wrapper'), options);
+	</script>
