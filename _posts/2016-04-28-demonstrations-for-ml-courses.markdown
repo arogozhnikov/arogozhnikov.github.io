@@ -185,7 +185,7 @@ are explained in a [this post](http://distill.pub/2016/augmented-rnns/) by Googl
 
 ## Misread tSNE
 
-Another [long-read](http://distill.pub/2016/misread-tsne/) from Google Brain team is devoted to understanding tSNE and its output
+Another [long-read](http://distill.pub/2016/misread-tsne/) from Google Brain team is devoted to understanding t-SNE and its output
 
 ![Misread tSNE blog](/images/ml_demonstrations/misread-tsne.png)
 
@@ -200,7 +200,8 @@ but rather as a visualization for his version of update rule.
 <!-- TODO Kalman filtering http://www.anuncommonlab.com/articles/how-kalman-filters-work/ -->
 <!-- EKF http://home.wlu.edu/~levys/kalman_tutorial/ -->
 <!-- TODO convolutions https://github.com/vdumoulin/conv_arithmetic -->
-
+<!-- TODO numerical optimizations http://www.benfrederickson.com/numerical-optimization/ -->
+<!-- TODO Keras.js -->
 
 ### Missing things
 

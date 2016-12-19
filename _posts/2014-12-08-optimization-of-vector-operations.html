@@ -12,4 +12,52 @@ blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-822485640394581038
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2014/12/optimization-of-vector-operations.html
 ---
 
-<div dir="ltr" style="text-align: left;" trbidi="on">Recently worked over optimization of&nbsp;some (secret) classifier. The problem was mostly not in&nbsp;training, but in&nbsp;applying of&nbsp;trained classifier&nbsp;— this code was originally written in&nbsp;C++ and then translated to&nbsp;cython (which decreased the speed by&nbsp;factor of&nbsp;2).<br /><br />This was quite easy rewrite the code using numpy and vectorized approach (initally predictions were built event-by event, after rewriting the classifier was applied tree-by-tree). However this gave only speed comparable with original&nbsp;C++ code (so, twixe faster cython).<br /><br />What really fastened the code is&nbsp;switching from int8 operations to&nbsp;int64 (the latest are natively supported in&nbsp;all modern processors). So&nbsp;8&nbsp;operations in&nbsp;int8 were grouped into one&nbsp;<nobr>64-bit.</nobr>&nbsp;This is&nbsp;done pretty simple by&nbsp;creating views:<br /><br /><pre>In[1]: import numpy<br />In[2]: x = numpy.random.randint(0, 100, size=64000).astype(’int8′)<br />In[3]: y = numpy.random.randint(0, 100, size=64000).astype(’int8′)<br />In[4]: %timeit x&nbsp;&amp;&nbsp;y <br />10000&nbsp;loops, best of&nbsp;3: 60.6 µs per loop<br />In[5]: %timeit x.view(’int64′) &amp;&nbsp;y.view(’int64′) <br />100000&nbsp;loops, best of&nbsp;3: 12 µs per loop<br /># Checked that output is&nbsp;correct<br />In[6]: numpy.all( (x&nbsp;&amp;&nbsp;y) == (x.view(’int64′) &amp;&nbsp;y.view(’int64’)).view(’int8′) )<br />Out[6]: True<br /><br /> </pre><div><br />In&nbsp;this simple example we&nbsp;see 5x&nbsp;speed&nbsp;up. Views of&nbsp;course do&nbsp;not copy the data, which is&nbsp;very essential for the speed. This trick can be&nbsp;applied with: summation&nbsp;/ subtration&nbsp;/ binary or&nbsp;/ binary and, but you need that the size of&nbsp;original array was divisible by&nbsp;8.<br /><br />By the way, there is awesome collection of&nbsp;<a href="https://graphics.stanford.edu/~seander/bithacks.html" target="_blank">twiddling bit</a><u>s</u>, which was my starting point in bit optimizations.</div></div>
+<p>
+    Recently worked on optimization of&nbsp;some (internal) classifier.
+    The problem was mostly not in&nbsp;training, but in&nbsp;applying of&nbsp;trained classifier&nbsp;— this code was
+    originally written in&nbsp;C++ and then translated to&nbsp;cython (which decreased the speed by&nbsp;factor of&nbsp;2).
+</p>
+<p>
+    This was quite easy rewrite the code using numpy and vectorized approach
+    (initially predictions were built event-by event,
+    after rewriting the classifier was applied tree-by-tree).
+    However this gave only speed comparable with original&nbsp;C++ code (and twice faster than cython version).<br/>
+</p>
+<p>
+    What really fastened the code is&nbsp;switching from int8 operations to&nbsp;int64
+    (the latest are natively supported in&nbsp;all modern processors).
+    So&nbsp;8&nbsp;operations in&nbsp;int8 were grouped into one&nbsp;<nobr>64-bit operation.</nobr>
+</p>
+<p>
+    This is&nbsp;pretty simple to perform by&nbsp;creating views:
+</p>
+<pre>In[1]: import numpy
+In[2]: x = numpy.random.randint(0, 100, size=64000).astype(’int8′)
+In[3]: y = numpy.random.randint(0, 100, size=64000).astype(’int8′)
+In[4]: %timeit x&nbsp;&amp;&nbsp;y
+10000&nbsp;loops, best of&nbsp;3: 60.6 µs per loop
+In[5]: %timeit x.view(’int64′) &amp;&nbsp;y.view(’int64′)
+100000&nbsp;loops, best of&nbsp;3: 12 µs per loop
+# Checked that output is&nbsp;correct
+In[6]: numpy.all( (x&nbsp;&amp;&nbsp;y) == (x.view(’int64′) &amp;&nbsp;y.view(’int64’)).view(’int8′) )
+Out[6]: True
+</pre>
+<p>
+    In&nbsp;this simple example we&nbsp;see 5x&nbsp;speed&nbsp;up. Views of&nbsp;course do&nbsp;not copy the
+    data, which is&nbsp;very essential for the speed. This trick can be&nbsp;applied with: summation&nbsp;/
+    subtraction&nbsp;/ binary or&nbsp;/ binary and, but you need that the size of&nbsp;original array was divisible
+    by&nbsp;8.
+</p>
+<h3>Links</h3>
+<ol>
+    <li>
+        there is an awesome collection of&nbsp;<a href="https://graphics.stanford.edu/~seander/bithacks.html" target="_blank">twiddling bits</a>,
+        which was my starting point in bit optimizations.
+    </li>
+    <li>
+        For more about numpy see numpy tips and tricks,
+        <a href="{% post_url 2015-09-29-NumpyTipsAndTricks1 %}" >part1</a> and
+        <a href="{% post_url 2015-09-30-NumpyTipsAndTricks2 %}" >part2</a>.
+
+    </li>
+</ol>

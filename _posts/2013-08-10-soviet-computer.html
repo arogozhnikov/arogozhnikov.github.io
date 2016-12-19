@@ -12,4 +12,138 @@ blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-189628494000621372
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2013/08/soviet-computer.html
 ---
 
-<div dir="ltr" style="text-align: left;" trbidi="on"><br />P-adic numbers and numeric systems turned out to&nbsp;be&nbsp;very fruitful theme, and this post continues developing the ideas touched in&nbsp;the previous <a href="http://brilliantlywrong.blogspot.com/2013/07/real-numbers-and-naturalty-part-1.html" target="_blank">two</a> <a href="http://brilliantlywrong.blogspot.com/2013/07/numbers-and-naturalty-part-2.html" target="_blank">articles</a>. <br /><br />It’s a&nbsp;common knowledge that all computers have a&nbsp;binary representation of&nbsp;numbers inside in&nbsp;accordance with <a href="http://en.wikipedia.org/wiki/Von_Neumann_architecture" target="_blank">von Neumann principles</a>. Right?<br /><br />Nope. There was computer that had inside ternary representation, this computer was developed in&nbsp;the USSR in&nbsp;1958&nbsp;at my&nbsp;alma mater faculty under the lead of&nbsp;Nikolay Petrovich Brusentsov. The computer was named „Setun” (Сетунь). Unfortunately all of&nbsp;the innovative ideas it&nbsp;was based on&nbsp;were buried, and computer industry followed the way we&nbsp;know today. But the history keeps these ideas for&nbsp;us, and some people (including&nbsp;me) believe that once these ideas would be&nbsp;used in&nbsp;industry again.<br /><br />Let&nbsp;us start from ternary representation. The integer in&nbsp;radix-3&nbsp;is represented as&nbsp;a&nbsp;finite sequence of&nbsp;digits from 0&nbsp;to&nbsp;2. Something like<br /><pre>21201<br />-1220<br />0<br />   </pre>Right?<br /><div><br /></div><div>Nope. Well, that what we&nbsp;are so&nbsp;accustomed&nbsp;to, but that is&nbsp;not the only way. And definitely not the best one. I&nbsp;mentioned the <nobr>2-complement</nobr> representation of&nbsp;negative integers that is&nbsp;used in&nbsp;modern computers. Now compare it&nbsp;with the trick. Let&nbsp;us use not digits 0,1,2 but 0, 1&nbsp;and -1. This is&nbsp;called balanced ternary system. This would give the following representation for numbers (hereinafter&nbsp;I will write ! to&nbsp;denote -1, because blogger fails to&nbsp;represent usual $\overline{1}$) <br /><br /><br /><pre>1!1 = 9-3+1=7<br />11 = 4<br />10 = 3<br />1! = 2<br />01 = 1<br />00 = 0<br />0! = 1<br />!1 = -2<br />!0 = -3<br />!! = -4<br />      </pre><br />Each number has the only representation, as&nbsp;usual. Note the symmetry of&nbsp;representation under negation (isn’t it&nbsp;awesome?). Moreover, there is&nbsp;no&nbsp;global sign ’minus’, all integer numbers are represented in&nbsp;some universal form!    <br /><br />There is&nbsp;one minor drawback: addition rules are a&nbsp;bit more complicated. For instance<br /><pre>  1<br />+ 1<br />---<br /> 1!<br />     </pre><br />It&nbsp;doesn’t play any role when implementing in&nbsp;microchip. But let’s now take a&nbsp;look at&nbsp;multiplication. Usual binary representation has a&nbsp;great advantage in&nbsp;multiplication that all results in&nbsp;multiplication table are of&nbsp;one digit. Compare it&nbsp;with ’usual’ radix-3 multiplication table.    <br /><pre> &nbsp;| 0  1  2<br />--------------<br />0&nbsp;| 0  0  0<br />1&nbsp;| 0  1  2<br />2&nbsp;| 0  2 11<br />      </pre>The 11&nbsp;in&nbsp;the last row gives&nbsp;us unwanted curry we&nbsp;would have to&nbsp;take in&nbsp;account while implementing it&nbsp;in&nbsp;microchip.<br />BUT the numeral system implemented in&nbsp;„Сетунь” doesn’t have this drawback. Seems that it&nbsp;is&nbsp;the only non-binary system that doen’t have curry in&nbsp;multiplication:<br /><pre> &nbsp;| 0  1  !<br />----------------<br />0&nbsp;| 0  0  0<br />1&nbsp;| 0  1  !<br />!&nbsp;| 0  !  1<br />      </pre>What about other advantages? First is&nbsp;we&nbsp;need less digits to&nbsp;hold the same numbers. The ternary system is&nbsp;considered to&nbsp;be&nbsp;the most effective numeral system in&nbsp;the the sense of&nbsp;coding density (derivation of&nbsp;this fact can be&nbsp;found in&nbsp;Russian <a href="http://trinary.ru/kb/04b1e68c-7add-426d-bed3-a0dab0ec452d/%D0%AD%D0%BA%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D1%87%D0%BD%D0%BE%D1%81%D1%82%D1%8C%20%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%20%D1%81%D1%87%D0%B8%D1%81%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F">here</a>, but to&nbsp;tell the truth&nbsp;I don’t consider this assertion to&nbsp;be&nbsp;right at&nbsp;all, the term „effective” is&nbsp;very disputable. The same information can be found on <a href="http://en.wikipedia.org/wiki/Radix_economy" target="_blank">wikipedia</a>, but still no answer for the question: why do we think that digit costs proportionally to the numeral system base?).<br /><br />The negation in this system is&nbsp;extremely simple, moreover it&nbsp;is&nbsp;always correct. <br /><br />Yes, the negation is&nbsp;incorrect operation sometimes in&nbsp;usual binary system. If&nbsp;you take $x = -2^{31}$ (assuming x&nbsp;is&nbsp;<nobr>32-bit</nobr> integer), I&nbsp;think you would be&nbsp;surprised find out that $x == -x$. This is&nbsp;due to&nbsp;the asymmetry of&nbsp;the interval of&nbsp;possible values.<br /><br />Some disadvantage is&nbsp;you can’t distinguish whether the number is&nbsp;negative or&nbsp;not by&nbsp;simply looking at&nbsp;the first bit. Comparison procedure is&nbsp;more complex, but multiplication operation doesn’t need some workarounds to&nbsp;work with negative numbers.<br /><br /><h3 style="text-align: left;"> Back to&nbsp;p-adic numbers</h3>One of&nbsp;the most important properties of&nbsp;real numbers is&nbsp;that they are ordered, that is&nbsp;we&nbsp;have comparison operation. There is&nbsp;much interesting connected with ordering if&nbsp;real numbers, once&nbsp;I will return to&nbsp;this topic.<br />Before reading further, I&nbsp;want you to&nbsp;think on&nbsp;the following problem: is&nbsp;there some natural ordering of&nbsp;p-adic numbers?<br /><br /><br />Think.<br /><br />Well, the first idea is&nbsp;of&nbsp;course to&nbsp;use lexicographical ordering, but the numbers should be&nbsp;compared from the rightest digits.<br /><br />For instance the following <nobr>7-adic</nobr> numbers are ordered by&nbsp;ascending<br /><pre>...3515400.0<br />...0050250.0<br />...6425443.0<br />...6625443.0<br />...0000543.0<br />...0000000.01<br />      </pre><br />Until this moment everything looks fine, but we&nbsp;forgot that the ordering by&nbsp;itself isn’t needed (remember that we&nbsp;can order any set?) until it&nbsp;is&nbsp;not connected somehow with other operations. For instance, for real numbers we&nbsp;have    <br /><br />a &gt; b&nbsp;iff a+c &gt; b+c for every a,b,c. <br /><strong></strong><br /><div><strong><strong><br /></strong></strong></div><strong>Exercise#1.</strong> Show that this doesn’t hold for p-adic numbers, even for p-adic integers, with such ordering.   <br /><br /><br />Let’s now talk about another way to&nbsp;believe that there is&nbsp;no&nbsp;simple ordering rule.<br /><br />I&nbsp;wrote about understanding p-adic integers as&nbsp;the inverse limit of&nbsp;residues. As&nbsp;we&nbsp;know already the group of&nbsp;residues modulo 3&nbsp;may be&nbsp;represented not only by&nbsp;0,1 and&nbsp;2, but also by&nbsp;the set -1, 0, 1. This fact gives rise to&nbsp;another representation of&nbsp;<nobr>3-adic</nobr> integers as&nbsp;infinite sequences of&nbsp;these three digits. <br /><br />I’d rather start from some examples with integers<br /><pre>Decimal  Ternary     Balanced ternary<br />0        ...00000.0  ...00000.0<br />2/3      ...00000.2  ...00001.!<br />2        ...00002.0  ...0001!.0<br />-1       ...22222.0  ...0000!.0<br />-5       ...22211.0  ...001!!.0<br />      </pre>Note that all integer numbers, including negative, have the infinite number of&nbsp;zero digits to&nbsp;the left. Looks much better, to&nbsp;my&nbsp;mind. <br /><br />Of&nbsp;course, every <nobr>3-adic</nobr> integer should have the corresponding representation in&nbsp;balanced ternary system and visa versa.<br /><strong></strong><br /><div><strong><strong><br /></strong></strong></div><strong>Exercise#2.</strong> Find out the conversion rules between these two <nobr>3-adic</nobr> systems. Rigorify the answer by&nbsp;using the inverse limit of&nbsp;residues. Hint: look at&nbsp;the third and fourth lines of&nbsp;conversion table.   <br /><br /><br />All the p-adic numbers are obtained by&nbsp;multiplying p-adic integers by&nbsp;$p^{-k}$, that is&nbsp;by&nbsp;shifting the sequences, thus we&nbsp;got the representation for all <nobr>3-adic</nobr> numbers, not only integer ones.<br /><br />Pros of&nbsp;symmetrization for <nobr>3-adic</nobr> numbers are just the same: simplicity of&nbsp;negation, no&nbsp;curries&nbsp;at&nbsp;multiplication table. <br /><br />But let’s return to&nbsp;the point we&nbsp;started from&nbsp;— we&nbsp;wanted to&nbsp;order p-adic numbers. The non uniqueness of&nbsp;the representation which seems very natural for <nobr>3-adic</nobr> numbers, makes me&nbsp;believe that there is&nbsp;no&nbsp;appropriate lexicographical ordering or&nbsp;other simple way to&nbsp;order them. Just take a&nbsp;look again at&nbsp;the conversion table.<br /><br /></div></div>
+<p>
+    P-adic numbers and numeric systems turned out to&nbsp;be&nbsp;very
+    fruitful theme, and this post continues developing the ideas touched in&nbsp;the previous
+    <a href="{% post_url 2013-07-21-real-numbers-and-naturalness-part-1 %}">two</a>
+    <a href="{% post_url 2013-07-22-numbers-and-naturalness-part-2 %}">articles</a>.
+</p>
+<p>
+    It’s a&nbsp;common knowledge that all computers have a&nbsp;binary
+    representation of&nbsp;numbers inside in&nbsp;accordance with <a
+        href="http://en.wikipedia.org/wiki/Von_Neumann_architecture">von Neumann principles</a>.
+    Right?</p>
+<p>
+    Nope. There was computer that had inside ternary representation, this computer was developed in&nbsp;the
+    USSR in&nbsp;1958&nbsp;at my&nbsp;alma mater faculty under the lead of&nbsp;Nikolay Petrovich Brusentsov. The
+    computer was named „Setun” (Сетунь). Unfortunately all of&nbsp;the innovative ideas it&nbsp;was based on&nbsp;were
+    buried, and computer industry followed the way we&nbsp;know today. But the history keeps these ideas for&nbsp;us,
+    and some people (including&nbsp;me) believe that once these ideas would be&nbsp;used in&nbsp;industry
+    again.
+</p>
+<p>
+    Let&nbsp;us start from ternary representation. The integer in&nbsp;radix-3&nbsp;is represented as&nbsp;a&nbsp;finite
+    sequence of&nbsp;digits from 0&nbsp;to&nbsp;2. Something like
+</p>
+<pre>21201<br/>-1220<br/>0<br/>111012</pre>
+<p>
+    Right?
+</p>
+<p>
+    Nope. Well, that what we&nbsp;are so&nbsp;accustomed&nbsp;to, but that is&nbsp;not the only way. And definitely
+    not the best one. I&nbsp;mentioned the
+    <nobr>2-complement</nobr>
+    representation of&nbsp;negative integers that is&nbsp;used in&nbsp;modern computers. Now compare it&nbsp;with
+    the trick. Let&nbsp;us use not digits 0,1,2 but 0, 1&nbsp;and -1. This is&nbsp;called balanced ternary system.
+    This would give the following representation for numbers (hereinafter&nbsp;I will write ! to&nbsp;denote -1,
+    because blogger fails to&nbsp;represent usual $\overline{1}$)
+</p>
+<pre>1!1 = 9-3+1=7<br/>11 = 4<br/>10 = 3<br/>1! = 2<br/>01 = 1<br/>00 = 0<br/>0! = 1<br/>!1 = -2<br/>!0 = -3<br/>!! = -4</pre>
+<p>
+    Each number has the only representation, as&nbsp;usual. Note the symmetry of&nbsp;representation under
+    negation (isn’t it&nbsp;awesome?). Moreover, there is&nbsp;no&nbsp;global sign ’minus’, all integer numbers are
+    represented in&nbsp;some universal form!
+</p>
+<p>
+    There is&nbsp;one minor drawback: addition rules are a&nbsp;bit more complicated. For instance<br/>
+</p>
+<pre>  1<br/>+ 1<br/>---<br/> 1! </pre>
+<p>
+    It&nbsp;doesn’t play any role when implementing in&nbsp;microchip. But let’s now take a&nbsp;look at&nbsp;multiplication.
+    Usual binary representation has a&nbsp;great advantage in&nbsp;multiplication that all results in&nbsp;multiplication
+    table are of&nbsp;one digit. Compare it&nbsp;with ’usual’ radix-3 multiplication table. <br/>
+<pre> &nbsp;| 0  1  2<br/>--------------<br/>0&nbsp;| 0  0  0<br/>1&nbsp;| 0  1  2<br/>2&nbsp;| 0  2 11  </pre>
+The 11&nbsp;in&nbsp;the last row gives&nbsp;us unwanted curry we&nbsp;would have to&nbsp;take in&nbsp;account
+while implementing it&nbsp;in&nbsp;microchip.<br/>BUT the numeral system implemented in&nbsp;„Сетунь” doesn’t
+have this drawback. Seems that it&nbsp;is&nbsp;the only non-binary system that doen’t have curry in&nbsp;multiplication:
+<br/>
+<pre> &nbsp;| 0  1  !<br/>----------------<br/>0&nbsp;| 0  0  0<br/>1&nbsp;| 0  1  !<br/>!&nbsp;| 0  !  1   </pre>
+What about other advantages? First is&nbsp;we&nbsp;need less digits to&nbsp;hold the same numbers. The ternary
+system is&nbsp;considered to&nbsp;be&nbsp;the most effective numeral system in&nbsp;the the sense of&nbsp;coding
+density (derivation of&nbsp;this fact can be&nbsp;found in&nbsp;Russian <a
+        href="http://trinary.ru/kb/04b1e68c-7add-426d-bed3-a0dab0ec452d/%D0%AD%D0%BA%D0%BE%D0%BD%D0%BE%D0%BC%D0%B8%D1%87%D0%BD%D0%BE%D1%81%D1%82%D1%8C%20%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%20%D1%81%D1%87%D0%B8%D1%81%D0%BB%D0%B5%D0%BD%D0%B8%D1%8F">here</a>,
+but to&nbsp;tell the truth&nbsp;I don’t consider this assertion to&nbsp;be&nbsp;right at&nbsp;all, the term
+„effective” is&nbsp;very disputable. The same information can be found on
+<a href="http://en.wikipedia.org/wiki/Radix_economy">wikipedia</a>, but still no answer for
+the question: why do we think that digit costs proportionally to the numeral system base?).<br/><br/>The
+negation in this system is&nbsp;extremely simple, moreover it&nbsp;is&nbsp;always correct. <br/><br/>Yes, the
+negation is&nbsp;incorrect operation sometimes in&nbsp;usual binary system. If&nbsp;you take $x = -2^{31}$
+(assuming x&nbsp;is&nbsp;
+<nobr>32-bit</nobr>
+integer), I&nbsp;think you would be&nbsp;surprised find out that $x == -x$. This is&nbsp;due to&nbsp;the
+asymmetry of&nbsp;the interval of&nbsp;possible values.</p>
+<p>
+    Some disadvantage is&nbsp;you can’t distinguish
+    whether the number is&nbsp;negative or&nbsp;not by&nbsp;simply looking at&nbsp;the first bit. Comparison
+    procedure is&nbsp;more complex, but multiplication operation doesn’t need some workarounds to&nbsp;work with
+    negative numbers.
+</p>
+<h3> Back to&nbsp;p-adic numbers</h3>
+<p>
+    One of&nbsp;the most important properties of&nbsp;real
+    numbers is&nbsp;that they are ordered, that is&nbsp;we&nbsp;have comparison operation. There is&nbsp;much
+    interesting connected with ordering if&nbsp;real numbers, once&nbsp;I will return to&nbsp;this topic.<br/>Before
+    reading further, I&nbsp;want you to&nbsp;think on&nbsp;the following problem: is&nbsp;there some natural
+    ordering of&nbsp;p-adic numbers?<br/><br/><br/>Think.<br/><br/>Well, the first idea is&nbsp;of&nbsp;course to&nbsp;use
+    lexicographical ordering, but the numbers should be&nbsp;compared from the rightest digits.<br/><br/>For
+    instance the following
+    <nobr>7-adic</nobr>
+    numbers are ordered by&nbsp;ascending<br/>
+<pre>...3515400.0<br/>...0050250.0<br/>...6425443.0<br/>...6625443.0<br/>...0000543.0<br/>...0000000.01<br/>      </pre>
+<br/>Until this moment everything looks fine, but we&nbsp;forgot that the ordering by&nbsp;itself isn’t needed
+(remember that we&nbsp;can order any set?) until it&nbsp;is&nbsp;not connected somehow with other operations.
+For instance, for real numbers we&nbsp;have <br/><br/>a &gt; b&nbsp;iff a+c &gt; b+c for every a,b,c.
+</p>
+<p>
+    <strong>Exercise#1.</strong> Show that this doesn’t hold for p-adic numbers, even for p-adic integers, with such
+    ordering.
+</p>
+<p>Let’s now talk about another way to&nbsp;believe that there is&nbsp;no&nbsp;simple
+    ordering rule.
+</p>
+<p>I&nbsp;wrote about understanding p-adic integers as&nbsp;the inverse limit of&nbsp;residues.
+    As&nbsp;we&nbsp;know already the group of&nbsp;residues modulo 3&nbsp;may be&nbsp;represented not only by&nbsp;0,1
+    and&nbsp;2, but also by&nbsp;the set -1, 0, 1. This fact gives rise to&nbsp;another representation of&nbsp;
+    <nobr>3-adic</nobr>
+    integers as&nbsp;infinite sequences of&nbsp;these three digits.
+</p>
+<p>I’d rather start from some examples
+    with integers<br/>
+<pre>Decimal  Ternary     Balanced ternary<br/>0        ...00000.0  ...00000.0<br/>2/3      ...00000.2  ...00001.!<br/>2        ...00002.0  ...0001!.0<br/>-1       ...22222.0  ...0000!.0<br/>-5       ...22211.0  ...001!!.0<br/>      </pre>
+Note that all integer numbers, including negative, have the infinite number of&nbsp;zero digits to&nbsp;the
+left. Looks much better, to&nbsp;my&nbsp;mind. <br/><br/>Of&nbsp;course, every
+<nobr>3-adic</nobr>
+integer should have the corresponding representation in&nbsp;balanced ternary system and visa
+versa.
+</p>
+<p>
+    <strong>Exercise#2.</strong> Find out the conversion rules between these two
+    <nobr>3-adic</nobr>
+    systems. Rigorify the answer by&nbsp;using the inverse limit of&nbsp;residues. Hint: look at&nbsp;the third and
+    fourth lines of&nbsp;conversion table.
+</p>
+<p>All the p-adic numbers are obtained by&nbsp;multiplying
+    p-adic integers by&nbsp;$p^{-k}$, that is&nbsp;by&nbsp;shifting the sequences, thus we&nbsp;got the
+    representation for all
+    <nobr>3-adic</nobr>
+    numbers, not only integer ones.<br/><br/>Pros of&nbsp;symmetrization for
+    <nobr>3-adic</nobr>
+    numbers are just the same: simplicity of&nbsp;negation, no&nbsp;curries&nbsp;at&nbsp;multiplication table.
+</p>
+<p>But
+    let’s return to&nbsp;the point we&nbsp;started from&nbsp;— we&nbsp;wanted to&nbsp;order p-adic numbers. The non
+    uniqueness of&nbsp;the representation which seems very natural for
+    <nobr>3-adic</nobr>
+    numbers, makes me&nbsp;believe that there is&nbsp;no&nbsp;appropriate lexicographical ordering or&nbsp;other
+    simple way to&nbsp;order them. Just take a&nbsp;look again at&nbsp;the conversion table.
+</p>

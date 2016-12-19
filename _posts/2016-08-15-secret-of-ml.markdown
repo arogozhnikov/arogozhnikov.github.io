@@ -138,7 +138,7 @@ to get the same splitting rule as provided by Gini.
 
 Let's start from writing down the LogLoss for the decision tree:
 <div>$$
-\text{MSE} = \sum_{i \in \text{leaf}} \sum_{c} y_{i,c} \log p_{i,c}
+\text{LogLoss} = \sum_{i} \sum_{c} y_{i,c} \log p_{i,c}
 $$</div>
 
 (where $y\_{i,c}$ is 1 if event $i$ belongs to class $c$ and 0 otherwise; 

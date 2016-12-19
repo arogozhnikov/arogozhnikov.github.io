@@ -1,0 +1,105 @@
+---
+layout: post
+title: Numbers and Naturalness, part 1.
+date: '2013-07-21T05:20:00.001-07:00'
+author: Alex Rogozhnikov
+tags:
+- P-adic numbers
+modified_time: '2013-08-09T14:15:49.996-07:00'
+blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-1735162923094884596
+blogger_orig_url: http://brilliantlywrong.blogspot.com/2013/07/real-numbers-and-naturalness-part-1.html
+---
+
+<div dir="ltr" style="text-align: left;" trbidi="on">Real numbers is the object that everyone deals with and knows well.
+    They seem to be so natural (not in the mathematical sense) that nearly no one can think that our world is not "made"
+    of real numbers.
+    <br/><br/>
+    The history remembers the time when people had no idea about real numbers. In the ancient
+    Greece only rational ones were known and that were Pythagoreans who established, that the length of unit square
+    diagonal is not rational.
+    <br/><br/>
+    Quantum physics (as the majority of today's physics theories) is based on real
+    numbers (and complex one of course), for instance the space-time is considered to be $\mathbb{R}^4$.<br/><br/><br/>It
+    is a very common and strong belief that correct theory in theoretical physics should be "beautiful". Mathematically
+    both <i>simple</i> and <i>beautiful</i>. But are real numbers so <i>simple</i>? This question raised up after I
+    heard of <a href="http://en.wikipedia.org/wiki/P-adic_quantum_mechanics" target="_blank">p-adic quantum
+        mechanics</a>.
+    <br/><br/>
+    Let us compare these two objects. Start from real numbers. What is real number? That is
+    something like<br/>
+    <pre> 3.14159265358979323846264...<br/> 1.00000000000000000000000...<br/> 0.99999999999999999999999...<br/></pre>
+    <br/>That is some natural number and an infinite sequence of digits. The first moment is some rational numbers have
+    more than one representation in such a notion.
+    <br/><br/>
+    Ok, let's add the two numbers<br/>
+    <pre> 1.00000...<br/> 0.99999...<br/></pre>
+    <div><br/></div>
+    <div>Hmm... Guess the first symbol! One? Wrong!</div>
+    <div>
+        <pre> 1.00000<b>2</b>...<br/>+0.99999<b>9</b>...<br/>------------<br/> 2,00000....<br/></pre>
+        <div><br/>Two then? Wrong again:</div>
+        <div>
+            <pre> 1.00000<b>0</b>...<br/>+0.99999<b>8</b>...<br/>------------<br/> 1,99999....<br/></pre>
+            <br/>
+            The confusing moment is you can never guarantee that given $n$ first digits of summands you would be
+            able to compute at least first digit of the result. Before we proceed to p-adic numbers let's look at the
+            real number in the following way, first we write it in an exponential form:<br/>&nbsp;
+            $3.14159265358979... = 10^1 \times 0.314159265358979...$
+            <br/><br/>
+            And omit $10^1$ for a while. The essential information kept in
+            0.314159265358979... is simply the sequence of digits: 314159265358979... &nbsp;(note: no natural number
+            here, only the sequence now!). The sequence starts from some nonzero digit due to the exponential form.<br/>
+            <pre> 3<br/> 31<br/> 314<br/> 3141<br/> 31415<br/> 314159<br/> 3141592<br/> 31415926<br/> 314159265</pre>
+            <pre> ...<br/></pre>
+            <br/>Everything is finite now. We may think of it like we have some sequence of decimal rational numbers,
+            which converge to initial real one.<br/><br/>Ok. How does it relates to p-adic number? First we choose some
+            prime <i>p</i>, I will consider p=7 for example. This <i>p</i> is something like base of numeral
+            system.<br/><br/><a href="http://en.wikipedia.org/wiki/P-adic_number" target="_blank">P-adic numbers</a>
+            look so (note the digits are 0,1,..,6, because <i>p</i>=7):<br/>
+            <pre> ...341564461.54265<br/> ...6342360000.0<br/> ...360340.6</pre>
+        </div>
+    </div>
+    <div><br/></div>
+    <div>This looks very similar to real number with the only difference that the sequence is infinite to the left.
+        Let's add some numbers. Just like in the school
+    </div>
+    <div>
+        <pre> ...4461.42<br/>+...1060.1<br/>------------<br/> ...5551.52</pre>
+        <br/>What is more important, if you have last $n$ digits of summands, you can compute the last $n$ digits of
+        their sum (which is really different from real numbers). The same story with multiplication. Moreover, each
+        number &nbsp;has the only representation. Sounds much <i>simpler</i>, right?<br/><br/>And the p-adic number is
+        also a limit of it's truncations<br/>
+        <pre>       ...1.42<br/>      ...51.42<br/>     ...151.42<br/>    ...3151.42<br/>   ...23151.42<br/>  ...423151.42</pre>
+        One may think so: latter digits are more important (unlike those in real number). <h3 style="text-align: left;">
+        Series representation&nbsp;</h3></div>
+    <p>
+        As was said, the real number may be written in the following form
+        $$ 10^k \times 0.x_1 x_2 x_3 x_4 \dots $$
+    </p>
+    <p>
+        Which means that the number can be also written in the following way
+        $$ \sum_{n=1}^{+\infty} &nbsp; 10^{k-n} x_n $$
+    </p>
+    <p>
+        And the same for p-adic numbers
+        $$10^{-k} \times \dots x_4 x_3 x_2 x_1.0 &nbsp;= \sum_{n=1}^{+\infty} &nbsp; 10^{n-k} x_n $$
+    </p>
+    <div>"WAIT!" — you say,&nbsp;— "the series diverges!". Well, the convergence depends on&nbsp;the <a
+            href="http://en.wikipedia.org/wiki/Metric_(mathematics)" target="_blank">metric</a> you use. And that is&nbsp;the
+        part of&nbsp;the trick.
+        <nobr>P-adic</nobr>
+        numbers use their own metrics. In&nbsp;a&nbsp;nutshell, the distance between two
+        <nobr>p-adic</nobr>
+        numbers can be&nbsp;defined as&nbsp;$p^{-k}$, where k&nbsp;is&nbsp;the number of&nbsp;the rightest digit that is&nbsp;different
+        in&nbsp;numbers, for instance<br/><br/>
+        <pre> ...1<b><span style="color: #990000;">3</span></b>43.3<br/> ...1<b><span
+                style="color: #990000;">6</span></b>43.3      k=2, d = 1/49 <br/></pre>
+        <div><br/></div>
+        <pre> ...4461.<b><span style="color: #990000;">4</span></b>531<br/> ...1060.<b><span
+                style="color: #990000;">6</span></b>231   k=-1, d = 7<br/><br/></pre>
+        <pre> ...3451.5<span style="color: #990000;"><b>2</b></span><br/> ...5350.0      k=-2, d = 49 </pre>
+    </div>
+    <p>
+        Well. The post is already big enough, inverse limits and <i>simplicity</i> will be discussed in the next post.
+    </p>
+</div>
