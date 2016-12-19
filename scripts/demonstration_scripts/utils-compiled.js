@@ -110,7 +110,7 @@ var Utils = function () {
     }, {
         key: "create_fast_color_scaler",
         value: function create_fast_color_scaler(colors, n_shades) {
-            var domain = arguments.length <= 2 || arguments[2] === undefined ? [-1, 1] : arguments[2];
+            var domain = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [-1, 1];
 
             // Get a range of colors.
             var tmp_scale = Plotly.d3.scale.linear().domain([0, 0.5, 1]).range(colors).clamp(true);
@@ -123,7 +123,7 @@ var Utils = function () {
     }, {
         key: "create_nonplotly_scaler",
         value: function create_nonplotly_scaler(colors) {
-            var domain = arguments.length <= 1 || arguments[1] === undefined ? [-1, 1] : arguments[1];
+            var domain = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [-1, 1];
 
             // Get a range of colors.
             var result = function result(x) {
@@ -146,7 +146,7 @@ var Utils = function () {
     }, {
         key: "get_3d_plot",
         value: function get_3d_plot(axis_ticks) {
-            var opacity = arguments.length <= 1 || arguments[1] === undefined ? 1. : arguments[1];
+            var opacity = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1.;
 
             var result = {
                 x: clone(axis_ticks),
@@ -166,7 +166,7 @@ var Utils = function () {
     }, {
         key: "draw_function_on_canvas",
         value: function draw_function_on_canvas(canvas, values, minimum, maximum, color) {
-            var selected_point = arguments.length <= 5 || arguments[5] === undefined ? null : arguments[5];
+            var selected_point = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : null;
 
             // learning curves
             var ctx = canvas.getContext('2d');

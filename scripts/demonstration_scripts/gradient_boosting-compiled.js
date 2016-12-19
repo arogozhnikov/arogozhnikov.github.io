@@ -182,8 +182,8 @@ var GradientBoostingRegressor = function () {
 
 var GradientBoostingClassifier = function () {
     function GradientBoostingClassifier(X, y, n_estimators, max_depth, learning_rate, subsample) {
-        var use_random_rotations = arguments.length <= 6 || arguments[6] === undefined ? true : arguments[6];
-        var use_newton_raphson = arguments.length <= 7 || arguments[7] === undefined ? false : arguments[7];
+        var use_random_rotations = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : true;
+        var use_newton_raphson = arguments.length > 7 && arguments[7] !== undefined ? arguments[7] : false;
 
         _classCallCheck(this, GradientBoostingClassifier);
 
@@ -207,12 +207,10 @@ var GradientBoostingClassifier = function () {
 
             var tree_X = Utils.rotate_dataset(X, tree_id * this.use_random_rotations);
 
-            var _Utils$get_subsample = Utils.get_subsample(tree_X, target, subsample, tree_id);
-
-            var _Utils$get_subsample2 = _slicedToArray(_Utils$get_subsample, 2);
-
-            var subsampled_X = _Utils$get_subsample2[0];
-            var subsampled_target = _Utils$get_subsample2[1];
+            var _Utils$get_subsample = Utils.get_subsample(tree_X, target, subsample, tree_id),
+                _Utils$get_subsample2 = _slicedToArray(_Utils$get_subsample, 2),
+                subsampled_X = _Utils$get_subsample2[0],
+                subsampled_target = _Utils$get_subsample2[1];
 
             var new_tree = new DecisionTreeRegressor(subsampled_X, subsampled_target, this.max_depth);
             if (use_newton_raphson) {

@@ -212,15 +212,13 @@ var PlaygroundVisualization = function () {
             var rotation_angle = -this.angle_control.value / 180 * Math.PI;
             var rotate_trees = this.rotate_trees_control.checked ? 1 : 0;
 
-            var _classification_datas = _slicedToArray(this.classification_datasets[this.selected_dataset_id], 2);
+            var _classification_datas = _slicedToArray(this.classification_datasets[this.selected_dataset_id], 2),
+                trainX = _classification_datas[0],
+                trainY = _classification_datas[1];
 
-            var trainX = _classification_datas[0];
-            var trainY = _classification_datas[1];
-
-            var _classification_test_ = _slicedToArray(this.classification_test_datasets[this.selected_dataset_id], 2);
-
-            var testX = _classification_test_[0];
-            var testY = _classification_test_[1];
+            var _classification_test_ = _slicedToArray(this.classification_test_datasets[this.selected_dataset_id], 2),
+                testX = _classification_test_[0],
+                testY = _classification_test_[1];
 
             trainX = Utils.rotate_dataset(trainX, rotation_angle);
             testX = Utils.rotate_dataset(testX, rotation_angle);
@@ -254,7 +252,7 @@ var PlaygroundVisualization = function () {
     }, {
         key: 'redraw_main_canvas',
         value: function redraw_main_canvas(mode) {
-            var pointed_tree = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+            var pointed_tree = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
             // special function for hover effect
             if (mode == 0) {
@@ -316,7 +314,7 @@ var PlaygroundVisualization = function () {
     }, {
         key: 'redraw_learning_curves',
         value: function redraw_learning_curves() {
-            var pointed_tree = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+            var pointed_tree = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
             var canvas = this.learning_curves_canvas;
             // clearing
