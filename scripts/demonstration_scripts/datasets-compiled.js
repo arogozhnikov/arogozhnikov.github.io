@@ -45,7 +45,7 @@ var RandomGenerator = function () {
             var std_normal = 0.;
             for (var i = 0; i < 8; i++) {
                 std_normal += this.random();
-            }std_normal = (std_normal - 4.) / 4.;
+            }std_normal = (std_normal - 4.) / Math.sqrt(8 / 12);
             return mean + std_normal * sigma;
         }
     }]);
@@ -106,25 +106,25 @@ function generate_spiral_data(N, noise, seed) {
     return [X, labels];
 }
 
-function generate_gaussian_data(N, noise, seed) {
-    var random = new RandomGenerator(seed);
-    var X = [];
-    var labels = [];
-
-    function _generate_gaussian(xc, yc, label) {
-        var n = N / 2;
-        for (var i = 0; i < n; i++) {
-            var x = random.random_normal(xc, noise);
-            var y = random.random_normal(yc, noise);
-            X.push([x, y]);
-            labels.push(label);
-        }
-    }
-
-    _generate_gaussian(0.7, 0.7, 1); // Positive examples.
-    _generate_gaussian(0.3, 0.3, 0); // Negative examples.
-    return [X, labels];
-}
+// function generate_gaussian_data(N, noise, seed) {
+//     let random = new RandomGenerator(seed);
+//     let X = [];
+//     let labels = [];
+//
+//     function _generate_gaussian(xc, yc, label) {
+//         let n = N / 2;
+//         for (let i = 0; i < n; i++) {
+//             let x = random.random_normal(xc, noise);
+//             let y = random.random_normal(yc, noise);
+//             X.push([x, y]);
+//             labels.push(label);
+//         }
+//     }
+//
+//     _generate_gaussian(0.7, 0.7, 1); // Positive examples.
+//     _generate_gaussian(0.3, 0.3, 0); // Negative examples.
+//     return [X, labels];
+// }
 
 function generate_stripes_data(N, noise, seed) {
     var random = new RandomGenerator(seed);

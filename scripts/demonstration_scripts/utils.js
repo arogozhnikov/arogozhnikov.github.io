@@ -53,6 +53,7 @@ class Utils {
             y = canvasData.height - 1 - y;
             let index = (x + y * canvasData.width) * 4;
             let color = color_scaler(value);
+            // console.log('tralala', z_grid, index, value, color);
             canvasData.data[index + 0] = color.r;
             canvasData.data[index + 1] = color.g;
             canvasData.data[index + 2] = color.b;
@@ -90,7 +91,7 @@ class Utils {
         return [new_x1 + 0.5, new_x2 + 0.5];
     }
 
-    static create_fast_color_scaler(colors, n_shades) {
+    static create_fast_color_scaler(colors, n_shades, domain=[-1, 1]) {
         // Get a range of colors.
         let tmp_scale = Plotly.d3.scale.linear()
             .domain([0, 0.5, 1])
@@ -101,8 +102,28 @@ class Utils {
             colors_sequence.push(Plotly.d3.rgb(tmp_scale(shade / n_shades)))
         }
         return Plotly.d3.scale.quantize()
-            .domain([-1, 1])
+            .domain(domain)
             .range(colors_sequence);
+    }
+
+    static create_nonplotly_scaler(colors, domain=[-1, 1]) {
+        // Get a range of colors.
+        let result = function(x){
+            x = (x - domain[0]) / (domain[1] - domain[0]);
+            x = Math.max(x, 0.01);
+            x = Math.min(x, 0.99);
+            x = x * (colors.length - 1);
+            let left = Math.floor(x);
+            let l = colors[left];
+            let r = colors[left + 1];
+            let t = x - left;
+            return {
+                r: r.r * t + l.r * (1 - t),
+                g: r.g * t + l.g * (1 - t),
+                b: r.b * t + l.b * (1 - t),
+            }
+        }
+        return result;
     }
 
     static get_3d_plot(axis_ticks, opacity=1.){
@@ -200,6 +221,45 @@ class Utils {
     }
 }
 
+class VectorUtils{
+    static add(a, b){
+        if(a.length != b.length){
+            console.error('lengths inequal', a, b);
+        }
+        let result = [];
+        for(let i=0; i < a.length; i++){
+            result[i] = a[i] + b[i];
+        }
+        return result;
+    }
+
+    static add_with_coeffs(a, b, c_a, c_b){
+        if(a.length != b.length){
+            console.error('lengths inequal', a, b);
+        }
+        let result = [];
+        for(let i=0; i < a.length; i++){
+            result[i] = a[i] * c_a + b[i] * c_b;
+        }
+        return result;
+    }
+
+    static multiply(a, c_a){
+        let result = [];
+        for(let i=0; i < a.length; i++){
+            result[i] = a[i] * c_a
+        }
+        return result;
+    }
+
+    static norm_squared(a){
+        let result = 0.;
+        for(let i = 0; i < a.length; i++){
+            result += a[i] * a[i];
+        }
+        return result;
+    }
+}
 
 function clone(object) {
     return JSON.parse(JSON.stringify(object));

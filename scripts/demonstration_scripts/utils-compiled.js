@@ -68,6 +68,7 @@ var Utils = function () {
                 y = canvasData.height - 1 - y;
                 var index = (x + y * canvasData.width) * 4;
                 var color = color_scaler(value);
+                // console.log('tralala', z_grid, index, value, color);
                 canvasData.data[index + 0] = color.r;
                 canvasData.data[index + 1] = color.g;
                 canvasData.data[index + 2] = color.b;
@@ -109,13 +110,38 @@ var Utils = function () {
     }, {
         key: "create_fast_color_scaler",
         value: function create_fast_color_scaler(colors, n_shades) {
+            var domain = arguments.length <= 2 || arguments[2] === undefined ? [-1, 1] : arguments[2];
+
             // Get a range of colors.
             var tmp_scale = Plotly.d3.scale.linear().domain([0, 0.5, 1]).range(colors).clamp(true);
             var colors_sequence = [];
             for (var shade = 0; shade < n_shades + 1; shade++) {
                 colors_sequence.push(Plotly.d3.rgb(tmp_scale(shade / n_shades)));
             }
-            return Plotly.d3.scale.quantize().domain([-1, 1]).range(colors_sequence);
+            return Plotly.d3.scale.quantize().domain(domain).range(colors_sequence);
+        }
+    }, {
+        key: "create_nonplotly_scaler",
+        value: function create_nonplotly_scaler(colors) {
+            var domain = arguments.length <= 1 || arguments[1] === undefined ? [-1, 1] : arguments[1];
+
+            // Get a range of colors.
+            var result = function result(x) {
+                x = (x - domain[0]) / (domain[1] - domain[0]);
+                x = Math.max(x, 0.01);
+                x = Math.min(x, 0.99);
+                x = x * (colors.length - 1);
+                var left = Math.floor(x);
+                var l = colors[left];
+                var r = colors[left + 1];
+                var t = x - left;
+                return {
+                    r: r.r * t + l.r * (1 - t),
+                    g: r.g * t + l.g * (1 - t),
+                    b: r.b * t + l.b * (1 - t)
+                };
+            };
+            return result;
         }
     }, {
         key: "get_3d_plot",
@@ -227,6 +253,58 @@ var Utils = function () {
     }]);
 
     return Utils;
+}();
+
+var VectorUtils = function () {
+    function VectorUtils() {
+        _classCallCheck(this, VectorUtils);
+    }
+
+    _createClass(VectorUtils, null, [{
+        key: "add",
+        value: function add(a, b) {
+            if (a.length != b.length) {
+                console.error('lengths inequal', a, b);
+            }
+            var result = [];
+            for (var i = 0; i < a.length; i++) {
+                result[i] = a[i] + b[i];
+            }
+            return result;
+        }
+    }, {
+        key: "add_with_coeffs",
+        value: function add_with_coeffs(a, b, c_a, c_b) {
+            if (a.length != b.length) {
+                console.error('lengths inequal', a, b);
+            }
+            var result = [];
+            for (var i = 0; i < a.length; i++) {
+                result[i] = a[i] * c_a + b[i] * c_b;
+            }
+            return result;
+        }
+    }, {
+        key: "multiply",
+        value: function multiply(a, c_a) {
+            var result = [];
+            for (var i = 0; i < a.length; i++) {
+                result[i] = a[i] * c_a;
+            }
+            return result;
+        }
+    }, {
+        key: "norm_squared",
+        value: function norm_squared(a) {
+            var result = 0.;
+            for (var i = 0; i < a.length; i++) {
+                result += a[i] * a[i];
+            }
+            return result;
+        }
+    }]);
+
+    return VectorUtils;
 }();
 
 function clone(object) {
