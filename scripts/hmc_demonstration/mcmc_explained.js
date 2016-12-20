@@ -176,12 +176,12 @@ class MCVisualization {
         if(this.methods.length == 1) {
             this.get_by_class('method_controls').style.display = 'none';
         }
-        if(!this.methods.includes('hmc')) {
+        if(this.methods.indexOf('hmc') === -1) {
             for(let control of this.wrapper_div.getElementsByClassName('hmc_only_control')) {
                 control.style.display = 'none';   
             }
         }
-        if(!this.methods.includes('mh')) {
+        if(this.methods.indexOf('mh') === -1) {
             for(let control of this.wrapper_div.getElementsByClassName('mh_only_control')) {
                 control.style.display = 'none';
             }

@@ -257,7 +257,7 @@ var MCVisualization = function () {
             if (this.methods.length == 1) {
                 this.get_by_class('method_controls').style.display = 'none';
             }
-            if (!this.methods.includes('hmc')) {
+            if (this.methods.indexOf('hmc') === -1) {
                 var _iteratorNormalCompletion2 = true;
                 var _didIteratorError2 = false;
                 var _iteratorError2 = undefined;
@@ -283,7 +283,7 @@ var MCVisualization = function () {
                     }
                 }
             }
-            if (!this.methods.includes('mh')) {
+            if (this.methods.indexOf('mh') === -1) {
                 var _iteratorNormalCompletion3 = true;
                 var _didIteratorError3 = false;
                 var _iteratorError3 = undefined;
