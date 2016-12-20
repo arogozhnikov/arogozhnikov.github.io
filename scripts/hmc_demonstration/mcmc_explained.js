@@ -177,19 +177,22 @@ class MCVisualization {
             this.get_by_class('method_controls').style.display = 'none';
         }
         if(this.methods.indexOf('hmc') === -1) {
-            for(let control of this.wrapper_div.getElementsByClassName('hmc_only_control')) {
-                control.style.display = 'none';   
-            }
+            $(this.wrapper_div).find('.hmc_only_control').hide(0);
+//            for(let control of this.wrapper_div.getElementsByClassName('hmc_only_control')) {
+//                control.style.display = 'none';
+//            }
         }
         if(this.methods.indexOf('mh') === -1) {
-            for(let control of this.wrapper_div.getElementsByClassName('mh_only_control')) {
-                control.style.display = 'none';
-            }
+            $(this.wrapper_div).find('.mh_only_control').hide(0);
+//            for(let control of this.wrapper_div.getElementsByClassName('mh_only_control')) {
+//                control.style.display = 'none';
+//            }
         }  
         if(!this.enable_tempering) {
-            for(let control of this.wrapper_div.getElementsByClassName('tempering_only_control')) {
-                control.style.display = 'none';
-            }            
+            $(this.wrapper_div).find('.tempering_only_control').hide(0);
+//            for(let control of this.wrapper_div.getElementsByClassName('tempering_only_control')) {
+//                control.style.display = 'none';
+//            }
         }  
     }
 

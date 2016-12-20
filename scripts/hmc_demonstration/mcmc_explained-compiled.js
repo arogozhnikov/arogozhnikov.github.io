@@ -258,82 +258,22 @@ var MCVisualization = function () {
                 this.get_by_class('method_controls').style.display = 'none';
             }
             if (this.methods.indexOf('hmc') === -1) {
-                var _iteratorNormalCompletion2 = true;
-                var _didIteratorError2 = false;
-                var _iteratorError2 = undefined;
-
-                try {
-                    for (var _iterator2 = this.wrapper_div.getElementsByClassName('hmc_only_control')[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-                        var control = _step2.value;
-
-                        control.style.display = 'none';
-                    }
-                } catch (err) {
-                    _didIteratorError2 = true;
-                    _iteratorError2 = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                            _iterator2.return();
-                        }
-                    } finally {
-                        if (_didIteratorError2) {
-                            throw _iteratorError2;
-                        }
-                    }
-                }
+                $(this.wrapper_div).find('.hmc_only_control').hide(0);
+                //            for(let control of this.wrapper_div.getElementsByClassName('hmc_only_control')) {
+                //                control.style.display = 'none';
+                //            }
             }
             if (this.methods.indexOf('mh') === -1) {
-                var _iteratorNormalCompletion3 = true;
-                var _didIteratorError3 = false;
-                var _iteratorError3 = undefined;
-
-                try {
-                    for (var _iterator3 = this.wrapper_div.getElementsByClassName('mh_only_control')[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
-                        var _control = _step3.value;
-
-                        _control.style.display = 'none';
-                    }
-                } catch (err) {
-                    _didIteratorError3 = true;
-                    _iteratorError3 = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion3 && _iterator3.return) {
-                            _iterator3.return();
-                        }
-                    } finally {
-                        if (_didIteratorError3) {
-                            throw _iteratorError3;
-                        }
-                    }
-                }
+                $(this.wrapper_div).find('.mh_only_control').hide(0);
+                //            for(let control of this.wrapper_div.getElementsByClassName('mh_only_control')) {
+                //                control.style.display = 'none';
+                //            }
             }
             if (!this.enable_tempering) {
-                var _iteratorNormalCompletion4 = true;
-                var _didIteratorError4 = false;
-                var _iteratorError4 = undefined;
-
-                try {
-                    for (var _iterator4 = this.wrapper_div.getElementsByClassName('tempering_only_control')[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
-                        var _control2 = _step4.value;
-
-                        _control2.style.display = 'none';
-                    }
-                } catch (err) {
-                    _didIteratorError4 = true;
-                    _iteratorError4 = err;
-                } finally {
-                    try {
-                        if (!_iteratorNormalCompletion4 && _iterator4.return) {
-                            _iterator4.return();
-                        }
-                    } finally {
-                        if (_didIteratorError4) {
-                            throw _iteratorError4;
-                        }
-                    }
-                }
+                $(this.wrapper_div).find('.tempering_only_control').hide(0);
+                //            for(let control of this.wrapper_div.getElementsByClassName('tempering_only_control')) {
+                //                control.style.display = 'none';
+                //            }
             }
         }
     }, {
@@ -429,29 +369,29 @@ var MCVisualization = function () {
                 var new_geometry = this.plot.generateSurfaceGeometry(function (x, y) {
                     return distribution.energy([x, y]);
                 });
-                var _iteratorNormalCompletion5 = true;
-                var _didIteratorError5 = false;
-                var _iteratorError5 = undefined;
+                var _iteratorNormalCompletion2 = true;
+                var _didIteratorError2 = false;
+                var _iteratorError2 = undefined;
 
                 try {
-                    for (var _iterator5 = Array.from(this.surface.children)[Symbol.iterator](), _step5; !(_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done); _iteratorNormalCompletion5 = true) {
-                        var mesh = _step5.value;
+                    for (var _iterator2 = Array.from(this.surface.children)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+                        var mesh = _step2.value;
 
                         mesh.geometry.dispose();
                         mesh.geometry = new_geometry;
                     }
                     // updating true points
                 } catch (err) {
-                    _didIteratorError5 = true;
-                    _iteratorError5 = err;
+                    _didIteratorError2 = true;
+                    _iteratorError2 = err;
                 } finally {
                     try {
-                        if (!_iteratorNormalCompletion5 && _iterator5.return) {
-                            _iterator5.return();
+                        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                            _iterator2.return();
                         }
                     } finally {
-                        if (_didIteratorError5) {
-                            throw _iteratorError5;
+                        if (_didIteratorError2) {
+                            throw _iteratorError2;
                         }
                     }
                 }
@@ -683,28 +623,28 @@ var TemperatureVisualization = function () {
             var new_pdf_geometry = this.plot_pdf.generateSurfaceGeometry(function (x, y) {
                 return 0.95 * Math.exp(-(distribution.energy([x, y]) - min_energy) / T);
             }, 200);
-            var _iteratorNormalCompletion6 = true;
-            var _didIteratorError6 = false;
-            var _iteratorError6 = undefined;
+            var _iteratorNormalCompletion3 = true;
+            var _didIteratorError3 = false;
+            var _iteratorError3 = undefined;
 
             try {
-                for (var _iterator6 = this.surface_pdf.children[Symbol.iterator](), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
-                    var mesh = _step6.value;
+                for (var _iterator3 = this.surface_pdf.children[Symbol.iterator](), _step3; !(_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done); _iteratorNormalCompletion3 = true) {
+                    var mesh = _step3.value;
 
                     mesh.geometry.dispose();
                     mesh.geometry = new_pdf_geometry;
                 }
             } catch (err) {
-                _didIteratorError6 = true;
-                _iteratorError6 = err;
+                _didIteratorError3 = true;
+                _iteratorError3 = err;
             } finally {
                 try {
-                    if (!_iteratorNormalCompletion6 && _iterator6.return) {
-                        _iterator6.return();
+                    if (!_iteratorNormalCompletion3 && _iterator3.return) {
+                        _iterator3.return();
                     }
                 } finally {
-                    if (_didIteratorError6) {
-                        throw _iteratorError6;
+                    if (_didIteratorError3) {
+                        throw _iteratorError3;
                     }
                 }
             }
@@ -712,28 +652,28 @@ var TemperatureVisualization = function () {
             var new_energy_geometry = this.plot_pdf.generateSurfaceGeometry(function (x, y) {
                 return distribution.energy([x, y]);
             }, 50);
-            var _iteratorNormalCompletion7 = true;
-            var _didIteratorError7 = false;
-            var _iteratorError7 = undefined;
+            var _iteratorNormalCompletion4 = true;
+            var _didIteratorError4 = false;
+            var _iteratorError4 = undefined;
 
             try {
-                for (var _iterator7 = this.surface_energy.children[Symbol.iterator](), _step7; !(_iteratorNormalCompletion7 = (_step7 = _iterator7.next()).done); _iteratorNormalCompletion7 = true) {
-                    var _mesh = _step7.value;
+                for (var _iterator4 = this.surface_energy.children[Symbol.iterator](), _step4; !(_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done); _iteratorNormalCompletion4 = true) {
+                    var _mesh = _step4.value;
 
                     _mesh.geometry.dispose();
                     _mesh.geometry = new_energy_geometry;
                 }
             } catch (err) {
-                _didIteratorError7 = true;
-                _iteratorError7 = err;
+                _didIteratorError4 = true;
+                _iteratorError4 = err;
             } finally {
                 try {
-                    if (!_iteratorNormalCompletion7 && _iterator7.return) {
-                        _iterator7.return();
+                    if (!_iteratorNormalCompletion4 && _iterator4.return) {
+                        _iterator4.return();
                     }
                 } finally {
-                    if (_didIteratorError7) {
-                        throw _iteratorError7;
+                    if (_didIteratorError4) {
+                        throw _iteratorError4;
                     }
                 }
             }
