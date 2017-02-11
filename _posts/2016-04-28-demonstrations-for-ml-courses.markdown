@@ -35,7 +35,7 @@ There is [mini-version](http://arogozhnikov.github.io/RocCurve.html) and
 
 ## Demos by Andrej Karpathy
 
-Andrej Karpathy prepared a bulk of demos with same interface for different classification algorithms:
+Andrej Karpathy prepared a bulk of demos with the same interface for different classification algorithms:
 
 
 <table>
@@ -171,15 +171,15 @@ MNIST digits.
 
 ## [Keras JS demonstrations](https://transcranial.github.io/keras-js/)
 
-Classical demonstrations of neural networks right in the browser. 
-Has very handy interface and also can use GPU right from the browser.
+Classical applications of neural networks right in the browser. 
+Demonstration has very handy interface and also can use GPU right from the browser.
 
 ![keras_js](/images/ml_demonstrations/lstm_reviews.png)
 
 
 ## Attention and memory in neural networks
 
-are explained in a [this post](http://distill.pub/2016/augmented-rnns/) by Google Brain team
+are explained in [this post](http://distill.pub/2016/augmented-rnns/) by Google Brain team
 
 ![Interactive demonstration of attention and augmentation in neural networks](/images/ml_demonstrations/attention_memory.png)
 
@@ -189,19 +189,54 @@ Another [long-read](http://distill.pub/2016/misread-tsne/) from Google Brain tea
 
 ![Misread tSNE blog](/images/ml_demonstrations/misread-tsne.png)
 
-## Generative adversarial networks
 
-![Generative adversarial networks demo](/images/ml_demonstrations/gan.png)
+## Clustering
 
-[Here](http://www.inference.vc/an-alternative-update-rule-for-generative-adversarial-networks/) 
-you can find some demonstration of GAN, though author prepared this not as a demo, 
-but rather as a visualization for his version of update rule.  
+A couple of posts about [k-means](https://www.naftaliharris.com/blog/visualizing-k-means-clustering/) clustering 
+and [DBSCAN](https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/) clustering were written by Naftali Harris.
+
+You can track the process of clustering and choose different toy data examples. 
+
+<table>
+    <tr>
+        <td>
+            <img src="/images/ml_demonstrations/clustering-kmeans.png" height="200" />
+        </td>
+        <td>
+            <img src="/images/ml_demonstrations/clustering-dbscan.png" height="200" />
+        </td>
+    </tr>
+    <tr>
+        <td> <a href="https://www.naftaliharris.com/blog/visualizing-k-means-clustering/">k-means</a>
+        </td>
+        <td> <a href="https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/">DBSCAN clustering</a>
+        </td>
+    </tr>
+</table>
+
+## Markov chain Monte Carlo
+
+Monte Carlo algorithms play an important role in many scientific applications.
+In bayesian machine learning MCMC is the way to model complex posterior distributions, 
+and there is a [demonstration of MCMC algorithms](https://arogozhnikov.github.io/2016/12/19/markov_chain_monte_carlo.html)
+
+<img src='/images/ml_demonstrations/hmc_explained.png' />
+
+## Convolutional arithmetic
+
+[Animated visualizations of different versions of convolutions](https://github.com/vdumoulin/conv_arithmetic) applied in practice.
+
+
+<!--## Generative adversarial networks-->
+<!--![Generative adversarial networks demo](/images/ml_demonstrations/gan.png)-->
+<!--[Here](http://www.inference.vc/an-alternative-update-rule-for-generative-adversarial-networks/) -->
+<!--you can find some demonstration of GAN, though author prepared this not as a demo, -->
+<!--but rather as a visualization for his version of update rule.  -->
 
 <!-- TODO Kalman filtering http://www.anuncommonlab.com/articles/how-kalman-filters-work/ -->
 <!-- EKF http://home.wlu.edu/~levys/kalman_tutorial/ -->
-<!-- TODO convolutions https://github.com/vdumoulin/conv_arithmetic -->
 <!-- TODO numerical optimizations http://www.benfrederickson.com/numerical-optimization/ -->
-<!-- TODO Keras.js -->
+<!-- TODO https://github.com/marcharper/ds_ml_resources -->
 
 ### Missing things
 
@@ -213,6 +248,6 @@ Demonstrations I haven't found so far (but It would be nice to have those):
  - Viterbi algorithm
  - RBMs dropped out of the fashion, but it would be nice e.g. to demonstrate contrastive divergence. 
  
-There are some things connected to RNNs / text / word embeddings, 
+There are many things connected to RNNs / text / word embeddings, 
 but I don't mention those here.
 
