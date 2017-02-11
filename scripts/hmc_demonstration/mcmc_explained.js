@@ -1,8 +1,5 @@
 "use strict";
 
-//
-// TODO твиттер-теги, картинка (или GIF?)
-
 let rejected_color = [1.0, 0.6, 0.6 ];
 let accepted_color = [0.6, 1.0, 0.6 ];
 let true_point_color = [0.6, 0.6, 1.0];
