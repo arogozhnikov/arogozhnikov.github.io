@@ -30,17 +30,18 @@ Program of GradDays included:
 
 as well as [other sweet things](http://gsfp.physi.uni-heidelberg.de/graddays/index.php?m=2).
 
-Our lectures **"Machine learning and applications in Science and Industry"** were probably the most popular, 
-and even included some minimal practice. Focus of the course (heavily influenced by time constraints: only 4 days!) 
-was to give a **wide overview** of models in Machine Learning and their applications in very different areas.
+Even so, our course **"Machine learning and applications in Science and Industry"** was the most popular.
+Focus of the course (heavily influenced by time constraints: only 4 days) 
+was to give a **wide overview** of useful models in Machine Learning and their applications in very different areas, 
+and even contained optional practice!
 
-That's why we put many _interactive demonstrations_ of machine learning techniques!
+That's why we put inside many _interactive demonstrations_ of machine learning techniques! 
 
 Also we tried to create a nice bridge between models and their real-life applications.
 Many of the examples were from particle physics — an area that we're working in 
 (tracking, tagging, reweighting, uniform boosting, particle identification, simulation refinement, 
-tuning of simulation parameters). 
-But we also included some notable examples from other data-intensive areas: astronomy, neuroscience, medicine, climatology and biology.
+tuning of simulation parameters, etc.). 
+However we also included some notable examples from other data-intensive areas: astronomy, neuroscience, medicine, climatology and biology.
 
 Finally, many other interesting things done with machine learning were discussed: 
 spam detection, search engines, visual recognition, kinect and AlphaGo, recommender systems and news clustering.
@@ -49,7 +50,7 @@ spam detection, search engines, visual recognition, kinect and AlphaGo, recommen
 <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/machine-learning-in-science-and-industry-day-1" title="Machine learning in science and industry — day 1" target="_blank">Machine learning in science and industry — day 1</a> </strong> from <strong><a target="_blank" href="https://www.slideshare.net/arogozhnikov">arogozhnikov</a></strong> </div>
 
 Lecture of the first day gives some introduction into problems, applications and notions of machine learning.
-Several well-known models are discussed:
+Several simple models are discussed to get an impression:
  
 - knn and search for neighbours
 - density estimation techniques
@@ -61,7 +62,7 @@ Several well-known models are discussed:
 <iframe src="//www.slideshare.net/slideshow/embed_code/key/aox1TNWKmYLww3" width="700" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> 
 <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/machine-learning-in-science-and-industry-day-2" title="Machine learning in science and industry — day 2" target="_blank">Machine learning in science and industry — day 2</a> </strong> from <strong><a target="_blank" href="https://www.slideshare.net/arogozhnikov">arogozhnikov</a></strong> </div>
 
-In second day we made focus on tree-based techniques, specially boosting, that aren't popular in research now, 
+In the second day we made focus on tree-based techniques, specially boosting, that aren't popular in research now, 
 but work very well in practice and are best-performers in many examples with tabular data
 
 - decision trees for classification and regression
@@ -75,7 +76,7 @@ but work very well in practice and are best-performers in many examples with tab
 <iframe src="//www.slideshare.net/slideshow/embed_code/key/FFA7fguBQKuGmx" width="700" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> 
 <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/machine-learning-in-science-and-industry-day-3-75239567" title="Machine learning in science and industry — day 3" target="_blank">Machine learning in science and industry — day 3</a> </strong> from <strong><a target="_blank" href="//www.slideshare.net/arogozhnikov">arogozhnikov</a></strong> </div>
 
-Third day gets back to continuous optimization models, starts from revisiting linear and generalized linear models, 
+On the third day we get back to continuous optimization models, start from revisiting linear and generalized linear models, 
 then more involved models are introduced
 
 - linear models and their generalizations
@@ -84,8 +85,8 @@ then more involved models are introduced
 - spam detection and elements of visual recognition
 - factorization models and recommender systems
 - factorization machines
-- unsupervised dimensionality techniques (PCA, LLE and IsoMAP)
-- supervised dimensionality techniques: CSP and LDA
+- unsupervised dimensionality reduction techniques (PCA, LLE and IsoMAP)
+- supervised dimensionality reduction techniques: CSP and LDA
 - artificial neural networks
 
 
@@ -94,7 +95,7 @@ then more involved models are introduced
 <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/machine-learning-in-science-and-industry-day-4" title="Machine learning in science and industry — day 4" target="_blank">Machine learning in science and industry — day 4</a> </strong> from <strong><a target="_blank" href="https://www.slideshare.net/arogozhnikov">arogozhnikov</a></strong> </div>
 
 Finally, the last day was devoted mostly to deep learning: convolutional and recurrent neural networks, 
-autoencoders, embeddings, GANs and other.
+autoencoders, embeddings, GANs and others.
 
 Also, an active learning was demonstrated in couple with gaussian processes.
 
@@ -102,4 +103,4 @@ Also, an active learning was demonstrated in couple with gaussian processes.
 
 - [interactive demonstrations of machine learning models](http://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html)
     - thanks to authors of all materials / demonstrations that were used in the course
-- [materials of GradDays at github](https://github.com/yandexdataschool/MLAtGradDays)
+- [materials of GradDays at github (including practice assignments in notebooks)](https://github.com/yandexdataschool/MLAtGradDays)
