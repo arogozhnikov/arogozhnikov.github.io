@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Machine Learning in Science and Industry"
-excerpt: "Lectures from mini-course about machine learning at GradDays"
+title: "Machine Learning in Science and Industry slides"
+excerpt: "Mini-course about machine learning given at GradDays of Heidelberg University"
 
 date: "2017-04-20"
 author: Alex Rogozhnikov, Tatiana Likhomanenko
