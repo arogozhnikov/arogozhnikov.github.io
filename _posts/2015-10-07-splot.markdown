@@ -26,33 +26,36 @@ The distribution of some characteristic is different for them (let this be the p
 
 ## Observed distributions
 
-The picture above shows how this distribution should look like, 
-but due to inaccuracies during classification we will observe a different picture.
+Picture above shows how this distribution should look like, 
+but due to inaccuracies during classification we will observe a different picture, we'll see later it is important.
 
-Let's assume that with a probability of 80% a particle is classified correctly (and we are not using px during classification).
+Let's assume that with a probability of 80% particle is classified correctly (and we are not using `px` during classification).
 
-When we look at the distributions of px for particles which were classified as electrons or positrons,
-we see that they were distorted. We lost the original shapes of distributions.
+When we look at the distribution of `px` for particles which were classified as electrons or positrons, we see that distributions are distorted. 
+We lost the original shapes of distributions.
 
 ![the distributions we observe](/images/splot/2-bins-and-mixture.png)
 
 ## Applying sWeights
 
-We can think of it in the following way: there are 2 bins. In the first bin, 80% are electrons, 20% are signal. And vice versa in the second bin.
+We can think of it in the following way: there are 2 bins. 
+First bin contains 80% of electrons and 20% of positrons. 
+And visa versa in the second bin.
 
-To reconstruct the initial distribution, we can plot the histogram where each event from the first bin has weight 0.8, 
-and each event from the second bin has weight -0.2. This numbers are called sWeights. 
+To reconstruct the initial distribution, we can plot the histogram where each event from the first bin has weight 0.8, and each event from the second bin has weight -0.2. 
+These numbers are called sWeights.
 
-So, let's say we had 8000 $e^{-}$ + 2000 $e^{+}$ in first bin and 8000 $e^{+}$ + 2000 $e^{-}$ ($ e^-, e^+$ are electron and positron). After summing with introduced sWeights:
+In other words, let's say we had 8000 $e^{-}$ + 2000 $e^{+}$ in first bin and 8000 $e^{+}$ + 2000 $e^{-}$ 
+($ e^-, e^+$ are electron and positron). 
+After summing with introduced sWeights:
 
 $$
-\big[ 8000 e^{-} + 2000 e^{+} \big] \times 0.8 + \big[ 2000 e^{-} + 8000 e^{+} \big] \times (- 0.2) = 
-6800 e^{-}
+\big[ 8000 e^{-} + 2000 e^{+} \big] \times 0.8 + \big[ 2000 e^{-} + 8000 e^{+} \big] \times (- 0.2) = 6800 e^{-}
 $$
 
-Positrons with positive and negative weights compensated each other, and we will get pure electrons.
+Positrons with positive and negative weights compensated each other, and we got "pure electrons".
 
-At the moment we ignore the normalization of the sWeights (because it doesn't play any role when we want to reconstruct the shape).
+At the moment we ignore the normalization of the sWeights (because it doesn't play any role when we want to reconstruct the shape of distributions).
 
 ![reconstructed distributions](/images/splot/3-splot-reconstructed-weights.png)
 
@@ -64,8 +67,10 @@ Let's compare reconstructed distribution for electrons with original:
 
 # More complex case
 
-In the case when we have only two 'bins' is simple and straightforward. But when there are more than two bins, the solution is not unique. There are many appropriate combinations of sWeights, which one to choose? 
+In the case when we have only two 'bins' things are simple and straightforward. 
 
+But when there are more than two bins, the solution is not unique. There are many appropriate combinations of sWeights, which one to choose (like in example below with 3 bins)?
+ 
 ![proportions inside each bin](/images/splot/5-3bins.png)
 
 But things are more complex in practice. We have not bins, but continuous distributions (which can be treated as many bins). 
@@ -88,7 +93,7 @@ And we observe the mixture of two distributions:
 
 But we know a priori that the background is distributed as an exponential distribution and signal as a gaussian (more complex models can be met in practice, but idea is the same).
 
-After fitting the mixture (let me skip this process), we will get the following result:
+After fitting the mixture (let me skip this process), we get the following result:
 
 ![result of distribution fit over mass](/images/splot/8-fitting-results.png)
 
@@ -96,21 +101,22 @@ After fitting the mixture (let me skip this process), we will get the following 
 
 But it gives information about probabilities, which allows us to estimate the number of signal and background events within each bin. 
 
-We won't use bins, but instead we will get for each event probability that it is signal or background:
+We won't use bins, but instead we'll compute for each event probability that it is signal or background (this probability is computed from the mass. Make sure you see the connection with previous plot):
 
 ![reconstructed probabilities over mass](/images/splot/9-probabilities-over-mass.png)
 
-## Appying sPlot
+## Applying sPlot
 
 sPlot converts probabilities to sWeights, using the implementation from `hep_ml`:
 
-As you can see, there are also negative sWeights, which are needed to compensate the contributions of other class.
+As you can see, there are also negative sWeights, which are needed to compensate the contributions of other class 
+(remember that in first example we needed negative weights).
 
 ![computed sWeights dependency over mass](/images/splot/10-splot-sweights-over-mass.png)
 
 ## Using sWeights to reconstruct initial distribution
 
-Let's check that we achieved our goal and can reconstruct momentum distribution for signal and background:
+Let's check that we achieved our goal and now we can reconstruct momentum distribution for signal and background using sWeights:
 
 ![comparison to be checked](/images/splot/11-sweights-to-reconstruct-distribution.png)
 
@@ -118,7 +124,7 @@ Let's check that we achieved our goal and can reconstruct momentum distribution 
 
 Reconstructed variable (i.e. $p$) and splotted variable (i.e. mass) shall be statistically independent for each class.
 
-Read the line above again. Reconstructed and splotted variable are correlated:
+Read the line above again. Reconstructed and splotted variable are correlated!
 
 as a demonstration why this is important let's use sweights to reconstruct the mass (obviously the mass is correlated with the mass):
 
@@ -136,11 +142,10 @@ $\def\wb{sw_b(x)}$
 Now, after we seen how this works, let's derive the formula for sWeights.
 
 
-
 The only information we have from fitting over mass is  $ \ps $, $ \pb$ which are probabilities of event $x$ to be signal and background. 
 
 Our main goal is to correctly reconstruct histogram. Let's reconstruct the number of _signal_ events in _particular_ bin. 
-Let's introduce unknown $p_s$ and $p_b$ - probability that signal or background event will be in the named bin.
+Let's introduce unknown $p_s$ and $p_b$ — probability that signal or background event will be in the named bin.
 
 (Since mass and reconstructed variable are statistically independent for each class, $p_s$ and $p_b$ do not depend on mass.)
 
@@ -154,7 +159,7 @@ $$X = \sum_x \ws \; 1_{x \in bin},$$ where $\ws$ are sPlot weights and are subje
 ## First main property of sweights
 
 
-__Property 1. __ We expect out estimation to be unbiased
+__Property 1.__ We expect estimate to be unbiased
 $$\mathbb{E} \, X = p_s N_s $$
 
 
@@ -194,7 +199,8 @@ $V_{ss} = \sum_x \ps \; \ps $, $V_{bs} = V_{sb} = \sum_x \ps \; \pb$, $V_{bb} = 
 
 Having solved this linear equation, we get needed coefficients (as those in the paper)
 
-NB. There is little difference between $V$ matrix I use and $V$ matrix in the paper. <br />
+NB. There is little difference between $V$ matrix I use and $V$ matrix in the paper. 
+<br />
 
 
 ## Minimization of variation
@@ -219,17 +225,16 @@ so if we are going to minimize this upper estimate, we should solve the followin
 
 Let's write lagrangian of optimization problem:
 
-$$ \mathcal{L} =  \sum_x \ws^2 
-+ \lambda_1 \left[\sum_x \ws \; \pb \right]
-+ \lambda_2 \left[\sum_x \ws \; \ps - N_{sig} \right]
+$$ \mathcal{L} =  \sum_x \ws^2 + 
+\lambda_1 \left[\sum_x \ws \; \pb \right] + 
+\lambda_2 \left[\sum_x \ws \; \ps - N_{sig} \right]
 $$
 
 After taking derivative with respect to $ \ws $ we get the equality:
 
 $$
-0 = \dfrac{\partial \mathcal{L}}{\partial \; \ws} =   2 \ws
-+ \lambda_1  \pb
-+ \lambda_2  \ps
+0 = \dfrac{\partial \mathcal{L}}{\partial \; \ws} =   2 \ws + 
+\lambda_1  \pb + \lambda_2  \ps
 $$
 
 which holds for every $x$. Thus, after renaming for convenience 
@@ -237,11 +242,12 @@ $a_1 = - \lambda_1 / 2, $
 $a_2 = - \lambda_2 / 2, $
 we are getting needed linear dependency.
  
-### Uncorrelatedness
+### Statistical independence
 
-The main assumption we used here is that distribution inside each bin is absolutely indentical.
+The main assumption we used here is that distribution inside each bin is absolutely identical.
 
-In other words, we stated that there is no correlation between the index of bin and the reconstructed variable. Remember that bin corresponds to some interval in mass, and finally we get:
+In other words, we stated that there is no correlation between the index of bin and the reconstructed variable. 
+Remember that bin corresponds to some interval in mass, and finally we get:
 
 __reconstructed variable shall not be correlated with mass variables (or any other splotted variable)__
 
@@ -258,4 +264,7 @@ The code for this post may be found at [`hep_ml` repository](https://github.com/
 
 ## Links
 
-A very close [explanation](https://indico.cern.ch/event/257864/contributions/1587661/attachments/453353/628570/sweff.pdf) was written by Michael Schmelling
+A very close [explanation](https://indico.cern.ch/event/257864/contributions/1587661/attachments/453353/628570/sweff.pdf) was written by Michael Schmelling.
+
+Thanks to [Konstantin Schubert](https://github.com/KonstantinSchubert) for correcting this post.
+
