@@ -15,12 +15,11 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2014/12/optimization-of-v
 <p>
     Recently worked on optimization of&nbsp;some (internal) classifier.
     The problem was mostly not in&nbsp;training, but in&nbsp;applying of&nbsp;trained classifier&nbsp;— this code was
-    originally written in&nbsp;C++ and then translated to&nbsp;cython (which decreased the speed by&nbsp;factor of&nbsp;2).
+    originally written in&nbsp;C++ and then translated to&nbsp;cython (which surprisingly decreased the speed by&nbsp;a factor of&nbsp;2).
 </p>
 <p>
     This was quite easy rewrite the code using numpy and vectorized approach
-    (initially predictions were built event-by event,
-    after rewriting the classifier was applied tree-by-tree).
+    (initially predictions were built event-by event, after rewriting the classifier was applied tree-by-tree).
     However this gave only speed comparable with original&nbsp;C++ code (and twice faster than cython version).<br/>
 </p>
 <p>
