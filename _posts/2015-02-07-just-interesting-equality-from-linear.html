@@ -11,20 +11,20 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/02/just-interesting-
 ---
 
 <p>
-    It's a bit mind-blowing when you want to understand it geometrically:
+    It's a bit mind-blowing when you want to understand this equality geometrically:
     <br/>we have vectors $x_1, \dots, x_n$ in n-dimensional space
     <br/>Let's take an  orthonormal basis in this space $e_1, \dots, e_n$ and compute such vectors obtained with via scalar product:
 </p>
 <p>
-    $$z_i = (&lt;e_i, x_1&gt;, &lt;e_i, x_2&gt;, \dots, &lt;e_i, x_n&gt;) &nbsp;$$
+    $$z_i = (&lt; e_i, x_1 &gt;, &lt; e_i, x_2 &gt;, \dots, &lt; e_i, x_n &gt;) &nbsp;$$
 </p>
 <p>
     So the theorem is:
-    $$ \det_{i,j} &lt;z_i, z_j&gt; = \det_{i,j} &lt;x_i, x_j&gt; &nbsp;$$
+    $$ \det_{i,j} &lt; z_i, z_j &gt; = \det_{i,j} &lt; x_i, x_j &gt; $$
 </p>
 <p>
-    And the proof is actually very simple, let's introduce the matrix $A$: $A_{ij} = &lt;x_i, e_j&gt; $
-    $$ \det_{i,j} &lt;z_i, z_j&gt; = \det A^T A = \det A A^T &nbsp;= \det_{i,j} &lt;x_i, x_j&gt; &nbsp;$$
+    And the proof is very simple, let's introduce the matrix $A$: $ A_{ij} = &lt;x_i, e_j&gt; $
+    $$ \det_{i,j} &lt; z_i, z_j &gt; = \det A^T A = \det A A^T = \det_{i,j} &lt; x_i, x_j &gt;$$
 </p>
 <p>
     Voila! Beautiful, but completely unclear.

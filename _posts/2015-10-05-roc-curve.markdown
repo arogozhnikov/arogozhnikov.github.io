@@ -5,6 +5,7 @@ date: 2015-10-05 12:00:00
 author: Alex Rogozhnikov
 tags: 
 - Machine Learning
+- Binary classification
 ---
 
 There are lots of applications to machine learning, and the most popular problem in practice is __binary classification__.
@@ -22,16 +23,16 @@ There are many different area-specific metrics to estimate quality of classifica
 ## Notions in binary classification for binary predictions, is/as notation
  
 We have two classes: class 0 and class 1, background and signal respectively.
-In the simplest case predictions are binary: each event is attributed by classifier to be signal or background.
+In the simplest case predictions are binary: each observation is attributed by a classifier to be signal or background.
 
-Unfortunately, there are too many terms used to describe this (trivial) classification result. 
+Unfortunately, there are too many terms used in the literature to describe this (trivial) classification result.
 Scary [image from wikipedia](https://en.wikipedia.org/wiki/Binary_classification) shows how many different terms people were able to invent to describe a space with 4 degrees of freedom.
  
-Let me introduce my own notion, more systematic (%picture about 15 standards%):
+Let me introduce my own notion, hopefully more systematic (%picture about 15 standards%):
 
-* isS (isSignal), isB (isBackground) - how many events really belong to this class
-* asS (asSignal), asB (asBackground) - how many events were classified as signal (background)
-* isSasB (isSignalasBackground) - how many signal events were erroneously classified as background.
+* isS (isSignal), isB (isBackground) &mdash; how many observation really belong to this class
+* asS (asSignal), asB (asBackground) &mdash; how many observation were classified as signal (background)
+* isSasB (isSignalasBackground) &mdash; how many signal observation were erroneously classified as background.
   isSasS, isBasB, isBasS are defined in the same way.
 
 
@@ -66,20 +67,21 @@ Other way to define parameters is True/False Positives/Negatives:
 TP = isSasS, FP = isBasS, TN = isBasB, FN = isSasB  
 ```
 
-But it is too easy (at least for me) to mess FP and FN, so I avoid this notion.
+But it is too easy (at least for me) to mess FP and FN, so I prefer to avoid this notion.
  
 ## Continuous predictions. ROC curve 
 
-So, there are many different ways to measure quality of binary predictions. 
-The bad thing is people frequently start by comparing them.
+As it is clear now, there are different ways to measure quality of binary predictions.
+The bad thing is people frequently start by comparing those.
 
-Meanwhile, the output of classifier is __real number__, not binary.    
+Meanwhile, the output of classifier is __real-valued, not binary__.
 
 What's wrong with using binary predictions?
 
 
-1. to estimate quality, one needs to select threshold. Either people forget about it (and use default, which is not even close to optimal one) 
-2. binary metrics are frequently unstable and need many samples in validation (statistical variation is comparable to gain obtained by changing parameters)
+1. to estimate quality, one needs to select threshold. Usually people forget about this (and use default, which far from the optimal one)
+2. binary metrics are frequently unstable and need many samples in validation (statistical variation is comparable to gain obtained by changing parameters),
+   this drives to unstable model selection.
 3. in many cases, trained classifier is not used to make decisions, but needed reconstruct the probabilities later used in next stages of ML pipeline
  
 <blockquote>
@@ -87,21 +89,23 @@ What's wrong with using binary predictions?
     instead always use probabilities <code>classifier.predict_proba(X)</code> 
 </blockquote>
 
-So the right way is to look at the whole picture and compare how well the classifier was able to split classes. 
+So the right way is to look at the whole picture and compare how well the classifier was able to separate classes.
 How 'far' distributions of output of signal and background. 
  
 
 ## ROC curve
 
 The graphical way to compare output of two classifiers is ROC curve, 
- which is built by checking all possible thresholds. For each threshold `tpr` and `fpr` are computed
-   (which part of signal/background event passes this threshold).
+which is built by checking *all possible thresholds*.
+For each threshold `tpr` and `fpr` are computed (which part of signal/background event passes this threshold).
    
-By checking all possible thresholds, we get the ROC curve. When ROC curve coincides with diagonal &mdash; this is the worst situation, 
-because two distributions coincide. The higher ROC curve &mdash; the better discrimination between signal and background.
+After checking all possible thresholds, we get the ROC curve.
+When ROC curve coincides with diagonal &mdash; this is the worst situation,
+because two distributions coincide.
+The higher ROC curve &mdash; the better discrimination between signal and background.
 
-If at every point ROC curve of classifier A is higher than curve of classifier B, we are sure to say that in any application 
- classifier A is better.
+If at every point ROC curve of classifier A is higher than curve of classifier B,
+we are sure to say that in any application classifier A is better.
 
 <img src='/images/roc_curve.gif' alt='ROC curve interactive demonstration interface' 
     style='width: 600px; margin: auto; box-shadow: 0 0 30px 0 black; margin: 40px 10px;' />
@@ -112,11 +116,10 @@ You can play with this demonstration, it's expected to work in any browser witho
  
 ### Instructions
 
-On the right plot: two compared distributions (for demonstration normal distributions were taken).
+On the right plot: two compared distributions (normal distributions are considered in this demonstration).
 On the left plot: corresponding <a href="https://en.wikipedia.org/wiki/Receiver_operating_characteristic">ROC curve.</a>
 
 Controls:
-
 
 * 4 inputs with means and variances of distributions
 * Also vertical line corresponding to threshold can be moved</li>
@@ -146,18 +149,20 @@ General-purpose measure of classification quality is area under ROC curve.
  
 In the worst case it is 0.5, while the ideal classification corresponds to area = 1.
   
-This figure of merit is very stable (), and moreover enjoys the following mathematical property:
+This figure of merit is very stable (prediction for a single data sample does not change the value significantly), 
+and moreover enjoys the following mathematical property:
   
-$$\text{area under ROC} = P(x < y) $$, where $x$ and $y$ are predictions of random signal and background samples.
- So this is a probability that random signal and random background samples' predictions will be correctly ordered.
+$$ \text{area under ROC} = P(x < y) $$, where $x$ and $y$ are predictions of random signal and background samples.
+So this is a probability that random signal and random background samples' predictions are correctly ordered.
  
 ### Measures of quality through the prism of ROC
 
-Interesting moment in ROC curve is that it is completely invariant to any monotonic transformations of classifiers output.
-If you divide the predictions of classifier by two, ROC curve will stay the same. Or if you apply exponent &mdash; again, nothing changes.
+Interesting moment in ROC curve is that it is completely invariant to any monotonic transformations of classifier's output.
+If you divide the predictions of classifier by two, ROC curve will stay the same.
+Or if you exponentiate predictions &mdash; again, nothing changes.
 
 This notable property makes ROC curve the universal base for comparison of classification models, because it contains 
-all necessary information (passing dependencies) while ignoring everything inessential (predictions values).
+all necessary information (fractions of observations passing thresholds) while ignoring everything inessential (predictions values).
 
 However curve is not a number, and the final quality still should be computed according to real problem (based on ROC curve).
 
@@ -167,12 +172,15 @@ of correctly predicted objects, you should select a threshold, which corresponds
 (As you can check, at this point ROC should be tangent to line $N_s \times TPR - N_b \times FPR = const$.
 
 __weighted accuracy__: another example (which frequently corresponds to practice). 
-Imaging that for each correct guess about new object you are paid. 
+Imaging that for each correct guess about new object you are paid.
 But the cost for correctly guessing signal and background are different: $c_s, c_b$. 
 To maximize the income, the threshold for decision rule should correspond to point at ROC curve, where
  $$ N_s \times TPR \times c_s + N_b \times (1 - FPR) \times c_b $$ is maximal.
+
+One of such examples is email spam filtering:
+cost for incorrect classification of ham letter is times higher than cost for making wrong prediction for spam letter.
  
-In particle physics more complicated things are usually taken as final measure of classification model. 
+In particle physics more complicated expressions are usually taken as a final measure of classification quality.
 Those are corresponding to hypothesis testing (punzy metric, median significance), but the idea is still the same: 
 one should maximize some figure of merit and take corresponding threshold.  
  
@@ -183,7 +191,5 @@ one should maximize some figure of merit and take corresponding threshold.
 * [python implementation of ROC](http://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html)
 * [R implementation of ROC](https://cran.r-project.org/web/packages/ROCR/index.html)
 * [writing ROC curve in numpy](https://arogozhnikov.github.io/2015/09/29/NumpyTipsAndTricks1.html#Computing-ROC-curve)
-
-
 
 
