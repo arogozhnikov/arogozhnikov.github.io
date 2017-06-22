@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Neural Networks
+title: Pairwise layer in Neural Networks
 date: '2015-01-01T08:02:00.000-08:00'
 author: Alex Rogozhnikov
 tags:
@@ -11,4 +11,68 @@ blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-436843916593290102
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/01/neural-networks.html
 ---
 
-<div dir="ltr" style="text-align: left;" trbidi="on">Just to describe one of my experiments with neural networks.<br /><br />Neural networs initially were developed as simulation of real neurons, first training rules (i.e. Hebb's rule) were 'reproducing' the behaviour we observe in nature.<br /><br />But I don't expect this aproach to be very fruitful today. I prefer thinking of neural network as of just one of ways to define function (which is usually called activation function).<br /><br />For instance, one-layer perceptron's activation function may be written down as<br />$$f(x) = \sigma( a^i \, x_i )$$<br />following the Einstein rule, I omit the summation over $i$. $a_i$ are weights.<br /><br />Activation function for two-layer perceptron ($a^i_j$ and $b^j$ are weights):<br />$$f(x) = &nbsp;\sigma( b^j \, \sigma( a^i_j \, x_i )) $$<br /><br />If one operates the vector variables, and $Ab$ is matrix-by-vector dot product, $\sigma x$ denotes elementwise sigmoid function, then activation function can be written down in pretty simple way:<br />$$f(x) = \sigma b \sigma A x $$<br /><div><br /></div><div>This is how one can define two-layer perceptron in <a href="http://brilliantlywrong.blogspot.com/2014/11/theano-python-library.html" target="_blank">theano</a>, for instance. Three- or four- layer perceptron isn't more complicated really.</div><div><br /></div><div>But defining function is only the part of the story - what about training of network?&nbsp;</div><div>I'm sure that the most efficient algorithms won't come from neurobiology, but from pure mathematics. And that is how it is done in today's guides to neural networks: you define activation function, define some figure of merit (logloss for instance), and then use your favourite way of optimization.</div><div><br /></div><div>I hope that soon the activation functions will be inspired by mathematics, though I didn't succeed much n this direction.</div><div><br /></div><div>One of activation functions I tried is the following:</div><div>First layer:</div><div>$$y = \sigma A x $$</div><div>Second (pairwise) layer:</div><div><div>$$f(x) = \sigma (b^{ij} y_i y_j ) $$</div></div><div><br /></div><div>The difference here that we can use now not only activation of neurons, but introduce some pairwise interaction between them. Unfortunately, &nbsp;I didn't feel much difference between this modification and simple two-layer network.</div><div><br /></div><div>Thank to theano, &nbsp;this is very simple to play with different activation functions :)</div></div>
+<p>
+    Just to describe one of my experiments with neural networks.
+</p>
+<p>
+    Neural networks initially were developed as simulation of real neurons,
+    first training rules (i.e. Hebb's rule) were 'reproducing' the behaviour we observe in nature.
+    Or at least
+</p>
+<p>
+    But I don't expect this approach to be very fruitful today.
+    I prefer thinking of neural network as of just one of ways to define function.
+</p>
+<p>
+    For instance, one-layer perceptron's activation function may be written down as<br/>
+    $$f(x) = \sigma( a^i \, x_i )$$<br/>
+    following the Einstein rule, I omit the summation over $i$. $a_i$ are weights.
+</p>
+<p>
+    Activation function for two-layer perceptron ($a^i_j$ and $b^j$ are weights):<br/>
+    $$ f(x) = \sigma( b^j \, \sigma( a^i_j \, x_i )) $$
+</p>
+<p>
+    If one operates the vector variables, and $Ab$ is matrix-by-vector dot product, $\sigma x$ denotes element-wise
+    sigmoid function, then activation function can be written down in a simple way:<br/>
+    $$ f(x) = \sigma b \sigma A x $$
+</p>
+<p>
+    This is how one can define two-layer perceptron in theano, for instance.
+    Three- or four- layer perceptron isn't more complicated really.
+</p>
+<p>
+    But defining function is only the part of the story - what about training of network?&nbsp;
+    I'm sure that the most efficient algorithms won't come from neurobiology, but from pure mathematics. And that is how
+    it is done in today's guides to neural networks: you define activation function, define some figure of merit
+    (logloss for instance), and then use your favourite way of optimization.
+</p>
+<p>
+    I hope that soon the activation functions will be inspired by mathematics, though I didn't succeed much n this
+    direction.
+</p>
+<p>
+    One of activation functions I tried is the following:
+</p>
+<p>
+    First layer:
+    $$y = \sigma A x $$
+    Second (pairwise) layer:
+    $$f(x) = \sigma (b^{ij} y_i y_j ) $$
+</p>
+<p>
+    The difference here that we can use now not only activation of neurons, but introduce some pairwise interaction
+    between them. Unfortunately, I didn't feel much difference between this modification and a simple two-layer
+    network.
+</p>
+<p>
+    Thank to theano, this is very simple to play with different activation functions :)
+</p>
+
+<div>
+    <strong>Update:</strong> <br/>
+	<br/>
+    Well, I&nbsp;was wrong: after checking on&nbsp;higgs-boson dataset from kaggle&nbsp;I found out that this kind of&nbsp;neural network works much better than traditional ones! Hurrah!<br/>
+	<br/>
+    Though, much worse then GBDT, but after building AdaBoost over neural network&nbsp;I was able to&nbsp;get comparable (or&nbsp;just the same) quality. The only problem is&nbsp;GBDT trained in&nbsp;minutes, while it&nbsp;took ~24 hours for boosting over&nbsp;NN to&nbsp;train.
+</div>
