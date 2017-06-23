@@ -100,14 +100,13 @@ meta: |
     </p>
     <p>
         This page explains how the gradient boosting algorithm works using several interactive visualizations.
-        \( \renewcommand{\vx}{\mathbf{x}} \)
     </p>
 
     <h2>Decision Tree Visualized</h2>
     <div class="visualization-wrapper">
         <div>
-            <div style="text-align: center;"><span class="semi-transparent">semi-transparent target function \( f(\vx) \) </span>
-                and tree prediction \( d_\text{tree}(\vx) \)
+            <div style="text-align: center;"><span class="semi-transparent">semi-transparent target function \( f(\mathbf{x}) \) </span>
+                and tree prediction \( d_\text{tree}(\mathbf{x}) \)
             </div>
             <div id="tree_visualization" class="visualization"></div>
         </div>
@@ -125,7 +124,7 @@ meta: |
     </div>
     <p>
         We take a 2-dimensional regression problem and investigate how a tree is able to reconstruct the function
-        \( y = f(\vx) = f(x_1, x_2) \).
+        \( y = f(\mathbf{x}) = f(x_1, x_2) \).
         Play with the tree depth, then look at the tree-building process from above!
     </p>
 
@@ -164,8 +163,8 @@ meta: |
     </p>
     <div class="visualization-wrapper">
         <div>
-            <div style="text-align: center;"><span class="semi-transparent">target function \( f(\vx) \) </span> and
-                prediction of GB \( D(\vx) \)
+            <div style="text-align: center;"><span class="semi-transparent">target function \( f(\mathbf{x}) \) </span> and
+                prediction of GB \( D(\mathbf{x}) \)
             </div>
             <div id="gb_simple_visualization" class="visualization"></div>
         </div>
@@ -201,7 +200,7 @@ meta: |
             <p>
                 The aim of gradient boosting is to create (or "train") an ensemble of trees, given that we know how to
                 train a single decision tree.
-                This technique is called <b>boosting</b> because we expect an ensemble to work much better than a
+                This technique is called <b>boosting</b> because we expect an ensemble to work much better than
                 a single estimator.
             </p>
         </div>
@@ -214,33 +213,33 @@ meta: |
         Gradient boosting builds an ensemble of trees <strong>one-by-one</strong>,
         then the predictions of the individual trees <strong>are summed</strong>:
         $$
-        D(\vx) = d_\text{tree 1}(\vx) + d_\text{tree 2}(\vx) + ...
+        D(\mathbf{x}) = d_\text{tree 1}(\mathbf{x}) + d_\text{tree 2}(\mathbf{x}) + ...
         $$
     </p>
     <p>
-        The next decision tree tries to cover the discrepancy between the target function \( f(\vx) \) and the current
+        The next decision tree tries to cover the discrepancy between the target function \( f(\mathbf{x}) \) and the current
         ensemble prediction <strong>by reconstructing the residual</strong>.
     </p>
     <p>
         For example, if an ensemble has 3 trees the prediction of that ensemble is:
         $$
-        D(\vx) = d_\text{tree 1}(\vx) + d_\text{tree 2}(\vx) + d_\text{tree 3}(\vx)
+        D(\mathbf{x}) = d_\text{tree 1}(\mathbf{x}) + d_\text{tree 2}(\mathbf{x}) + d_\text{tree 3}(\mathbf{x})
         $$
 
         The next tree ( \( \text{tree 4} \) ) in the ensemble should complement well the existing trees and minimize
         the training error of the ensemble. <br/>
         In the ideal case we'd be happy to have:
         $$
-        D(\vx) + d_\text{tree 4}(\vx) = f(\vx).
+        D(\mathbf{x}) + d_\text{tree 4}(\mathbf{x}) = f(\mathbf{x}).
         $$
     </p>
     <p>
         To get a bit closer to the destination, we train a tree to reconstruct the difference between the
         target function and the current predictions of an ensemble, which is called the <strong>residual</strong>:
         $$
-        R(\vx) = f(\vx) - D(\vx).
+        R(\mathbf{x}) = f(\mathbf{x}) - D(\mathbf{x}).
         $$
-        Did you notice? If decision tree completely reconstructs \( R(\vx) \),
+        Did you notice? If decision tree completely reconstructs \( R(\mathbf{x}) \),
         the whole ensemble gives predictions without errors (after adding the
         <nobr>newly-trained</nobr>
         tree to the ensemble)!
@@ -250,15 +249,15 @@ meta: |
     <div class="visualization-wrapper">
         <div style="width: 850px; margin: auto;">
             <div style="width: 400px; display: inline-block;">
-                <div style="text-align: center;"><span class="semi-transparent">target function \( f(\vx) \)</span>
-                    and prediction of previous trees \( D(\vx) \)
+                <div style="text-align: center;"><span class="semi-transparent">target function \( f(\mathbf{x}) \)</span>
+                    and prediction of previous trees \( D(\mathbf{x}) \)
                 </div>
                 <div id="gb_build_visualization_prediction"></div>
             </div>
             <div style="width: 400px; display: inline-block;">
-                <div style="text-align: center;"><span class="semi-transparent">residual \( R(\vx) \)</span> and
+                <div style="text-align: center;"><span class="semi-transparent">residual \( R(\mathbf{x}) \)</span> and
                     prediction
-                    of next tree \( d_n(\vx) \)
+                    of next tree \( d_n(\mathbf{x}) \)
                 </div>
                 <div id="gb_build_visualization_residual"></div>
             </div>
@@ -313,6 +312,9 @@ meta: |
     <p>
         But that's a topic for another post.
     </p>
+    <p>
+        Thanks to Micah Stubbs for proof-reading this post.
+    </p>
 
 </div>
 
@@ -322,17 +324,3 @@ meta: |
 <script type="text/javascript" src="/scripts/demonstration_scripts/gradient_boosting-compiled.js"></script>
 <script type="text/javascript" src="/scripts/demonstration_scripts/datasets-compiled.js"></script>
 <script type="text/javascript" src="/scripts/demonstration_scripts/gradient_boosting_explained-compiled.js"></script>
-<script type="text/javascript">
-    // this is a dirty hack to resolve problems which are caused by plotly overriding mathjax settings
-    MathJax.Hub.Config({
-        displayAlign: "center",
-        tex2jax: {
-            inlineMath: [["$", "$"], ["\\(", "\\)"]],
-            displayMath: [['$$', '$$'], ["\\[", "\\]"]],
-            processEscapes: true,
-            processEnvironments: true
-        },
-//        "HTML-CSS": {styles: {'.MathJax_Display': {"margin": 0}}, linebreaks: {automatic: true}}
-    });
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
-</script>
