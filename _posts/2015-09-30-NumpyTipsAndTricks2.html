@@ -861,7 +861,7 @@ while elements within row are placed in memory together.</p>
 <h3 id="Computing-optimal-step-for-AdaLoss-function">Computing optimal step for AdaLoss function<a class="anchor-link" href="#Computing-optimal-step-for-AdaLoss-function">&#182;</a></h3><p>In GBDT there is important step after training a tree is finding optimal values in leaves.</p>
 <p>AdaLoss (also known as ExpLoss) can be written as (here $y_i = \pm 1$):</p>
 $$ \sum_i \exp[-y_i d(x_i)]$$<p>Contrary to other losses, for AdaLoss one can write exact expression of optimal value of a leaf:</p>
-$$ \text{leaf_value} = \frac{1}{2} \log \left( \dfrac{w_{leaf,+}}{w_{leaf, -}} \right),  $$<p>where $w_{leaf,+}, w_{leaf, -}$ are weights of signal and background events in the leaf. Let's write this procedure in beautiful <code>numpy</code> code:</p>
+$$ \text{leaf\_value} = \frac{1}{2} \log \left( \dfrac{w_{leaf,+}}{w_{leaf, -}} \right),  $$<p>where $w_{leaf,+}, w_{leaf, -}$ are weights of signal and background events in the leaf. Let's write this procedure in beautiful <code>numpy</code> code:</p>
 
 </div>
 </div>
