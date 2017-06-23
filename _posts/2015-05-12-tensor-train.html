@@ -26,7 +26,7 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/05/tensor-train.html
     At this moment I'm thinking over possibility to build this into GB-train, since trained model for each event provides sequence of binary visible variables. In principle, this may be written in quite simple way. Provided, that $x_i$ is boolean variable corresponding to $i$th cut in the tree (in the train, to be more precise).
 </p>
 <p>
-    For instance, one can write partition function as $$ Z = A_1[x_1, y] A_2[x_2, y] \dots A_n[x_n, y] $$ or as $$ Z = A_1[x_1] B_1[y] A_2[x_2] B_2[y] \dots A_n[x_n] B_n[y] $$
+    For instance, one can write partition function as $$ Z = A_1[x_1, y] A_2[x_2, y] ... A_n[x_n, y] $$ or as $$ Z = A_1[x_1] B_1[y] A_2[x_2] B_2[y] ... A_n[x_n] B_n[y] $$
 </p>
 <p>
     In both cases it's quite simple to estimate posterior probability since we have only limited set of options (targets)
