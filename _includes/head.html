@@ -12,13 +12,29 @@
   <link rel="stylesheet" href="{{ "/css/alex.css" | prepend: site.baseurl }}">
   <link rel="stylesheet" href="{{ "/css/pygments.css" | prepend: site.baseurl }}">
   <link rel="canonical" href="{{ page.url | replace:'index.html','' | prepend: site.baseurl | prepend: site.url }}">
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ '/feed.xml' | prepend: site.baseurl | prepend: site.url }}" />
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png">
-  <script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-</script>
-  <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  <link rel="stylesheet" href="/scripts/external_scripts/katex/katex.min.css">
+  <script src="/scripts/external_scripts/katex/katex.min.js"></script>
+  <script src="/scripts/external_scripts/katex/contrib/auto-render.min.js"></script>
+  <script>
+    // can be filled along the way
+    var tex_macros = {};
+
+    var options = {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "\\[", right: "\\]", display: true},
+            {left: "\\(", right: "\\)", display: false},
+            {left: "`$", right: "$`", display: false},
+            {left: "$", right: "$", display: false}
+        ],
+        macros: tex_macros // I am not sure this is actually working
+    };
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, options);
+    });
+  </script>
 </head>
