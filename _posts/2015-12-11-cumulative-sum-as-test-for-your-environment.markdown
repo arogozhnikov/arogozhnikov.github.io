@@ -16,17 +16,17 @@ This post may be useful for those researchers and programmers, who work much wit
 Have you ever tried to think about what will be coding like 10 years later?
 What processors and technologies will be used?
 
-Usually programmers don't care about this at all. 
+Typically we don't care about such questions when writing our projects (unless those are a critical part of some important system).
 Or we theorize in this direction, but this never affects our code.   
 
-In principle, this is quite explainable: code written in C++ about 20 years ago is still working fine, 
-without much changes in its structure. The speed increased thanks to technological process used in processors.
+In principle, this is quite explainable: code written in C++ about 20-30 years ago is still working fine,
+without many changes in its structure. The speed increased thanks to technological process used in processors.
 
 Processors and compilers changed much to increase execution speed, complex pipelines and automatic vectorization are 
 used to make old-style programs running fast. 
  
 But there is some __obvious limit your programming environment will not be able to overcome 
-unless you explicitly took care about this__. I'll demonstrate it using a very trivial example &mdash; cumulative sum.
+unless you explicitly took care about this__. I'll demonstrate it using a very trivial example &mdash; a cumulative sum.
    
 The reference (abstract) code looks like: 
 <pre>
@@ -37,7 +37,7 @@ The reference (abstract) code looks like:
       result[i + 1] = result[i] + input[i]
 </pre>
 
-Here I use the zero-based indexing.
+Here I uses the zero-based indexing.
   
 This is fairly trivial piece of code that C/C++/Fortran programmers write in their language without any hesitation.
 However, looking from perspective of 10-years-later coding, this trivial code may 
@@ -50,10 +50,10 @@ Anyway, computers need to rely on parallel computations more and more.
 
 But the code we wrote for cumulative sum is not parallelizable at all, the computations in cycle are chained, 
 next iteration shall be done exactly after previous. Unless you use some dangerous flag like `-fmath`, the 
-compiler will never be able (even in theory) to speed up this code, because otherwise it will have to break summation order.
+compiler will never be able (even in theory) to speed up this code, because otherwise it will have to break a summation order.
 
-<!--- TODO link -->
-Summation order matters, because addition is not associative in computers. 
+Summation order matters, because addition <a href='http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html'>is not associative</a>
+in floating-point numbers.
 
 ## Ways to parallelize cumulative sum computation
 
@@ -105,13 +105,13 @@ The optimal implementation is available in `numpy` or `MATLAB`:
 result = cumsum(input)
 </pre>
 
-Eh... Trivial, right? And this code is one-threaded (at this moment). 
+Eh... Trivial, right? This code is one-threaded (at this moment).
 
 Why actually it is good idea to use third-party functions is that their implementation may be changed according 
-to environment and situation. This is what already happened to many `MATLAB` operations. 
+to the environment and situation. This is what already happened to many `MATLAB` operations.
  
 People that were writing code in `MATLAB` 15 years ago had no idea, what is GPU. However, 
-today many of their programs are enjoying GPU acceleration. I.e. the [GEMM]({% post_url 2015-07-01-do-you-know-that-convolution-operation %}) operation is almost surely to be run on GPU today. 
+today many of their programs are enjoying <a href='https://www.mathworks.com/discovery/matlab-gpu.html'>GPU</a> acceleration. I.e. the [GEMM]({% post_url 2015-07-01-do-you-know-that-convolution-operation %}) operation is almost surely to be run on GPU today.
 
 Contrary to this, fortran doesn't provide any convenient way to perform computation of cumsum.  
 

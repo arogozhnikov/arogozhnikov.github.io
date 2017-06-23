@@ -17,9 +17,9 @@ the maximal possible speed of number crunching.
 There is a number of options you can use (see [my post]({% post_url 2015-09-08-SpeedBenchmarks %}) 
 with benchmarking of number crunchers). So the option I choose is to use fortran.
 
-Reasons for such inobvious choice:
+Several reasons for such inobvious choice:
 
-* speed (fortran usually gives faster programs then C++)
+* speed (fortran usually gives slightly faster programs then C++)
 * vector operations, which shorten your code (i.e. to add two matrices and save it to third, you can write `x(:, :) = y(:, :) + z(:, :)`)
 * simple memory management
 
@@ -27,7 +27,8 @@ However, there are demerits that I discovered during experimenting:
 
 * 1-based indexing parameters. <br />
   In fortran enumeration goes from 1 by default, but you can change it for all arrays,
-  for the exception of assumed-shape parameters 
+  for the exception of assumed-shape parameters
+  (and assumed-shape parameters are the most convenient way to interface with python)
 * pointers cannot be set to allocatable arrays, which seems to be artificial limitation 
 * slow casting - you cannot convert int64[:] to int8[:], because such operations are forbidden.
   (however, you can use transfer, but this is copying, not casting)
