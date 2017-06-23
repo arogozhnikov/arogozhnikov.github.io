@@ -17,20 +17,35 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/04/numpy-exercises.h
 <p>Having spent a year with it, I found out that almost any algorithm may be vectorized, though it's sometimes non-trivial.</p>
 <p>I'm still quite disappointed about the most answers at stackoverflow, where people prefer plain python for any nontrivial thing more complicated than computing sum of array.</p>
 <br/>
-<p>For instance, you need to <a href="http://stackoverflow.com/questions/12414043/map-each-list-value-to-its-corresponding-percentile?rq=1">compute statistics</a> of values in array. Well, you can sort array and keep track of initial position.&nbsp;Alternatively, you can do it in numpy-one-liner:</p>
+<p>
+	For instance, you need to <a href="http://stackoverflow.com/questions/12414043/map-each-list-value-to-its-corresponding-percentile?rq=1">compute statistics</a> of values in array.
+</p>
+<p>
+	There is a function in scipy.stats library which is created specially for this purpose:
+</p>
+{% highlight python %}
+order_statistics = rankdata(initial_array)
+{% endhighlight %}
+<p>
+	Another option is to sort array and keep track of initial positions.
+	Alternatively, you can do in numpy with one-liner:</p>
+
 <br/>
 {% highlight python %}
 order_statistics = numpy.argsort(numpy.argsort(initial_array))
 {% endhighlight %}
-<p>Don't believe? Check this! <br/>
- Want to compute mean value over the group of events? Another one-liner:
-	</p>
-	{% highlight python %}
-	means = numpy.bincount(group_indices, weights=values) / numpy.bincount(group_indices)
-	{% endhighlight %}
-	<br/>
-	<p>Writing oblivious decision tree in numpy is very simple and computations there are done really fast.</p>
-	<p>As a non-trivial problem: will you be able to write application of usual decision tree in pure numpy? For simplicity, you can first consider only trees with equal depth of all leaves. </p>
+<p>(isn't this beatiful?) <br/>
+ 	Want to compute mean value over the group of events? With one-liner? Here you go:
+</p>
+{% highlight python %}
+means = numpy.bincount(group_indices, weights=values) / numpy.bincount(group_indices)
+{% endhighlight %}
+
+<p>Writing oblivious decision tree in numpy is very simple and computations there are done really fast.</p>
+<p>
+	As a non-trivial problem: will you be able to write application of usual decision tree in pure numpy?
+	For simplicity, you can first consider only trees with equal depth of all leaves.
+</p>
 <p>See also:</p>
 
 <ul>
@@ -39,5 +54,9 @@ order_statistics = numpy.argsort(numpy.argsort(initial_array))
 	</li>
 	<li>
 		Numpy <a href="{% post_url 2015-09-08-SpeedBenchmarks %}">speed benchmark</a>.
+	</li>
+	<li>
+		See <a href="https://github.com/rougier/numpy-100">100 numpy exercises</a> for challenging problems.
+		Most of them are also solved with one-liners.
 	</li>
 </ul>
