@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Minibus stochastic process (part 1)
+title: Minibus stochastic process
 date: '2014-11-23T14:57:00.001-08:00'
 author: Alex Rogozhnikov
 tags:
@@ -64,11 +64,11 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2014/11/minibus-stochasti
     \Delta t$ the number of passengers is incremented (by one).
 </p>
 <p>This is mathematically written as:</p>
-<p>$$p_n(t + \Delta t) \cong p_n(t) + \alpha (n-1) \Delta t &nbsp;p_{n-1}(t) - \alpha n \Delta t &nbsp;p_{n}(t),
+<p>$$p_n(t + \Delta t) \cong p_n(t) + \alpha (n-1) \Delta t p_{n-1}(t) - \alpha n \Delta t p_{n}(t),
     \quad p_0 \equiv 0$$
 </p>
 <p>Which in the limit $\Delta t \to 0$ turns into the system of ODEs:</p>
-<p>$$\frac{d}{dt} p_n(t) = &nbsp;- \alpha n &nbsp;p_{n}(t) + \alpha (n-1) p_{n-1}(t), \quad p_0 \equiv 0$$</p>
+<p>$$\frac{d}{dt} p_n(t) = - \alpha n p_{n}(t) + \alpha (n-1) p_{n-1}(t), \quad p_0 \equiv 0$$</p>
 <p>Or equivalently this can be written as a single PDE:
     $$F_t(t,s) = \alpha F_s(t,s) (s^2 - s) $$</p>
 <p>The last one is solved in a typical way:
@@ -101,5 +101,6 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2014/11/minibus-stochasti
 </p>
 <p>First I solved this problem, then thought about possible applications and googled them.</p>
 <p>The interesting thing that such systems form quite popular topic in statistics: they are called 'branching
-    processes'.&nbsp;</p>
+    processes'.
+</p>
 <p>What is it in general case, and what are applications of such mad model — in the next part.</p>
