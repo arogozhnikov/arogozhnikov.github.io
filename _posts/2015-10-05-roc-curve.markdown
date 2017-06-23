@@ -122,7 +122,7 @@ On the left plot: corresponding <a href="https://en.wikipedia.org/wiki/Receiver_
 Controls:
 
 * 4 inputs with means and variances of distributions
-* Also vertical line corresponding to threshold can be moved</li>
+* Also vertical line corresponding to threshold can be moved
 
 Presentation was prepared by Oleg Alenkin and Alex Rogozhnikov.
 
