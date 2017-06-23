@@ -29,7 +29,7 @@ tags:
 
 <p>
     In practice, modelling the process of oscillations is not enough to make us completely happy, 
-    many oscillations are harmful, and we need to stop them (in contructions/tunnels/oil pipelines/spaceships and so on).
+    many oscillations are harmful, and we need to stop them (in constructions/tunnels/oil pipelines/spaceships and so on).
 </p>
 
 <p>
@@ -45,15 +45,15 @@ tags:
 
 <p>
     As an example of problem setting in this approach: 
-    provided that I'm observing oscillations of string, I want to dump those as soon as possible.
-    I ca do this by applying forces and the ends of string (or only from one side), 
-    so I have to define the functions $\mu(t), \nu(t)$, which define dependency of applied force on the time.
+    provided that I'm observing oscillations of a string, I want to dump those as soon as possible.
+    I can do this by applying forces at the ends of the string (or only from one side),
+    so I have to define the functions $\mu(t), \nu(t)$, which describe the dependency of applied force on the time.
     $\mu(t), \nu(t)$ correspond to left and right ends of a string.
 </p>
  
 <p>
-    The information I have is initial state of string (described by string profile and profile of its velocity), 
-    and the final state (again, described by a pair of functions). This general case is reduced in a straightforward way 
+    The information I have is initial state of the string (described by string profile and profile of its velocity),
+    and a desired final state (again, described by a pair of functions). This general case is reduced in a straightforward way
     to the <b>excitation</b> problem, when initially the string rests (profile shift = 0, velocity = 0), but the final state is
     still arbitrary (profile shift = $\varphi(x)$, velocity = $\psi(x)$).
 </p>
@@ -63,9 +63,10 @@ tags:
 <p>
     An optimal control theory, which was initially developed for finite-dimensional systems, cannot be applied 
     directly to this problem, but there are several ways to overcome the limitation by using different 
-    discretizations of this problem. Many papers were devoted to this approach, and to fighting appearing problems 
+    discretizations of this problem. Many papers were devoted to this approach, and to fighting appearing problems
     (see papers of Zuazua E. and his co-authors). Probably, first systematic (and quite general) way to 
-    handle excitation/dumping problems was Hilbert Uniqueness Method (HUM) proposed by J.-L. Lions.
+    handle excitation/dumping problems was
+    <a href="https://link.springer.com/chapter/10.1007%2FBFb0043222?LI=true">Hilbert Uniqueness Method (HUM)</a> proposed by J.-L. Lions.
 </p>
 <p>
     While being quite general, this approach leads to linear system on function argument,
@@ -76,13 +77,13 @@ tags:
 
 <p>
     Another approach is to use analytical computations: solve explicitly mixed problem, express final state
-    as an a function of boundary conditions and then rewrite final conditions as 
-    system of functional equations + optimization problem. Solve it (again, analytically).
+    as an a function of boundary conditions and then rewrite final conditions as
+    a system of functional equations + optimization problem. Solve it (again, analytically).
 </p>
 <p>
     This approach was applied by Vladimir Il'in (rus:
     <a href="https://ru.wikipedia.org/wiki/Ильин,_Владимир_Александрович" >академик Владимир Ильин</a>).
-    It is completely inobvious that such computations are possible in explicit way, 
+    It is not obvious that such computations are possible in explicit way,
     but in the case of wave equation (and very few others) this is doable.  
 </p>
 
@@ -92,14 +93,14 @@ tags:
 
 <p>
     I was able to generalize the approach to the case of system of rods/strings, connected sequentially. 
-    This required some beautiful math, based on operator matrices. 
+    This required some beautiful math, the method is based on operator matrices.
 </p>
 <p>
     Resulting formulas are not very easy to follow, but they are <b>really fast</b>
     (most resources in this demo are spent on drawing, not computing) and quite general
     (compared to previous analytical results).
     This approach is able to work with arbitrary pair of boundary conditions of first/second kind
-    (and also supports fixed or free boundaries, but I didn't add this into interface).
+    (and also supports fixed or free boundaries, but I didn't add this into demonstration interface).
 </p>
 
 <p>
@@ -113,8 +114,7 @@ tags:
     </div>
     
     <noscript>
-        <span class="font-size: 40px;">Включите выполнение скриптов, иначе ничего работать не
-            будет. Turn on the scipts in your browser!</span></noscript>
+        <span class="font-size: 40px;">Please turn on the scripts in your browser!</span></noscript>
     <table id="mainTable" width="100%">
         <tr>
             <td class="leftColumn">
@@ -199,8 +199,6 @@ tags:
                     </p>
                     <p id="noteTimeLess" style="font-weight: bold;">
                         Control time set is less that critical, control is impossible.
-                        Сейчас время управления меньше критического времени, управление невозможно. Увеличьте
-                        время управления или уменьшите число участков.
                     </p>
                 </div>
             </td>
@@ -214,7 +212,7 @@ tags:
     <h2>Explanations</h2>
     <p>
         This page is a demonstration of results on analytical controllability of rod oscillations
-        (or string oscllations, which is the same), presented in the following papers:
+        (or string oscillations, which is the same), presented in the following papers:
     </p>
     <ul>
         <li>Alex Rogozhnikov, Study of a mixed problem describing the oscillations of a rod consisting of several segments with arbitrary lengths [<a href="http://istina.msu.ru/publications/article/2970475/">rus</a>, <a href="http://link.springer.com/article/10.1134%2FS1064562412030313">en</a>]</li>
@@ -224,10 +222,14 @@ tags:
 
     <h2>Formal setting</h2>
     <p>
-        There is system of rods, which initially rests. There are $n$ parts in system, each having constant density $\rho_i$ and Young's modulus $k_i$ (each part is made of some material).
+        There is a system of rods, which initially rests.
+        There are $n$ parts in the system, each having constant density $\rho_i$
+        and Young's modulus $k_i$ (each part is made of some material).
     </p>
     <p>
-        The goal is to produce such boundary control functions $\mu(t), \nu(t)$, which will drive the system to the fixed final state, defined by shift $\phi(x)$ and velocity $\psi(x)$ as the moment $T$ (time of control)
+        The goal is to produce such boundary control functions $\mu(t), \nu(t)$,
+        which will drive the system to the fixed final state,
+        defined by shift $\phi(x)$ and velocity $\psi(x)$ as the moment $T$ (time of control).
     </p>
     <p>
         Suppose that time spent by wave to pass each part equal (for simplicity we also use $T$ proportional to this time).
@@ -238,20 +240,21 @@ tags:
     <h2>How to use the demo</h2>
     <p> Enter parameters of a problem: </p>
     <ul>
-        <li>Set the number of parts in rod, for each part enter its density ρ&nbsp;и&nbsp;модуль Юнга k&nbsp;для каждого участка.</li>
-        <li>Set the functions $\varphi(x), \psi(x)$. Pay attention, that values are taken from [0 ≤ x ≤ 1] amd linearly stretched. </li>
+        <li>Set the number of parts in rod, for each part enter its density $\rho_i$&nbsp;and
+            Young's modulus&nbsp;$k_i$ for each of the parts.</li>
+        <li>Set the functions $\varphi(x), \psi(x)$. Pay attention, that values are taken from $[0 \leq x \leq 1]$ and linearly stretched. </li>
         <li>Select boundary conditions (first/second kind).</li>
     </ul>
     <p> Or press 'generate problem' button &mdash; then it will choose all the parameters randomly.</p>
     <p> Press 'Go' and enjoy the process.
         On the left plot green line is shift $u(x, t)$, grey is velocity $u_t(x, t)$.
         Computed control function $\mu(t)$ and $\nu(t)$ are displayed on the plots in the middle column.
-        There are three lines on each plot corresponding to three values <em>y=0,1,-1</em>
+        There are three lines on each plot corresponding to three values $y=0,+1,-1$ to demonstrate scale.
     </p>
 </div>
 
 <p>
-    Developed by  <a href="mailto:alex.rogozhnikov@yandex.ru">Alex Rogozhnikov</a> in 2013.
+    Developed in 2013.
 </p>
 <style type="text/css">
     .partNumber
