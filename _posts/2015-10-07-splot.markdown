@@ -130,19 +130,12 @@ as a demonstration why this is important let's use sweights to reconstruct the m
 
 ![distributions](/images/splot/12-splot-to-reconstruct-mass.png)
 
-$\def\ps{p_s(x)}$
-$\def\pb{p_b(x)}$
-$\def\ws{sw_s(x)}$
-$\def\wb{sw_b(x)}$
-
-
-
 # Derivation of sWeights
 
 Now, after we seen how this works, let's derive the formula for sWeights.
 
 
-The only information we have from fitting over mass is  $ \ps $, $ \pb$ which are probabilities of event $x$ to be signal and background. 
+The only information we have from fitting over the mass is  $ p_s(x) $, $ p_b(x)$ which are probabilities of event $x$ to be signal and background.
 
 Our main goal is to correctly reconstruct histogram. Let's reconstruct the number of _signal_ events in _particular_ bin. 
 Let's introduce unknown $p_s$ and $p_b$ — probability that signal or background event will be in the named bin.
@@ -154,7 +147,7 @@ The mathematical expectation should be obviously equal to $p_s N_s$, where $N_s$
 Let's also introduce random variable $1_{x \in bin}$, which is 1 iff event $x$ lies in selected bin. 
 
 The __estimate for number of signal event in bin__ is equal to:
-$$X = \sum_x \ws \; 1_{x \in bin},$$ where $\ws$ are sPlot weights and are subject to find.
+$$X = \sum_x sw_s(x) \; 1_{x \in bin},$$ where $sw_s(x)$ are sPlot weights and are subject to find.
 
 ## First main property of sweights
 
@@ -167,35 +160,35 @@ __Corollary__
 Let's understand what this means for sPlot weights.
 
 $ p_s N_s = \mathbb{E} \, X = \sum_x w_s \; \mathbb{E} \, 1_{x \in bin} 
-= \sum_x w_s \;  (p_s \ps + p_b \pb) $
+= \sum_x w_s \;  (p_s p_s(x) + p_b p_b(x)) $
 
 In the line above I used the assumption that variables are statistically independent for each class.
 
 Since the previous equation should hold for all possible $p_s$ and $p_b$, we get two equalities:
-<br />$ p_s N_s = \sum_x \ws \; p_s \ps  $
-<br />$ 0 = \sum_x \ws \; p_b \pb $
+<br />$ p_s N_s = \sum_x sw_s(x) \; p_s p_s(x)  $
+<br />$ 0 = \sum_x sw_s(x) \; p_b p_b(x) $
 
 After reduction:
-<br />$ N_s = \sum_x \ws \; \ps  $
-<br />$ 0 = \sum_x \ws \; \pb $
+<br />$ N_s = \sum_x sw_s(x) \; p_s(x)  $
+<br />$ 0 = \sum_x sw_s(x) \; p_b(x) $
 
 This way we can guarantee that mean input of background are 0 (expectation is zero, but observed number will not be zero due to statistical deviation), and the expected number of background 
 
 ## Under assumption of linearity:
 assuming that splot weight can be computed as linear combination of conditional probabilities:
 
-$ \ws = a_1 \pb + a_2 \ps$
+$ sw_s(x) = a_1 p_b(x) + a_2 p_s(x)$
 
 We can easily reconstruct those numbers, first let's rewrite our system:
 
-$ \sum_x (a_1 \pb + a_2 \ps) \; \ps = 0$ <br />
-$ \sum_x (a_1 \pb + a_2 \ps) \; \pb = N_{sig}$
+$ \sum_x (a_1 p_b(x) + a_2 p_s(x)) \; p_s(x) = 0$ <br />
+$ \sum_x (a_1 p_b(x) + a_2 p_s(x)) \; p_b(x) = N_{sig}$
 
 $ a_1 V_{bb} + a_2 V_{bs} = 0$ <br />
 $ a_1 V_{sb} + a_2 V_{ss} = N_{sig}$ <br />
 
 Where 
-$V_{ss} = \sum_x \ps \; \ps $, $V_{bs} = V_{sb} = \sum_x \ps \; \pb$, $V_{bb} = \sum_x \pb \; \pb$
+$V_{ss} = \sum_x p_s(x) \; p_s(x) $, $V_{bs} = V_{sb} = \sum_x p_s(x) \; p_b(x)$, $V_{bb} = \sum_x p_b(x) \; p_b(x)$
 
 Having solved this linear equation, we get needed coefficients (as those in the paper)
 
@@ -204,37 +197,36 @@ NB. There is little difference between $V$ matrix I use and $V$ matrix in the pa
 
 
 ## Minimization of variation
-$\def\Var{\mathbb{V}\,}$
 
 Previous part allows one to get the correct result. But there is still no explanation of reason for linearity.
 
 
 Apart from having correct mean, we should also minimize variation of any reconstructed variable. Let's try optimize it 
 
-$$ \Var X = \sum_x \ws^2 \; \Var 1_{x \in bin} = \sum_x \ws^2 \; (p_s \ps + p_b \pb)(1 - p_s \ps - p_b \pb)$$
+$$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} = \sum_x sw_s(x)^2 \; (p_s p_s(x) + p_b p_b(x))(1 - p_s p_s(x) - p_b p_b(x))$$
 
 A bit complex, isn't it? Instead of optimizing such a complex expression (which is individual for each bin), let's minimize it's __uniform upper estimate__
 
-$$ \Var X = \sum_x \ws^2 \; \Var 1_{x \in bin} \leq  \sum_x \ws^2  $$
+$$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} \leq  \sum_x sw_s(x)^2  $$
 
 
 so if we are going to minimize this upper estimate, we should solve the following optimization problem with constraints:
-<br />$\sum_x \ws^2 \to \min $
-<br />$\sum_x \ws \; \pb = 0$ 
-<br />$\sum_x \ws \; \ps = N_{sig}$
+<br />$\sum_x sw_s(x)^2 \to \min $
+<br />$\sum_x sw_s(x) \; p_b(x) = 0$ 
+<br />$\sum_x sw_s(x) \; p_s(x) = N_{sig}$
 
 Let's write lagrangian of optimization problem:
 
-$$ \mathcal{L} =  \sum_x \ws^2 + 
-\lambda_1 \left[\sum_x \ws \; \pb \right] + 
-\lambda_2 \left[\sum_x \ws \; \ps - N_{sig} \right]
+$$ \mathcal{L} =  \sum_x sw_s(x)^2 + 
+\lambda_1 \left[\sum_x sw_s(x) \; p_b(x) \right] + 
+\lambda_2 \left[\sum_x sw_s(x) \; p_s(x) - N_{sig} \right]
 $$
 
-After taking derivative with respect to $ \ws $ we get the equality:
+After taking derivative with respect to $ sw_s(x) $ we get the equality:
 
 $$
-0 = \dfrac{\partial \mathcal{L}}{\partial \; \ws} =   2 \ws + 
-\lambda_1  \pb + \lambda_2  \ps
+0 = \dfrac{\partial \mathcal{L}}{\partial \; sw_s(x)} =   2 sw_s(x) + 
+\lambda_1  p_b(x) + \lambda_2  p_s(x)
 $$
 
 which holds for every $x$. Thus, after renaming for convenience 
