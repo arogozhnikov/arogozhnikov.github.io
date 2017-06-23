@@ -31,31 +31,42 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2013/08/legendre-transfor
     </div>
     <div><br/></div>
     <div>What do we have initially? An action on some interval of time, this is the integral&nbsp;</div>
-    <div>$$ S = \min_{q(\cdot)} \int_{t_1}^{t_2} &nbsp;L(q, \dot{q}, t) dt$$ which should be minimized (locally), that
+    <div>$$ S = \min_{q(\cdot)} \int_{t_1}^{t_2} L(q, \dot{q}, t) dt$$ which should be minimized (locally), that
         what Hamilton's principle states. (There are conditions on the endpoints which I will omit)&nbsp;</div>
     <div><br/></div>
     <div>Ok, the only trouble is $q$ and $\dot{q}$ aren't independent, otherwise the Lagrange equations would be much
         simpler: $ \frac{\partial L}{\partial q} = \frac{\partial L}{\partial \dot{q}} = 0 $<br/><br/>Let us try to
-        replace $\dot(q)$ with $v$, assuming they are equal: $$ S = \min_{q(\cdot)} \int_{t_1}^{t_2} &nbsp;L(q, v,
-        t)\bigg|_{v=\dot q} dt$$<br/><br/>Hmhmhm. Seems nothing changed. Now the trick. Let's add summand<br/>$$\delta(\dot{q},v)
-        = \begin{cases} 0 &amp; \dot{q} = v \\ +\infty &amp; \text{otherwise} \end{cases}$$ and now we can minimize over
-        all possible trajectories of $q$ and of $v$. &nbsp;$$ S = \min_{q(\cdot), v(\cdot)} \left[ \int_{t_1}^{t_2}
-        &nbsp;L(q, v, t) dt + \delta[q,v] \right] $$<br/><br/>See? We have now $q$ and $v$ independent by the cost of
-        additional summand. Now we can write $\delta$ in the following form (make sure you understand it):<br/>$$\delta[q,v]
-        = \max_{p(\cdot)} \int_{t_1}^{t_2} &nbsp;p(t) (\dot{q}(t) - v(t)) dt $$<br/><br/>After substitution we have the
-        problem on finding saddle point of function: &nbsp;$$ S = \min_{q(\cdot), v(\cdot)} \max_{p(\cdot)}
-        \int_{t_1}^{t_2}&nbsp;&nbsp;&nbsp;p(t) (\dot{q}(t) - v(t)) + &nbsp;L(q, v, t) dt $$ Pay attention that all
-        variables $p,q,v$ are independent now. The solution we need is trajectory $q(\cdot)$, but it has corresponding
-        trajectories $v(\cdot)$ and $p(\cdot)$ which form a saddle point together with $q(\cdot)$.<br/><br/>As we know,
-        at the saddle point all the partial derivatives are zero (assuming the function is differentiable). Calculating
-        variational derivatives with respect to $p,v,q$ gives respectively $$ \dot{q} = v \\ p = \frac{\partial
-        L}{\partial \dot{q}} \\ \dot{p} = \frac{\partial L}{\partial q} $$<br/>Note that energy function $H(q,v,t)$ also
-        appeared in a natural way as well as least action principle in Hamiltonian mechanics $$p(t) (\dot{q}(t) - v(t))
-        + &nbsp;L(q, v, t) = p(t) \dot{q}(t) - \left[ &nbsp;p(t)v(t) - L(q,v,t) &nbsp;\right] &nbsp;= &nbsp;\\ =
-        \{\text{changing the variables} \} = &nbsp;p(t) \dot{q}(t) - H(p,q,t) $$<br/>You may have noticed that the thing
-        I did is just added <a href="http://en.wikipedia.org/wiki/Lagrange_multiplier" >Lagrange
-            multiplier</a> ho make the condition $\dot{q} = v$ hold. <br/><br/>This way Legendre transformation looks
-        more accessible to my mind. Starting from that moment I understood that Lagrange multipliers is a very powerful
-        tool.
+        replace $\dot{q}$ with $v$, assuming they are equal:
+        $$ S = \min_{q(\cdot)} \int_{t_1}^{t_2} L(q, v, t)\bigg|_{v=\dot q} dt $$
+        <br/><br/>
+        Hmhmhm. Seems nothing changed. Now the trick. Let's add summand<br/>
+        $$\delta(\dot{q},v) = \begin{cases} 0 &amp; \dot{q} = v \\ +\infty &amp; \text{otherwise} \end{cases}$$ and now we can minimize over
+        all possible trajectories of $q$ and of $v$.
+        $$ S = \min_{q(\cdot), v(\cdot)} \left[ \int_{t_1}^{t_2}
+        L(q, v, t) dt + \delta[q,v] \right] $$
+        <br/><br/>See? We have now $q$ and $v$ independent by the cost of
+        additional summand. Now we can write $\delta$ in the following form (make sure you understand it):<br/>
+        $$\delta[q,v] = \max_{p(\cdot)} \int_{t_1}^{t_2} p(t) (\dot{q}(t) - v(t)) dt $$
+        <br/><br/>
+        After substitution we have the problem on finding saddle point of the function:
+        $$ S = \min_{q(\cdot), v(\cdot)} \max_{p(\cdot)} \int_{t_1}^{t_2} p(t) (\dot{q}(t) - v(t)) + L(q, v, t) dt $$
+        Pay attention that all variables $p,q,v$ are independent now.
+        The solution we need is trajectory $q(\cdot)$, but it has corresponding trajectories $v(\cdot)$ and $p(\cdot)$ which form a saddle point together with $q(\cdot)$.<br/><br/>
+        As we know, at the saddle point all the partial derivatives are zero (assuming the function is differentiable).
+        Calculating variational derivatives with respect to $p,v,q$ gives respectively
+        $$ \begin{aligned}
+            \dot{q} &= v \\
+            p &= \frac{\partial L}{\partial \dot{q}} \\
+            \dot{p} &= \frac{\partial L}{\partial q}
+        \end{aligned}
+        $$
+        Note that energy function $H(q,v,t)$
+        also appeared in a natural way as well as least action principle in Hamiltonian mechanics
+        $$ \begin{aligned}
+            p(t) (\dot{q}(t) - v(t)) + L(q, v, t) = p(t) \dot{q}(t) - \left[ p(t)v(t) - L(q,v,t) \right] = \\
+            = \{\text{changing the variables} \} = p(t) \dot{q}(t) - H(p,q,t)
+        \end{aligned} $$<br/>
+        You may have noticed that the thing I did is just added <a href="http://en.wikipedia.org/wiki/Lagrange_multiplier" >Lagrange multiplier</a> ho make the condition $\dot{q} = v$ hold. <br/><br/>This way Legendre transformation looks
+        more accessible to my mind.
     </div>
 </div>
