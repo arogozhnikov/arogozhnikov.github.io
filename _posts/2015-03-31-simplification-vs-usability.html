@@ -10,4 +10,19 @@ blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-287378536726701083
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/03/simplification-vs-usability.html
 ---
 
-<div dir="ltr" style="text-align: left;" trbidi="on">When one designs library/API/whatever, there are two things that one always cares of: flexibility and minimalism. Good solutions incorporate both these points, but sometimes one has to sacrifice some 'very useful feature' for the sake of simplicity of system.<br /><br />Ok, this was just to say: I'm disappointed by PEP-3113<br /><a href="https://www.python.org/dev/peps/pep-3113/">https://www.python.org/dev/peps/pep-3113/</a><br /><br />It's already implemented in python3 and it removes tuple unpacking in arguments.<br />Yes, this cool feature is inavalibale in python3:<br /><br /><code>map( lambda id, (key, group): (len(group), key),  data) </code><br /><br />Problems with annotations are understandable, but there is category of applications when automatic untupling is very handy and annotations are not needed.</div>
+
+<p>
+    When one designs library/API/whatever, there are two things that one always cares of: flexibility and minimalism.
+    Good solutions incorporate both these points, but sometimes one has to sacrifice 'a very useful feature' for the sake of simplicity of system.
+</p>
+<p>
+	Ok, this was just to say: I'm disappointed by PEP-3113 introduced in python 3<br/>
+	<a href="https://www.python.org/dev/peps/pep-3113/">https://www.python.org/dev/peps/pep-3113/</a><br/>
+	<br/>
+	It's already implemented in python3 and it removes tuple unpacking in function arguments.<br/>
+	Yes, this cool feature is not available in python 3:<br/>
+	<br/>
+	<code>map( lambda id, (key, group): (len(group), key), data) </code><br/>
+	<br/>
+	Problems with annotations are understandable, but there is category of applications when automatic untupling is very handy and annotations are not needed.
+</p>
