@@ -99,6 +99,8 @@ img.site-icon {
     color: #aaa;
 }
 
+/* Below is css for links */
+
 div.after-article {
     background: rgb(41, 41, 41);
     color: white;
@@ -117,8 +119,8 @@ div.recommended-links {
 }
 
 div.recommended-links > div {
-    padding-right: 20px;
-    margin: 10px 0px;
+    margin: 10px 15px;
+    a {color: #44a;}
 }
 
 div.recommended-links a:hover {
@@ -127,4 +129,28 @@ div.recommended-links a:hover {
 
 div.recommended-links a:visited {
     color: #303baa;
+}
+
+div.visualizations-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0px auto;
+
+    a {text-decoration: underline; color: #aac; }
+    a:visited{ color: #779; }
+}
+
+div.visualizations-list>div{
+    width: 200px;
+    text-align: center;
+}
+
+div.visualizations-list img{
+    display: block;
+    margin: 0px auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
 }
