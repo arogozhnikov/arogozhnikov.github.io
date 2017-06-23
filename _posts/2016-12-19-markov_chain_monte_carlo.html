@@ -606,8 +606,7 @@ meta: |
 	<script>
 		// replacing macros before all the js-stuff
 		var demo_element = document.getElementById('demo-wrapper');
-		demo_element.innerHTML = demo_element.innerHTML.split('\\vx').join('\\mathbf{x}');
-		demo_element.innerHTML = demo_element.innerHTML.split('\\vv').join('\\mathbf{v}');
+		demo_element.innerHTML = demo_element.innerHTML.split('\\vx').join('\\mathbf{x}').split('\\vv').join('\\mathbf{v}');
 	</script>
 
 	<!-- only for fadeIn -->
@@ -623,20 +622,3 @@ meta: |
 	<script type="text/javascript" src="/scripts/hmc_demonstration/threejs_OrbitControls-compiled.js"></script>
 	<script type="text/javascript" src="/scripts/hmc_demonstration/threejs_plotter-compiled.js"></script>
 	<script type="text/javascript" src="/scripts/hmc_demonstration/mcmc_explained-compiled.js"></script>
-
-	<link rel="stylesheet" href="/scripts/external_scripts/katex/katex.min.css">
-	<script src="/scripts/external_scripts/katex/katex.min.js"></script>
-	<script src="/scripts/external_scripts/katex/contrib/auto-render.min.js"></script>
-	<script>
-		var options = {
-			delimiters: [
-				{left: "$$", right: "$$", display: true},
-				{left: "\\[", right: "\\]", display: true},
-				{left: "\\(", right: "\\)", display: false},
-				{left: "`$", right: "$`", display: false}
-			],
-			macros: {'\\vx': '\\mathbf{x}'}
-		};
-
-		renderMathInElement(document.getElementById('demo-wrapper'), options);
-	</script>

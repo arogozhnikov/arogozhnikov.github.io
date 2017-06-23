@@ -103,4 +103,4 @@ Also, an active learning was demonstrated in couple with gaussian processes.
 
 - [interactive demonstrations of machine learning models](http://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html)
     - thanks to authors of all materials / demonstrations that were used in the course
-- [materials of GradDays at github (including practice assignments in notebooks)](https://github.com/yandexdataschool/MLAtGradDays)
+- [materials of GradDays at github (including practice assignments in jupyter notebooks)](https://github.com/yandexdataschool/MLAtGradDays)
