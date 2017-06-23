@@ -97,39 +97,43 @@ Non-trivial thing here: **entropy splitting criterion is the same as logloss min
 Simplest case is binary classification: <span>$y\_i = 0 \text{ or } 1$</span>. 
 Let's first revisit MSE splitting criterion. 
 
-Suppose we split space in leafs <span>$ \text{leaf} = 1, 2,\dots , L$</span>. 
+Suppose we split the feature space into leaves of a tree $ \text{leaf} = 1, 2, . . .  , L $.
 
 In this case MSE is equal to:
-<div>$$
+$$
 \text{MSE} = \sum_{i} (y_i - \hat{y}_i)^2
-$$</div>
+$$
 
-Penalty for a single leaf depends only on the number 
-of samples $n\_{leaf, 0}, n\_{leaf, 1}$ from classes 0 and 1:
+We are going to group summands according to the leaf observations belong to.
+Penalty for a single leaf depends only on the number
+of samples $n_\text{leaf, 0}, n_\text{leaf, 1}$ from classes 0 and 1:
 
-<div>$$
+$$
     \text{MSE}_\text{leaf} = \sum_i (y_i - \hat{y})^2 = 
-    n_{leaf, 0} \times \hat{y}^2 + n_{leaf, 1} \times (1 - \hat{y})^2 = \\
-    = \{ \text{select optimal } \hat{y} \} = 
+    n_{\text{leaf}, 0} \times \hat{y}^2 + n_{\text{leaf}, 1} \times (1 - \hat{y})^2 =
+$$
+$$
+    = \{ \text{select optimal } \hat{y} \} =
     n_{leaf, 0}  \left[ \dfrac{n_{leaf, 0}}{n_{leaf, 0} + n_{leaf, 1}} \right]^2 
-    + n_{leaf, 1}  \left[ \dfrac{n_{leaf, 1}}{n_{leaf, 0} + n_{leaf, 1}} \right]^2 = \\
-    \dfrac{n_{leaf, 0} \times n_{leaf, 1}}{n_{leaf, 0} + n_{leaf, 1}}
-$$</div>
+    + n_{leaf, 1}  \left[ \dfrac{n_{leaf, 1}}{n_{leaf, 0} + n_{leaf, 1}} \right]^2 =
+$$
+$$
+    = \dfrac{n_{leaf, 0} \times n_{leaf, 1}}{n_{leaf, 0} + n_{leaf, 1}}
+$$
 
 So, while building decision tree, we greedily optimize the following global function 
 (but each split optimizes only two terms in the sum):
 
 <div>$$
-    \text{MSE} = \sum_{\text{leaf}=1}^{L} \dfrac{n_{leaf, 0} \times n_{leaf, 1}}{n_{leaf, 0} + n_{leaf, 1}}
+    \text{MSE} = \sum_{\text{leaf}=1}^{L} \dfrac{n_{\text{leaf}, 0} \times n_{\text{leaf}, 1}}{n_{\text{leaf}, 0} + n_{\text{leaf}, 1}}
 $$</div>
 
-Let's also introduce $n_\text{leaf} = n_{leaf, 0}  + n_{leaf, 1} $ – number of all samples in the leaf
+Let's also introduce $n_\text{leaf} = n_{\text{leaf}, 0}  + n_{\text{leaf}, 1} $ – number of all samples in the leaf
 and portions of class 1 in leaf: 
-$ p_{leaf, 1} = \dfrac{n_{leaf, 1}}{n_{leaf}} $. Using the new terms:
- 
-<div>$$
-    \text{MSE} = \sum_{\text{leaf}=1}^{L} n_\text{leaf} \times  p_{leaf, 1} (1 - p_{leaf, 1}) = \text{Gini impurity} 
-$$</div>
+$ p_{\text{leaf}, 1} = \dfrac{n_{\text{leaf}, 1}}{n_{\text{leaf}}} $. Using the new terms:
+$$
+    \text{MSE} = \sum_{\text{leaf}=1}^{L} n_\text{leaf} \times  p_{\text{leaf}, 1} (1 - p_{\text{leaf}, 1}) = \text{Gini impurity}
+$$
 ... which is nothing but Gini impurity summed over leaves. 
 It is easy to notice that in case of classification with multiple classes we need to first perform one-hot encoding and then minimize MSE 
 to get the same splitting rule as provided by Gini.  
@@ -146,15 +150,15 @@ $p\_{i,c}$ is predicted probability to belong to class $c$).
 
 When selecting optimal predictions in the leaf, we optimize:
 <div>$$
-\text{LogLoss}_\text{leaf} = \sum_{i \in \text{leaf}} \sum_{c} y_{i,c} \log p_{leaf, c}
+\text{LogLoss}_\text{leaf} = \sum_{i \in \text{leaf}} \sum_{c} y_{i,c} \log p_{\text{leaf}, c}
 $$</div>
 
-Easy to prove that optimal point is $p_{leaf, c} = \dfrac{n_{leaf, c}}{n_{leaf}} $
+Easy to prove that optimal point is $p_{\text{leaf}, c} = \dfrac{n_{\text{leaf}, c}}{n_{\text{leaf}}} $
 
 <div>$$
-\text{LogLoss}_\text{leaf} \
-    = \sum_{c} n_{leaf, c} \log p_{leaf, c} \
-    = n_{leaf} \sum_{c} p_{leaf, c} \log p_{leaf, c}    
+\text{LogLoss}_\text{leaf}
+    = \sum_{c} n_{\text{leaf}, c} \log p_{\text{leaf}, c}
+    = n_{\text{leaf}} \sum_{c} p_{\text{leaf}, c} \log p_{\text{leaf}, c}
 $$</div>
 
 ... and we got entropy impurity. 
