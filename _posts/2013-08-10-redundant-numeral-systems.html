@@ -17,7 +17,7 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2013/08/redundant-numeral
 		<br/>
 	</div>
 	<div>Let us start from classical example - Fibonacci redundant numeral system. The number is represented as&nbsp;</div>
-	<div>$$ &nbsp;x = a_0 F_0 +a_1 F_1 +&nbsp;a_2 F_2 + ... +&nbsp;a_n F_n$$</div>
+	<div>$$ x = a_0 F_0 + a_1 F_1 + a_2 F_2 + ... + a_n F_n$$</div>
 	<div>Where $F_0 = 1, F_1 = 2, F_n = F_{n-1} + F_{n-2}$ are Fibbonacci numbers which I am sure you heard of many times. It is quite easy to prove that each natural number can be represented as a sum of several different Fibonacci numbers.<br/>
 		<br/>
 	</div>
@@ -78,8 +78,8 @@ Obviously you can't compute the first digit (I denoted it by X) until you looked
 	<br/>
 The problem is curry. It can propagate along many digits like in the example given ahead. Redundant systems can fight this problem, let me show how. <br/>
 	<div><br/>
-Now I want to tell a bit about the thing I occasionally invented while writing about Setun computer. As usual it <a href="http://www.csee.umbc.edu/~phatak/publications/hsdtrc.pdf" target="_blank">was invented</a>&nbsp;in good time before me, but the idea is still interesting. Well, the idea is to use the digits -1, 0 and 1 in binary numeral system, i.e. &nbsp;$$ x = a_0 + 2 a_1 + 4 a_2 + \dots + 2^n a_n$$<br/>
-where $a_i$ is 1, 0 or ! (which is my notion for -1, that's due to blogger's editor :\, usually $\overline{1}$ is used). This system is of course redundant, because (check this!) $$ 1 = 1! = 1!! = 1!!! = \dots $$<br/>
+Now I want to tell a bit about the thing I occasionally invented while writing about Setun computer. As usual it <a href="http://www.csee.umbc.edu/~phatak/publications/hsdtrc.pdf" target="_blank">was invented</a>&nbsp;in good time before me, but the idea is still interesting. Well, the idea is to use the digits -1, 0 and 1 in binary numeral system, i.e. &nbsp;$$ x = a_0 + 2 a_1 + 4 a_2 + ... + 2^n a_n$$<br/>
+where $a_i$ is 1, 0 or ! (which is my notion for -1, that's due to blogger's editor :\, usually $\overline{1}$ is used). This system is of course redundant, because (check this!) $$ 1 = 1! = 1!! = 1!!! = ... $$<br/>
 		<br/>
 The first advantage of this system you should have already guessed. Negative integers are written in the same way as positive ones, without 2-complement representation and thus no workarounds for multiplication is needed. The second benefit we obtained is simplicity of negation.<br/>
 		<br/>

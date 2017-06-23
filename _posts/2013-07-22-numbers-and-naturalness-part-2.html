@@ -50,29 +50,34 @@ Hereinafter in all the examples&nbsp;<i>p</i>=7.<br/>
     modulo $7^n$. And the same is correct for multiplication.
 </div>
 <div>Why <i>like</i> residues? They <i>are</i> residues! Every p-adic integer can be considered as a sequence of
-    residuals modulo $p^n, \; n=1,2, \dots$. For instance,
+    residuals modulo $p^n, \; n=1,2, ...$. For instance,
 </div>
 <div style="font-family: Andale Mono, monospace;"><br/>&nbsp; &nbsp; 3 mod $7$ <br/>&nbsp; &nbsp;43 mod $7^2$ <br/>&nbsp;
     143 mod $7^3$ <br/>&nbsp;5143 mod $7^4$ <br/>35143 mod $7^5$ <br/>result: ...35143 <br/><br/></div>
 <div>Note that you cannot just take a sequence of arbitrary residues like</div>
 <div style="font-family: Andale Mono, monospace;"><br/>$x_1$&nbsp; &nbsp; 3 mod $7$ <br/>$x_2$&nbsp; &nbsp;52 mod
     $7^2$ <br/>$x_3$&nbsp; 413 mod $7^3$ <br/>$x_4$&nbsp;6556 mod $7^4$ <br/>result: ...??? <br/><br/></div>
-<div>The residues should be consistent one with the others, namely, $x_n = x_{n+1}\mod p^n$, and that is what <a
-        href="http://en.wikipedia.org/wiki/Inverse_limit" target="_blank"> inverse limit</a> is. To put is simply,
-    there is a sequence of sets $X_1, X_2, \dots$. And some <i>morphisms</i> $f_{n+1,n}$ from $X_{n+1}$ to $X_n$.
-    The inverse limit (denoted by $\varprojlim X_i$) is a set of all sequences $\{x_i\}: x_i \in X_i$, such that the
-    following consistency properties are satisfied:<br/>$$ &nbsp;f_{n+1,n}(x_{n+1}) = x_n $$<br/>In the case under
-    consideration $X_n = \Bbb{Z} / {p^n}\Bbb{Z}$, $f_{n+1,n} (x) = x \mod p^n$.<br/>The most important moment: we
+<div>The residues should be consistent one with the others, namely, $x_n = x_{n+1} \;  \text{mod} \; p^n$, and that is what <a
+        href="http://en.wikipedia.org/wiki/Inverse_limit"> inverse limit</a> is.
+    To put is simply, there is a sequence of sets $X_1, X_2, ...$.
+    And some <i>morphisms</i> $f_{n+1,n}$ from $X_{n+1}$ to $X_n$.
+    The inverse limit (denoted by $ \lim\limits_{\longleftarrow} X_i$) is a set of all sequences $\{x_i\}: x_i \in X_i$,
+    such that the following consistency properties are satisfied:<br/>
+    $$ f_{n+1,n}(x_{n+1}) = x_n $$<br/>
+    In the case under consideration $X_n = \Bbb{Z} / {p^n}\Bbb{Z}$, $f_{n+1,n} (x) = x \; \text{mod} \; p^n$.<br/>
+    The most important moment: we
     have addition and multiplication defined on each $X_n$, and $f_{n+1,n}$ preserve these operations (they are <i>homomorphisms</i>).
     That's how we obtain multiplication and addition in the ring p-adic integers: &nbsp;the result would satisfy
-    consistency properties.<br/><br/>This is the simplest and the most vivid example of inverse limit, <a
-            href="http://en.wikipedia.org/wiki/Inverse_limit" target="_blank">wikipedia article</a> contains the
+    consistency properties.<br/><br/>This is the simplest and the most vivid example of inverse limit,
+    <a href="http://en.wikipedia.org/wiki/Inverse_limit" target="_blank">wikipedia article</a> contains the
     general case with posets. Well, as you can see, this is <i>purely algebraic</i> construction, and mathematically
     it is more <i>natural</i>.<br/><br/><b>Exercise#1</b> (very easy): find cardinality of the set of p-adic
     numbers.<br/><b>Exercise</b><b>#2</b>: recall that the distance between two p-adic numbers was defined as
     $p^{-n}$, where $n$ is the number of rightest digit in which two numbers do not coincide. Can we take $2^{-n}$
-    as the distance? <br/><b>Exercise</b><b>#3</b>: prove that one can subtract two p-adic integer
-    numbers.<br/><br/></div>
+    as the distance? <br/>
+    <b>Exercise</b><b>#3</b>: prove that one can subtract two p-adic integer
+    numbers.<br/><br/>
+</div>
 <h3>
     Mapping Rational Numbers
 </h3>
@@ -85,9 +90,11 @@ Hereinafter in all the examples&nbsp;<i>p</i>=7.<br/>
 </p>
 <p>
     The answer is -1. You may be wondering why. Try to add 1 and you will obtain zero. Or subtract one from
-    zero.<br/>The second way to see this is to compute -1 modulo $7^n$. Each time you will get
-    $\underbrace{66...6}_{n}$.<br/><br/>If you have ever learned something about C programming language or
-    assembler, this should remind you something...<br/><br/>If it doesn't, I will help you
+    zero.<br/>The second way to see this is to compute -1 modulo $7^n$.
+    Each time you will get $66...6$ ($n$ times 6).
+    <br/><br/>
+    If you have ever learned something about C programming language or
+    assembler, this should remind you something...<br/><br/>If it doesn't, let me help you
 </p>
 <pre>00000001 = 1<br/>00000000 = 0<br/>11111111 = -1<br/>11111110 = -2</pre>
 <p>Right, it is the <a href="http://en.wikipedia.org/wiki/Two%27s_complement">two-complement</a>&nbsp;number
@@ -103,17 +110,16 @@ Hereinafter in all the examples&nbsp;<i>p</i>=7.<br/>
     the form of $1/49$ is<br/>...00000.01<br/>and so on.
     But what about $1/4$? Let us compute it from the equation
     (remember all the numbers are in radix-7!)<br/>
-    $$...0004 \times x = ...0001 &nbsp;= (-1)\times(-1) = (-1) \times ...66666$$
+    $$...0004 \times x = ...0001 = (-1)\times(-1) = (-1) \times ...66666$$
     $$x = (-1) \times ...66666 / 4 = (-1) \times ...010101 \times 66_7 / 4_7 $$
     Some simple computations now:
     $$ 66_7 / 4_7 = 48_{10} / 4_{10} = 12_{10} = 15_7 $$
     And the last step:
     $$ x = (-1) \times ...010101 \times 15_7 = ...151515 = ...515152 $$
 </p>
-<p><b>Exercise#4:</b>&nbsp;Make sure that $4 \times ...515152 =
-    ...000001$<br/>
-    <b>Exercise#5:</b> Compute $1/5$ in the same way. Hint: $6666_7 = 2400_{10} = 5 \times 480_{10} =
-    &nbsp;1251_7$
+<p><b>Exercise#4:</b> Make sure that $4 \times ...515152 = ...000001$<br/>
+    <b>Exercise#5:</b> Compute $1/5$ in the same way.
+    Hint: $6666_7 = 2400_{10} = 5 \times 480_{10} = 1251_7$
 </p>
 <p>This is not the only way to divide p-adic numbers, you may try to invent the other
     procedure (long division in p-adic numbers). As one can notice, the rational numbers in p-adic notion look very
