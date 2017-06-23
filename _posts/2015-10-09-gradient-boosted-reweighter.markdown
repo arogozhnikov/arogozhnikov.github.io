@@ -175,7 +175,7 @@ During training we iteratively build trees, and each time reweight original dist
  
 1. build a shallow tree to maximize symmetrized $\chi^2$
 2. compute predictions in leaves: <br />
-   $\text{leaf_pred} = \ln \dfrac{w_\text{leaf, target}}{w_\text{leaf, original}} $
+   $\text{leaf\_pred} = \ln \dfrac{w_\text{leaf, target}}{w_\text{leaf, original}} $
 3. reweight distributions (compare with AdaBoost):
     $$ w \leftarrow \begin{cases}
     w, & \text{if event from target (RD) distribution} \\
