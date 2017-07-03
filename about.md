@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Alex Rogozhnikov
-linktitle: About Author
+linktitle: About me
 permalink: /about/
 ---
 
@@ -18,7 +18,7 @@ Hello.
 
 My name is Alex Rogozhnikov (Алексей Михайлович Рогожников), and 'brilliantly wrong' is my personal blog.
 
-I'm working at [Yandex](http://yandex.ru), involved in [CERN](http://cern.ch) projects. 
+<!--I'm working at [Yandex](http://yandex.ru), involved in [CERN](http://cern.ch) projects. -->
 Area of my interest is development of Machine Learning methods (mostly, somehow applied to fundamental sciences, though not limited by those). 
 
 I have PhD in mathematics and physics from [Moscow University](http://www.msu.ru/en/).
@@ -33,12 +33,16 @@ I have some other degrees as well :)
 
 
 If you're interested in things I am doing, take a look at
- 
+
+* [InfiniteBoost](https://github.com/arogozhnikov/infiniteboost) 
 * [machine learning demonstrations](https://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html) 
 * [gradient boosted reweighter](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/DemoReweighting.ipynb)
 * [uniform gradient boosting](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/BoostingToUniformity.ipynb)
 * [visualization of optimal control of oscillations](http://arogozhnikov.github.io/2015/12/19/optimal-control-of-oscillations.html) 
 
-Also I give courses of Machine Learning organized by Yandex School of Data Analysis. 
+Sometimes I give courses of Machine Learning: 
 Take a look at [MLHEP 2016 slides]({% post_url 2016-07-12-mlhep-2016-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2016) 
 or [course](https://github.com/yandexdataschool/MLatImperial2017) at Imperial College, London.
+
+There is also quite complete course of 
+[machine learning in science and industry]({% post_url 2017-04-20-machine-learning-in-science-and-industry %})
