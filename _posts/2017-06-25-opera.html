@@ -1,0 +1,240 @@
+--- 
+layout: post 
+title: "Machine learning applied to the showers in the OPERA" 
+excerpt: "How machine learning tools help fundamental science" 
+date: "2017-06-24" 
+author: Alex Rogozhnikov 
+tags: 
+ - machine learning
+ - OPERA 
+ - particle physics
+---
+
+<p>
+	<i>
+	Abstract: in this post I explain how Machine Learning tools can be applied to particle physics. 
+	I'll discuss what is a particle shower, and when it appears in the OPERA and how clustering and classification 
+	techniques can help fundamental research.
+	</i>
+</p>
+<img src='/images/opera/post/opera-step1.png' style='margin: 20px 0px;'/>
+<p>
+	This post is based on the research I've done for the OPERA experiment.
+</p>
+<h2>
+	What are particle showers?
+</h2>
+<p>
+		<img src="/images/opera/post/cosmic-rays.jpg" alt=""><br />
+		<small>
+				Illustration from <a href="http://www.ep.ph.bham.ac.uk/DiscoveringParticles/detection/cosmic-rays/">University of Birmingham</a>
+			</small>
+</p>
+<p>
+	When a charged particle (I'll consider an electron as an example) with extremely high energy passes through an atmosphere
+	or material, it collides with atoms and produces new particles (converting its energy into mass of new particles). These
+	newly-born particles also have high energy and also produce new particles when colliding with atoms, recursively forming
+	a cascade of particles. Energy of an electron is enough for producing only finite number of new particles, thus this process
+	stops and produced particles are stopped in the matter and absorbed.
+</p>
+<p>
+	There are <a href="https://en.wikipedia.org/wiki/Air_shower_(physics)">atmospheric particle showers</a> produced by high
+	energy cosmic rays. But showers also can be observed in particle detectors, i.e. at the Large Hadron Collider, when a high-energy
+	particle penetrates the detector.
+</p>
+<h2>
+	What is OPERA?
+</h2>
+<p>
+	<img src="/images/opera/post/opera-large.jpg" width='100%' alt="">
+	<br />
+	<small>
+			Inside OPERA, 
+			image from <a href="http://www.symmetrymagazine.org/article/february-2010/gran-sasso-a-tale-of-physics-in-the-mountains">symmetrymagazine</a>.
+		</small>
+</p>
+<p>
+	The <a href='http://operaweb.lngs.infn.it'>OPERA</a> (Oscillation Project with Emulsion-tRacking Apparatus) is an international experiment
+	in particle physics placed in Italy. Its main goal was to study the neutrino transitions (these studies performed by different
+	experiments resulted in confirmation of neutrino oscillations and
+	<a href='https://www.nobelprize.org/nobel_prizes/physics/laureates/2015/'>Nobel Prize 2015</a>).
+</p>
+<p>
+	Neutrino can easily travel long distances through any matter (other known particles can't), so neutrino beam <a href='https://en.wikipedia.org/wiki/CERN_Neutrinos_to_Gran_Sasso'>was sent through mountains</a>	from CERN (Geneva, Switzerland) to Gran Sasso (Italy).
+</p>
+<p>
+	OPERA has a huge detector, which contains around 150'000 bricks 8.5 kg each. Each brick contains interleaving layers of lead and
+	nuclear emulsion. Nuclear emulsion (somehow resembles emulsion in old film photo cameras) keeps the tracks of particles
+	for a long time (up to years), thus after scanning of emulsion we get a picture of the physics processes, whereas lead layers
+	are needed to increase fraction of interacting neutrinos.
+</p>
+<p>
+	<center>
+		<img src="/images/opera/post/opera-brick-visible.png" alt="" style="height: 300px; width: 350px;"><br />
+		<small>
+			Opera brick, one of sides was removed to show layers of emulsion and lead, 
+		<a href='https://www-opera.desy.de/publications/Doktorarbeit-Jan-Lenkeit.pdf'>image source</a>
+	</small>
+	</center>
+</p>
+<!--Возможно: почему именно так устроен детектор?-->
+<p>
+	When emulsion is scanned, parts of the tracks are reconstructed (called <strong>basetracks</strong>), but the scanning is very precise 
+	(position resolution is few micrometers) and thus takes much time (complete scanning of a single brick takes days). 
+	The result of scanning is huge amount of basetracks (around $10^9$
+	basetracks in complete brick, or even more), however very few of these basetracks do correspond to some real particle track &mdash; most
+	of the basetracks are noise, or instumental background as physicists say
+	(bricks are collecting information for years before being extracted, developed and scanned, 
+	emulsion properties may become much worse, and during development fog grains appear, 
+	their random alignment is erroneusly recognized as a basetrack).
+</p>
+<p>
+
+</p>
+<h2>
+	Cleaning the data with machine learning
+</h2>
+<div>
+	<img src='/images/opera/post/opera-1-brick-part.png' />
+	<small> </small>
+</div>
+
+<p>
+	Noise is absolutely dominating in the data (noise to signal ratio is around $10^4 - 10^6$), and to get something useful from
+	this mess, serious cleaning of data is required. 
+	On the picture above you see visualization of scanning results, 
+	hardly any details are visible, but in fact this picture has only 1% of real amount of reconstructed tracks. 
+	And this is not the whole brick, but less than 1% of its complete volume. 
+	At such scales any analysis can be done only with programs.
+</p>
+<p>
+	There is not so much information that scanning provides: position of basetrack, it's direction and quality (typically in
+	particle physics this information is provided with $\chi^2$ &mdash; quality of fit). The last one can reduce amount of background
+	by several times, but we need something much more powerful.
+</p>
+<p>
+	The most important knowledge we have is that <i>background doesn't have any geometrical structure</i>, while signal basetracks are
+	forming tracks or showers. Tracks are straight lines and have very simple geometrical pattern, but showers are more complicated.
+</p>
+<p>
+	Constructing good geometry-based features that grasp this difference is crucial. Good feature engineering coupled with appropriate
+	machine learning algorithm gives very nice results as we will see.
+</p>
+<h2>
+	Finding appropriate "neighboring" basetracks
+</h2>
+<p>
+	To understand if this particular basetrack is a noise or corresponds to some real particle, we can look around and try to
+	find appropriate "neighbours": if it is a track, then there should be basetracks left by the same particle on other layers,
+	together they should form a straight line. If the basetrack is part of a shower, there should be basetracks left by a parent particle
+	of by children particles (produced by current track).
+</p>
+<p>
+	Naive approach was to take position of the basetrack under consideration and to find closest basetracks in neighboring layers, 
+	but as shown on the scheme, this rarely selects appropriate basetrack. 
+	Our goal is to introduce such distance measure between basetracks, which takes into account:
+	<ul>
+		<li>how close second basetrack to the direction line of the first one</li>
+		<li>how close are directions of the basetracks</li>
+	</ul>
+</p>
+<div style="margin-bottom: 10px;">
+	<img src="/images/opera/post/opera_neighbors_captions.png">
+	<div>
+		<small>
+		Example of searching for an good neighbour for a basetrack from left layer. 
+		Basetracks are green and their direction lines are blue, 
+		good neighbour should be close to the direction line. 
+
+		You can see introduced planes (shown with dashes) and intersection points (red and blue).
+		For an optimal track both distances are small, thus the final distance between tracks is small as well.
+		</small>
+	</div>
+</div>
+<p>
+	Simple and elegant solution is to introduce two planes and consider the intersection of planes and basetracks' direction
+	lines. Basetracks lie on the same line if (and only if) intersection points coincide. And we can use sum of distances between
+	projections as a distance between basetracks.
+</p>
+<p>
+	Sidenote: neighbours search is exetremely heavy if not optimized, for instance, computing distances between all pairs of
+	basetracks takes $ O ( N^2_\text{basetracks} ) $, so some hacks are required to make it feasible.
+</p>
+<h2>
+	Engineering geometrical features
+</h2>
+<p>
+	After neighboring candidate basetracks are found, we need to estimate how likely selected basetracks are indeed part of some
+	signal pattern (a track or a shower). 
+	The problem at hand is a binary classification problem (signal or noise), 
+	and can be approached with machine learning classification techniques. 
+	I used <a href="{% post_url 2016-06-24-gradient_boosting_explained %}">gradient boosting</a> here and it provides 
+	very informative result, though insufficient to get the clear picture.
+</p>
+<p>
+	<img src="/images/opera/post/features_new.png" />
+	
+</p>
+<p>
+	Features that help to disciminate signal and background are computed: angle between directions, impact parameters, 
+	mixed product of two directions and a vector connecting positions of basetracks, some projections, etc. 
+	Basetracks' $\chi^2$ qualities are also used. 
+	All of these features are combined into a single prediction by gradient boosting.	
+</p>
+<h2>
+	Looking further
+</h2>
+<p>
+	To make the classification even stronger, we can collect more information about the neighbourhood. In particular, we can look
+	at further layers (not only next or previous). Also we can make use of the information computed by gradient boosting at
+	the previous step by providing it as a feature for new machine learning model (this trick is called stacking).
+</p>
+<p>
+	<img src='/images/opera/post/features_more_layers.png' /><br />
+	<small>	
+		To understand whether some basetrack (red in this scheme) is part of the pattern or not, 
+		we are analyzing basetracks (violet in this scheme) from different layers (preferring the tracks which have close direction and position). 
+		For each of those tracks a set of features is computed, 
+		and output of previous model for the nearest tracks from closest layers.
+	</small>
+</p>
+<p>
+	Analysis of the neighbourhood now has two stages and incorporates much more information about basetracks nearby. 
+	It is capable of reducing almost all the background at the price of losing around 50% of signal basetracks. 
+	That's how it looks like:
+</p>
+<img src='/images/opera/opera_global_filtering_movie.gif' />
+<small>	
+	Looking at single particle shower when increasing classification threshold. Green tracks are part of a shower, background tracks (noise) are red.
+	Thresholding to keep around 50% signal tracks is enough to detect the presence of a shower quite easily.
+	There is also some minor background around the shower that's quite hard to get rid of, 
+	but it doesn't cause any problems for shower detection.
+</small>
+<h2>
+	Result so far
+</h2>
+<div>
+	<img src='/images/opera/post/opera-step2.png' style="margin-bottom: 20px;"/>
+</div>
+<p>
+	We reduced amount of tracks to analyze to some sensible amount, which is already great. 
+	Many patterns are already visible to a naked eye in 3d visualization (in particular, showers can be seen quite easily), 
+	but it would be much nicer if we could group basetracks into individual patterns.
+</p>
+<h2>
+	Next time:
+</h2>
+<p>
+	In the next post I discuss the clustering being applied to this problem.
+</p>
+<img src='/images/opera/post/opera-step3.png' style="margin-bottom: 20px;"/>
+
+<h2>
+	References
+</h2>
+<ul>
+	<li><a href="http://operaweb.lngs.infn.it">Official website of the OPERA experiment</a> </li>
+	<li><a href="https://www.slideshare.net/AdamSzewciw/photographic-emulsion">Presentation about nuclear photo emulsion </a> </li>
+	<li><a href="http://qfthep.sinp.msu.ru/talks2013/Qfthep_Cagin_Kam__scioglu_final1.pdf">A presentation about structure and scanning process in the OPERA</a>		</li>
+	<li><a href="https://www-opera.desy.de/publications/Doktorarbeit-Jan-Lenkeit.pdf">Thesis with more details about OPERA </a> </li>
+</ul>
