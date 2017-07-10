@@ -1,0 +1,270 @@
+--- 
+layout: post 
+title: "Clustering applied to showers in the OPERA" 
+excerpt: "How machine learning tools help fundamental science" 
+date: "2017-07-10" 
+author: Alex Rogozhnikov 
+tags: 
+ - machine learning
+ - OPERA 
+ - particle physics
+---
+
+<!-- TODO: tags for social networks -->
+<p>
+	<i>
+		Abstract: in this post I discuss clustering: 
+		techniques that form this method and some peculiarities of using clustering in practice.
+		This post continues <a href='{% post_url 2017-06-25-opera %}'>previous one</a> about the OPERA.
+	</i>
+</p>
+<p>
+	<img src='/images/opera/post/opera-step3.png' style='margin: 20px 0px;' />
+</p>
+
+<h2>
+	What is clustering and when it is needed?
+</h2>
+<p>
+	Clustering is a typical problem of unsupervised machine learning. 
+	Given a set of objects (also called observations), split them into groups (called clusters) so that objects in each group are more similar to each other 
+	than to observations from other groups.
+</p>
+<p>
+	Clustering may become the right tool to identify structure of the data.
+	For instance, cluster analysis helped in 1998 to identify that <a href='https://en.wikipedia.org/wiki/Gamma-ray_burst'>gamma ray bursts</a> are falling quite nicely in <a href='http://cds.cern.ch/record/345177/files/9802085.pdf'>three</a> groups (clusters), not two as was thought before.
+	So we got a hint that there are three types of processes in far galaxies which result in energetic explosions. 
+	Now properties of each group can be analyzed individually and we can try to guess processes behind each type of bursts.
+</p>
+<p>
+	Finding groups of users / customers / orders with clustering may turn out to be a good idea (and it may not, there are many factors).
+</p>
+<p>
+	Let me first remind a bit about frequently used clustering methods.
+</p>
+<!--<h2>When clustering is <i>not</i> needed?</h2>
+<p>
+	When you can apply directly classification technique, just do it &mdash; supervised learning is definitely going to work
+	better
+</p>-->
+<h2>K-means clustering</h2>
+<p>
+	K-means clustering (<a href='https://en.wikipedia.org/wiki/K-means_clustering'>wiki</a>) is probably the simplest approach to clustering data. 
+	The number of clusters $k$ is predefined, and each cluster is described by its center (mean). 
+	Algorithm starts from randomly defined positions of cluster centers, and iteratively
+	refine their positions by repeating the following two steps
+</p>
+<ul>
+	<li>
+		<strong>Assignment:</strong> each observation is assigned to the cluster with the nearest center
+	</li>
+	<li>
+		<strong>Update:</strong> center of each cluster is updated to the mean of observations in the cluster
+	</li>
+</ul>
+<p>
+	<!--Notably, both of these steps are minimizing so-called within-cluster variance.-->
+	You can track the described training process in the following animation:
+</p>
+<center>
+	<img src='/images/opera/post/clustering-kmeans-circles.gif' alt='Example of clustering with k-means algorithm' style='margin: 20px 0px;' />
+</center>
+<small>
+	Example of clustering with k-means algorithm. Points are observation to be clustered. 
+	Example dataset consists of 7 close clusters (circles).
+	Each cluster is shown with its own color, cluster centers are shown with big circles.
+	 
+	Process converges to a local minimum after several iterations (note that nothing changes on last iterations).
+	This is a screen capture of a <a href="https://www.naftaliharris.com/blog/visualizing-k-means-clustering/">demonstration</a> by Naftali Harris.
+</small>
+<h2>Limitations of k-means clustering </h2>
+<p>
+	However this simple algorithm in many cases fails to provide good clustering:
+</p>
+<center>
+	<img src='/images/opera/post/clustering-kmeans-smiley.gif' style='margin: 20px 0px;' />
+</center>
+<p>
+	There is a fundamental limitation which prevents k-means from properly clustering above example: 
+	k-means clusters are convex polytopes (you can notice this from both demonstrations, but it can be proven quite easily). 
+	<!--TODO не надо  -->
+	Moreover, k-means clustering partitions the space into so-called <a href='https://en.wikipedia.org/wiki/Voronoi_diagram'>Voronoi diagram</a>.
+</p>
+<p>
+	Another demerit frequently mentioned is that k-means creates clusters of comparable spatial extent 
+	and also isn't capable of creating clusters with covariance matrix very different from identity.
+</p>
+
+<h2>DBSCAN</h2>
+<p>
+	There are more sophisticated approaches to clustering which overcome these limitations of k-means to some extend. 
+	One of such methods is <a href='https://en.wikipedia.org/wiki/DBSCAN#Preliminary'>DBSCAN</a> (Density-based spatial clustering of applications with noise), which is also quite popular. 
+</p>
+<p>
+	The following animation gives some vague understanding about procedure behind DBSCAN clustering:
+</p>
+<img src='/images/opera/post/clustering-dbscan-smiley.gif' style='margin: 20px 0px;' />
+<p>
+	DBSCAN starts from core points, that is points with several quite close neighbours and creates the cluster by adding closest points. 
+	If one of added nearest points is also a core points (has sufficient number of close neighbours), 
+	all of its neighbours are also added (and this repeats recursively).
+</p>
+<p>
+	This way DBSCAN is capable of finding complex clusters, quite different in shapes and sizes, 
+	but the clusters don't have any parametric description as in other methods 
+	(for instance, in k-means cluster is modeled by its center position).
+</p>
+<p>
+	DBSCAN also handles outliers, i.e. observations that do not seem to belong to any clusters. 
+	In the clustering of OPERA basetracks that I discuss below it is quite important, as many noise tracks present in the data.
+</p>
+<h2>
+	Visual comparison of algorithms in scikit-learn
+</h2>
+<p>
+	Scikit-learn package <a href='http://scikit-learn.org/stable/modules/clustering.html'>documentation</a> 
+	(most popular machine learning package for python) has a very concise and informative
+	visual comparison of different clustering methods:
+</p>
+<img src='/images/opera/post/clustering-comparison.png' alt='visual comparison of clustering algorithm by sklearn' />
+<p>
+	Please refer to that documentation page when in trouble and need to choose the right clustering method for a particular problem.
+</p>
+<h2>Back to the OPERA example</h2>
+<p>
+	Let's now get back to the problem at hand. 
+	In <a href='{% post_url 2017-06-25-opera %}'>the previous post</a> we started from the situation 
+	when a brick from the OPERA experiment is developed and scanned.
+	Scanning procedure outputs millions of basetrack, most of which are instrumental background and should be removed. 
+</p>
+<p>
+	As it was discussed in the previous post, we can clear background and leave only several thousands of tracks 
+	thanks to classification techniques and proper feature engineering.
+</p>
+<img src='/images/opera/post/opera_clustering_image1.png' alt='non-cluster data' />
+<p>
+	Now we have several thousands tracks and the goal is to find patterns in this data.
+</p>
+<h2>
+	Importance of distance choice in applications
+</h2>
+<p>
+	Important detail that I want to dwell upon in this post is how do we measure distance between tracks 
+	(also called <i>metric function</i> or simply <i>metric</i>).
+	Clustering techniques are unsupervised, and it sounds like they get useful information <i>out of nowhere</i>.
+	Unfortunately, there are no miracles: information is obtained from the structure and provided metric function, 
+	which makes it possible to find similarity between items or observations.
+</p>
+<p>
+	Let's see this in example: what if we simply take euclidean distance and apply DBSCAN clustering?
+	(in this approach we treat each track as a point in 3-dimensional space defined by its position)
+</p>
+<img src='/images/opera/post/opera_clustering_image2.png' />
+<p>
+	The result is disappointing: found clusters do not correspond to any tracks, 
+	those are just groups of tracks placed nearby. 
+	An algorithm had no chance to reveal anything useful given the way we defined similarity between tracks.
+	You can see from the scheme below that closest basetracks in euclidean distance rarely belong to the same pattern, 
+	while basetracks left by same particle can be quite far from each other:
+</p>
+<img src='/images/opera/post/opera-distance1.png' style="margin: 20px;"/>
+<p>
+	Our clustering should be stable to appearance of noise in the data, 
+	in particular noise basetracks that were left in the data should not be attributed 
+	to any cluster and marked by algorithm as outliers (DBSCAN handles this situation as was shown in animation).
+</p>
+<p>
+	Another problem in the data is missing links (as shown in the scheme above), when one of the basetracks 
+	is missing and algorithm should still consider two parts to the right and to the left as a single pattern.
+	It is problematic, because parts are spaced apart.
+</p>
+
+<h2>
+	Accounting for directions of basetracks
+</h2>
+<p>
+	Euclidean distance that we used in previous example can be written as:
+	$$ \rho(\text{track}_1, \text{track}_2)^2 = (x_1 - x_2)^2 + (y_1 - y_2)^2 + (z_1 - z_2)^2,  $$
+	and can be written shortly as 
+	$$ \rho(\text{track}_1, \text{track}_2)^2 = || \mathbf{x}_1 - \mathbf{x}_2 ||^2.  $$ 
+	Each basetrack is described by its position $\mathbf{x} = (x, y, z)$ 
+	and direction $ \mathbf{e} = (e_1, e_2, e_3)$. 
+	Direction is completely ignored by previous distance, but plays very important role &mdash; 
+	as we know, basetracks left by same particle, typically have very close directions. 
+</p>
+<p>
+	To account for both positions and directions of the track we can use the following metric:
+	$$ \rho(\text{track}_1, \text{track}_2)^2 = || \mathbf{x}_1 - \mathbf{x}_2 ||^2 + \alpha || e_1 - e_2 ||^2. $$
+	Below we have the result of clustering with DBSCAN and new metric:
+</p>
+<img src='/images/opera/post/opera_clustering_image3.png' />
+<p>
+	The clustering became much more informative: clearly, one can see now parts of the tracks, 
+	however most of the groups include more than one track, 
+	and some of the outlier basetracks are included in clusters erroneously.
+</p>
+<img src='/images/opera/post/opera-distance2.png' style="margin: 20px;"/>
+<p>
+	Still, there is some major problem with our distance, in particular, the basetracks 
+	can be far from each other in euclidean distance and still (quite obviously) belong to a single track or shower.
+	Metric functions used so far require that 'similar' tracks should be close in euclidean distance, 
+	and thus lost base tracks are a problem.
+</p>
+
+<h2>
+	Alignment metric
+</h2>
+<p>
+	To address named issues I introduced the following <i>alignment distance function</i>
+</p>
+<img src='/images/opera/post/opera-distance3.png' style="margin: 20px;"/>
+<ul>
+	<li>for a couple of basetracks two planes are considered: one to the left of both tracks and one to the right</li>
+	<li>for both basetrack intersections are found between planes and basetracks'' direction lines</li>
+	<li>distances between intersection points $\text{IP}_1$ and $\text{IP}_2$ are computed</li>
+	<li>distance is defined with (strictly speaking, this is not exactly distance, but DBSCAN is fine with this)
+		$$ \rho(\text{track}_1, \text{track}_2 )^2 = \text{IP}^2_1 + \text{IP}^2_2, $$
+		so the basetracks are considered close when both IPs are small (which is the case when basetracks are on the same line)
+	<li>the planes selected so that both tracks are between planes and there is also some additional margin. 
+		It is needed in particular to add some distance to very close basetracks from the same layer, but with different directions
+	</li>
+</ul>
+<h2>
+	Final result
+</h2>
+<p>
+	That's how alignment metric + DBSCAN perform:
+</p>
+<img src='/images/opera/post/opera_clustering_image4.png' />
+<p>
+	Some of the found clusters are shown in details below, 
+	you can notice that it was able to reconstruct the cluster well even when significant part of the shower 
+	is missing in the data (dark blue cluster of two parts is a single shower) or when tracks left by particles have missing basetracks in the middle
+</p>
+<img src='/images/opera/post/opera_clustering_selected.png' />
+<h2>
+	Take-home message
+</h2>
+<p>
+	When data analysis approach you use relies on distance 
+	(that's almost all the clustering algorithms, but also neighbours-based methods and KDE), 
+	be sure to choose distance function wisely (using your prior knowledge about the problem), because this affects result very significantly.
+</p>
+<h2>
+	References
+</h2>
+<ul>
+	<li>
+		Demonstrations of clustering: <a href='https://www.naftaliharris.com/blog/visualizing-k-means-clustering/'>k-means</a> 
+		and  <a href='https://www.naftaliharris.com/blog/visualizing-dbscan-clustering/'>DBSCAN</a> by Naftali Harris
+	</li>
+	<li>
+		<a href='http://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html'>Awesome machine learning demonstrations </a>
+	</li>
+	<li>
+		<a href='https://www.aaai.org/Papers/KDD/1996/KDD96-037.pdf'>DBSCAN paper</a>
+	</li>
+	<li>
+		<a href='https://www.toptal.com/machine-learning/clustering-algorithms'>Blogpost with animations of clustering algorithms</a>		by Lovro Iliassich.
+	</li>
+</ul>
