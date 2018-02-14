@@ -59,7 +59,7 @@ Other typically used measures:
   ```
   fpr = isBasS / isB 
   ```
-* also there are `tnr = isSasB / isS` and `fnr = isSasB / isS` (tnr also known as _specificity_)  
+* also there are `tnr = isBasB / isB` and `fnr = isSasB / isS` (tnr also known as _specificity_)  
 
 Other way to define parameters is True/False Positives/Negatives:
  
