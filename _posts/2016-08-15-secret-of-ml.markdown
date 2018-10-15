@@ -92,7 +92,7 @@ There are also some other things tightly knotted to these concepts like informat
 
 Non-trivial thing here: **entropy splitting criterion is the same as logloss minimization**.
 
-## Why Gini splitting = MSE?
+## Why Gini and MSE produce the same splitting?
 
 Simplest case is binary classification: <span>$y\_i = 0 \text{ or } 1$</span>. 
 Let's first revisit MSE splitting criterion. 
@@ -162,9 +162,9 @@ Easy to prove that an optimal point is <span>$p_{\text{leaf}, c} = \dfrac{n_{\te
     = n_{\text{leaf}} \sum_{c} p_{\text{leaf}, c} \log p_{\text{leaf}, c}
 $$</div>
 
-... and we got entropy impurity. 
+... and we got entropy impurity (without minus sign, but that's the only difference). 
 
 # See also
 
-- my post about [ROC curve]({% post_url 2015-10-05-roc-curve %}) with tons of definitions for binary classification problem
 - [Statistics vs. Machine Learning, fight!](https://brenocon.com/blog/2008/12/statistics-vs-machine-learning-fight/)
+- my post about [ROC curve]({% post_url 2015-10-05-roc-curve %}) with tons of definitions for binary classification problem
