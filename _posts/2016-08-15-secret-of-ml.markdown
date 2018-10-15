@@ -92,7 +92,7 @@ There are also some other things tightly knotted to these concepts like informat
 
 Non-trivial thing here: **entropy splitting criterion is the same as logloss minimization**.
 
-## Why Gini and MSE produce the same splitting?
+## Why Gini splitting = MSE minimization?
 
 Simplest case is binary classification: <span>$y\_i = 0 \text{ or } 1$</span>. 
 Let's first revisit MSE splitting criterion. 
@@ -118,8 +118,7 @@ $$
 $$
 $$
     = \dfrac{n_{leaf, 0} \times n_{leaf, 1}}{n_{leaf, 0} + n_{leaf, 1}}
-$$
-</div>
+$$</div>
 
 So, while building decision tree, we greedily optimized the following global function 
 (but each split optimizes only two terms in the sum):
@@ -136,7 +135,7 @@ Using the new terms we have:
     \text{MSE} = \sum_{\text{leaf}=1}^{L} n_\text{leaf} \times  p_{\text{leaf}, 1} (1 - p_{\text{leaf}, 1}) = \text{Gini impurity}
 $$</div>
 ... which is nothing but Gini impurity summed over leaves. 
-It is easy to notice that in case of classification with multiple classes we need to first perform one-hot encoding and then minimize MSE 
+It is easy to notice that in the case of classification with multiple classes we need to first perform one-hot encoding and then minimize MSE 
 to get the same splitting rule as provided by Gini.  
 
 ## Why Entropy splitting = LogLoss minimization?
