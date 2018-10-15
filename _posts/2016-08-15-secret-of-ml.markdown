@@ -97,20 +97,19 @@ Non-trivial thing here: **entropy splitting criterion is the same as logloss min
 Simplest case is binary classification: <span>$y\_i = 0 \text{ or } 1$</span>. 
 Let's first revisit MSE splitting criterion. 
 
+<div>$$
+\text{MSE} = \sum_{i} (y_i - \hat{y}_i)^2
+$$</div>
+
 Suppose we split the feature space into leaves of a tree $ \text{leaf} = 1, 2, . . .  , L $.
 
-In this case MSE is equal to:
-$$
-\text{MSE} = \sum_{i} (y_i - \hat{y}_i)^2
-$$
-
-We are going to group summands according to the leaf observations belong to.
+We are going to group summands according to the leaf each observation belongs to.
 Penalty for a single leaf depends only on the number
-of samples $n_\text{leaf, 0}, n_\text{leaf, 1}$ from classes 0 and 1:
+of samples $n_\text{leaf, 0}, n_\text{leaf, 1}$ of classes 0 and 1:
 
-$$
-    \text{MSE}_\text{leaf} = \sum_i (y_i - \hat{y})^2 = 
-    n_{\text{leaf}, 0} \times \hat{y}^2 + n_{\text{leaf}, 1} \times (1 - \hat{y})^2 =
+<div>$$
+    \text{MSE}_\text{leaf} = \sum_{i \in \text{leaf}} (y_i - \hat{y})^2 = 
+    n_{\text{leaf}, 0} \times (0-\hat{y})^2 + n_{\text{leaf}, 1} \times (1 - \hat{y})^2 =
 $$
 $$
     = \{ \text{select optimal } \hat{y} \} =
@@ -120,20 +119,22 @@ $$
 $$
     = \dfrac{n_{leaf, 0} \times n_{leaf, 1}}{n_{leaf, 0} + n_{leaf, 1}}
 $$
+</div>
 
-So, while building decision tree, we greedily optimize the following global function 
+So, while building decision tree, we greedily optimized the following global function 
 (but each split optimizes only two terms in the sum):
 
 <div>$$
     \text{MSE} = \sum_{\text{leaf}=1}^{L} \dfrac{n_{\text{leaf}, 0} \times n_{\text{leaf}, 1}}{n_{\text{leaf}, 0} + n_{\text{leaf}, 1}}
 $$</div>
 
-Let's also introduce $n_\text{leaf} = n_{\text{leaf}, 0}  + n_{\text{leaf}, 1} $ – number of all samples in the leaf
+Let's also introduce <span>$n_\text{leaf} = n_{\text{leaf}, 0}  + n_{\text{leaf}, 1} $</span> – number of all samples in the leaf
 and portions of class 1 in leaf: 
-$ p_{\text{leaf}, 1} = \dfrac{n_{\text{leaf}, 1}}{n_{\text{leaf}}} $. Using the new terms:
-$$
+<span>$ p_{\text{leaf}, 1} = \dfrac{n_{\text{leaf}, 1}}{n_{\text{leaf}}} $ </span>. 
+Using the new terms we have:
+<div>$$
     \text{MSE} = \sum_{\text{leaf}=1}^{L} n_\text{leaf} \times  p_{\text{leaf}, 1} (1 - p_{\text{leaf}, 1}) = \text{Gini impurity}
-$$
+$$</div>
 ... which is nothing but Gini impurity summed over leaves. 
 It is easy to notice that in case of classification with multiple classes we need to first perform one-hot encoding and then minimize MSE 
 to get the same splitting rule as provided by Gini.  
@@ -146,14 +147,14 @@ Let's start from writing down the LogLoss for the decision tree:
 $$</div>
 
 (where $y\_{i,c}$ is 1 if event $i$ belongs to class $c$ and 0 otherwise; 
-$p\_{i,c}$ is predicted probability to belong to class $c$).
+$p\_{i,c}$ is a probability for $t$th sample to belong to class $c$, predicted by a tree).
 
-When selecting optimal predictions in the leaf, we optimize:
+When selecting optimal predictions in a leaf, we optimize:
 <div>$$
 \text{LogLoss}_\text{leaf} = \sum_{i \in \text{leaf}} \sum_{c} y_{i,c} \log p_{\text{leaf}, c}
 $$</div>
 
-Easy to prove that optimal point is $p_{\text{leaf}, c} = \dfrac{n_{\text{leaf}, c}}{n_{\text{leaf}}} $
+Easy to prove that an optimal point is <span>$p_{\text{leaf}, c} = \dfrac{n_{\text{leaf}, c}}{n_{\text{leaf}}} $</span>
 
 <div>$$
 \text{LogLoss}_\text{leaf}
