@@ -18,8 +18,7 @@ Hello.
 
 My name is Alex Rogozhnikov (Алексей Михайлович Рогожников), and 'brilliantly wrong' is my personal blog.
 
-<!--I'm working at [Yandex](http://yandex.ru), involved in [CERN](http://cern.ch) projects. -->
-Area of my interest is development of Machine Learning methods (mostly, somehow applied to fundamental sciences, though not limited by those). 
+Area of my interest is development and improvement of Machine Learning methods. 
 
 I have PhD in mathematics and physics from [Moscow University](http://www.msu.ru/en/).
 
@@ -34,6 +33,7 @@ I have some other degrees as well :)
 
 If you're interested in things I am doing, take a look at
 
+* [einops](https://github.com/arogozhnikov/einops) - a new way for tensor manipulation  
 * [InfiniteBoost](https://github.com/arogozhnikov/infiniteboost) 
 * [machine learning demonstrations](https://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html) 
 * [gradient boosted reweighter](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/DemoReweighting.ipynb)
