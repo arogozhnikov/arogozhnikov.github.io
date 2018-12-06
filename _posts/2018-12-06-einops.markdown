@@ -1,0 +1,29 @@
+---
+layout: post
+title:  "Einops - new style of deep learning code"
+excerpt: "Introducing a new way to define operations in deep learning"
+date: 2018-12-06 12:00:00
+author: Alex Rogozhnikov
+tags: 
+- Machine Learning
+- Engineering
+- Improve code
+---
+
+Recently I've open-sourced [einops](https://github.com/arogozhnikov/einops) 
+&mdash; a new (and better) way to write deep learning code.
+
+Einops introduces new notation and operations.
+
+<video controls autoplay>
+  <source src="http://arogozhnikov.github.io/images/einops/einops_video.mp4" type="video/mp4">
+  <img src="http://arogozhnikov.github.io/images/einops/einops_video.gif" alt="einops package examples" />
+</video> 
+
+It perfectly complements existing frameworks (pytorch, tensorflow, gluon, chainer, numpy and others)
+allowing you to write better deep learning code (see [examples for pytorch](http://arogozhnikov.github.io/einops/pytorch-examples.html)).
+
+[Einops at Github](https://github.com/arogozhnikov/einops)
+
+Tutorials: [part 1](https://github.com/arogozhnikov/einops/blob/master/docs/1-einops-basics.ipynb)  
+       and [part 2](https://github.com/arogozhnikov/einops/blob/master/docs/2-einops-for-deep-learning.ipynb).
