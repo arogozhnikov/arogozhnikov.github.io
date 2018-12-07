@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "sPlot: a technique to reconstruct components of mixture"
+title:  "sPlot: a technique to reconstruct components of a mixture"
 date: 2015-10-07 12:00:00
 author: Alex Rogozhnikov
 excerpt: "Explanation of sPlot ans sWeight - an important tool to deal with mixtures of distributions"
@@ -10,9 +10,10 @@ tags:
 - 'hep_ml'
 ---
 
-This post is devoted to the explanation of what an __sPlot__ is. This well-known method was recently added to [hep_ml library](https://github.com/arogozhnikov/hep_ml).
+This post explains what an __sPlot__ is. This well-known method was recently added to [hep_ml library](https://github.com/arogozhnikov/hep_ml).
 
-An __sPlot__ is a way to reconstruct features of mixture components based on known properties of distributions. This method is frequently used in High Energy Physics.
+An __sPlot__ is a way to reconstruct features of mixture components based on known properties of distributions. 
+This method is frequently used in High Energy Physics.
 
 ## Simple example of sPlot
 
@@ -27,7 +28,7 @@ The distribution of some characteristic is different for them (let this be the p
 ## Observed distributions
 
 Picture above shows how this distribution should look like, 
-but due to inaccuracies during classification we will observe a different picture, we'll see later it is important.
+but due to inaccuracies during classification we will observe a different picture, and this is important.
 
 Let's assume that with a probability of 80% particle is classified correctly (and we are not using `px` during classification).
 
@@ -101,7 +102,8 @@ After fitting the mixture (let me skip this process), we get the following resul
 
 But it gives information about probabilities, which allows us to estimate the number of signal and background events within each bin. 
 
-We won't use bins, but instead we'll compute for each event probability that it is signal or background (this probability is computed from the mass. Make sure you see the connection with previous plot):
+We won't use bins, but instead we'll compute for each event probability that it is signal or background (this probability is computed from the mass. 
+Make sure you see the connection with previous plot):
 
 ![reconstructed probabilities over mass](/images/splot/9-probabilities-over-mass.png)
 
@@ -110,7 +112,7 @@ We won't use bins, but instead we'll compute for each event probability that it 
 sPlot converts probabilities to sWeights, using the implementation from `hep_ml`:
 
 As you can see, there are also negative sWeights, which are needed to compensate the contributions of other class 
-(remember that in first example we needed negative weights).
+(remember that in the first example we needed negative weights).
 
 ![computed sWeights dependency over mass](/images/splot/10-splot-sweights-over-mass.png)
 
@@ -122,9 +124,10 @@ Let's check that we achieved our goal and now we can reconstruct momentum distri
 
 ## Important requirement of sPlot
 
-Reconstructed variable (i.e. $p$) and splotted variable (i.e. mass) shall be statistically independent for each class.
+Reconstructed variable (i.e. $p$ or lifetime or flight distance) and splotted variable (i.e. mass) shall be statistically independent within each class.
 
-Read the line above again. Reconstructed and splotted variable are correlated!
+Read the line above again. 
+Reconstructed and splotted variable are correlated, but when you consider only signal they are independent!
 
 as a demonstration why this is important let's use sweights to reconstruct the mass (obviously the mass is correlated with the mass):
 
@@ -137,8 +140,8 @@ Now, after we seen how this works, let's derive the formula for sWeights.
 
 The only information we have from fitting over the mass is  $ p_s(x) $, $ p_b(x)$ which are probabilities of event $x$ to be signal and background.
 
-Our main goal is to correctly reconstruct histogram. Let's reconstruct the number of _signal_ events in _particular_ bin. 
-Let's introduce unknown $p_s$ and $p_b$ — probability that signal or background event will be in the named bin.
+Our main goal is to correctly reconstruct a histogram. Let's reconstruct the number of _signal_ events in a _particular_ bin. 
+We introduce unknown $p_s$ and $p_b$ — probability that signal or background event will be in the named bin (that's just proportions so far).
 
 (Since mass and reconstructed variable are statistically independent for each class, $p_s$ and $p_b$ do not depend on mass.)
 
@@ -172,10 +175,13 @@ After reduction:
 <br />$ N_s = \sum_x sw_s(x) \; p_s(x)  $
 <br />$ 0 = \sum_x sw_s(x) \; p_b(x) $
 
-This way we can guarantee that mean input of background are 0 (expectation is zero, but observed number will not be zero due to statistical deviation), and the expected number of background 
+This way we can guarantee that average contribution of background is 0 
+(expectation is zero, but observed number will not be zero due to statistical deviation), 
+and the expected contribution of signal is $N$
 
 ## Under assumption of linearity:
-assuming that splot weight can be computed as linear combination of conditional probabilities:
+
+*assuming* that sPlot weight can be computed as a linear combination of conditional probabilities:
 
 $ sw_s(x) = a_1 p_b(x) + a_2 p_s(x)$
 
@@ -192,16 +198,15 @@ $V_{ss} = \sum_x p_s(x) \; p_s(x) $, $V_{bs} = V_{sb} = \sum_x p_s(x) \; p_b(x)$
 
 Having solved this linear equation, we get needed coefficients (as those in the paper)
 
-NB. There is little difference between $V$ matrix I use and $V$ matrix in the paper. 
+NB. There is minor difference between $V$ matrix I use and $V$ matrix in the paper. 
 <br />
 
 
 ## Minimization of variation
 
-Previous part allows one to get the correct result. But there is still no explanation of reason for linearity.
+Previous part allows one to get the correct result. But there is still no reason for linearity given, we just *assumed this*..
 
-
-Apart from having correct mean, we should also minimize variation of any reconstructed variable. Let's try optimize it 
+Apart from having a correct mean, we should also minimize variation of any reconstructed variable. Let's try to optimize it 
 
 $$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} = \sum_x sw_s(x)^2 \; (p_s p_s(x) + p_b p_b(x))(1 - p_s p_s(x) - p_b p_b(x))$$
 
@@ -258,5 +263,5 @@ The code for this post may be found at [`hep_ml` repository](https://github.com/
 
 A very close [explanation](https://indico.cern.ch/event/257864/contributions/1587661/attachments/453353/628570/sweff.pdf) was written by Michael Schmelling.
 
-Thanks to [Konstantin Schubert](https://github.com/KonstantinSchubert) for correcting this post.
+Many thanks to [Konstantin Schubert](https://github.com/KonstantinSchubert) for proof-reading this post.
 
