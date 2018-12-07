@@ -9,24 +9,27 @@ tags:
 - Python
 ---
 
-So, you decided to write a brand new library of machine learning.
-This one will be much better than everything you have seen before. 
+(this post was written in those days when everyone tried to develop his own library for deep learning
+or machine learning, kept for history)
+
+So, you decided to write a brand new machine learning library.
+This one will be so much better than everything you have seen before. 
 It will be fast, easy-to-use, even-easier-to-extend, flexible, with support of multi-core computations and many more.
  
-There are traditions which most of developers of ML libraries are trying to follow and
-I decided to collect those together.
+There are traditions which most of developers of ML libraries are trying to follow, 
+so I decided to collect those together.
 
-Most of the experience came from developing [yandex/REP](https://github.com/yandex/rep)
-and browsing code / experimenting with different classifiers.
+Most of the experience written below came from developing [yandex/REP](https://github.com/yandex/rep)
+and browsing code/experimenting with different classifiers.
 
-Treat this as 'awful advice collection'. 
+Treat this as a "collection of awful advices". 
 
 <img src='/images/etc/bad_advice.jpg' style='margin: 20px 200px; width: 400px;' alt='bad advice ahead' />
 
-0. __Your library is the start and end point in user's research.__
+0. __Your library is the start and the end point in user's research.__
    That's the key point in doing everything bad.
    There is nothing else user should pay attention to.
-   Following point is consequence of this simple rule.
+   Following points are a consequence of this simple rule.
 
 1. __Never care about whether other libraries exist.__
    Why actually you shall worry that there are other libraries of machine learning and how many of them are already on the github?
@@ -35,30 +38,31 @@ Treat this as 'awful advice collection'.
    New algorithms? No, never.
    Building tests to compare accuracy on public data is also nothing but wasted time.
 
-2. __Invent new interface.__
+2. __Invent new interface(s).__
    Users expect the structure and examples of usage to be simple?
-   Bad idea. You have studied OOP, so now you can complex APIs!
+   Bad idea. You have studied OOP, so now you can write complex APIs!
    
-   Special class trainer. Special class dataset.
-   Also you need class supervised dataset.
-   And special class for sampling from supervised dataset. 
+   You will introduce a class `Trainer`and a `Dataset` class.
+   Also you need `SupervisedDataset`class.
+   And a special class for sampling from supervised datasets. 
    
-   Probably you'll never implement one more sampler, such organization of code is definitely needed for the sake of OOP.
+   Probably you'll never implement one more sampler, such code organization is definitely needed for the sake of OOP.
 
-3. __Use your own format.__ Any successful library has it's own format.
+3. __Introduce your own data format.__ Any successful library has it's own format.
    Currently used formats are not universal. You need a new one.
    Binary formats (like HDF5, FITS and ROOT) are definitely bad, because you can't write a parser for those in 10 lines.
 
    There should be something special about your format.
    Like csv, but with custom separator.
    Also, you will not add column names there, since algorithm doesn't require it
-   (also, I would recommend not to check number of columns at prediction time, this would allow user to make less obvious mistakes).
+   (additionally, I would recommend not to check number of columns at prediction time, 
+   this would allow user to make mistakes that are hard to find).
 
 
-4. __Don't use random seed.__ At least don't do it in the way users expect. There are various options:
+4. __Don't use random seed.__ At least don't do it in the way users expect. There are various interesting options:
 
-   1. simply never set seed, so debugging would be almost impossible. If algorithm didn't converge 10 times, that's because of a bad luck.
-   2. set global random seed. Let reproducibility fail during multithreading
+   1. simply never set seed, so debugging would be almost impossible. If algorithm didn't converge 10 times in a row, that's because of a bad luck (or karma).
+   2. set global random seed. Let reproducibility fail during multi-threading
    3. finally, introduce a special parameter `random_seed` and ignore it. Haha!
      
    <!-- theanets, nolearn, pybrain, neurolab -->  
@@ -72,17 +76,17 @@ Treat this as 'awful advice collection'.
    
    Never use BLAS operations. Don't use numpy, theano, octave or fortran90+, otherwise other developers will be able to understand your code!
    
-   <!-- PyBrain  --> 
+   <!-- PyBrain, leaf  --> 
    
    Also remember to create 'for the purposes of efficiency' a god-object and put all the data there.
    While reading your code, side programmer will not be able to get what information is used by each method.
 
    
-6. __Write lots of logs to output!__.
-   Remember the starting point? There is nothing else user shall remember of, only about your library?
+6. __Write lots of logs to the output!__.
+   Remember the starting point? There is nothing else user shall care of, only about your library?
    
-   Every step of algorithm shall print some useless information (better if accompanied by ASCII art).
-   Don't allow your algorithm to be run silently (so avoid verbosity parameter).
+   Every step of your algorithm shall print some useless information (better if accompanied by ASCII art).
+   Don't allow your algorithm to be run silently (avoid verbosity parameter, user should not be distracted from your output).
    It should always return code 0 (whatever happens) ans print errors in stdout (not stderr!).
    
    Never use verbose parameter.
@@ -101,7 +105,7 @@ Treat this as 'awful advice collection'.
    <!-- theanets -->
 
 9. Write __your own map-reduce system.__
-   Optimization of algorithm is an annoying process.
+   Optimization of an algorithm is an annoying process.
    It's better to use 100 machines and solve the same problem faster, right?
     
    Everyone (just everyone) today has a good cluster.
@@ -113,7 +117,7 @@ Treat this as 'awful advice collection'.
    <!-- early xgboost -->
  
 
-10. Change interface all the time.  
+10. Change an interface (API) all the time.  
     Drop the support as soon as someone starts using your library.
     <!-- pybrain, nolearn.dbn -->
     
