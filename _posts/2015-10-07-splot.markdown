@@ -17,11 +17,11 @@ This method is frequently used in High Energy Physics.
 
 ## Simple example of sPlot
 
-First start from a simple (and not very useful in practice) example.
+First we start from a simple (and not very useful in practice) example.
 
 Assume we have two types of particles (say, electrons and positrons). 
 
-The distribution of some characteristic is different for them (let this be the px momentum projection).
+The distribution of some characteristic is different for them (let this be the `px` &mdash; a momentum projection).
 
 ![distributions](/images/splot/1-distributions.png)
 
@@ -30,33 +30,34 @@ The distribution of some characteristic is different for them (let this be the p
 Picture above shows how this distribution should look like, 
 but due to inaccuracies during classification we will observe a different picture, and this is important.
 
-Let's assume that with a probability of 80% particle is classified correctly (and we are not using `px` during classification).
+Let's assume that with a probability of 80% a particle is classified correctly 
+(and also assume `px` is not used during classification).
 
-When we look at the distribution of `px` for particles which were classified as electrons or positrons, we see that distributions are distorted. 
-We lost the original shapes of distributions.
+When we plot the distribution of `px` for particles which were classified as electrons or positrons, 
+we see that distributions are distorted. We lost the original shapes of distributions.
 
 ![the distributions we observe](/images/splot/2-bins-and-mixture.png)
 
 ## Applying sWeights
 
-We can think of it in the following way: there are 2 bins. 
+Think of it in the following way: there are 2 bins. 
 First bin contains 80% of electrons and 20% of positrons. 
 And visa versa in the second bin.
 
-To reconstruct the initial distribution, we can plot the histogram where each event from the first bin has weight 0.8, and each event from the second bin has weight -0.2. 
-These numbers are called sWeights.
+To reconstruct the initial distribution, one can plot the histogram where each event from the first bin has weight 0.8, and each event from the second bin has weight -0.2. 
+These numbers are called *sWeights*.
 
 In other words, let's say we had 8000 $e^{-}$ + 2000 $e^{+}$ in first bin and 8000 $e^{+}$ + 2000 $e^{-}$ 
 ($ e^-, e^+$ are electron and positron). 
 After summing with introduced sWeights:
 
-$$
-\big[ 8000 e^{-} + 2000 e^{+} \big] \times 0.8 + \big[ 2000 e^{-} + 8000 e^{+} \big] \times (- 0.2) = 6800 e^{-}
-$$
+<p>$$
+( 8000 e^{-} + 2000 e^{+} ) \times 0.8 + ( 2000 e^{-} + 8000 e^{+} ) \times (- 0.2) = 6800 e^{-}
+$$</p>
 
 Positrons with positive and negative weights compensated each other, and we got "pure electrons".
 
-At the moment we ignore the normalization of the sWeights (because it doesn't play any role when we want to reconstruct the shape of distributions).
+At the moment we ignore the normalization of sWeights (since right now only the shape of distributions is of interest).
 
 ![reconstructed distributions](/images/splot/3-splot-reconstructed-weights.png)
 
@@ -156,7 +157,7 @@ $$X = \sum_x sw_s(x) \; 1_{x \in bin},$$ where $sw_s(x)$ are sPlot weights and a
 
 
 __Property 1.__ We expect estimate to be unbiased
-$$\mathbb{E} \, X = p_s N_s $$
+<p>$$\mathbb{E} \, X = p_s N_s $$</p>
 
 
 __Corollary__ 
@@ -208,11 +209,11 @@ Previous part allows one to get the correct result. But there is still no reason
 
 Apart from having a correct mean, we should also minimize variation of any reconstructed variable. Let's try to optimize it 
 
-$$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} = \sum_x sw_s(x)^2 \; (p_s p_s(x) + p_b p_b(x))(1 - p_s p_s(x) - p_b p_b(x))$$
+<p>$$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} = \sum_x sw_s(x)^2 \; (p_s p_s(x) + p_b p_b(x))(1 - p_s p_s(x) - p_b p_b(x))$$</p>
 
 A bit complex, isn't it? Instead of optimizing such a complex expression (which is individual for each bin), let's minimize it's __uniform upper estimate__
 
-$$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} \leq  \sum_x sw_s(x)^2  $$
+<p>$$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} \leq  \sum_x sw_s(x)^2  $$</p>
 
 
 so if we are going to minimize this upper estimate, we should solve the following optimization problem with constraints:
@@ -222,22 +223,22 @@ so if we are going to minimize this upper estimate, we should solve the followin
 
 Let's write lagrangian of optimization problem:
 
-$$ \mathcal{L} =  \sum_x sw_s(x)^2 + 
+<p>$$ \mathcal{L} =  \sum_x sw_s(x)^2 + 
 \lambda_1 \left[\sum_x sw_s(x) \; p_b(x) \right] + 
 \lambda_2 \left[\sum_x sw_s(x) \; p_s(x) - N_{sig} \right]
-$$
+$$</p>
 
 After taking derivative with respect to $ sw_s(x) $ we get the equality:
 
-$$
+<p>$$
 0 = \dfrac{\partial \mathcal{L}}{\partial \; sw_s(x)} =   2 sw_s(x) + 
 \lambda_1  p_b(x) + \lambda_2  p_s(x)
-$$
+$$</p>
 
 which holds for every $x$. Thus, after renaming for convenience 
-$a_1 = - \lambda_1 / 2, $
-$a_2 = - \lambda_2 / 2, $
-we are getting needed linear dependency.
+$ a_1 = - \lambda_1 / 2, $
+$ a_2 = - \lambda_2 / 2, $
+we confirmed linear dependency.
  
 ### Statistical independence
 

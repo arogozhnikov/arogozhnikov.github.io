@@ -14,22 +14,23 @@ blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-539625418476996208
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/07/machine-learning-in-comet-experiment.html
 ---
 
-<div>
-In <a href="{% post_url 2015-06-22-machine-learning-used-in-tracking-of %}">previous
-    post</a> I've written a short explanation of COMET - Japanese experiment in particle physics. This second post will be devoted to machine learning approach we developed for
-<i>tracking</i> (currently this is uses the information which is probably unavailable in online, but I still hope we will be able to get some online information and thus apply part of the approach as high-level trigger).
-</div>
+In <a href="{% post_url 2015-06-22-machine-learning-used-in-tracking-of %}">previous post</a>
+I've written a short explanation of COMET - a Japanese experiment in particle physics.
+This second post will be devoted to machine learning approach we developed for
+<i>tracking</i>.
 
+<br />
+<br />
 <h3>Local wire features</h3>
 <p>
-    Anyway, the data we are going to use in classification is:
+    The data we should rely on when reconstructing tracks consists of:
 </p>
 <ul>
     <li>energy deposit for each wire</li>
     <li>time of deposit for each wire</li>
 </ul>
 <p>
-    Let's look at their distributions:
+    Let's have a look at their distributions:
 </p>
 <table class="image-wrapper">
     <tbody>
@@ -57,18 +58,24 @@ In <a href="{% post_url 2015-06-22-machine-learning-used-in-tracking-of %}">prev
     </tr>
     </tbody>
 </table>
-<p>
-    How do we obtain these values?
-</p>
-<p>
-    COMET uses <a href="https://en.wikipedia.org/wiki/Straw_chamber">straw chambers</a> (which we call
 
-<i>wires</i> for simplicity), these are long tubes, which fill detector. They are filled with gas, which is ionized by moving charged particles (mostly, electrons).
+<p>
+How do we obtain these values?
 </p>
 
 <p>
-    After ionization, electrons and ions are moving to opposite directions, so we probably can estimate the moment of ionization by drift time (which is of course much greater compared to time of particle flight in detector). Drift time also gives approximate information about the distance between center of wire and track.
+COMET uses <a href="https://en.wikipedia.org/wiki/Straw_chamber">straw chambers</a> (which we call <i>wires</i> for simplicity),
+these are long tubes, which fill detector.
+They are filled with gas, which is ionized by moving charged particles (mostly, electrons).
 </p>
+
+<p>
+After ionization, electrons and ions are moving to opposite directions,
+so we probably can estimate the moment of ionization by drift time
+(which is of course much greater compared to time of particle flight in detector).
+Drift time also gives approximate information about the distance between the center of wire and track.
+</p>
+
 <table class="image-wrapper">
     <tbody>
     <tr>
@@ -105,10 +112,10 @@ In <a href="{% post_url 2015-06-22-machine-learning-used-in-tracking-of %}">prev
 ROC AUC when we use the only feature - energy, is around 0.95, which seems to be very high. Nevertheless, it's not enough, since we have around 4400 wires, of which around 1000 gets activated (this number is called occupancy) within each measurement (event), while the signal track usually contains around 80 points.
 </p>
 <p>
-    So the event is represented using 4400 pairs (energy, time), of which most are zeros.<br/>
+    In other words, event is represented using 4400 pairs (energy, time), of which most are zeros.<br/>
 </p>
 <p>
-    So the noise which passes through such basic filter is still very significant and there is large room for improvements.
+    And the noise which passes through such basic filter is still very significant and there is a large room for improvements.
 </p>
 
 <p>
@@ -171,7 +178,7 @@ Let me remind you, how the whole picture of hits in COMET detector looks like (w
 <table class="image-wrapper">
 	<tbody>
 		<tr>
-			<td><img src="/images/COMEThoughradius.png" width="20" height="20"/></td>
+			<td><img src="/images/COMEThoughradius.png" /></td>
 		</tr>
 		<tr>
 			<td>Visualization of&nbsp;Hough transform for circles with fixed radius. We&nbsp;are trying to&nbsp;reconstruct the center of&nbsp;track, going through red points. Assuming that we&nbsp;know the radius of&nbsp;fitted track, all possible centers are laying on&nbsp;the circle with center in&nbsp;red point. </td>
@@ -254,11 +261,15 @@ Let me remind you, how the whole picture of hits in COMET detector looks like (w
 		</tr>
 	</tbody>
 </table>
-<h3> Conclusion</h3>
+
+<h3>Conclusion</h3>
+
 <p>
- I’ve described how simple machine learning techniques coupled with well-known algorithms can produce a&nbsp;very good result, superior to&nbsp;many complex approaches. <br/>
- These results are to&nbsp;be&nbsp;checked on&nbsp;better simulation data, when it&nbsp;will be&nbsp;ready. Also we&nbsp;have some ideas about possibilities of&nbsp;classification for online triggers, which use same ideas. <br/>
+I’ve described how simple machine learning techniques coupled with well-known algorithms can produce very good results,
+superior to&nbsp;many complex approaches.
 </p>
+
+
 <h3>Links</h3>
 
 <ol>
