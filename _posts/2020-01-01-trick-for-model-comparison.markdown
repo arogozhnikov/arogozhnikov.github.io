@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "Twin training: trick for better model comparison"
+title:  "Twin training: trick for better model comparisons"
 excerpt: "A simple way to reduce noise in your ML experiments"
-date: 2018-12-06 12:00:00
+date: 2019-01-01 12:00:00
 author: Alex Rogozhnikov
 tags: 
 - Machine Learning
@@ -10,11 +10,12 @@ tags:
 - Code improvements
 ---
 
-Abstract: *A simple way to improve comparison of your deep learning models discussed, 
+Abstract: *Frequently comparing deep learning models?  
+A simple way to improve comparison is discussed here, 
 this trick becomes specially handy when comparing segmentation models.* 
 
 Reliable comparison of models is a question important for DL "theorists" (to evaluate new approaches) 
-as well as for practitioners (to select an approach for a particular task in hand).
+as well as for practitioners/engineers (to select an approach for a particular task in hand).
 Comparison is time-consuming process, frequently with noisy results.    
 
 Usual setting incorporates fixed dataset split into train/val/test and fixed metric of choice. 
@@ -44,7 +45,9 @@ Models can be trained **side-by-side within the same process**, with as high sim
        
 Pseudo-code may look like (fragment): 
 
-```
+<!-- TODO fix display here -->
+
+```python
 for batch in train_data:
     batch = augment(batch)
     for model in models:
@@ -56,7 +59,7 @@ all of them can be compared more efficiently this way.
 
 ## Example:
 
-<img src="/model_comparison/tensorboard1.png" width="600" />
+<img src="/images/model_comparison/tensorboard1.png" width="700" />
 
 There are three models trained in parallel in this screenshot from tensorboard.
 One can tell when one of models has lower loss and estimate level of 'noise'. 
@@ -83,7 +86,7 @@ Weights of all models should still be kept in (GPU) memory, but that's a small f
 
 ## Bonus: simple organization of experiments in tensorboard
 
-<img src="/model_comparison/folder_organization.png" width="600" />
+<img src="/images/model_comparison/folder_organization.png" height="200" />
 
 Tensorboard recursively scans subfolders for logs, so you can keep each 'comparison' in a separate folder, and each compared option 
 saves its logs to a corresponding subfolder. 
