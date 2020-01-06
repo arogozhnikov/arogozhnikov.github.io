@@ -21,12 +21,14 @@ Comparison is time-consuming process, frequently with noisy results.
 Usual setting incorporates fixed dataset split into train/val/test and fixed metric of choice. 
 Next, independent runs are conducted for all models under comparison and achieved quality is registered.
 
-- As a result, there is a significant noise in comparison (it is are to rerun each model several times),
-  validation can be done only using whole dataset.
-- Another issue is to remember which version of code was used to generate a particular number, as you can 
+As a result,
+
+- There is a significant noise in comparison (it is rare to rerun each model several times, specially in applications),
+- Validation can be done only using whole dataset
+- need to remember which version of code was used to generate a particular number, as you can 
   accidentally compare things that are not 'comparable' because of e.g. changed augmentation or updates in the dataset
-  - if you're a practitioner, you have to deal with frequent updates in the dataset
-- One also can't use augmentations while testing, since it is hard to guarantee that you applied exactly same augmentations.
+  - yes, practitioners have to deal with frequent updates in the dataset
+- can't use augmentations while testing, since it is hard to guarantee that exactly same augmentations were applied.
   Sometimes it is handy to evaluate using several batches as a fast intermediate check. Augmentations in test allow 'broader' check. 
 
 
@@ -34,6 +36,7 @@ Next, independent runs are conducted for all models under comparison and achieve
 ## What is suggested: twin training
 
 Models can be trained **side-by-side within the same process**, with as high similarity in the training process as possible.
+Same batches, same augmentations, and of course the same datasets.
 
 - If models, say, have identical architecture, their initial weights should be identical (easy to achieve in any DL framework).
   - As we know, initial state influences optimization, in some cases drastically (that's not desirable, but happens).
@@ -73,23 +76,23 @@ That's a good argument towards including learning curves in the paper.
 
 ## Bonus: simpler comparison of segmentation models
 
-When training models for visual segmentation (such as instance segmentation or class-segmentation),
+When training models for image segmentation (such as instance segmentation or class-segmentation),
 lack of memory becomes a critical factor. 
 Batch sizes become very small, and it is almost impossible to train several segmentation models at once on a single GPU.
 
 During segmentation training each sample contributes a lot, since it provides a lot of labels (one per pixel!).  
 It is also unlikely that you have thousands of well-labelled high-resolution segmentation images.
 
-So, training two segmentation models in parallel is very hard, however when you train both inside a single script/notebook,
-there are no such problems, because you never keep intermediate activations for more than one model at a time. 
+However when you train several models inside a single script/notebook, there are no such problems, 
+*because you never keep intermediate activations for more than one model at a time*. 
 Weights of all models should still be kept in (GPU) memory, but that's a small fraction of space taken by activations.
 
 ## Bonus: simple organization of experiments in tensorboard
 
 <img src="/images/model_comparison/folder_organization.png" height="200" />
 
-Tensorboard recursively scans subfolders for logs, so you can keep each 'comparison' in a separate folder, and each compared option 
-saves its logs to a corresponding subfolder. 
+Tensorboard recursively scans subfolders for logs, so you can keep each 'comparison' in a separate folder, 
+and each compared option saves its logs to a corresponding subfolder. 
 
 ## Alternative: fix random seed?
 
@@ -108,4 +111,4 @@ So, you should look through all the augmentations, samplers, dropouts (basically
 Long story short, if you *have* to rely on random seeds in DL, 
 at least log some control sums to verify that sequence was not broken by an unexpected call from somewhere else. 
 
-You can still use random seed to achieve reproducible training the same model.
+You can still use random seed to achieve reproducible training of the same model.
