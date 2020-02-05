@@ -98,6 +98,10 @@
         (Also had projects on object detection, active learning, and model conversion for production)
     </p>
     <p>
+        At System1 Biosciences built data pipelines and analysed TL imaging, single-cell RNAseq, IF organoid slices, ICC images, calcium imaging and qPCR.
+        Developed models/approaches for vision in company, introduced a new algorithm to learn genotypes during demultiplexing in scRnaSeq.
+    </p>
+    <p>
         Applied machine learning to different problems in high energy physics at the Large Hadron Collider (and other experiments).
         Developed machine learning-based approaches for particle identification, tracking, online data filtering,
         flavour tagging and particle shower detection.
@@ -152,8 +156,8 @@
     <p>
         Talks at conferences and workshops: ACAT 2016 (Chile), Heavy Flavour Data Mining Workshop 2016 (Zurich), International Workshop
         on Nuclear Emulsions 2016 (Naples), IML Machine Learning workshop 2017 (Geneva). Co-authors also presented results
-        at CHEP 2015 (Okinawa, Japan), ICML 2015 (Lille, France), ML prospects and applications 2015 (Berlin) and ACAT 2017
-        (Seattle, USA).
+        at CHEP 2015 (Okinawa, Japan), ICML 2015 (Lille, France), ML prospects and applications 2015 (Berlin), ACAT 2017
+        (Seattle, USA), CSHL 2019 (NY, USA).
     </p>
 
 
@@ -167,7 +171,7 @@
         for readable and reliable code. Supports numpy, pytorch, tensorflow, chainer, gluon and others.
     </a>
     <a>
-        Authored popular "motivating guide" to migrate to python 3.
+        Authored popular  <a href="https://github.com/arogozhnikov/python3_with_pleasure">"motivating guide"</a> to migrate to python 3.
     </a>
     <p>
         Developer of <a href='https://github.com/arogozhnikov/hep_ml'>hep_ml</a>, a sklearn-compatible package of machine learning algorithms
@@ -278,6 +282,52 @@
     <br />
 
     <h2>Research projects </h2>
+    (click on project for detailed description)
+
+    <details>
+        <summary>Demultiplexer for single-cell RNA-sequencing</summary>
+        <ul>
+            <li>
+                <a href="https://en.wikipedia.org/wiki/Single_cell_sequencing">Single-cell transcriptome sequencing</a>
+                - technique which employs next generation sequencing to estimate RNA content of individual cells.
+            </li>
+            <li>
+                Multiplexing is a technique widely used to compare RNA profiles of different tissues (e.g. diseased vs healthy) within the same pipeline.
+                Cells from different tissues (e.g. organoids) are pooled and then processed together.
+            </li>
+            <li>
+                Demultiplexing is an inverse operation done computationally - by looking into resulting reads we try to guess which donor this cell could come from.
+                Fortunately, everyone's genotype is unique (ok, almost everyone's) and these variations can be used by demultiplexing.
+            </li>
+            <li>
+                My project is going further and learns genotype-specific polymorphisms from RNA-sequenced data to complement data known from
+                <a href="https://www.well.ox.ac.uk/ogc/wp-content/uploads/2017/06/GSA-inputation-design-information.pdf">GSA</a>. <br />
+                Resulting algorithm has ~4-5 times less error compared to demuxlet, which allowed to significantly increase a number of donors considered, which was critical in our case.
+            </li>
+        </ul>
+    </details>
+    <details>
+        <summary>One-shot learning for analysis of organoid variability from microscope images</summary>
+        <img src="images/BF-similarity.png" width="450" style="padding: 30px"/>
+        <p>
+            Developed a method to describe organoid morphology from brightfield imaging without manual labelling.
+            Demonstrated its power by predicting gene expression levels from images as well as various visual phenotypes.
+        </p>
+        <p>
+            Decomposed variability to contributing factors to guide following decisions on minimizing variability.
+            Method is so sensitive it notices minor changes in protocol.
+        </p>
+    </details>
+    <details>
+        <summary>Unsupervised tissue characterization from IHC</summary>
+        <p>
+            Model was trained to describe tissue structure by providing a vector description for each segment,
+            which allowed automated comparison and search for similar tissue.
+        </p>
+        <p>
+            <img src="images/IF-unsupervised.png" width="600" />
+        </p>
+    </details>
 
     <details>
         <summary>Einops &mdash; new deep learning operations</summary>
