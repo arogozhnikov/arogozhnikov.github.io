@@ -12,16 +12,17 @@ tags:
 
 Either you don't understand what they mean or how those were cooked.
 
-- Scientist achieved 92% quality in the problem of ...
+- Scientists achieved 92% quality in the problem of ...
 - Our system filters out 99% of spam ...
-- New vaccine/technique is N% more efficient...
+- New vaccine/technique is N% more efficient than ...
 
 This post-informational world becomes progressively more complex each day. 
-We desperately need ways to receive and analyze less information to make decisions, 
-and here they are &mdash; simple numbers in presentations that make judgement possible.
+We desperately need ways to receive and analyze less information to make judgements, 
+and here they are &mdash; simple numbers in presentations that help with decisions.
 
-However, **connecting numbers and real things is surprisingly hard**. 
-And producing just *some* numbers is time easier. Most shocking numbers are easier spread but almost never checked.
+However, **connecting numbers and real things is surprisingly hard**.
+And producing just *some* numbers is times easier. 
+Most shocking numbers are spread ny media but almost never checked.
 
 Let's talk in examples.
 
@@ -63,7 +64,7 @@ Common benchmark for such companies are elections. How often elections' results 
 
 Suppose you simply want reliable face recognition system, and don't care about money and speed. 
 
-Sounds simple. Independent benchmark says the system of your choice has accuracy of 99.9%. Impressive, right? Wait.
+Sounds simple. Independent benchmark says the system of your choice has an accuracy of 99.9%. Impressive, right? Wait.
 
 - what does 'accuracy' mean? Is it verification (e.g. of device owner) or recognition (finding correct person in the database)?
 - if second, how many people are there in the database? 100? 1'000? 1'000'000?
