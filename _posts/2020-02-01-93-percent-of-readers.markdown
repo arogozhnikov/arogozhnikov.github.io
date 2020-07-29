@@ -15,10 +15,11 @@ Either you don't understand what they mean or how those were cooked.
 - Scientists achieved 92% quality in the problem of ...
 - Our system filters out 99% of spam ...
 - New vaccine/technique is N% more efficient than ...
+- (updated) COVID-19 mortality rate is X - this perfect example appeared after the post was written
 
-This post-informational world becomes progressively more complex each day. 
+This post-informational world is complicated. 
 We desperately need ways to receive and analyze less information to make judgements, 
-and here they are &mdash; simple numbers in presentations that help with decisions.
+and here they are &mdash; simple numbers that help us with decisions.
 
 However, **connecting numbers and real things is surprisingly hard**.
 And producing just *some* numbers is times easier. 
@@ -33,7 +34,8 @@ Surveys are perfect tool for newsmakers:
 - 82% support new initiative ...
 
 Ok, first question. After these claims were announced in media, *do numbers stay the same*? 
-Paradox: this fact after being declared in news is already wrong (even if it was correct before), because people tend to agree with majority.
+Paradox: this fact after being declared in news is already wrong (even if it was correct before), 
+because people tend to agree with majority (while considering themselves smarter than majority).
 
 But how do you measure that percent? Surveys/polls are extremely tough to conduct well. 
 
