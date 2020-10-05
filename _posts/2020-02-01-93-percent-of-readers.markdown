@@ -2,7 +2,7 @@
 layout: post
 title:  "Numbers that lie to you"
 excerpt: "Either you don't understand what they mean or how those were cooked."
-date: 2019-02-01 12:00:00
+date: 2020-02-01 12:00:00
 author: Alex Rogozhnikov
 tags: 
 - Stats
