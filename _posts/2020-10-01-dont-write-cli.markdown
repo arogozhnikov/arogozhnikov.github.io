@@ -110,7 +110,7 @@ Instead of
 ```bash
 python -m mymodule \
     set_dragon_feeding_schedule \
-    --feeding-times ['10:00','14:00','18:00'] # hopefully this way it gets recoognized \ 
+    --feeding-times ['10:00','14:00','18:00'] # hopefully this way it gets recognized \ 
     --dishes=<how will you define parsing a dict with string to integer mapping?> \
     --start-day=1020-03-21 # BTW no comments in bash in multiline calls
 ```
@@ -190,6 +190,7 @@ if no other API proposed.
 - User may not know language I use
     - Unlikely import and a function call can be misleading. By hiding details you leave user clueless in case something doesn't work
     - Actual choice is whether user should learn a bit of your language or yet-another-CLI system. Hard to find argument for the latter
+    - You shouldn't be afraid to say: you need to write several lines of code, here is an example
 - My application heavily uses bash/shell features: pipes, process substitutions and filename expansions
     - In this case when you want to keep using and supporting CLI
 </details>
