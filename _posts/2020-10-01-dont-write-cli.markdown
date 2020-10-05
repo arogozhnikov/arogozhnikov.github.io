@@ -10,7 +10,7 @@ tags:
 - Command-line interfaces
 ---
 
-A favourite activity of young github-bers is writing CLI (command-line interfaces) for anything.
+A favourite activity of fresh github-bers is writing CLI (command-line interfaces) for anything.
 
 Every programmer uses CLI **(true)**, so writing CLI makes you more professional **(false)**.
 
@@ -87,13 +87,13 @@ python example.py find_dragon 'John' --path /on/my/planet
 **Option A.** Read documentation for deprecated packages, 
 write a ton of code for conversion, validation, testing and wiring.
 Add documentation, make presentations about CLI logic and neat places of using CLI, 
-get promoted to Senior CLI architect, make presentations. 
+get promoted to Senior CLI architect, give talks and interviews. 
 Some junior in your company discovers *option B* and ruins your career.
 
 
 **Option B**. 
 
-Don't try to build large parsing machinery to handle all cases, and just use code to parametrize calls:
+Don't try to build large parsing machinery to handle all cases, and just **use code** to parameterize calls:
 
 ```bash
 python -c "
@@ -119,7 +119,7 @@ python -m mymodule \
 
 You're welcome! Python calls are code, shell calls are code as well, but it's worse code.
 
-So here is definitive guide:
+Here is definitive guide:
 
 1. Don't write yet-another-parser — python can parse all you need
 2. Don't create new *types* of interfaces — functions *are* interfaces
@@ -160,7 +160,7 @@ By not writing CLI logic you make code future-proof.
 Different utilities already can convert functions to REST api (or maybe in future we'll use some other network API?).
 More to come, maybe we should expect utilities to auto-wrap your functions for calling from other languages.
 
-Code should be written to be used by other code first.
+Code should be designed to be used by other code first.
 Convenience CLI utilities sooner or later become part of bigger automated pipelines 
 if no other API proposed. 
 
@@ -228,8 +228,3 @@ Interface package of a dream is not released yet - it should support both CLI an
 However, this should not stop you, as switches between these packages is almost painless as long as you write no custom logic.  
 
 </details>
-
-
-
-
-

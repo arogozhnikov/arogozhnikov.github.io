@@ -22,7 +22,7 @@ is considered to be a strong side of python.
  
 But in this example it seems to me that newcomer may be lost in the jungles of computing validation quality:  
 
-{% highlight python %}
+```python
 # And a full pass over the validation data:
 val_err = 0
 val_acc = 0
@@ -40,8 +40,7 @@ for batch in iterate_minibatches(X_val, y_val, 500, shuffle=False):
 
 print("  validation loss:\t\t{:.6f}".format(val_err / val_batches))
 print("  validation accuracy:\t\t{:.2f} %".format(val_acc / val_batches * 100))
-{% endhighlight %}
-
+```
 
 It is better to inspect original code, here I give a minor part of a function.  
 Basically, we compute two measures of quality (loss value, which is called `err` here, and accuracy) 
@@ -49,11 +48,11 @@ on minibatches and average those over minibatches.
 
 Now, how this would be done in python if there was only one metric of quality?
 
-{% highlight python %}
+```python
 validation_accuracies = [val_fn(inputs, targets) for inputs, targets
                          in iterate_minibatches(X_val, y_val, 500, shuffle=False)]
 print("  validation accuracy:\t\t{:.2f} %".format(numpy.mean(validation_accuracies) * 100))
-{% endhighlight %}
+```
 
 Less code, easier to grasp, the same amount of operations.
 In particular the last line explicitly says: print averaged validation accuracies.
@@ -61,21 +60,21 @@ In particular the last line explicitly says: print averaged validation accuracie
 When I try to follow "pythonic way" to write this for original case with two metrics of quality, 
   I get something like:
   
-{% highlight python %}
+```python
 validation_losses_and_accuracies = [val_fn(inputs, targets) for inputs, targets
                                     in iterate_minibatches(X_val, y_val, 500, shuffle=False)]
 validation_losses, validation_accuracies = zip(*validation_losses_and_accuracies)
 
 print("  validation loss:\t\t{:.6f}".format(numpy.mean(validation_losses)))
 print("  validation accuracy:\t\t{:.2f} %".format(numpy.mean(validation_accuracies) * 100.))
-{% endhighlight %}
+```
 
 This code is not that bad, but required some kung-fu and may look even more scary for a python novice. 
 
 Now let's imagine that during tuple unpacking we can append values 
 to lists without storing those in intermediate variable.   
  
-{% highlight python %}
+```python
 validation_losses = AppendableList()
 validation_accuracies = AppendableList()
 
@@ -84,7 +83,7 @@ for inputs, targets in iterate_minibatches(X_val, y_val, 500, shuffle=False):
     
 print("  validation loss:\t\t{:.6f}".format(numpy.mean(validation_losses)))
 print("  validation accuracy:\t\t{:.2f} %".format(numpy.mean(validation_accuracies) * 100.))
-{% endhighlight %}
+```
 
 In my opinion, this solution is quite beneficial: it is quite readable and does what it is expected to do.
 Also this trick interplays well with other python features. 
@@ -92,7 +91,7 @@ Also this trick interplays well with other python features.
 
 ## Implementation of __AppendableList__
 
-{% highlight python %}
+```python
 class AppendableList(list):
     """
     Python list with additional property '.new_item', which supports only setting, not getting.
@@ -120,7 +119,7 @@ class AppendableList(list):
     def __dir__(self):
         """Method to list available fields. Adding new_item"""
         return dir(list) + ['new_item']
-{% endhighlight %}
+```
 
 
 ## Why not split computing metrics in two different methods?

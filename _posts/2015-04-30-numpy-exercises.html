@@ -23,23 +23,23 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/04/numpy-exercises.h
 <p>
 	There is a function in scipy.stats library which is created specially for this purpose:
 </p>
-{% highlight python %}
+```python
 order_statistics = rankdata(initial_array)
-{% endhighlight %}
+```
 <p>
 	Another option is to sort array and keep track of initial positions.
 	Alternatively, you can do in numpy with one-liner:</p>
 
 <br/>
-{% highlight python %}
+```python
 order_statistics = numpy.argsort(numpy.argsort(initial_array))
-{% endhighlight %}
+```
 <p>(isn't this beatiful?) <br/>
  	Want to compute mean value over the group of events? With one-liner? Here you go:
 </p>
-{% highlight python %}
+```python
 means = numpy.bincount(group_indices, weights=values) / numpy.bincount(group_indices)
-{% endhighlight %}
+```
 
 <p>Writing oblivious decision tree in numpy is very simple and computations there are done really fast.</p>
 <p>

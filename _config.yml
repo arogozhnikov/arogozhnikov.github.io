@@ -2,10 +2,14 @@
 title: Brilliantly wrong
 longtitle: Brilliantly wrong (blog by Alex Rogozhnikov)
 email: alex.rogozhnikov@yandex.ru
-description: Brilliantly Wrong — Alex Rogozhnikov's blog about math, machine learning, programming and high energy physics.
+description: Brilliantly Wrong — Alex Rogozhnikov's blog about math, machine learning, programming, physics and biology.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://arogozhnikov.github.io" # the base hostname & protocol for your site
+url: "https://arogozhnikov.github.io" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
 github_username: arogozhnikov
 # Build settings
 markdown: kramdown
+
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
