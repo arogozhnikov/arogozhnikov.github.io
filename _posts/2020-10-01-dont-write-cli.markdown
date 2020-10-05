@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Don't write command-line interfaces (and how to write if you have to)"
-excerpt: "The ultimate guide to make use of CLIs "
+excerpt: "The ultimate guide to (not) writing CLIs "
 date: 2020-10-01 12:00:00
 author: Alex Rogozhnikov
 tags: 
