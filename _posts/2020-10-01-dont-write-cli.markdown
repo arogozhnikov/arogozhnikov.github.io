@@ -45,7 +45,7 @@ Imagine commands you use in everyday life `cp`, `ls`, `grep`, `docker run` being
 - write functions
 - leave CLI-fication to a special package
 
-### Which tool to use for writing command-line interfaces?
+### Which tool to use for writing command-line interfaces in python?
 
 Here are the options that you should consider ...
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
 Now it's ready to be called from shell
 ```
-python example.py find_dragon 'John' --path /on/my/planet
+python example.py find_dragon 'Drake' --path /on/my/planet
 ```
 
 ### — I need more complex parametrization of my code. How do I handle it?
@@ -125,8 +125,8 @@ Here is definitive guide:
 
 1. Don't write yet-another-parser — python can parse all you need 
 2. Don't create new *types* of interfaces — functions *are* interfaces
-3. Don't reinvent representing lists, dicts, enums, etc in text — each language has it already solved   
-4. Don't write logic for parsing — check parameters instead 
+3. Don't reinvent representing lists, dicts, enums, objects, etc in text — each language has it already solved   
+4. Don't write parsing logic — check parameters instead 
 
 Focus on writing useful and friendly functional interface, not CLI.
 
@@ -159,7 +159,7 @@ With growing capabilities for [reflection](https://en.wikipedia.org/wiki/Reflect
 it will be easier to invoke particular functions from other languages without going to CLI.
 
 By not writing CLI logic you make code future-proof.
-Different utilities already can convert functions to REST api (in future we may use some other network API).
+Different utilities already can convert functions to REST api (in future we may use some other network APIs like gRCP).
 More to come, maybe we should expect utilities to auto-wrap your functions for calling from other languages/hosts/universes.
 
 Code should be designed to be used by other code first.
@@ -225,10 +225,18 @@ Have fun with escaping quotes for every string argument.
 
 **`Hug` has a poor support for CLIs (as of now)**
 
-Be warned, it ignores flag names. Though it has right direction of thought and directly supports `marshmallow` types.
+Be warned, it ignores flag names. 
+Though it has right direction of thought and directly supports `marshmallow` types.
 But in the meantime (Oct 2020) `typer` is safer choice.
 
 Interface package of a dream is not released yet - it should support both CLI and web APIs and include some elements from python-fire.
 However, this should not stop you, as switches between these packages is almost painless as long as you write no custom logic.  
 
+</details>
+
+<details markdown="1">
+<summary>
+<span style="font-size: 1.5em;"> Acknowledgements </span>
+</summary>
+Thanks to [Tatiana](https://github.com/tlikhomanenko) for proof-reading this post.
 </details>

@@ -12,10 +12,10 @@ tags:
 
 Either you don't understand what they mean or how those were cooked.
 
-- Scientists achieved 92% quality in the problem of ...
-- Our system filters out 99% of spam ...
-- New vaccine/technique is N% more efficient than ...
-- (updated) COVID-19 mortality rate is X - this perfect example appeared after the post was written
+- Scientists achieved **92%** quality in the problem of ...
+- Our system filters out **99%** of spam ...
+- New vaccine/technique is **40%** more efficient than ...
+- (updated) COVID-19 mortality rate is **X%** - this perfect example appeared after the post was written
 
 This post-informational world is complicated. 
 We desperately need ways to receive and analyze less information to make judgements, 
@@ -57,7 +57,7 @@ But how do you measure that percent? Surveys/polls are extremely tough to conduc
 - how do you detect interviewer's mistakes? fake data? 
 
 Have you ever heard media to discuss the way a particular number from poll was received? 
-Many years ago I heard frequently remarks like 'people in age from X to Y were surveyed in regions ...', but no mentions nowadays. Only endless percentages.
+Many years ago I heard frequently remarks like 'people in age from X to Y were surveyed in regions 1,2,3', but no mentions nowadays. Only endless percentages.
 
 Companies that run surveys publish their protocol, but that's only a part of the story. <br/>
 Common benchmark for such companies are elections. How often elections' results coincide with polls? Why?  
@@ -124,8 +124,7 @@ News shoot numbers at you. Ads claim more numbers. Presentations bury you in num
 - Average income increased by N%
 - X is clinically shown to improve attentiveness by nearly 20%.
 - Our support resolves N% of issues within 12 hours
-- Average price on the market is ...
-- New display can show N billion colors!
+- This display can show N billion colors!
 - X fights disease symptoms 50% faster then other medications
 - University rankings, school rankings &mdash; what's this they compare? Why formulae are readjusted each year?
 - etc.
