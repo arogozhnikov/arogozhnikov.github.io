@@ -36,7 +36,7 @@ Progress in software engineering left bash calls far behind in terms of reliabil
 
 Command is semantically equivalent to a function call. 
 
-Imagine commands you use in everyday life `cp`, `ls`, `grep`, `docker run` being just functions 
+Imagine commands you use in everyday life `cp`, `ls`, `mv`, `docker run` being just functions 
 (with many optional parameters). 
 
 
