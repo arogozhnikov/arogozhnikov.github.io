@@ -8,11 +8,11 @@ tags:
 - Microscopy
 ---
 
-## If you want to learn some culprits of microscope
+## If you want to learn some culprits of microscopy
 
-I think you'd better watch this video by microbehunter,
+... you'd better watch this video by microbehunter,
 because rest of the post is view of ML person on things 
-you should (not) expect from microscopy during experiment design.
+you should (not) expect from lab microscopy during experiment design.
 
 <iframe width="560" height="315" 
  src="https://www.youtube.com/embed/Ir9TGt6zljI" 
@@ -23,6 +23,8 @@ you should (not) expect from microscopy during experiment design.
 This post contains reflections and is not meant to be an easy reading.  
 This post assumes that you understand wave mechanics.
 
+I have a nice general background in physics,
+however just that was clearly insufficient &mdash; a lot of specificity towards.
 
 ## Things I wanted to know about microscopy
 
@@ -46,7 +48,8 @@ This post assumes that you understand wave mechanics.
 - objective on a microscope has everything aligned and focusing depth can be adjusted or changed.
   (objectives are also pretty expensive). That's not your smartphone's refocusing camera. 
   So 40x on your microscope means that object of size n*m in focusing plane (which is fixed) 
-  literally projects in 40n*40m on detector plane.    
+  literally projects in 40n*40m on detector plane. 
+  To complete arithmetics you only need physical size of pixel in a camera - and voila - you have size of pixel. 
 - for a long time I was surprised that biologists are on one hand limited by the number of fluorescent channels
   they can image simultaneously (emission spectra overlap, so you want them to be separable). 
   - At the same time they don't switch to quantum dots (which have much narrower emission spectra).
@@ -59,25 +62,26 @@ This post assumes that you understand wave mechanics.
   Dozens of them with all their variations, with all covering only some part of information.
   - Very hard to combine many in the same system (while some useful combinations exist)
   - Dream of machine learner - having different imaging systems for the same specimen - can be implemented only in specific cases 
-- More powerful microscope requires identical efforts on sample/environment side
+- more powerful microscope requires identical efforts on sample/environment side
   - Higher magnification requires better compensation of motion
   - More sensitive to optical properties means you'll see more artifacts from anything in your system. 
     Or maybe plates or slides.
     - E.g. if method can detect birefringence, any plastic labware is likely to add some birefringence patterns
-- Well edges introduce significant effects, plate edges also introduce some effects for imaging (both also affect biological processes)
+- well edges introduce significant effects, plate edges also introduce some effects for imaging (both also affect biological processes)
 - [ibiology](https://www.youtube.com/user/iBioEducation) provides an amazing combination of theory and practice of imaging.
   It was incredibly helpful
-- Imaging protocols are hardly readable. Too many things and parameters, no deduplication. 
+- imaging protocols are hardly readable. Too many things and parameters, no deduplication. 
   - They remind completely unwrapped low-level code for execution by machine, not 'settings'.
   - I've told about software being tough here, right? There are issues with interfaces on all levels
-- Imaging time is a real issue
+- imaging time is a real issue
   - "oh, we can just increase stack size" is correct solution to many questions in theory, 
      but not in practice 
-- Reproducible focusing may be an issue
-- Richest sources of information are available only for ex-vivo cells and tissues
-- Anything that produces nice high-resolution images will be called by biologist "confocal" 
+- reproducible focusing may be an issue
+- richest sources of information are available only for ex-vivo cells and tissues
+- anything that produces nice high-resolution images will be called by biologist "confocal" 
   no matter if confocality is actually used there :) 
-- Believe data, always believe data. If you think something is misaligned - it almost surely is.
+- believe data, always believe data. 
+  If you think something is misaligned - it almost surely is.
 
 
 ## Contrasting methods
@@ -135,9 +139,9 @@ but whole large world of microscopy is so rich and interesting out there.
   
 - Another interesting idea is FRET - allows detecting interaction between single molecules 
   if those have appropriate fluorescent tags. <br />
-  Photons emitted by one antibody are absorbed by the second one. 
+  Photons emitted by one antibody are absorbed by the second one if molecules are in proximity of each other. 
   
-- [optical coherence tomography](https://www.youtube.com/watch?v=HJnNJIUPm4s) OCT, &mdash; 
+- [optical coherence tomography](https://www.youtube.com/watch?v=HJnNJIUPm4s) OCT 
   - has nothing to do with tomography and even works based on reflected light
   - widely used for retina scanning
 
@@ -151,8 +155,12 @@ but whole large world of microscopy is so rich and interesting out there.
   - Moir patterns + a bit of computational magic allows you going slightly 
     above optical resolution limit
 
-  
-You may want to check [this video](https://www.youtube.com/watch?v=01v2kR8dlnQ) 
+
+You may want to check this video 
 to orient yourself a bit and get a sense of what sounds appropriate for your case. 
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/01v2kR8dlnQ" 
+frameborder="0" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>
+  
   
 
