@@ -28,21 +28,22 @@ Progress in software engineering left bash calls far behind in terms of reliabil
 ## What's wrong with writing CLI as 'interface'?
 
 - CLI support is an additional logic in your program that makes **no real work**
-- While typically being dumb, CLI logic is frequently **filled with mistakes**;
+- While typically being dumb, CLI logic is frequently **filled with [mistakes](https://github.com/search?q=bug+command+line&type=Issues)**;
   thus it requires constant maintenance and an additional testing.
-- **Error handling**, introspection, etc. when using CLI are practically absent.
+- **Error (exception) handling** with CLI is very poor.
   Another layer of (bad faulty) code is required to make it possible
+- **Scaling/extending** is not as easy compared to programming language APIs 
+  (some example in the end)
 - CLIs are detached from essential code, which in most cases is disadvantage.
   <details markdown="1">
     <summary >more on this</summary>
-    Forcing users to use CLI means: stay away from my code, you'd better not deal with it.
-    If users can code a bit (otherwise why do they use CLI?), 
+    Forcing users to use CLI means: stay away from my code, you'd better not work with it.
+    Maybe that's ok &mdash; but if users can code a bit (otherwise why do they use CLI?), 
     that's not an optimal way &mdash; if something went wrong, 
     do you want to directly see the code+calls that failed or do you want to add 
-    several minutes/hours walking thru command args parsing machinery someone else wrote?
-    You help users, and users help you.
-    While being questionable in small projects, 
-    this virtual fence becomes more and more obvious when parsing logic grows.  
+    several minutes/hours walking thru command args parsing machinery someone else wrote? 
+    <br />
+    While being questionable in small projects, this virtual fence becomes more and more obvious when parsing logic grows.  
   </details>
 
 
@@ -94,7 +95,7 @@ You wrote no code for that!
 
 ### — I need very complex parameterization of my code. How do I handle it?
 
-**Option A.** Read documentation for deprecated packages, 
+**Option A.** Read documentation for *deprecated* packages, 
 write a ton of code for conversion, validation, testing and mocking.
 Add documentation, make presentations about CLI logic and neat places of using bash, 
 get promoted to Senior CLI architect, give talks and interviews. 
@@ -133,6 +134,7 @@ python -m mymodule \
   - Try to be reasonable, not optimistic. Don't forget documentation.
   - Add testing, mocking, ... have you ever seen that part done properly for CLIs?
 - Is there anything that you win after writing an explicit CLI parsing? Double quote maybe?
+- Exception handling - simple to add in one case, very tough in the other  
 
 
 ### — Never realized that CLI command can be replaced by python command
@@ -173,15 +175,17 @@ Why it becomes such a nightmare? A good question.
 - parameters depend on each other in a non-trivial way. 
   Different model &rarr; different parameters. Added a model &mdash; update CLI
 - there should be a way to associate parameters with a group they come from 
-  - is this parameter for architecture? for an optimizer? for dataset?
+  - is this parameter for an architecture? for an optimizer? for a dataset?
 - at some point second model appears (hi GANs!), and possibly a second optimizer, 
   several types of datasets... now you need to support all of that in CLI
+  - multiply by backward-compatibility - unlikely you want to frequently drop previous interface
+  - hard to foresee all the things that can change
 - validation logic that capable of handling all these scenarios would be huge, buggy 
   and not helpful at all
   
 **CLIs don't scale up well**.  
 They work well only when you can decompose things into simpler components 'each doing one job'.
-That said, never seen anyone trying to turn a network layer into a separate CLI call.
+But never seen anyone turning a network layer into a separate CLI call.
 
 
 ## Looking forward
@@ -189,9 +193,10 @@ That said, never seen anyone trying to turn a network layer into a separate CLI 
 In the bright future of programming there will be more natural bridges between different languages.
 With growing capabilities for [reflection](https://en.wikipedia.org/wiki/Reflection_(computer_programming)), 
 it will be easier to invoke particular functions from other languages without intermediate bash calls.
+[Python<>rust](https://pyo3.rs/) is a good example of going in this direction.
 
-By not writing CLI logic you make code future-proof.
-Different utilities already can convert functions to REST API (in future we may use some other network APIs like gRCP).
+By not writing CLI logic and focusing on programming interface you make code future-proof.
+Different utilities already can convert functions to REST API (we may later use some other network APIs like gRCP).
 More to come, maybe we should expect utilities to auto-wrap your functions for calling from other languages/hosts/universes.
 
 Code should be designed to be used by other code first.
