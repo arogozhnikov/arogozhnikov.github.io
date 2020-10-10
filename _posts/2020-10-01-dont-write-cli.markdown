@@ -10,11 +10,14 @@ tags:
 - Command-line interfaces
 ---
 
+(a friendly reminder is that reading post before commenting is a good idea. 
+Some people see this as an argument for GUI &mdash; but it's completely wrong)
+
 A favourite activity of fresh github-bers is writing CLI (command-line interfaces) for anything.
 
 Every programmer uses CLI **(true)**, so writing CLI makes you more professional **(false)**.
 
-CLIs are inevitable evil, required in everyday maintenance, env/pipeline/db management, and checking this and that.
+CLIs are required in everyday maintenance, env/pipeline/db management, and checking this and that.
 It is a glue to keep different subsystems together, but hardly CLI is a reliable programming interface.
 Progress in software engineering left bash calls far behind in terms of reliability and flexibility.
 
@@ -24,20 +27,12 @@ Progress in software engineering left bash calls far behind in terms of reliabil
 - CLI support is an additional logic in your program that makes **no real work**
 - While typically being dumb, CLI logic is frequently **filled with mistakes**;
   thus it requires constant maintenance and an additional testing.
-  How do you test CLI?
 - **Error handling**, introspection, etc. when using CLI are practically absent.
   Another layer of (bad faulty) code is required to make it possible
 - CLIs are detached from essential code, which in most cases is disadvantage.
   Forcing users to use CLI means: stay away from my code, you'd better not see it.
-  If your target audience can code a bit (otherwise why do they use CLI?), that's not an optimal way
-
-
-## What is 'command' in CLI?
-
-Command is semantically equivalent to a function call. 
-
-Imagine commands you use in everyday life `cp`, `ls`, `mv`, `docker run` being just functions 
-(with many optional parameters). 
+  If your target audience can code a bit (otherwise why do they use CLI?), 
+  that's not an optimal way &mdash; . 
 
 
 ## Writing command-line interfaces the right way
@@ -81,6 +76,8 @@ Now it's ready to be called from shell
 ```
 python example.py find_dragon 'Drake' --path /on/my/planet
 ```
+(it can even provide you with bash completions you can install. 
+You wrote no code for that!)
 
 ### — I need more complex parametrization of my code. How do I handle it?
 
@@ -117,6 +114,11 @@ python -m mymodule \
     --start-day=1020-03-21 # BTW bash allows no comments in multiline calls
 ```
 
+How many lines of code you need to make a parsing machinery in previous example? 
+Try to be reasonable.
+Add testing, mocking, ... have you ever done that part properly?
+
+
 ### — Never realized that CLI command can be replaced by python command
 
 You're welcome! This can save you weeks of time and sleepless nights.
@@ -128,7 +130,8 @@ Here is definitive guide:
 3. Don't reinvent representing lists, dicts, enums, objects, etc in text — each language has it already solved   
 4. Don't write parsing logic — check parameters instead 
 
-Focus on writing useful and friendly functional interface, not CLI.
+Focus on writing useful and friendly functional interface, not CLI. 
+The latter can be auto-generated.
 
 ### — How about an example for dealing with more complex parametrization?
 
@@ -150,6 +153,16 @@ train(
 
 Compare this piece of clarity and versatility to a parsing nightmare happening in some popular packages.
 
+Why it becomes such a nightmare?
+ 
+- parameters depend on each other in a non-trivial way. 
+  Different model &mdash; different parameters.
+- there should be a way to associate parameters with a group they come from 
+  - is this parameter for architecture? for an optimizer? for dataset?
+- at some point second model appears (hi GANs!), and possibly a second optimizer, 
+  several types of datasets... now you need to support all of that in CLI
+- validation logic that capable of handling all these scenarios would be huge, buggy 
+  and not helpful at all. 
 
 
 ## Looking forward
@@ -159,7 +172,7 @@ With growing capabilities for [reflection](https://en.wikipedia.org/wiki/Reflect
 it will be easier to invoke particular functions from other languages without going to CLI.
 
 By not writing CLI logic you make code future-proof.
-Different utilities already can convert functions to REST api (in future we may use some other network APIs like gRCP).
+Different utilities already can convert functions to REST API (in future we may use some other network APIs like gRCP).
 More to come, maybe we should expect utilities to auto-wrap your functions for calling from other languages/hosts/universes.
 
 Code should be designed to be used by other code first.
