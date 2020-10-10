@@ -10,8 +10,11 @@ tags:
 - Command-line interfaces
 ---
 
-(a friendly reminder is that reading post before commenting is a good idea. 
+<p style="color: #666677">
+(a friendly reminder that reading post before commenting is a great idea. 
 Some people see this as an argument for GUI &mdash; but it's completely wrong)
+</p>
+
 
 A favourite activity of fresh github-bers is writing CLI (command-line interfaces) for anything.
 
@@ -30,9 +33,16 @@ Progress in software engineering left bash calls far behind in terms of reliabil
 - **Error handling**, introspection, etc. when using CLI are practically absent.
   Another layer of (bad faulty) code is required to make it possible
 - CLIs are detached from essential code, which in most cases is disadvantage.
-  Forcing users to use CLI means: stay away from my code, you'd better not see it.
-  If your target audience can code a bit (otherwise why do they use CLI?), 
-  that's not an optimal way &mdash; . 
+  <details markdown="1">
+    <summary >more on this</summary>
+    Forcing users to uses CLI means: stay away from my code, you'd better not see it.
+    If your target audience can code a bit (otherwise why do they use CLI?), 
+    that's not an optimal way &mdash; if something went wrong, 
+    do you want to directly see the code+calls that failed or do you want to add 
+    several minutes/hours walking thru command args parsing machinery someone else wrote?
+    While being questionable in small projects, 
+    that becomes more and more obvious when parsing logic grows.  
+  </details>
 
 
 ## Writing command-line interfaces the right way
@@ -76,13 +86,15 @@ Now it's ready to be called from shell
 ```
 python example.py find_dragon 'Drake' --path /on/my/planet
 ```
-(it can even provide you with bash completions you can install. 
-You wrote no code for that!)
+That's it. Types are parsed, checked and converted. 
+Defaults and description are picked from function itself. 
+Even provides bash completions you can install. 
+You wrote no code for that!
 
-### — I need more complex parametrization of my code. How do I handle it?
+### — I need more complex parameterization of my code. How do I handle it?
 
 **Option A.** Read documentation for deprecated packages, 
-write a ton of code for conversion, validation, testing and wiring.
+write a ton of code for conversion, validation, testing and mocking.
 Add documentation, make presentations about CLI logic and neat places of using CLI, 
 get promoted to Senior CLI architect, give talks and interviews. 
 Some junior in your company discovers *option B* and ruins your career.
@@ -90,7 +102,9 @@ Some junior in your company discovers *option B* and ruins your career.
 
 **Option B**. 
 
-Don't try to build large parsing machinery to handle all cases, and just **use code** to parameterize calls:
+When there is much to configure, 
+don't try to build a large parsing machinery to handle all cases, 
+just **use code** to parameterize calls:
 
 ```bash
 python -c "
@@ -108,15 +122,16 @@ Instead of
 python -m mymodule \
     set_dragon_feeding_schedule \
     --feeding-times ['10:00','14:00','18:00'] # hopefully this way it gets recognized \
-    # how will you define parsing a dict with string to integer mapping? 
+    # how will you define parsing a dict with enum to integer mapping? 
     --dishes=Creatures.Tiger:2 \
     --dishes=Creatures.Human:1 \
     --start-day=1020-03-21 # BTW bash allows no comments in multiline calls
 ```
 
-How many lines of code you need to make a parsing machinery in previous example? 
-Try to be reasonable.
-Add testing, mocking, ... have you ever done that part properly?
+- How many lines of code you need to cover parsing logic in previous example? 
+  - Try to be reasonable, not optimistic. Don't forget documentation.
+  - Add testing, mocking, ... have you ever seen that part done properly for CLIs?
+- Is there anything that you win after writing an explicit CLI parsing? Double quote?
 
 
 ### — Never realized that CLI command can be replaced by python command
@@ -131,9 +146,8 @@ Here is definitive guide:
 4. Don't write parsing logic — check parameters instead 
 
 Focus on writing useful and friendly functional interface, not CLI. 
-The latter can be auto-generated.
 
-### — How about an example for dealing with more complex parametrization?
+### — How about an example for dealing with more complex parameterization?
 
 Sure! Here is an example from machine learning.
 
@@ -142,10 +156,10 @@ and allowing a number of architectures (each also having different parameters).
 
 ```bash
 python -c "
-from yourpackage import ResidualNetwork, AdamOptimizer, train
+from yourpackage import ResidualNetwork, AdamOptimizer, train, activations
 train(
     optimizer=AdamOptimizer(lr=0.0001, some_param=42, converge=True),
-    model=ResidualNetwork(n_layers_in_each_group=[3,4,5,6], n_classes=1234),
+    model=ResidualNetwork(n_layers_in_each_group=[3,4,5,6], activations.ReLU, n_classes=1234),
     save_path='/research/my_experiment_number9999',
 )
 "
@@ -153,23 +167,27 @@ train(
 
 Compare this piece of clarity and versatility to a parsing nightmare happening in some popular packages.
 
-Why it becomes such a nightmare?
+Why it becomes such a nightmare? A good question.
  
 - parameters depend on each other in a non-trivial way. 
-  Different model &mdash; different parameters.
+  Different model &rarr; different parameters. Added a model &mdash; update CLI
 - there should be a way to associate parameters with a group they come from 
   - is this parameter for architecture? for an optimizer? for dataset?
 - at some point second model appears (hi GANs!), and possibly a second optimizer, 
   several types of datasets... now you need to support all of that in CLI
 - validation logic that capable of handling all these scenarios would be huge, buggy 
-  and not helpful at all. 
+  and not helpful at all
+  
+**CLIs don't scale up well**.  
+They work well only when you can decompose things into simpler components 'each doing one job'.
+That said, never seen anyone trying to turn a network layer into a separate CLI call.
 
 
 ## Looking forward
 
 In the bright future of programming there will be more natural bridges between different languages.
 With growing capabilities for [reflection](https://en.wikipedia.org/wiki/Reflection_(computer_programming)), 
-it will be easier to invoke particular functions from other languages without going to CLI.
+it will be easier to invoke particular functions from other languages without intermediate bash calls.
 
 By not writing CLI logic you make code future-proof.
 Different utilities already can convert functions to REST API (in future we may use some other network APIs like gRCP).
