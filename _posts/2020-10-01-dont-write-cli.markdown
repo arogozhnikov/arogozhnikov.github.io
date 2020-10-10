@@ -96,7 +96,7 @@ You wrote no code for that!
 
 **Option A.** Read documentation for deprecated packages, 
 write a ton of code for conversion, validation, testing and mocking.
-Add documentation, make presentations about CLI logic and neat places of using CLI, 
+Add documentation, make presentations about CLI logic and neat places of using bash, 
 get promoted to Senior CLI architect, give talks and interviews. 
 Some junior in your company discovers *option B* and ruins your career.
 
@@ -132,7 +132,7 @@ python -m mymodule \
 - How many lines of code you need to cover parsing logic in previous example? 
   - Try to be reasonable, not optimistic. Don't forget documentation.
   - Add testing, mocking, ... have you ever seen that part done properly for CLIs?
-- Is there anything that you win after writing an explicit CLI parsing? Double quote?
+- Is there anything that you win after writing an explicit CLI parsing? Double quote maybe?
 
 
 ### — Never realized that CLI command can be replaced by python command
