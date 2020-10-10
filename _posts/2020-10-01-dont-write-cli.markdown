@@ -35,12 +35,12 @@ Progress in software engineering left bash calls far behind in terms of reliabil
 - CLIs are detached from essential code, which in most cases is disadvantage.
   <details markdown="1">
     <summary >more on this</summary>
-    Forcing users to use CLI means: stay away from my code, you'd better deal with it.
-    If your target audience can code a bit (otherwise why do they use CLI?), 
+    Forcing users to use CLI means: stay away from my code, you'd better not deal with it.
+    If users can code a bit (otherwise why do they use CLI?), 
     that's not an optimal way &mdash; if something went wrong, 
     do you want to directly see the code+calls that failed or do you want to add 
     several minutes/hours walking thru command args parsing machinery someone else wrote?
-    You help users, users help you.
+    You help users, and users help you.
     While being questionable in small projects, 
     this virtual fence becomes more and more obvious when parsing logic grows.  
   </details>
