@@ -33,7 +33,7 @@ Progress in software engineering left bash calls far behind in terms of reliabil
 - **Error (exception) handling** with CLI is very poor.
   Another layer of (bad faulty) code is required to make it possible
 - **Scaling/extending** is not as easy compared to programming language APIs 
-  (some example in the end)
+  (see example in the end)
 - CLIs are detached from essential code, which in most cases is disadvantage.
   <details markdown="1">
     <summary >more on this</summary>
