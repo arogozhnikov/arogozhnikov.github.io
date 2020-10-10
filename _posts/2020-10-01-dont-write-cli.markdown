@@ -35,13 +35,14 @@ Progress in software engineering left bash calls far behind in terms of reliabil
 - CLIs are detached from essential code, which in most cases is disadvantage.
   <details markdown="1">
     <summary >more on this</summary>
-    Forcing users to uses CLI means: stay away from my code, you'd better not see it.
+    Forcing users to use CLI means: stay away from my code, you'd better deal with it.
     If your target audience can code a bit (otherwise why do they use CLI?), 
     that's not an optimal way &mdash; if something went wrong, 
     do you want to directly see the code+calls that failed or do you want to add 
     several minutes/hours walking thru command args parsing machinery someone else wrote?
+    You help users, users help you.
     While being questionable in small projects, 
-    that becomes more and more obvious when parsing logic grows.  
+    this virtual fence becomes more and more obvious when parsing logic grows.  
   </details>
 
 
@@ -91,7 +92,7 @@ Defaults and description are picked from function itself.
 Even provides bash completions you can install. 
 You wrote no code for that!
 
-### — I need more complex parameterization of my code. How do I handle it?
+### — I need very complex parameterization of my code. How do I handle it?
 
 **Option A.** Read documentation for deprecated packages, 
 write a ton of code for conversion, validation, testing and mocking.
