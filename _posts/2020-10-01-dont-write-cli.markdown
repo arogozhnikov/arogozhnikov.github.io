@@ -43,7 +43,7 @@ Progress in software engineering left bash calls far behind in terms of reliabil
     do you want to directly see the code+calls that failed or do you want to add 
     several minutes/hours walking thru command args parsing machinery someone else wrote? 
     <br />
-    While being questionable in small projects, this virtual fence becomes more and more obvious when parsing logic grows.  
+    While being questionable in small projects, a virtual fence becomes more and more obvious when parsing logic (validation, transformation, routing)  grows.  
   </details>
 
 
@@ -74,11 +74,11 @@ app = typer.Typer()
 
 @app.command()
 def find_dragon(name: str, path: Path, min_age_years: int = 200):
-    <actual implementation goes here>
+    <implementation goes here>
 
 @app.command()
 def feed_dragon(dragon_name: str, n_humans: int = 3):
-    <actual implementation goes here>
+    <implementation goes here>
 
 if __name__ == "__main__":
     app()
@@ -132,7 +132,7 @@ python -m mymodule \
 
 - How many lines of code you need to cover parsing logic in previous example? 
   - Try to be reasonable, not optimistic. Don't forget documentation.
-  - Add testing, mocking, ... have you ever seen that part done properly for CLIs?
+  - Add testing, mocking, ... have you *ever* seen that part done properly for CLIs?
 - Is there anything that you win after writing an explicit CLI parsing? Double quote maybe?
 - Exception handling - simple to add in one case, very tough in the other  
 
@@ -146,7 +146,7 @@ Here is definitive guide:
 1. Don't write yet-another-parser — python can parse all you need 
 2. Don't create new *types* of interfaces — functions *are* interfaces
 3. Don't reinvent representing lists, dicts, enums, objects, etc in text — each language has it already solved   
-4. Don't write parsing logic — check parameters instead 
+4. Don't write parsing logic/validation — check parameters instead 
 
 Focus on writing useful and friendly functional interface, not CLI. 
 
@@ -172,20 +172,25 @@ Compare this piece of clarity and versatility to a parsing nightmare happening i
 
 Why it becomes such a nightmare? A good question.
  
-- parameters depend on each other in a non-trivial way. 
+- parameters depend on each other in a non-trivial way
   Different model &rarr; different parameters. Added a model &mdash; update CLI
-- there should be a way to associate parameters with a group they come from 
+- there should be a way to associate parameters with an entity they come from 
   - is this parameter for an architecture? for an optimizer? for a dataset?
+  - entities that appear naturally in programming interfaces are not in the style of bash calls
 - at some point second model appears (hi GANs!), and possibly a second optimizer, 
-  several types of datasets... now you need to support all of that in CLI
+  several types of datasets... now you need to support all of that in CLI and avoid flag collisions
   - multiply by backward-compatibility - unlikely you want to frequently drop previous interface
-  - hard to foresee all the things that can change
 - validation logic that capable of handling all these scenarios would be huge, buggy 
   and not helpful at all
   
 **CLIs don't scale up well**.  
 They work well only when you can decompose things into simpler components 'each doing one job'.
-But never seen anyone turning a network layer into a separate CLI call.
+Before writing CLI, it is thus important to know what is the functionality 
+your project provides and how it may change in a year or two.
+It is very easy to add CLI when the project is in it's initial stage &mdash; 
+but as functionality grows, you'll find it exponentially harder to fit all knobs into CLI.   
+
+Other programming interfaces survive growth quite easily.
 
 
 ## Looking forward
@@ -196,14 +201,19 @@ it will be easier to invoke particular functions from other languages without in
 [Python<>rust](https://pyo3.rs/) is a good example of going in this direction.
 
 By not writing CLI logic and focusing on programming interface you make code future-proof.
-Different utilities already can convert functions to REST API (we may later use some other network APIs like gRCP).
+[Different](https://fastapi.tiangolo.com/) [utilities](https://fastapi.tiangolo.com/alternatives/) already can convert functions to REST API (we may later use some other network APIs like gRCP).
 More to come, maybe we should expect utilities to auto-wrap your functions for calling from other languages/hosts/universes.
 
 Code should be designed to be used by other code first.
 Convenience 'temporary' command-line utilities sooner or later become part of bigger automated pipelines 
 if no other API proposed. 
 
+## TL;DR
 
+- simple CLIs should be auto-generated today, don't write it yourself and leave it to a package
+  - other types of APIs can be auto-generated as well
+- complex CLIs are a problem and think twice (better, 5 times) before trying to replace programming API with CLI
+  - convenient command-line calls are available without writing a single line of CLI code 
 
 
 <br />
