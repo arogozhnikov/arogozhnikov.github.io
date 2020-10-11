@@ -93,7 +93,13 @@ Defaults and description are picked from function itself.
 Even provides bash completions you can install. 
 You wrote no code for that!
 
-### — I need very complex parameterization of my code. How do I handle it?
+
+### — I need to invoke my code from bash with complex parameterization
+
+(exact wording of this question may also include job schedulers, calls on remote machines and docker run/exec  
+— common reasons that force people to write CLI)
+
+Previous recipe may not work in this case, you have two options:
 
 **Option A.** Read documentation for *deprecated* packages, 
 write a ton of code for conversion, validation, testing and mocking.
@@ -134,7 +140,7 @@ python -m mymodule \
   - Try to be reasonable, not optimistic. Don't forget documentation.
   - Add testing, mocking, ... have you *ever* seen that part done properly for CLIs?
 - Is there anything that you win after writing an explicit CLI parsing? Double quote maybe?
-- Exception handling - simple to add in one case, very tough in the other  
+- Exception handling — simple to add in one case, very tough in the other
 
 
 ### — Never realized that CLI command can be replaced by python command
@@ -144,8 +150,8 @@ You're welcome! This can save you weeks of time and sleepless nights.
 Here is definitive guide:
 
 1. Don't write yet-another-parser — python can parse all you need 
-2. Don't create new *types* of interfaces — functions *are* interfaces
-3. Don't reinvent representing lists, dicts, enums, objects, etc in text — each language has it already solved   
+2. Don't reinvent representing lists, dicts, enums, objects, etc in text — each language has it already solved   
+3. Don't create new *types* of interfaces — functions *are* interfaces
 4. Don't write parsing logic/validation — check parameters instead 
 
 Focus on writing useful and friendly functional interface, not CLI. 
