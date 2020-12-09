@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Don't write command-line interfaces (and how to write if you have to)"
+title:  "Don't write command-line interfaces (generate them)"
 excerpt: "The ultimate guide to (not) writing CLIs "
 date: 2020-10-01 12:00:00
 author: Alex Rogozhnikov
@@ -12,7 +12,7 @@ tags:
 
 <p style="color: #666677">
 (a friendly reminder that reading post before commenting is a great idea. 
-Some people see this as an argument for GUI &mdash; but it's completely wrong)
+Some people see this as an argument for GUI &mdash; but it's completely misleading)
 </p>
 
 
@@ -25,7 +25,7 @@ It is a glue to keep different subsystems together, but hardly CLI is a reliable
 Progress in software engineering left bash calls far behind in terms of reliability and flexibility.
 
 
-## What's wrong with writing CLI as 'interface'?
+## What's wrong with writing CLI as an 'interface'?
 
 - CLI support is an additional logic in your program that makes **no real work**
 - While typically being dumb, CLI logic is frequently **filled with [mistakes](https://github.com/search?q=bug+command+line&type=Issues)**;
@@ -43,7 +43,8 @@ Progress in software engineering left bash calls far behind in terms of reliabil
     do you want to directly see the code+calls that failed or do you want to add 
     several minutes/hours walking thru command args parsing machinery someone else wrote? 
     <br />
-    While being questionable in small projects, a virtual fence becomes more and more obvious when parsing logic (validation, transformation, routing)  grows.  
+    While being questionable in small projects, a virtual fence becomes more and more obvious when parsing logic
+    (validation, transformation, routing)  grows.  
   </details>
 
 
@@ -207,7 +208,8 @@ it will be easier to invoke particular functions from other languages without in
 [Python<>rust](https://pyo3.rs/) is a good example of going in this direction.
 
 By not writing CLI logic and focusing on programming interface you make code future-proof.
-[Different](https://fastapi.tiangolo.com/) [utilities](https://fastapi.tiangolo.com/alternatives/) already can convert functions to REST API (we may later use some other network APIs like gRCP).
+[Different](https://fastapi.tiangolo.com/) [utilities](https://fastapi.tiangolo.com/alternatives/) already can convert functions to REST API 
+(we may later use some other network APIs like gRCP, and you'll be able to add it with a couple of lines).
 More to come, maybe we should expect utilities to auto-wrap your functions for calling from other languages/hosts/universes.
 
 Code should be designed to be used by other code first.
@@ -280,7 +282,7 @@ Have fun with escaping quotes for every string argument.
 
 Be warned, it ignores flag names. 
 Though it has right direction of thought and directly supports `marshmallow` types.
-But in the meantime (Oct 2020) `typer` is safer choice.
+But in the meantime (Oct 2020) `typer` is a safer choice.
 
 Interface package of a dream is not released yet - it should support both CLI and web APIs and include some elements from python-fire.
 However, this should not stop you, as switches between these packages is almost painless as long as you write no custom logic.  
