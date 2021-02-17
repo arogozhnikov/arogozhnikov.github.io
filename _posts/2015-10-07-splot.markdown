@@ -263,6 +263,7 @@ The code for this post may be found at [`hep_ml` repository](https://github.com/
 ## Links
 
 A very close [explanation](https://indico.cern.ch/event/257864/contributions/1587661/attachments/453353/628570/sweff.pdf) was written by Michael Schmelling.
+[Updated version](https://indico.cern.ch/event/940874/contributions/3953530/) which is publicly available.
 
 Many thanks to [Konstantin Schubert](https://github.com/KonstantinSchubert) for proof-reading this post.
 
