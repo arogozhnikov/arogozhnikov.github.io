@@ -1,3 +1,38 @@
+---
+layout: post
+title: "Machine Learning in Science and Industry slides"
+excerpt: "Mini-course about machine learning given at GradDays of Heidelberg University"
+
+date: "2021-01-01"
+author: Alex Rogozhnikov
+tags:
+- remarks
+
+---
+
+<style>
+li::marker {
+    content: "— ";
+    position: relative;
+}
+li>* {
+    opacity: 0.1;
+}
+
+li>*:first-child{
+    opacity: 1.0;
+}
+
+li:hover > * {
+    opacity: 1.0;
+}
+li {
+    /*max-height: 200px;*/
+}
+li:hover {
+    max-height: 1000px;
+}
+</style>
 ## Programming principles
 
 
@@ -20,7 +55,6 @@
   Some languages separate header (declaration) from implementation into separate file, not that common anymore.
   Same with documentation of modules and functions - documentation was a while age kept separately, not generated from sources.
   Another example is test suites - previously those were not aligned with code.
- 
   
   Co-locality is not necessarily the same file, it can be a mirrored file, but there should be clear connection between entities, allowing to find one from the other. Mapping better be programmable.
 
