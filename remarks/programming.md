@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Machine Learning in Science and Industry slides"
+title: "Remarks"
 excerpt: "Mini-course about machine learning given at GradDays of Heidelberg University"
 
 date: "2021-01-01"
