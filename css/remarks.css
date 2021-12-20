@@ -1,0 +1,21 @@
+li::marker {
+    content: "— ";
+    position: relative;
+}
+li>* {
+    opacity: 0.1;
+}
+
+li>*:first-child{
+    opacity: 1.0;
+}
+
+li:hover > * {
+    opacity: 1.0;
+}
+li {
+    /*max-height: 200px;*/
+}
+li:hover {
+    max-height: 1000px;
+}
