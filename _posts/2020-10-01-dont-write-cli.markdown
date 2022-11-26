@@ -235,7 +235,10 @@ if no other API proposed.
 <span style="font-size: 1.5em;"> Additional comments </span>
 </summary>
 - I use python as an example because 1) need to show some code 2) it is popular 3) I know it well enough. <br />
-  However, the points made should be valid for all modern languages (C++ is not a modern language just in case).    
+  However, the points made should be valid for all modern languages (C++ is not a modern language just in case).
+- Itamar Turner-Trauring has an article on a relevant topic in his called 
+  [please stop writing shell scripts](https://pythonspeed.com/articles/shell-scripts/). 
+  Itamar provides numerous helpful recommendations and tips in his blog, and this is no exception.
 </details>
 
 
