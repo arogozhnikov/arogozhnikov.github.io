@@ -24,23 +24,22 @@ This post contains reflections and is not meant to be an easy reading.
 This post assumes that you understand wave mechanics.
 
 I have a nice general background in physics,
-however just that was clearly insufficient &mdash; a lot of specificity towards.
+however just that was clearly insufficient &mdash; a lot of specific knowledge that is hard to deduce from first principles.
 
-## Things I wanted to know about microscopy
+## General remarks
 
 - there are myriads of different microscopes from trivial ones for mid-schools to EM (electron microscopes) and light-sheets
   - Ranges of prices from hundreds of dollars to millions. In some applications 100x cheaper microscope can still be more useful 
-  - Manual and automated. Terribly expensive still may not be automated
+  - Manual and automated. Terribly expensive still may be non-automated
 - microscopes are typically designed to be modular, many parts are interchangeable;
   there is still vendor- and format- specificity
-- when microscope is automated, that typically means that it can at least move its specimen
+- when a microscope is automated, that typically means that it can at least move its specimen
   (yes, specimen is moved, microscope's camera and light path are usually steady) 
   - it may or may not be able to switch excitation / emission filters automatically, so 'automated' is not a descriptive word. 
     Ask about what is automated
 - while typically microscopes are just 'make a photo with light' devices, software for microscopes is a tough topic.
-  - manufacturers want to provide visual interface with windows and buttons, 
-    but amount of regimes of possible usage is terribly large, 
-    and those hardly can be mapped to sequence of buttons
+  - manufacturers desire to provide a visual interface with windows and buttons, 
+    and mapping all countless scenarios to a sequence of buttons is ... challenging
   - as a result both API and interface are far from satisfactory
 - light source is not moved with specimen, but instead aligned and fixed relative to camera. 
   - You can't image with different shifts but 'same light position'
@@ -49,15 +48,15 @@ however just that was clearly insufficient &mdash; a lot of specificity towards.
   (objectives are also pretty expensive). That's not your smartphone's refocusing camera. 
   So 40x on your microscope means that object of size n*m in focusing plane (which is fixed) 
   literally projects in 40n*40m on detector plane. 
-  To complete arithmetics you only need physical size of pixel in a camera - and voila - you have size of pixel. 
-- for a long time I was surprised that biologists are on one hand limited by the number of fluorescent channels
+  To complete arithmetics you only need physical size of pixel in a camera - and voila - you have 'size of specimen pixel'. 
+- for a long time I was surprised that biologists are so limited by the number of fluorescent channels
   they can image simultaneously (emission spectra overlap, so you want them to be separable). 
   - At the same time they don't switch to quantum dots (which have much narrower emission spectra).
     Permeability may be an issue here
   - And they don't try to go significantly outside of visible spectrum.
     - *probably* this is due to objectives - correcting aberrations for wide spectrum range is tough
   - Another factor is penetration depths variability (even within water) for different wavelengths
-  - You can take images in IR, but going to deep IR is still rare  
+  - You can take images in IR, but going to deep IR is ultra-rare  
 - there is an uncountable amount of imaging techniques. <br />
   Dozens of them with all their variations, with all covering only some part of information.
   - Very hard to combine many in the same system (while some useful combinations exist)
