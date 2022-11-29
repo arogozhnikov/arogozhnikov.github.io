@@ -2,7 +2,7 @@
 layout: post
 title: Delimiter-first
 excerpt: 
-date: 2022-11-29 12:00:00
+date: 2022-11-29 01:00:00
 author: Alex Rogozhnikov
 tags: 
 - delimiter
