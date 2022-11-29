@@ -89,10 +89,8 @@ I argue for wider usage of delimiter-first in the code
   - `three friends [tic, tac, toe]` becomes `three friends ・tic ・tac ・toe`.
 
 A new top-level syntax for programming languages is proposed to show advantages of this method.
-New syntax is arguably as simple, but more consistent and better preserves visual structure.
+New syntax is arguably as simple, but more consistent, better preserves visual structure and solves some issues in code formatting.
 
-This post covers relevant ideas (comma-first formatting, yaml) and issues of current formatting that can be improved.
-  
 
 ## Related: comma-first formatting
 
@@ -122,7 +120,7 @@ A well-known proposal is to write commas first in languages like javascript, JSO
 While it is **not what I am discussing here**, there is a large overlap.
 This style wasn't widely adopted, and it is interesting why.
 
-All critics essentially comes down to: 
+All criticism essentially comes down to: 
 1) tools can solve common issues solved by this notation
 2) it is not natural / you don't write text like this.
 
@@ -258,7 +256,7 @@ Undoubtedly, blank line is a part of 'Chapter 2' logical element,
 because empty line focuses our attention on 'Chapter 2' label. 
 It is not because we need to end the paragraph.
 
-For the same reason, in html formatting usually it is headers to get additional margin, not preceding elements.
+For the same reason, in html additional margins 'belong' to headers, not preceding elements.
 
 Same for lines: *we highlight a beginning of a new line*, not an end of previous one.
 
@@ -344,12 +342,12 @@ No such misattrbution issue with newline-first.
 
 If it is ok to end each file with `\n`, then it is ok to start it with `\n`.
 
-Having line start with `\n` maintains the simplicity of unix utilities, but is a bit simpler to visualize in editor.
+Having lines start with `\n` maintains the simplicity of unix utilities, but is a bit simpler to visualize in editor.
 
 Imagine that in parallel universe text and binary files are different in the very first character. What a science finction we could live in!
 
 **Do I really want to change all files to newline-first?** 
-Nope, of course I don't.
+Of course not.
 But I have to point that if in the course of history files were newline-first from the start, that would be a better system.
 
 I hypothesize, that newline-last comes from unix mainframes:
@@ -496,7 +494,7 @@ prepare_message<hngr>(</hngr>
 </pre>
 </div>
 
-I welcome you to stare at this example for a minute.
+I welcome you to study this example for a minute.
 Structure overall did not change much. Note differences in line breaks `\` and multiline strings.
 
 
@@ -772,10 +770,10 @@ New syntax has this solved. In other aspects versioning should work the same.
 
 ## New formatting
 
-Goal of formatting is to produce a visual code structure that is easy to read,
+The goal of formatting is to produce a visual code structure that is easy to read,
 as if you already see all main components without reading anything.
 
-New syntax enforces this, and leaves fewer freedoms of choice.
+New syntax enforces this, and leaves fewer degrees of freedom.
 Writing something non-readable would be challenging... I suppose.
 
 Role of formatters thus would be minor, or they can be skipped.
@@ -803,6 +801,6 @@ I hope an adventure was interesting and slightly mind blowing.
 Don't be too surprised if this proposal evokes "hey this looks wrong, just plain wrong" reaction. <br />
 After all, ideas we enjoy these days: enumeration from zero, using registers in names, structural programming, mandatory formatting, 
 and even python's approach to defining code blocks with indentation &mdash; 
-all! all of them were met with a storm of criticism.
+every single one of them were met with a storm of criticism.
 
 
