@@ -15,37 +15,40 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/04/numpy-exercises.h
 <p>When one starts writing in python, the typical reaction is disappointment about how slow it is compared to any compilable language. After a while, you learn numpy and find out it's actually not so bad.</p>
 <p>Having spent a month with numpy, I found out that many things can be written in it.</p>
 <p>Having spent a year with it, I found out that almost any algorithm may be vectorized, though it's sometimes non-trivial.</p>
-<p>I'm still quite disappointed about the most answers at stackoverflow, where people prefer plain python for any nontrivial thing more complicated than computing sum of array.</p>
+<p>I'm still quite disappointed about majority of answers at stackoverflow, where people prefer plain python for anything more complicated than computing a sum of array.</p>
 <br/>
 <p>
 	For instance, you need to <a href="http://stackoverflow.com/questions/12414043/map-each-list-value-to-its-corresponding-percentile?rq=1">compute statistics</a> of values in array.
 </p>
 <p>
-	There is a function in scipy.stats library which is created specially for this purpose:
+	There is a function in `scipy.stats` library which is created specially for this purpose:
 </p>
 ```python
 order_statistics = rankdata(initial_array)
 ```
-<p>
-	Another option is to sort array and keep track of initial positions.
-	Alternatively, you can do in numpy with one-liner:</p>
 
-<br/>
+Another option is to sort array and keep track of initial positions (quite vectorizable).
+
+Alternatively, you can compute statistics in `numpy` with one-liner:
+
 ```python
 order_statistics = numpy.argsort(numpy.argsort(initial_array))
 ```
-<p>(isn't this beatiful?) <br/>
- 	Want to compute mean value over the group of events? With one-liner? Here you go:
-</p>
+(isn't this beatiful? I don't say simple, I say beautiful)
+
+<br/>
+Want to compute mean value over the group of events? With one-liner? Here you go:
+
 ```python
 means = numpy.bincount(group_indices, weights=values) / numpy.bincount(group_indices)
 ```
 
-<p>Writing oblivious decision tree in numpy is very simple and computations there are done really fast.</p>
-<p>
-	As a non-trivial problem: will you be able to write application of usual decision tree in pure numpy?
-	For simplicity, you can first consider only trees with equal depth of all leaves.
-</p>
+
+Writing oblivious decision tree in numpy is very simple and computations there are done really fast.
+
+As a non-trivial problem: will you be able to write application of a generic decision tree (like one in sklearn) in pure numpy?
+For simplicity, you can first consider only trees with equal depth of all leaves.
+
 <p>See also:</p>
 
 <ul>
