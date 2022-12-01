@@ -181,8 +181,8 @@ So what I'm arguing for is having a start-of-item token.
 Like this: `・1 ・2 ・3`.
 Do we need to point an end of last token? As we'll see next, that's usually not the case.
 
-We have a speical word for end-of-item token: terminator, but no startinator or any similar word.
-I see some irony in this.
+We have a special word for end-of-item token: terminator, but no startinator or any similar word.
+I see some irony in this.<sup>*</sup>
 
 Meanwhile, I keep using the word 'delimiter' (albeit it's maybe incorrect)
 
@@ -430,7 +430,7 @@ I think there is a way to solve this issue too, and it will be discussed.
 
 ## Delimiter-first pseudo-python
 
-To better demostrate how all these ideas come together, I'll build a new language (pseudo-python).
+To better demostrate how all these ideas come together, I'll imagine a new language (pseudo-python).
 To focus only on syntax changes, I'll keep all other aspects of the language the same.
 
 I will consider an artificially complicated example. It includes different arguments, list, empty list, string, multiline string, method chaining, multiline logical arithmetics, few or no arguments
@@ -454,7 +454,7 @@ Thank you {user_name} for cooperation,\nSanta Corp.
     ],
     unsubscribe_link=generate_unsubscribe_link(
         email, 
-        expiration_date=expiration_date,
+        message=message,
         **unsubscribe_settings,
     ),
     attachments = [],
@@ -542,7 +542,7 @@ Thank you {user_name} for cooperation,\nSanta Corp.
     ],
     unsubscribe_link=generate_unsubscribe_link(
         email, 
-        expiration_date=expiration_date,
+        message=message,
         **unsubscribe_settings,
     ),
     attachments = [],
@@ -664,7 +664,7 @@ one can deduct limits of every code block / call / literal, i.e. derive top-leve
 Parser now deals with a simpler task of checking that elements fit this pre-defined structure,
 and can point places where 'structure' does not match 'content'.
 
-Good bye old times when one deleted bracket caused complete rebuild of ast and numerous errors.
+Good bye old times when one deleted bracket caused complete rebuild of AST and numerous errors.
 
 
 
@@ -784,7 +784,7 @@ Role of formatters thus would be minor, or they can be skipped.
 First, I did not try to solve following perceptual problems: 
 
 - commas are leading, and I've mentioned that this was a problem for comma-first formatting
-- open brackets without matching pair create visual discomfort. Also my eyes already trained to focus on closing brackets, but proper color scheme seems to solve this
+- open brackets without a matching pair create visual discomfort. Also my eyes already trained to focus on closing brackets, but proper color scheme seems to solve this
 
 This post is already long, and leaving things closer to python simplifies example.
 I think both points can be improved, and feel free to post your ideas on this.
@@ -804,3 +804,13 @@ and even python's approach to defining code blocks with indentation &mdash;
 every single one of them were met with a storm of criticism.
 
 
+
+<small>
+Thanks to Alexander Molchanov for proofreading, improving text, and leaving comments.
+</small>
+
+<small>* 
+Later addition: Isaac Z. Schlueter advised there is a term 'initiator', used in "... specification discussion threads, where it's common to dig deep into the particulars of parsing semantics.  Very much a 'deep in the weeds' kind of technical term." 
+<br />
+In the context of parsing I found the word 'initiator' in several papers, and only one mention on stackoverflow, so I'll stick to using word 'delimiter'.
+</small>
