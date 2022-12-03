@@ -13,7 +13,7 @@ blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/07/multimixture-fitt
 
 I was wondering how one can modify Expectation-Maximization procedure for fitting mixtures
 (well, gaussian mixtures, because it's the only nontrivial and quite general multivariate distribution that can be fitted easily)
-to support really many overlapping summands in the mixture.
+to support *really* many overlapping summands in the mixture.
 
 Randomization probably can be a solution to this problem.
 It seems that expectation in EM algorithm is the proper place to introduce it,
@@ -30,5 +30,5 @@ What if we sample events according to distribution from expectation step?
 At each stage we attribute each event to one (in simplest case) component of mixture, or maybe several of them (that's the main difference I want to achieve) .
 This kind of randomization should prevent 'shrinking' of component distributions.
 
-The core idea I am trying to introduce here is very similar to dropout &mdash; a trick,
+The core idea I am trying to introduce here is very similar to **dropout** &mdash; a trick,
 which allowed researches to train neural networks with more parameters than amount of observations we have.
