@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Delimiter-first
+title: Delimiter-first code
 excerpt: 
 date: 2022-11-29 01:00:00
 author: Alex Rogozhnikov
