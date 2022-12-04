@@ -163,8 +163,12 @@ So complains are not because delimiter-first looks wrong - in fact, it is common
 It is about commas being used as *leading* elements, not trailing - a lesson to remember.
 
 Both argument 1) and 2) pinpoint reasons *why things the way they are*: habit and tools.
-But different code examples ([SQL examples](https://hoffa.medium.com/winning-arguments-with-data-leading-with-commas-in-sql-672b3b81eac9) by Felipe Hopfa and [JS examples](https://gist.github.com/isaacs/357981) by Isaac Z. Schlueter) show benefits of delimiter-first 
+But different code examples ([SQL examples](https://hoffa.medium.com/winning-arguments-with-data-leading-with-commas-in-sql-672b3b81eac9) by Felipe Hopfa and [JS examples](https://gist.github.com/isaacs/357981) by Isaac Z. Schlueter) show benefits of delimiter-first. 
 
+I expected to find in discussions some code examples where delimiter-last is better, but I didn't.
+
+*Later addition:* haskell community [adopted](https://github.com/tibbe/haskell-style-guide/blob/master/haskell-style.md) leading commas in many projects, because trailing commas were not supported at first.
+Later haskell got support for trailing, but now majority [votes](https://www.reddit.com/r/haskell/comments/hr5c2n/comment/fy25hpm/?utm_source=share&utm_medium=web2x&context=3) for advantages of leading commas.
 
 
 ## Is 'delimiter' a right word?
@@ -259,6 +263,7 @@ It is not because we need to end the paragraph.
 For the same reason, in html additional margins 'belong' to headers, not preceding elements.
 
 Same for lines: *we highlight a beginning of a new line*, not an end of previous one.
+Ironically, that's in the name: it is newline, not endline.
 
 
 When we turn to code, the same thought is seen with this small snippet, 
