@@ -186,7 +186,7 @@ Like this: `・1 ・2 ・3`.
 Do we need to point an end of last token? As we'll see next, that's usually not the case.
 
 We have a special word for end-of-item token: terminator, but no startinator or any similar word.
-I see some irony in this.<sup>*</sup>
+I see some irony in this *(update: find some interesting thoughts I received about this in the comments section).*
 
 Meanwhile, I keep using the word 'delimiter' (albeit it's maybe incorrect)
 
@@ -810,12 +810,34 @@ every single one of them were met with a storm of criticism.
 
 
 
-<small>
-Thanks to Alexander Molchanov for proofreading, improving text, and leaving comments.
-</small>
-
-<small>* 
-Later addition: Isaac Z. Schlueter advised there is a term 'initiator', used in "... specification discussion threads, where it's common to dig deep into the particulars of parsing semantics.  Very much a 'deep in the weeds' kind of technical term." 
 <br />
-In the context of parsing I found the word 'initiator' in several papers, and only one mention on stackoverflow, so I'll stick to using word 'delimiter'.
-</small>
+<br />
+<br />
+<br />
+
+### Comments
+
+
+- Isaac Z. Schlueter advised there is a term 'initiator', used in *"... specification discussion threads, where it's common to dig deep into the particulars of parsing semantics.  Very much a 'deep in the weeds' kind of technical term."* 
+    <br /><br />
+    In the context of parsing I found the word 'initiator' in several papers, and only one mention on stackoverflow, so I'll stick to using word 'delimiter'.
+
+- Peter Hilton noticed that *"... startinators in prose usually called bullets. Some English-language style guides even treat the following punctuation as equivalent.*
+    
+    Brilliantly Wrong — Alex Rogozhnikov's blog about math, machine learning, programming, physics and biology.*
+
+    Brilliantly Wrong — Alex Rogozhnikov's blog about:
+    - math
+    - machine learning
+    - programming
+    - physics
+    - biology.
+
+    *Note the bullet list’s trailing full stop (period). It’s still one punctuated sentence."*
+
+    Indeed, name 'bullet' sounds very appropriate when discussing code written in delimiter-first style.
+    From parsing side, I don't feel it's a good partner to word 'terminator'.
+    <br /><br />
+
+- Thanks to Alexander Molchanov for proofreading, improving text, and leaving comments.
+
