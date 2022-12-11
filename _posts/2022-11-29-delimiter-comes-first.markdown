@@ -888,9 +888,9 @@ every single one of them were met with a storm of criticism.
   I believe that's a better way to structure code (for readability, editing, and better language tools).
   Based on what I've learnt so far, I am sceptical about integration of additional syntax to existing languages:
   two notations side-by-side are worse for users than one. 
-  From the perspetive of language maintainers, all tooling would need to deal with two dialects, which is also downgrade.
+  From the perspetive of language maintainers, all tooling would need to deal with two dialects, which is also a downgrade.
 
-  So main audience is *authors of new programming languages.* 
+  So main audience are *authors of new programming languages.* 
   However, it is not only authors - to get adopted, any new feature should get at least minimal support from community. That's where this page can help.
   So more generally, I target people *interested in experimenting around new programming languages*, and interested in challenging status-quo.
   
