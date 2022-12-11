@@ -186,7 +186,8 @@ Like this: `・1 ・2 ・3`.
 Do we need to point an end of last token? As we'll see next, that's usually not the case.
 
 We have a special word for end-of-item token: terminator, but no startinator or any similar word.
-I see some irony in this *(update: find some interesting thoughts I received about this in the comments section).*
+I see some irony in this.<br /> 
+*(update: find some interesting thoughts I received about this in the comments section)*
 
 Meanwhile, I keep using the word 'delimiter' (albeit it's maybe incorrect)
 
@@ -672,6 +673,46 @@ and can point places where 'structure' does not match 'content'.
 Good bye old times when one deleted bracket caused complete rebuild of AST and numerous errors.
 
 
+## New code suggestions 
+
+*This paragraph was added later, to unwrap the point that was missed by many readers.*
+
+Parsing of correct code is not a problem since 1960s or so.
+Real challenge is on-the-fly parsing of partially incorrect and quickly-changing code in the process of editing.
+
+Say I'm a complete novice and typed something wrong:
+
+<div class='alex-boxes'>
+<pre class='precode'>
+def myfunction(
+    var1 = 'some default value',
+    var2 = (1, (2, 3),
+)
+    var3 = "variable number 3"
+
+    var4 = """
+Simple unfinished multiline string
+""" + \
+var<caret></caret>
+
+    var5 = ())
+</pre>
+</div>
+
+what should be autosuggested? var1/2/3/4? or nothing? Which would be more helpful?
+
+How to inform user which places should be fixed?
+VS Code blames bracket on first line saying it is not closed (while it is closed!) 
+and last line for missing semicolon (no, I don't want semicolon there).
+Pycharm's diagnostic messages are slightly better, but it blames line with var3 (which is completely ok).
+
+Now, in pseudo-python there is no way to 'escape' indentation and thus code analysis can rely on indentation.
+And it is immediately deducible that lines with var2 and var5 have problem, and indent of var3 is incorrect (since semicolon is missing on previous line). 
+
+Autosuggestion even in code with multiple unfinished places would be still useful (in similar scenario in pseudo-python it still can suggest var3/var4, and depending on tolerance additionally var1/var2). Currently tools don't suggest anything.
+
+As I mentioned, AST undergoes small changes during editing, thus providing highly effecient autosuggestion, code analysis, and highlighting for such language would be simpler, much simpler.
+
 
 ## New editing 
 
@@ -817,6 +858,7 @@ every single one of them were met with a storm of criticism.
 
 ### Comments
 
+- I received and collected a number of links for using delimiter-first in different contexts (lisp/scheme, formulas, translatable languages), will organize that material when I get time. 
 
 - Isaac Z. Schlueter advised there is a term 'initiator', used in *"... specification discussion threads, where it's common to dig deep into the particulars of parsing semantics.  Very much a 'deep in the weeds' kind of technical term."* 
     <br /><br />
@@ -841,3 +883,76 @@ every single one of them were met with a storm of criticism.
 
 - Thanks to Alexander Molchanov for proofreading, improving text, and leaving comments.
 
+- Question: "Who did you write this for?"
+
+  I believe that's a better way to structure code (for readability, editing, and better language tools).
+  Based on what I've learnt so far, I am sceptical about integration of additional syntax to existing languages:
+  two notations side-by-side are worse for users than one. 
+  From the perspetive of language maintainers, all tooling would need to deal with two dialects, which is also downgrade.
+
+  So main audience is *authors of new programming languages.* 
+  However, it is not only authors - to get adopted, any new feature should get at least minimal support from community. That's where this page can help.
+  So more generally, I target people *interested in experimenting around new programming languages*, and interested in challenging status-quo.
+  
+- Question: "But how will you represent a couple of multiline lists next to each other?"
+
+  This case is handled normally: 
+  <div class='alex-boxes' markdown='1'>
+  <p></p>
+  ```
+    f([                
+        a,
+        b,
+    ], [
+        c,
+        d,
+    ])
+  ```
+  ```
+    f([                
+        , a
+        , b
+    \,[
+        , c
+        , d
+
+  ```
+  <p></p>
+  </div>
+
+  For the record, I'd prefer to introduce variables in any case.
+
+- Question "Don't you think that current tools have already solved the issues solved by delimiter-first?"
+  
+  I developed a simple 4-line code with missed comma that is compeletely fine for flake8 and ruff. And black formatter considers it well-formatter.
+  It took me less than a minute to develop this example, and if you start thinking, I'm sure you'll find a handful of similar cases.
+  Authors of one utitity that is supposed to mark these cases [claim](https://blog.devgenius.io/5-of-666-python-repos-had-comma-typos-including-tensorflow-and-pytorch-sentry-and-v8-7bc3ad9a1bb7) that '5% of 666 Python repos had comma typos (including Tensorflow, and PyTorch, Sentry, and V8)'.
+
+  We can continue patching problems with even more tools and more special cases, but I'd better have it solved by design.
+  Core point is - *delimiter-last is flawed*.
+  Main visual cues (indentation) is on the left, while there are still control sequences that can override indentation, and they are on the right. 
+  For this reason `\` in the end of line is a bad choice.
+
+
+<!---
+TODO mention differences in code suggestions
+
+TODO
+jtree allows conversion between syntaxes
+https://jtree.treenotation.org/designer/#hakon-readme
+
+lisp version of syntax
+    https://gist.github.com/armstnp/bb2a88bcb053d2195f42c60a0cf15a65
+lisp proposals, more (Via Nikishkin) [Dec 10, 2022 at 9:42:30 AM]:
+    https://srfi.schemers.org/srfi-49/
+    https://srfi.schemers.org/srfi-110/
+
+Ruby has no-delimiter lists (not so interesting)
+
+Coffeescript and Civet
+https://github.com/DanielXMoore/Civet "Coffeescript for typescript"
+
+http://www.rebol.com/pre-view.html
+
+leslie lamport and formulas https://www.hpl.hp.com/techreports/Compaq-DEC/SRC-RR-119.pdf
+-->
