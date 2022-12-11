@@ -5,3 +5,4 @@ _site/
 .pydevproject
 .idea
 .ipynb_checkpoints
+.DS_Store
