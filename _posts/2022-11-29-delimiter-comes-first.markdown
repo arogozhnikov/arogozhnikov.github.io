@@ -703,11 +703,11 @@ what should be autosuggested? var1/2/3/4? or nothing? Which would be more helpfu
 
 How to inform user which places should be fixed?
 VS Code blames bracket on first line saying it is not closed (while it is closed!) 
-and last line for missing semicolon (no, I don't want semicolon there).
+and last line for missing colon (no, I don't want colon there).
 Pycharm's diagnostic messages are slightly better, but it blames line with var3 (which is completely ok).
 
 Now, in pseudo-python there is no way to 'escape' indentation and thus code analysis can rely on indentation.
-And it is immediately deducible that lines with var2 and var5 have problem, and indent of var3 is incorrect (since semicolon is missing on previous line). 
+And it is immediately deducible that lines with var2 and var5 have problem, and indent of var3 is incorrect (since colon is missing on previous line). 
 
 Autosuggestion even in code with multiple unfinished places would be still useful (in similar scenario in pseudo-python it still can suggest var3/var4, and depending on tolerance additionally var1/var2). Currently tools don't suggest anything.
 
@@ -943,9 +943,13 @@ https://jtree.treenotation.org/designer/#hakon-readme
 
 lisp version of syntax
     https://gist.github.com/armstnp/bb2a88bcb053d2195f42c60a0cf15a65
-lisp proposals, more (Via Nikishkin) [Dec 10, 2022 at 9:42:30 AM]:
+lisp proposals, more (Via Nikishkin) 
     https://srfi.schemers.org/srfi-49/
     https://srfi.schemers.org/srfi-110/
+one more version of lisp:
+    http://calcit-lang.org/
+
+elm https://elm-lang.org/docs/style-guide
 
 Ruby has no-delimiter lists (not so interesting)
 
