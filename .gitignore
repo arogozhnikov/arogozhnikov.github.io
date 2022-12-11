@@ -6,3 +6,5 @@ _site/
 .idea
 .ipynb_checkpoints
 .DS_Store
+Gemfile.lock
+.jekyll-metadata
