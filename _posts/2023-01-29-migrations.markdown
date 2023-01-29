@@ -5,8 +5,8 @@ excerpt:
 date: 2023-01-29 01:00:00
 author: Alex Rogozhnikov
 tags: 
-- delimiter
-- separator
+- schema migrations
+- databases
 
 ---
 
