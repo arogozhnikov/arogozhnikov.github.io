@@ -10,9 +10,6 @@ tags:
 
 ---
 
-<style>
-
-</style>
 
 A great achievement of the past decade in programming is a shift in paradigm from *transition*-focused to *state*-focused.
 
