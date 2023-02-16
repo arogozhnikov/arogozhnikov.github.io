@@ -37,7 +37,7 @@ It’s like you laying out a plan of street while the question of moving all bel
 ## What’s wrong with migrations in RDBMS?
 
 Switching to auto-migration tools helps to focus on important - e.g. current relations in RDBMS - and not how we ended up with this set of relations.
-Plus, coherence between DB and code (ORMs or schema-definiton tools) is now granted.
+Plus, coherence between DB and code (ORMs or schema-definition tools) is now granted.
 
 Adoption of auto-migration tools is still very low (even compared to ORMs), and in my opinion, because of **how this process is organized**.
 
@@ -52,7 +52,7 @@ Auto-migration tools like alembic are also tough to develop and maintain:
 - they need to introspect current schema of the database 
 - they need to compute ’diff’ based on matching these two schema definitions, neither of which were created with automated schema migration in mind
 - deal with all peculiarities of dialects in schema definition and schema migration
-- for all operations alembic counterparts in python code, which is like introducing +1 language 
+- for all operations alembic creates counterparts in python code, which is like introducing +1 language 
 
 The same problems doesn’t hurt frontend frameworks as much, because there are currently ~2.5 browser engines, and a ton of work done by standardization committees around js, and … after ditching react/vue you still have to deal with discrepancies, this time yourself.
 The same problems are faced by IaC tools, and this eventually will become one more (significant) barrier for migration between clouds.
@@ -105,7 +105,8 @@ Relation Person:
    full_name:  string
 ```
 
-From the point of a migration tool it is not clear that you just renamed a field, not deleted ‘name’ and created ‘full_name’. Thus an additional technical identifier is necessary, for instance:
+From the point of a migration tool it is not clear that you just renamed a field, not deleted ‘name’ and created ‘full_name’. 
+Thus an additional technical identifier is necessary, for instance:
 
 ```python
 Relation Person:
@@ -119,16 +120,16 @@ Relation Person:
 
 now it is clear that renaming happened. There are a number of other ways to have smoother support of migrations.
 
-However this will be just an idea until DB developers don’t have to think about migration.
+However, this will be just an idea until DB developers don’t have to think about migration.
     
 </div>
 </details>
 
-- there are cases when db just does not provide tools to produce migrations. Like postresql enum that just can't be migrated safely by alembic, so [this issue](https://github.com/sqlalchemy/alembic/issues/278) is unresolved for years, and that's not on alembic site.
+- there are cases when db just does not provide tools to produce migrations. Like postgresql enum that just can't be migrated safely by alembic, so [this issue](https://github.com/sqlalchemy/alembic/issues/278) is unresolved for years, and that's not on alembic side.
 
 <br />
 
-Well... we can just implement improvements as a stand-alone solution, e.g. within ORM, right?”. 
+Well... we can just implement improvements as a stand-alone solution, e.g. within ORM, right?. 
 
 No, we can’t. As I described, to make it somewhat useful, you need to support numerous dialects, and creating such migration tools is a big job (comparable to creating a new database). 
 Creating such tools for multiple languages is probably more job than just creating db from scratch.
@@ -139,7 +140,7 @@ Creating such tools for multiple languages is probably more job than just creati
 <br />
 
 
-That's the main featurea I expect from my next db: declarative SDL with schema migrations taken by DB.
+That's the main feature I expect from my next db: declarative SDL with schema migrations taken by DB.
 I know that EdgeDB already provides such functionality, but if you know other tools that have this implemented - drop me a letter.
 
 
