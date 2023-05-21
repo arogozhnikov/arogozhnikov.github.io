@@ -258,6 +258,9 @@ Did I say I like comments in Japanese? I do.
 
 Post was created for fun, who knew that becomes even a research direction 10 years later...
 
+> This is very nice - especially good for learning since they give you a notebook. (...)
+> [(link)](https://lobste.rs/s/1q1wiz/reconstructing_pictures_with_machine)
+
 > A simple neat visualization of common machine learning methods
 > [(link)](https://twitter.com/jasonwatkinspdx/status/700363135950000128?s=20)
 
