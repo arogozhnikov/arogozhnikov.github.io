@@ -367,7 +367,7 @@ Jupyter knows that, IDEs know that, messengers know that. Terminals still don't 
 ## Using indentation to structure code
 
 Code indentation is available in all major languages, 
-but python (and scala, F#, haskell, ...) relies on indentation to define logical structure.
+but python (and scala 3, F#, nim, haskell, ...) relies on indentation to define logical structure.
 
 And that works very well. Let's see how we can re-interpret the python code the way we did with yaml
 
@@ -391,7 +391,7 @@ now we reinterpret the structure with `<lvl1>=\n`,  `<lvl2>=\n____`,  `<lvl3>=\n
 <span class='lvl3'>3</span>pass
 </pre>
 
-so, we see very basic organization of code is available just by looking at sequence of start tokens (which just mirrors indentation).
+so, we see very basic organization of code is available just by looking at sequence of start tokens (which simply mirrors indentation).
 
 
 ## Some problems with multiline strings
@@ -864,6 +864,8 @@ every single one of them were met with a storm of criticism.
     <br /><br />
     In the context of parsing I found the word 'initiator' in several papers, and only one mention on stackoverflow, so I'll stick to using word 'delimiter'.
 
+- Other options mentioned in discussions: introducer,  starter
+
 - Peter Hilton noticed that *"... startinators in prose usually called bullets. Some English-language style guides even treat the following punctuation as equivalent.*
     
     Brilliantly Wrong — Alex Rogozhnikov's blog about math, machine learning, programming, physics and biology.*
@@ -950,6 +952,7 @@ one more version of lisp:
     http://calcit-lang.org/
 
 elm https://elm-lang.org/docs/style-guide
+ocaml https://github.com/ocaml-ppx/ocamlformat/blob/main/test/failing/gen/gen.ml
 
 Ruby has no-delimiter lists (not so interesting)
 
