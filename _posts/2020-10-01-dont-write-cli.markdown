@@ -12,7 +12,7 @@ tags:
 
 <p style="color: #666677">
 (a friendly reminder that reading post before commenting is a great idea. 
-Some people see this as an argument for GUI, but it's completely misleading)
+Some people see this as an argument for GUI, but it is completely misleading)
 </p>
 
 
@@ -163,7 +163,7 @@ Focus on writing useful and friendly functional interface, not CLI.
 
 Sure! Here is an example from machine learning.
 
-Common headache is supporting multiple optimization algorithms (each having it's own set of parameters)
+Common headache is supporting multiple optimization algorithms (each having own set of parameters)
 and allowing a number of architectures (each also having different parameters).
 
 ```bash
@@ -196,7 +196,7 @@ Why it becomes such a nightmare? That's a great question!
 They work well only when you can decompose things into simpler components 'each doing one job'.
 Before writing CLI, it is thus important to know what is the functionality 
 your project provides and how it may change in a year or two.
-It is very easy to add CLI when the project is in it's initial stage &mdash; 
+It is very easy to add CLI when the project is in its initial stage &mdash; 
 but as functionality grows, you'll find it exponentially harder to fit all knobs into CLI.   
 
 Other programming interfaces survive growth quite easily.
