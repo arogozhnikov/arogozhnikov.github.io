@@ -1,10 +1,15 @@
 ---
 layout: page
-title: Responses / reviews about my projects and posts
+title: Reactions to my projects
 linktitle: Testimonials
 permalink: /testimonials/
 ---
 
+
+<div class="testmonial-links" markdown="1">
+<a href="/my-testimonials/">my testimonials</a>
+<a href="/testimonials/" class="active">testimonials to my projects</a>
+</div>
 
 
 I like reading different reviews of my works. Not all of them, but most :)
@@ -21,9 +26,9 @@ Some are just dear memories, and some are interesting remarks.
 
 ## einops
 
-einops has collected lots of positive feedback, and has own testimonials page.
+einops has collected lots of positive feedback, and has own [testimonials page](https://einops.rocks/pages/testimonials/).
 
-Later I will post the most funny here.
+Later I will post the funniest here.
 
 
 
@@ -118,7 +123,7 @@ and I'm happy about that.
 ## Hamiltonian Monte Carlo explained
 
 Post was a feat. Visualizations were done 'from scratch' in webgl. 
-Years later, it is still popular, and even cited in several places as reference. 
+Years later, it is still popular, and even cited in several papers as a reference for HMC. 
 
 [//]: # (Explanatory, visual work, and even examples themselves required careful analysis: true distributions)
 
@@ -285,7 +290,7 @@ Goal was to make more folks jump into this, and see the potential beyond run-exe
 (I worked with neutrino data, but that did not turn me into a neutrino physicist)
 
 Quite soon folks form dataquest asked to post it on their platform.
-They improved that post significantly after that, but still keep the original attribution (example to follow!):
+They improved that post significantly after that, but still keep the original attribution (an example to follow!):
 
 > This post is based on a post that originally appeared on Alex Rogozhnikov’s blog, ‘Brilliantly Wrong’. We have expanded the post and will continue to do so over time — if you have a suggestion please let us know. Thanks to Alex for graciously letting us republish his work here.
 > 

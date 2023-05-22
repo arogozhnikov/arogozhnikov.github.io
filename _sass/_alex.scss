@@ -161,3 +161,15 @@ blockquote {
     font-style: normal;
     background-color: #f3f6f3;
 }
+
+.testmonial-links a {
+    display: inline-block;
+    padding: 7px;
+    font-weight: bolder;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.testmonial-links a.active {
+    background-color: #eee;
+}
