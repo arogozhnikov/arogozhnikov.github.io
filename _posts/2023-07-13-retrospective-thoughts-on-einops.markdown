@@ -25,8 +25,8 @@ In a number of ways einops is unique:
 - "magical" universal dispatching, so users could write `rearrange(x, 'b c h w -> b h w c')` and not care about `x`'s framework/device/dtype/C-ordering. While this is more of a 'fancy' functionality, it was important during initial adoption. <!-- Magical is not a great description for technology, but einops was many times described as "magic" with a positive vibe in this word. -->
 - no dependencies (except Python). Everything else is optional, even numpy
 - there is no corporation/university behind einops, it is mostly a single-person effort
-  
-## Unique technical challenges
+
+## Tough place?
 
 A while ago Stephan H. asked *what is challenging about einops* as a project.
 
@@ -34,10 +34,14 @@ I don't think I've made a great answer back then.
 And probably couldn't anyway, because question assumes there is a specific "tough place", but the assumption is wrong. 
 
 Also "tough place" is very subjective and after working for some time over any project,
-if you're successful, there will be no "tough" place, because you focus on those parts that are "tough" and get them better either by decomposing their complexity or by just learning to manage with it.
+if you're successful, there will be no "tough" place, because you focus on those parts that are "tough" 
+and get them better either by decomposing their complexity or by just learning to manage with it.
+
+  
+## Unique technical challenges
 
 I decided to dedicate some time to write a better answer for this question.
-First prototype was built in a couple of hours, but project itself took months, so clearly there was a lot of non-trivial parts. 
+First prototype was built in a couple of hours, but project itself took months, so clearly there were non-trivial parts. 
 Einops as a project has a number of (conflicting) technical restrictions that create a significant pressure:
 
 
@@ -109,7 +113,7 @@ Because that's the best way to communicate internal structure of tensor
 
 ## Unique conceptual challenges
 
-<!-- It is easy to think about einops as a python package, but it is more of **approach** to write a readable, reliable and efficent code, that was conveniently provided to python users. -->
+<!-- It is easy to think about einops as a python package, but it is more of **approach** to write a readable, reliable and efficient code, that was conveniently provided to python users. -->
 
 Einops is more of approach to writing code than a package, but package is a necessary tool to bring those ideas into practice. On approach level there are a number of hurdles too.
 
@@ -139,7 +143,7 @@ which was soon generalized into unpacking with arbitrary shapes.
 
 Original design of operation could not support arbitrary shapes.
 Ok, technically it could, but that would be ugly and miserable.
-New design solved another issue &mdash memorizing axes that were composed, another common request for einops.
+New design solved another issue &mdash; memorizing axes that were composed, another common request for einops.
 
 I've come up with a final design (which I still find optimal) only *two years later*. 
 A number of suggestions popped around that were similar to the original version.
@@ -163,7 +167,7 @@ x_out['b h w c'] = x['b c h w']
 Additional challenge: "fewer, but more universal operations".
 
 There is a gap between "I find this helpful" and "this will be actively used".
-It is easy to come up with a long list of operations that will be helpful in *some* cases, but how users would figure this out? I don't think anyone check einops' docs regularly, so operation will never pop up in mind. 
+It is easy to come up with a long list of operations that will be helpful in *some* cases, but how users would figure this out? I don't think anyone checks einops' docs regularly, so operation will never pop up in mind. 
 See, *usefulness of operation strongly depends on its universality*, i.e. ability to cover many cases, and einops are good at this because it was one of requirements.
 
 
@@ -189,7 +193,7 @@ As a byproduct, early adopters of einops are mostly very advanced folks who knew
 and cared more about quality of their code than the rest of ML community.
 
 Consequently, einops has *no dedicated community* (discord server or so). 
-In the long run I think no community is better than abandoned community (which happens for many projects).
+In the long run I think no community is better than abandoned community (which happens in many projects).
 There are a number of ein-tools around the github addressing specific cases, 
 maybe somewhat centralized community could help with initial adoption.
 
