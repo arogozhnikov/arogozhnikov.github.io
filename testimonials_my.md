@@ -23,7 +23,7 @@ in the system I currently develop.
 
 ### opentrons
 
-[Opentrons](https://opentrons.com/) in part of lab automation responsible for liquid handling.
+[Opentrons](https://opentrons.com/) is a part of lab automation responsible for liquid handling.
 
 Automation interfaces in biotech are terrible to say the least.
 Opentrons is a bright spot in this kingdom of darkness. 
@@ -41,13 +41,13 @@ Their solution is also extremely affordable, making a decision for small labs a 
 Website is a collection of well-organized and just-enough-detailed pieces of sane advice that covers
 dockerizing python, usage of environments, and - yes - speeding up common data analysis tasks.
 
-While after years I've just learn most of that from my experience, it could save me a significant amount of time 
+While after years I've just learnt most of that from my experience, it could save me a significant amount of time 
 if I have read Itamar's recommendations before.
 
 There are however pieces that I've never seen to be explained well anywhere else &mdash; 
 [issues with multiprocessing](https://pythonspeed.com/articles/python-multiprocessing/), venv activation process and multi-stage builds.
 
-If you deal with somewhat signiicant data loads in python, reading pythonspeed should save you a noticeable amount of time.
+If you deal with somewhat significant data loads in python, reading pythonspeed should save you a noticeable amount of time.
 
 
 ### ruff
@@ -73,12 +73,12 @@ My punchline for the article is: `the terminal architecture makes it really diff
 We are stuck with terminals and programs trying to live with architecture that is already exhausted.
 Jumping out of this local minima is very hard, as it requires changing both terminals and software.
 
-No, warp did not solve the problem *yet*, but they solve the right problem.
+No, warp did not solve the problem *yet*, but they work on the right problem.
 
 
 ### polars
 
-[polars](https://www.pola.rs/) is "lightning-fast DataFrame library for Rust and Python".
+[polars](https://www.pola.rs/) is a "lightning-fast DataFrame library for Rust and Python".
 
 Polars (name makes a punch on pandas) is very efficient. 
 Remember folks talking about BIG DATA and that everyone needs a spark cluster to analyze data?
@@ -100,7 +100,7 @@ etcetc. That's ridiculous!
 I had to memorize which ports are exposed from the docker, and make sure that dockers on the same machine do not expose the same ports.
 Oh, and ensure ports are not exposed to just anyone on the internet.
 
-Unix sockets have all this solved. Just mount a volume, e.g. /dockers/webserver/sockets:/sockets and you're done:
+Unix sockets have all this solved. Just mount a volume, e.g. `/dockers/webserver/sockets:/sockets` and you're done:
 simple access management and no name conflicts.
 
 
@@ -115,6 +115,6 @@ Shoutout to [sqlalchemy](https://github.com/sqlalchemy/sqlalchemy), and the team
 no interest in developing web pages (a significant part of data folks).
 
 Streamlit is very appealing because of its simplicity and almost flat learning curve due to novel execution model and management of component states.
-It has a number of gotchas and developing advanced things is non-trivial.
+It has a number of gotchas and developing advanced things is ... non-trivial.
 
 But initial prototypes are incredibly fast and simple &mdash; which paves the way to quick iterations and experiments.
