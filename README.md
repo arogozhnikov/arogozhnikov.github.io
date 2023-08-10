@@ -1,6 +1,6 @@
 # Brilliantly Wrong
 
-Personal blog of Alex Rogozhnikov about science.
+Personal blog of Alex Rogozhnikov about science and programming.
 
 http://arogozhnikov.github.io
 
