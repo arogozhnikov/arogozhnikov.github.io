@@ -301,7 +301,7 @@ It looks more like a validation of approach/platform,
 and less like a bunch of interesting observations (though CP-POSH has these too).
 PERISCOPE presentation is more aligned to "get published in AAA journal".
 
-Neither paper discusses a well-known confounder in single-cell studies, how so? 🤷
+Neither paper discusses cell cycle, a well-known confounder in single-cell studies, how so? 🤷
 Optical screens previously characterized full images, not individual cells, 
 and thus did not have to deal with this issue (as there are other cells to get signal from).
 Since neither team used supervision, 
