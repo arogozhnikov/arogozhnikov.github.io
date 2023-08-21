@@ -127,9 +127,8 @@ Interventions are encoded with sgRNA barcodes. In situ sequencing (ISS) is used 
 
 ### How PERISCOPE solves spectral overlap
 
-[//]: # (<a couple of images go here>)
-
-Periscope team replaced two stains in cell painting with fluorescent labels attached to probes with disulfide linker.
+<img src='/images/opticalscreen/periscope_linker.png' style="float: right; width: 400px;">
+Periscope team replaced two stains in cell painting with fluorescent labels attached to probes with disulfide linker (see image).
 Linker is cleaved right after “phenotypic” (cell painting) imaging, and these two channels could be used for ISS.
 Floating fluorescent labels are partially washed and remaining (uniform) signal is cancelled out by image processing pipeline.
 
