@@ -245,8 +245,6 @@ from the corresponding cell compartment.
 
 This rarely converts into a consistent story for screens, and this time is no exception.
 
-[//]: # (TODO delete Method validation consists of a good reproduction of “known biology”, and that’s usually GSEA against the manually collected sets of questionable relevance.)
-
 PERISCOPE compares two different medias, running whole-genome screen in each of them &mdash; an interesting experiment with unclear interpretation: 
 there are genes that "land in different clusters" depending on the media &mdash; 
 but unclear what to do with this information. 
