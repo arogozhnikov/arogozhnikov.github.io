@@ -268,7 +268,7 @@ This problem *does not exist* in pooled screens &mdash; as no expression is meas
 Preranked GSEA (erroneously) relies on zero correlation between genes, 
 but correlation in optical screens is _very_ high. 
 In fact, this high correlation is a subject of several plots in the paper.
-To compare pathways, just define a another direction in embedding space for each pathway, 
+To compare pathways, just define another direction in embedding space for each pathway, 
 as you do for single genes. 
 Direction is a (weighted) average of directions for individual genes + measure separation of distributions along direction 
 (e.g. ROC AUC).
