@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Einops, retrospective of 5 years
-excerpt: 
+excerpt: Five years ago einops was started. In this post I reflect on some choices and faced challenges.
 date: 2023-07-13 12:00:00
 author: Alex Rogozhnikov
 tags: 
