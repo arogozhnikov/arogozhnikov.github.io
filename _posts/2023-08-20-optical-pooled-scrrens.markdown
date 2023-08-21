@@ -133,7 +133,8 @@ Linker is cleaved right after “phenotypic” (cell painting) imaging, and thes
 Floating fluorescent labels are partially washed and remaining (uniform) signal is cancelled out by image processing pipeline.
 
 More specifically, membrane label Concanavalin-A was SS-conjugated to fluorophore directly, 
-while mitochondria stain mitotracker was replaced with anti-TOMM20 Ab + secondary Ab SS-linked to fluorophore (can this place be optimized to remove secondary?). 
+while mitochondria stain mitotracker was replaced with anti-TOMM20 Ab + secondary Ab SS-linked to fluorophore.
+<!-- TODO (can this place be optimized to remove secondary?). --> 
 Original cell painting avoided antibodies to make the process cheaper and more reproducible.
 
 As expected, perturbation of TOMM20 distorts the signal from this channel &mdash; something to keep in mind.
