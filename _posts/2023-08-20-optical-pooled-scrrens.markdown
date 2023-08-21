@@ -162,7 +162,7 @@ and additional steps in the protocol were necessary.
 These overlaps still seem to play negative role in ISS step (see later).
 
 CP-POSH has an additional channel that can be utilized for one study-specific marker, which is later featured in one of experiment.
-(They use deep red &mdash; good choice, as lower wavelengths can be used by phenotyping!). 
+(They use deep red &mdash; good choice, as shorter wavelengths can be used by phenotyping!). 
 
 
 <!-- I am curious if something similar to mitoprobe can be developed for F-actin (i.e. RNA-based label). 
@@ -285,7 +285,7 @@ In particular their lists of significant genes (AUC > 0.55) should significantly
 Also, 0.55 may sound small &mdash; however, bear in mind this is a cell-level classification, 
 and combining multiple cells will result in strong discrimination.
 
-Both Deep Learning (DL) and CellStats analysis nominate the potential role of TUT1 in cell cycle regulation. 
+Both ViT and CellStats "nominate the potential role of TUT1 in cell cycle regulation". 
 (No research made to confirm).
 Interestingly, sgRNA consistency failed for several genes, 
 and half of genes has at least one ‘outlier’ sgRNA (out of 10).
