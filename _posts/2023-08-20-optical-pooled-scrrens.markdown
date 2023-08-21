@@ -289,7 +289,6 @@ Both ViT and CellStats "nominate the potential role of TUT1 in cell cycle regula
 (No research made to confirm).
 Interestingly, sgRNA consistency failed for several genes, 
 and half of genes has at least one ‘outlier’ sgRNA (out of 10).
-Well-level compensation now is possible!
 
 In my opinion, CP-POSH has consistent storyline and more 'standardized' analysis.
 It looks more like a validation of approach/platform, 
