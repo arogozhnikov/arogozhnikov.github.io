@@ -368,9 +368,9 @@ For instance, I have the following questions on my mind:
 
 - does it transfer? When two labs experiment with same cell line, would they get similar results?
   In theory, yes, but how about practice?
-- similarity and difference with arrayed screens: shared media means studied processed are restricted to a single-cell,
-  and cell interactions are not restricted to cell with same perturbation. 
-  This has both pros (clearer signal) and cons (if cell interactions are of interest).  
+- similarity and difference with arrayed screens: shared media means studied processed are limited to a single cell,
+  because cell interactions are not restricted to cells with the same perturbation. 
+  This has both pros (clearer signal) and cons (if cell interactions/collective behavior are of interest).  
 - is it suitable to automatically find 'interesting' combinations of genes? 
   Can we train RL to discover those for us?
 - can it handle tissue slices? Can we pool-screen whole mouse?
