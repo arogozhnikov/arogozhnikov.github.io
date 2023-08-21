@@ -17,6 +17,19 @@ I'll make a small comparison of approaches and critically review the papers.*
 *Best of all &mdash; 
 I am not affiliated with either team, and likely this is the most unbiased review you’ll find* 😅
 
+
+## Papers discussed:
+
+- **PERISCOPE** <br/> aka _Perturbation Effect Readout In situ with Single Cell Optical Phenotyping_ 
+  from  [A genome-wide atlas of human cell morphology](https://www.biorxiv.org/content/10.1101/2023.08.06.552164v1.full)
+  (Broad Institute)
+- **CP-POSH** <br/> aka _Cell Painting Pooled Optical Screening in Human cells_ from  [A Pooled Cell Painting CRISPR Screening Platform Enables de novo Inference of
+Gene Function by Self-supervised Deep Learning](https://www.biorxiv.org/content/10.1101/2023.08.13.553051v2.full.pdf)
+  (Insitro Inc.)
+
+
+In the next parts I discuss some details from these preprints.
+
 ## Preface
 
 To drive experiments in biological systems you need two components: 
@@ -29,14 +42,17 @@ To drive experiments in biological systems you need two components:
 
 2. **readout:** detect change in some characteristic.
    Better characterization of system would involve high-dimensional description. 
-   E.g. just measuring cell size, cell death and pH won’t give very little insight into what's happening. 
+   E.g. just measuring cell size, cell death and pH provides little insight into what's happening. 
 
    Several sequencing-based assays provide rich description, and many of them provide single-cell readouts.
-   [Cell painting](https://www.nature.com/articles/nprot.2016.105) stands out: it is much cheaper, microscopy-based, and still captures a lot of biologically-relevant information.
+   [Cell painting](https://www.nature.com/articles/nprot.2016.105) stands out: it is much cheaper, 
+   microscopy-based, and still captures a lot of biologically-relevant information.
 
    
 
- Effectiveness of the system for unbiased discovery, roughly, *is a product of these two dimensions*: how precise your intervention and how well you can describe results of intervention.
+ Effectiveness of the system for unbiased discovery, 
+ roughly, *is a product of these two dimensions*: 
+ how well you control the biology and how well you can describe results of intervention.
 
  Pooled CRISPR screens with scRNAseq/scATAC stand out in both dimensions. <br /> 
  They combine 1. complete control via CRISPR with 2. very high-dimensional interpretable readout.
@@ -95,16 +111,6 @@ Peptides can be used both as discovery tool (e.g. to block some interaction or a
 [//]: # (Peptides have numerous functions and have more straightforward commercialization path.)
 
 
-## Papers discussed:
-
-- **PERISCOPE** <br/> aka _Perturbation Effect Readout In situ with Single Cell Optical Phenotyping_ from  [A genome-wide atlas of human cell morphology](https://www.biorxiv.org/content/10.1101/2023.08.06.552164v1.full)
-  (Broad Institute)
-- **CP-POSH** <br/> aka _Cell Painting Pooled Optical Screening in Human cells_ from  [A Pooled Cell Painting CRISPR Screening Platform Enables de novo Inference of
-Gene Function by Self-supervised Deep Learning](https://www.biorxiv.org/content/10.1101/2023.08.13.553051v2.full.pdf)
-  (Insitro Inc.)
-
-
-In the next parts I discuss some details from these preprints.
 
 
 ## Challenges needed to be solved
@@ -128,7 +134,7 @@ Interventions are encoded with sgRNA barcodes. In situ sequencing (ISS) is used 
 ### How PERISCOPE solves spectral overlap
 
 <img src='/images/opticalscreen/periscope_linker.png' style="float: right; width: 400px;">
-Periscope team replaced two stains in cell painting with fluorescent labels attached to probes with disulfide linker (see image).
+Periscope team replaced two dyes in cell painting with fluorescent labels attached to probes with disulfide linker (see image).
 Linker is cleaved right after “phenotypic” (cell painting) imaging, and these two channels could be used for ISS.
 Floating fluorescent labels are partially washed and remaining (uniform) signal is cancelled out by image processing pipeline.
 
