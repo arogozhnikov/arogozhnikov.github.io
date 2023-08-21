@@ -63,7 +63,7 @@ And opens an opportunity for massive experimentation.
 Great question! A number of whole-genome pooled screens were conducted, same was done with cell painting. 
 Why would you wish _even more_?
 
-_Perturbation of gene can be more nuanced_ than just KO. 
+_Gene perturbation can be more nuanced_ than just knockout. 
 CRISPR tiling, an approach to scan for important positions in genome, requires a lot of experiments.
 
 Space of interventions also goes _beyond single-gene_ at a time. 
@@ -204,7 +204,7 @@ Groups start from existing pools of sgRNAs to guide Cas9, with minor differences
   I hypothesize high error rate (despite CNN filtering) is connected to spectral overlaps.
 
 Scope of experiments is different: Periscope covers 20k genes with 4 guides, 
-while largest experiment in CP-POSH targets druggable genome - 1.6k genes with 10 guides each. 
+while largest experiment in CP-POSH targets druggable genome &mdash; 1.6k genes with 10 guides each. 
 
 ## Phenotypic pipeline and analysis
 
@@ -277,7 +277,7 @@ providing a quantifiable comparison, so they can e.g. demonstrate that targeting
 They also confirm that trained models generalize to new experiments.
 
 Different versions of screen are presented in a uniform way with UMAP+Leiden clustering applied 
-to genes with a clear morphological signature. 
+to genes with a clear morphological signature (see example above). 
 
 
 I was confused by significant divergence between models trained on 300 and 1640 genes, figure 5a. 
@@ -287,7 +287,7 @@ and combining multiple cells will result in strong discrimination.
 
 Both Deep Learning (DL) and CellStats analysis nominate the potential role of TUT1 in cell cycle regulation. 
 (No research made to confirm).
-Interestingly, sgRNA consistency failed for a several genes, 
+Interestingly, sgRNA consistency failed for several genes, 
 and half of genes has at least one ‘outlier’ sgRNA (out of 10).
 Well-level compensation now is possible!
 
@@ -306,7 +306,7 @@ Cancelling this in optical screen is an interesting challenge.
 
 
 
-## So which one you choose?
+## So which one to choose?
 
 Great question, fortunately we have papers to help us! So here is my insight: I don't know.
 **I can’t meaningfully compare performance of two systems after reading preprints.**
@@ -342,7 +342,7 @@ Single UMAP with gene grouped by their similarity is descriptive enough.
 GSEA is a poor argument:  it is embarrassingly easy to find something pleasing with GSEA 
 and throw a bunch of impressively small (incorrect) p-values at readers.
 
-Comparison screen-to-screen is can detect more subtle biology, specific to the biology of culture, and can actually bring interesting insight.
+Comparison screen-to-screen can detect more subtle biology, specific to the biology of culture, and can actually bring interesting insight.
 
 **Discoveries are usually irrelevant for the story and should not be demanded by journals.**
 Method papers are demanded to “show novel biology”, and most of “byproduct discoveries” have no value for readers or authors &mdash; otherwise those would be a separate paper.
