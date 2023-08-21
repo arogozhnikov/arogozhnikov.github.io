@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Optical pooled screens of cells (overview of emerging biotechnology)
-excerpt: Cellpose-POSH vs PERISCOPE &mdash; discussing differences of two novel tools for unbiased biological discovery.
+excerpt: CellPaint-POSH vs PERISCOPE &mdash; discussing differences of two novel tools for unbiased biological discovery.
 date: 2023-08-20 12:00:00
 author: Alex Rogozhnikov
 tags: 
