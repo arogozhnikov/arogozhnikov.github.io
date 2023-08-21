@@ -167,8 +167,8 @@ Two additional spectral overlaps (WGA <> base G) and (phalloidin <> base T) are 
 and additional steps in the protocol were necessary.
 These overlaps still seem to play negative role in ISS step (see later).
 
-CP-POSH has an additional channel that can be utilized for one study-specific marker, which is later featured in one of experiment.
-(They use deep red &mdash; good choice, as shorter wavelengths can be used by phenotyping!). 
+CP-POSH has an additional channel that can be utilized for one study-specific marker, which is later featured in one of experiments.
+(They use deep red &mdash; good choice, as shorter wavelengths can be used by phenotyping!) 
 
 
 <!-- I am curious if something similar to mitoprobe can be developed for F-actin (i.e. RNA-based label). 
@@ -188,7 +188,7 @@ This part is very similar, as both groups:
 
 CP-POSH additionally uses tiny *image-to-image convnet to improve calling* to get +18% correct calls. 
 Such model can be trained on the screen data itself: 
-correctly called barcodes (with simpler pipeline) are used for training the model. 
+almost-correctly called barcodes (with simpler pipeline) are used for training the model. 
 
 Absence of separate barcodes, while very reliable, has its demerits too: 
 cells that start their lineage from the same transfected cells, are not ‘true independent observations’, 
