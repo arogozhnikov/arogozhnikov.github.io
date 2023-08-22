@@ -15,7 +15,7 @@ What's this new technology is, what it can be used for, and why I've been waitin
 I'll make a small comparison of approaches and critically review the papers.* 
 
 *Best of all &mdash; 
-I am not affiliated with either team, and likely this is the most unbiased review you’ll find* 😅
+I am not affiliated with either team, and this is likely the most unbiased review you’ll find* 😅
 
 
 ## Papers discussed:
@@ -38,7 +38,7 @@ To drive experiments in biological systems you need two components:
 
    For a broad understanding of biological system you want to have detailed control of all of its parts. 
    CRISPR solves this by individually acting on any selected gene. 
-   This makes CRISPR-driven experiment more interpretable and ensures high coverage of biological process.
+   This makes CRISPR-driven experiment more interpretable and ensures high coverage of biological processes.
 
 2. **readout:** detect change in some characteristic.
    Better characterization of system would involve high-dimensional description. 
@@ -60,7 +60,8 @@ To drive experiments in biological systems you need two components:
 
 {:start="3"}
 3. **price per experiment.** The more observations you have the merrier. 
-   We already found there is a ton of things happening in our biology, and to find or at least a majority of them in an unbiased manner, a number of attempts is required.
+   We already found there are a ton of things happening in our biology,
+   and to find all or at least a majority of them in an unbiased manner, a number of attempts is required.
 
    Pooled screens are very efficient in experiment material: every cell is turned into a tiny individual experiment.
    With all multiplexing/overloading tricks, a *cost-per-cell* in scRNAseq is comparable to *cost-per-well* in cell painting. 
@@ -73,11 +74,12 @@ Overall, technology opens an opportunity for massive experimentation.
 
 
 
-## Why even more scalable assay? 🤔
+## Why do we need an even more scalable assay? 🤔
 
 
-Great question! A number of whole-genome pooled screens were conducted, same was done with cell painting. 
-Why would you wish _even more_?
+Great question! 
+A number of whole-genome pooled screens have been conducted, as well as for cell painting. 
+Why would you wish for _even more_?
 
 _Gene perturbation can be more nuanced_ than just knockout. 
 CRISPR tiling, an approach to scan for important positions in genome, requires a lot of experiments.
@@ -85,11 +87,12 @@ CRISPR tiling, an approach to scan for important positions in genome, requires a
 Space of interventions also goes _beyond single-gene_ at a time. 
 If e.g. two proteins can perform similar function (“alternative pathways”), downregulating just one of them won’t have as much effect 
 (periscope paper accidentally needs double KO of M6PR and IGF2R).
-These cases, when effect of combination is different from combination of effects, are of high interest and give a more direct hint at underlying biology than just similarity of images.
+These cases, when the effect of combination is different from combination of effects, are of high interest and give a more direct hint at underlying biology than just similarity of images.
 At the same time such cases are (likely) sparse, and should be found across 20k x 20k = 400m combinations…
 
-Sometimes you need to interact with more than two genes at a time, for instance to create iPSC.
+Sometimes you need to interact with more than two genes at a time, for instance to create iPSCs.
 Recall that iPSC creation relies on simultaneous expression of 4 [Yamanaka factors](https://en.wikipedia.org/wiki/Induced_pluripotent_stem_cell#Production).
+For reference, the original [Yamanaka paper](https://www.cell.com/cell/fulltext/S0092-8674(06)00976-7?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0092867406009767%3Fshowall%3Dtrue) screened 24 candidate genes.
 To improve upon this “recipe”, a large number of combinations should be tried.
 Scanning just combinations of 4 factors out of 100 [TFs](https://en.wikipedia.org/wiki/Transcription_factor) already takes around 4 million attempts. 
 
@@ -102,13 +105,11 @@ ML-friendliness thus becomes a requirement.
 <img src="/images/opticalscreen/peptides.png" height="200" /><br />
 <small markdown="True"><a href="https://pubmed.ncbi.nlm.nih.gov/23316341/">J. Thundimadathil, 2012</a>  </small>
 </div> -->
-There are non-genetic perturbations that are of high interested: cell environment, additions of chemicals or biologics.
+There are non-genetic perturbations that are of high interest: cell environment, additions of chemicals or biologics.
 Unfortunately, usually there is no way to ‘massively multiplex’ these conditions, and microwell stays the minimal possible unit of experiment. 
 Notable exception are **peptides**, as those similarly can be barcoded and participate in a pooled screen.
 Peptides can be used both as discovery tool (e.g. to block some interaction or activate receptor) and [as a therapeutic](https://en.wikipedia.org/wiki/Peptide_therapeutics).
 
-[//]: # (for more detailed interrogations when a specific process or function can be blocked &#40;rather than completely removing protein&#41;.)
-[//]: # (Peptides have numerous functions and have more straightforward commercialization path.)
 
 
 
@@ -182,35 +183,35 @@ In total both protocols are not straightforward.
 This part is very similar, as both groups:
 - use Illumina’s miseq kit for ISS (sequence-by-synthesis), and both groups used lower resolution (10X) for imaging.
 - use padlock with gap to amplify barcode for sequencing
-- finally, barcodes used in both cases are not barcodes, but sgRNAs themselves. <br />
+- finally, barcodes used in both cases are not an additional genetic sequences, but sgRNAs themselves. <br />
   No barcodes &mdash; no problems! 
 
 
 CP-POSH additionally uses tiny *image-to-image convnet to improve calling* to get +18% correct calls. 
-Such model can be trained on the screen data itself: 
+Such a model can be trained on the screen data itself: 
 almost-correctly called barcodes (with simpler pipeline) are used for training the model. 
 
 Absence of separate barcodes, while very reliable, has its demerits too: 
-cells that start their lineage from the same transfected cells, are not ‘true independent observations’, 
+cells that replicate from the same transfected cells, are not ‘true independent observations’, 
 as e.g. they can carry the same mutation introduced during transfection. 
-Additional barcode could tell apart independent transfections and help in lineage tracking.
+Additional barcodes could tell apart independent transfections and help in lineage tracking.
 
-Optical pooling has partial remedy to this problem: cells coming from the same origin usually sit together in a well. 
+Optical pooling has partial remedy to this problem: cells coming from the same origin usually colocalize within a well. 
 It could be an interesting analysis if ‘families’ of cells carry any additional visual signature that is not shared by other cells with the same sgRNA.
 
 
 ### sgRNAs 
 
 Groups start from existing pools of sgRNAs to guide Cas9, with minor differences in selection procedure
-- Periscope uses 12 cycles and minimal Levenstein distance ≥ 2, which means they detect if barcode contains one error (and discard the barcode).
-- CP-POSH uses 13 cycles and Levenstein distance ≥ 3, and allows up to 1 error correction.
+- Periscope uses 12 cycles and minimal Levenshtein distance ≥ 2, which means they detect if barcode contains one error (and discard the barcode).
+- CP-POSH uses 13 cycles and Levenshtein distance ≥ 3, and allows up to 1 error correction.
   Most cells have more than one amplicon, which makes barcode calling even more reliable.
   Error correction adds +80% of barcoded cells in their largest screen.
   
   I hypothesize high error rate (despite CNN filtering) is connected to spectral overlaps.
 
 Scope of experiments is different: Periscope covers 20k genes with 4 guides, 
-while largest experiment in CP-POSH targets druggable genome &mdash; 1.6k genes with 10 guides each. 
+while the largest experiment in CP-POSH targets druggable genome &mdash; 1.6k genes with 10 guides each. 
 
 ## Phenotypic pipeline and analysis
 
@@ -258,9 +259,9 @@ As I understand, the goal was to demonstrate that running screen
 in a more physiologically relevant media would yield better insights, 
 but it is unclear if differences (Ext Fig.8) indeed show superiority of either media.
 
-Another interesting shot is TMEM251 investigation with significant additional research beyond PERISCOPE. 
-If TMEM251 story really matters, I’d prefer to see it published separately and better verified (using available info from other pooled screens as well), 
-Periscope in this story was needed only for initial guess based on GSEA &mdash; but this guess could come from other public screen as well.
+Another interesting shot is the TMEM251 investigation with significant additional research beyond PERISCOPE. 
+If the TMEM251 story really matters, I’d prefer to see it published separately and better verified (using available info from other pooled screens as well), 
+Periscope in this story was needed only for initial guess based on GSEA &mdash; but this guess could come from other public screens as well.
 
 Speaking of GSEA...  &mdash; usage of GSEA in paper (e.g. fig. 6a) makes no sense 😞.
 GSEA's power is combining signal from multiple genes with low expression.
@@ -332,7 +333,7 @@ Speaking of potential, it is unclear if two sgRNAs per cell can be confidently c
 ## Can we do better?
 
 **Screen validation should become a benchmark.**
-It’s about time we had a benchmark of reproduction of gene networks/gene ontology with some pre-defined procedure. 
+It’s about time we had a benchmark of reproduction of gene networks/gene ontology with some predefined procedure. 
 Community would benefit from comparing across the screens rather than “rediscovering” mTOR in every screen paper.
 
 Number one question is &mdash; can screen discover culture-specific biology?
