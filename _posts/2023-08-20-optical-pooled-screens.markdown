@@ -11,7 +11,7 @@ tags:
 
 
 *This month brought two preprints describing optical pooled CRISPR screens.
-What's this new technology is, what it can be used for, and why I've been waiting for it?
+What's this new technology, what it can be used for, and why I've been waiting for it?
 I'll make a small comparison of approaches and critically review the papers.* 
 
 *Best of all &mdash; 
