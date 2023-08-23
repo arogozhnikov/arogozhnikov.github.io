@@ -78,7 +78,8 @@ Overall, technology opens an opportunity for massive experimentation.
 
 
 Great question! 
-A number of whole-genome pooled screens have been conducted, as well as for cell painting. 
+A number of whole-genome pooled screens have been conducted, 
+arrayed whole-genome screens were run with cell painting. 
 Recursion, who pioneered adoption of Cell Painting, [scaled it](https://www.recursion.com/operating-system) to 2 million wells a week.
 Why would you wish for _even more_?
 
@@ -88,7 +89,7 @@ CRISPR tiling, an approach to scan for important positions in genome, requires a
 Space of interventions also goes _beyond single-gene_ at a time. 
 If e.g. two proteins can perform similar function (“alternative pathways”), downregulating just one of them won’t have as much effect 
 (periscope paper accidentally needs double KO of M6PR and IGF2R).
-These cases, when the effect of combination is different from combination of effects, are of high interest and give a more direct hint at underlying biology than just similarity of images.
+These cases, when the effect in combination is different from combination of effects, are of high interest and give a more direct hint at underlying biology than just similarity of images.
 At the same time such cases are (likely) sparse, and should be found across 20k x 20k = 400m combinations…
 
 Sometimes you need to interact with more than two genes at a time, for instance to create iPSCs.
@@ -124,7 +125,8 @@ and base calling in ISS (right) have significant overlap in channels. <br />
 Image from CP-POSH preprint.
 </small>
 
-Interventions are encoded with sgRNA barcodes. In situ sequencing (ISS) is used to read the barcode back. 
+Interventions are encoded with sgRNA barcodes. 
+In situ sequencing (ISS) is used to read the barcode back. 
 
 - **Main issue is merging ISS with cell painting**. 
   There is a spectral overlap between channels used for cell painting and ISS, and thus ISS becomes non-reliable.
@@ -242,8 +244,8 @@ A nice detail: they use a well-level compensation. That's possible thanks to poo
 Both papers delve into ‘differential expression’ of hand-crafted morphological features to provide arguments that readout is valid. 
 For instance, periscope shows that most important features to detect interventions connected to common pathways point to the right cell compartment.
 
-On the picture from PERISCOPE you see that disturbing a pathway results in some enrichment of features 
-from the corresponding cell compartment.
+On the picture from PERISCOPE you see that disturbing a pathway results in some enrichment of 
+important features (‘differentially expressed‘ features) from the corresponding cell compartment.
 
 <div style="clear: both;"></div>
 
@@ -268,7 +270,7 @@ Speaking of GSEA...  &mdash; usage of GSEA in paper (e.g. fig. 6a) makes no sens
 GSEA's power is combining signal from multiple genes with low expression.
 This problem *does not exist* in optical screens &mdash; as no expression is measured.
 Preranked GSEA (erroneously) relies on zero correlation between genes, 
-but correlation in optical screens is _very_ high. 
+but correlation in optical screens is very high. 
 In fact, this high correlation is a subject of several plots in the paper.
 To compare pathways, just define another direction in embedding space for each pathway, 
 as you do for single genes. 
@@ -288,8 +290,8 @@ Different versions of screen are presented in a uniform way with UMAP+Leiden clu
 to genes with a clear morphological signature (see example above). 
 
 
-I was confused by significant divergence between models trained on 300 and 1640 genes, figure 5a. 
-In particular their lists of significant genes (AUC > 0.55) should significantly diverge across models.
+I was confused by notable divergence between models trained on 300 and 1640 genes, figure 5a. 
+In particular their lists of significant genes (AUC > 0.55) should markedly diverge across models.
 Also, 0.55 may sound small &mdash; however, bear in mind this is a cell-level classification, 
 and combining multiple cells will result in strong discrimination.
 
