@@ -1,11 +1,17 @@
 ---
 layout: post
 title: Optical pooled screens of cells (overview of emerging biotechnology)
-excerpt: CellPaint-POSH vs PERISCOPE &mdash; discussing differences of two novel tools for unbiased biological discovery.
+excerpt: CellPaint-POSH vs PERISCOPE — discussing differences of two novel tools for unbiased biological discovery.
 date: 2023-08-20 12:00:00
 author: Alex Rogozhnikov
 tags: 
 - biology
+meta: |
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Optical pooled screens of cells (overview of emerging biotechnology)" />
+    <meta property="og:description" content="CellPaint-POSH vs PERISCOPE — discussing differences of two novel tools for unbiased biological discovery." />
+    <meta property="og:url" content="https://arogozhnikov.github.io/2023/08/20/optical-pooled-screens.html" />
+    <meta property="og:image" content="https://arogozhnikov.github.io/images/opticalscreen/optical_screen_attractive_image.png" />
 
 ---
 
