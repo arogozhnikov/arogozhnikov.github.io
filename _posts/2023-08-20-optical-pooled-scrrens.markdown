@@ -191,14 +191,14 @@ CP-POSH additionally uses tiny *image-to-image convnet to improve calling* to ge
 Such a model can be trained on the screen data itself: 
 almost-correctly called barcodes (with simpler pipeline) are used for training the model. 
 
+<!---
 Absence of separate barcodes, while very reliable, has its demerits too: 
 cells that replicate from the same transfected cells, are not ‘true independent observations’, 
 as e.g. they can carry the same mutation introduced during transfection. 
 Additional barcodes could tell apart independent transfections and help in lineage tracking.
-
 Optical pooling has partial remedy to this problem: cells coming from the same origin usually colocalize within a well. 
 It could be an interesting analysis if ‘families’ of cells carry any additional visual signature that is not shared by other cells with the same sgRNA.
-
+--->
 
 ### sgRNAs 
 
