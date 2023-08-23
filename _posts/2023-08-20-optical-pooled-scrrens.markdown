@@ -61,7 +61,7 @@ To drive experiments in biological systems you need two components:
 {:start="3"}
 3. **price per experiment.** The more observations you have the merrier. 
    We already found there are a ton of things happening in our biology,
-   and to find all or at least a majority of them in an unbiased manner, a number of attempts is required.
+   and to find at least a majority of them in an unbiased manner, a number of attempts is required.
 
    Pooled screens are very efficient in experiment material: every cell is turned into a tiny individual experiment.
    With all multiplexing/overloading tricks, a *cost-per-cell* in scRNAseq is comparable to *cost-per-well* in cell painting. 
@@ -224,7 +224,7 @@ I've also been avoiding training with supervision for a while, for a couple of r
    for studying orthogonal questions (e.g. well-to-well variations) 
 3. should there be any confounder, it is less likely to be picked
 
-It’s actually **impressive how little prior knowledge is required to get a decent a grasp of biology just from looking at static cells**.
+It’s actually **impressive how little prior knowledge is required to get a decent grasp of biology just from looking at static cells**.
 We only need to know all genes of the organism, and that’s it.
 
 PERISCOPE relies on [Cell Profiler](https://cellprofiler.org/), and does not train any specific pipeline. 
@@ -252,7 +252,7 @@ from the corresponding cell compartment.
 
 This rarely converts into a consistent story for screens, and this time is no exception.
 
-PERISCOPE compares two different medias, running whole-genome screen in each of them &mdash; an interesting experiment with unclear interpretation: 
+PERISCOPE compares two different medias, running whole-genome screens in each of them &mdash; an interesting experiment with unclear interpretation: 
 there are genes that "land in different clusters" depending on the media &mdash; 
 but unclear what to do with this information. 
 As I understand, the goal was to demonstrate that running screen 
@@ -265,7 +265,7 @@ Periscope in this story was needed only for initial guess based on GSEA &mdash; 
 
 Speaking of GSEA...  &mdash; usage of GSEA in paper (e.g. fig. 6a) makes no sense 😞.
 GSEA's power is combining signal from multiple genes with low expression.
-This problem *does not exist* in pooled screens &mdash; as no expression is measured.
+This problem *does not exist* in optical screens &mdash; as no expression is measured.
 Preranked GSEA (erroneously) relies on zero correlation between genes, 
 but correlation in optical screens is _very_ high. 
 In fact, this high correlation is a subject of several plots in the paper.
@@ -339,8 +339,8 @@ Community would benefit from comparing across the screens rather than “redisco
 Number one question is &mdash; can screen discover culture-specific biology?
 When comparing several cell lines, are gene similarities in optical screen and scRNAseq similar for the same cell line? 
 
-It would be of high interest to highlight which pathways are detectable in scRNAseq but hardly noticeable in optical pooled screening (and vice versa).
-It is of value to know if there are pathways can be seen in optical screen or in scrnaseq &mdash; and can help in choosing the right instrument for problem.
+It would be of high interest to highlight which pathways are detectable in scRNAseq but hardly noticeable in optical pooled screening (and vice versa). 
+It is of value to know if there are pathways that can be seen in an optical screen or in scrnaseq — and can help in choosing the right instrument for the problem.
 
 **Compare screen to screen, not screen to “common knowledge”.**
 Common pathways are a very rough sanity check.
@@ -377,7 +377,7 @@ For instance, I have the following questions on my mind:
 - can it handle tissue slices? Can we pool-screen whole mouse?
 - if previous is true, can vision pipeline handle neurons? Is DINO a good choice for that?
 
-Hopefully more research to come and we'll get answers to these and other questions soon.
+Hopefully more research will come and we'll get answers to these and other questions soon.
 
 
 
