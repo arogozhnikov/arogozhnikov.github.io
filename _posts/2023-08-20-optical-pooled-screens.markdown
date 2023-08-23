@@ -79,6 +79,7 @@ Overall, technology opens an opportunity for massive experimentation.
 
 Great question! 
 A number of whole-genome pooled screens have been conducted, as well as for cell painting. 
+Recursion, who pioneered adoption of Cell Painting, [scaled it](https://www.recursion.com/operating-system) to 2 million wells a week.
 Why would you wish for _even more_?
 
 _Gene perturbation can be more nuanced_ than just knockout. 
@@ -351,7 +352,8 @@ and throw a bunch of impressively small (incorrect) p-values at readers.
 Comparison screen-to-screen can detect more subtle biology, specific to the biology of culture, and can actually bring interesting insight.
 
 **Discoveries are usually irrelevant for the story and should not be demanded by journals.**
-Method papers are demanded to “show novel biology”, and most of “byproduct discoveries” have no value for readers or authors &mdash; otherwise those would be a separate paper.
+Method papers are demanded to “show novel biology”, and most of “byproduct discoveries” have no value for readers or authors &mdash; 
+otherwise those would be a separate paper.
 
 *Faster, cheaper, easier to scale, more reliable, easier to implement* are 
 **great** arguments for technology. 
@@ -374,8 +376,8 @@ For instance, I have the following questions on my mind:
   This has both pros (clearer signal) and cons (if cell interactions/collective behavior are of interest).  
 - is it suitable to automatically find 'interesting' combinations of genes? 
   Can we train RL to discover those for us?
-- can it handle tissue slices? Can we pool-screen whole mouse?
-- if previous is true, can vision pipeline handle neurons? Is DINO a good choice for that?
+- can it handle tissue slices? Can we pool-screen [whole mouse](https://www.frontiersin.org/articles/10.3389/fragi.2021.714926/full)?
+- can vision pipeline handle neurons? Is DINO a good choice for that?
 
 Hopefully more research will come and we'll get answers to these and other questions soon.
 
@@ -391,9 +393,6 @@ Hopefully more research will come and we'll get answers to these and other quest
 
 
 <!-- 
-
-
-
 
 
 # Cell painting channels:
@@ -446,31 +445,6 @@ A    637  -> 676/29nm   <>  Mitoprobe
 C    637  -> 732/68nm
 
 
-
-
-
-And to have a good system 
-
-
-- why cell painting is strong: cheap characterization
-- why CRISPR is cool: highly interpretable, highly multiplexable
-- no confounders!
-- achieving recursion-style imaging 
-- why it is necessary ? Combinations: total number of combinations, yamanaka factors.
-- initially it sounds like one can’t just mix two different 
-- screen for pathways interventions. Maybe effects of lack of some gene can be compensated with the other one?
-- allow using a single well per condition (e.g. media) 
-- finding a virus-blocking receptor?
-
-- where will it go? Ideally all interventions should be multiplexable.
-
 -->
 
 
-
-
-<!--
-Most pooled CRISPR screens assay for low dimensional phenotypes (e.g. fitness, fluorescent markers). 
-Higher-dimensional assays such as perturb-seq are available but costly and only applicable to transcriptomics readouts 7–11. Recently, pooled optical screening, which combines pooled CRISPR screening and microscopy-based assays, has been demonstrated in the studies of the NFkB pathway, essential human genes, cytoskeletal organization and antiviral response
-
--->
