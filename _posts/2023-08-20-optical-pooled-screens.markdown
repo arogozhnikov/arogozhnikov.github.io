@@ -219,8 +219,8 @@ Groups start from existing pools of sgRNAs to guide Cas9, with minor differences
   
   I hypothesize high error rate (despite CNN filtering) is connected to spectral overlaps.
 
-Scope of experiments is different: Periscope covers 20k genes with 4 guides, 
-while the largest experiment in CP-POSH targets druggable genome &mdash; 1.6k genes with 10 guides each. 
+Scope of experiments is different: Periscope covers 20k genes with 4 guides per gene, 
+while the largest experiment in CP-POSH targets druggable genome &mdash; 1.6k genes with 10 guides per gene. 
 
 ## Phenotypic pipeline and analysis
 
@@ -257,7 +257,7 @@ important features (‘differentially expressed‘ features) from the correspond
 
 ## Verification & Discovery 
 
-"Method papers" are a special genre of literature: 1) focus of author is technology 2) focus of editor is novel biology 3) authors must provide convincing validation which noone wants to dive in.
+"Method papers" are a special genre of literature: 1) focus of author is technology 2) focus of editor is novel biology 3) authors must provide convincing validation which no one wants to dive in.
 
 This rarely converts into a consistent story for screens, and this time is no exception.
 
@@ -304,9 +304,9 @@ and combining multiple cells will result in strong discrimination.
 Both ViT and CellStats "nominate the potential role of TUT1 in cell cycle regulation". 
 (No research made to confirm).
 Interestingly, sgRNA consistency failed for several genes, 
-and half of genes has at least one ‘outlier’ sgRNA (out of 10).
+and half of genes have at least one ‘outlier’ sgRNA (out of 10).
 
-In my opinion, CP-POSH has consistent storyline and more 'standardized' analysis.
+In my opinion, CP-POSH has a consistent storyline and more 'standardized' analysis.
 It looks more like a validation of approach/platform, 
 and less like a bunch of interesting observations (though CP-POSH has these too).
 PERISCOPE presentation is more aligned to "get published in AAA journal".
