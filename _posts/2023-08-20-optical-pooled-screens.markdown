@@ -73,7 +73,7 @@ To drive experiments in biological systems you need two components:
    With all multiplexing/overloading tricks, a *cost-per-cell* in scRNAseq is comparable to *cost-per-well* in cell painting. 
    Quite a difference!
 
-Optical pooled CRISPR screening replaces expensive sequencing with cheap microscopy, and drops price-per-cell >200 fold (PERISCOPE reports price-per-cell ~$0.001).
+Optical pooled CRISPR screening, a focus of this post, replaces expensive sequencing with cheap microscopy, and drops price-per-cell >200 fold (PERISCOPE reports price-per-cell ~$0.001).
 Compared to *arrayed* optical screens, lower requirements for automation can be expected as all conditions share the well.
 
 Overall, technology opens an opportunity for massive experimentation.
