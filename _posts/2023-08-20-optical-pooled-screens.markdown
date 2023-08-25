@@ -189,10 +189,13 @@ In total both protocols are not straightforward.
 
 ### _In situ_ sequencing (ISS)
 
+<img src='/images/opticalscreen/in_situ_sequencing.png' />
+<small>Source: <a href="https://www.cell.com/cell/pdf/S0092-8674(19)31067-0.pdf">Feldman</a> et al., 2019</small>
+
 ISS reads the barcode to determine perturbed gene.
 This part is very similar, as both groups:
 - use Illumina’s miseq kit for ISS (sequence-by-synthesis), and both groups used lower resolution (10X) for imaging.
-- use padlock with gap to amplify barcode for sequencing
+- use padlock with gap to amplify barcode to get reliable signal during sequencing
 - finally, barcodes used in both cases are not an additional genetic sequences, but sgRNAs themselves. <br />
   No barcodes &mdash; no problems! 
 
@@ -212,8 +215,8 @@ It could be an interesting analysis if ‘families’ of cells carry any additio
 
 ### sgRNAs 
 
-It is hard (and long) for ISS to reliably sequence all ~20 bases of sgRNA, 
-the guides are selected so that reading only first 12-13 bases is enough to guess sgRNA.
+Quality of ISS quickly drops with sequence length, so instead of sequencing all ~20 bases of sgRNA, 
+the guides are selected so that reading only first 12-13 bases is enough to guess which sgRNA is expressed in the cell.
 Groups start from existing pools of sgRNAs to guide Cas9, with minor differences in selection procedure:
 - Periscope uses 12 cycles and minimal Levenshtein distance ≥ 2, which means they detect if barcode contains one error (and discard the barcode).
 - CP-POSH uses 13 cycles and Levenshtein distance ≥ 3, and allows up to 1 error correction.
