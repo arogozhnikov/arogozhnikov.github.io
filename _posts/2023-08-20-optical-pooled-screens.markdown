@@ -131,7 +131,7 @@ and base calling in ISS (right) have significant overlap in channels. <br />
 Image from CP-POSH preprint.
 </small>
 
-Interventions are encoded with sgRNA barcodes. 
+Interventions are encoded with [sgRNA](https://en.wikipedia.org/wiki/Guide_RNA) barcodes. 
 In situ sequencing (ISS) is used to read the barcode back. 
 
 - **Main issue is merging ISS with cell painting**. 
@@ -189,6 +189,7 @@ In total both protocols are not straightforward.
 
 ### _In situ_ sequencing (ISS)
 
+ISS reads the barcode to determine perturbed gene.
 This part is very similar, as both groups:
 - use Illumina’s miseq kit for ISS (sequence-by-synthesis), and both groups used lower resolution (10X) for imaging.
 - use padlock with gap to amplify barcode for sequencing
@@ -211,7 +212,9 @@ It could be an interesting analysis if ‘families’ of cells carry any additio
 
 ### sgRNAs 
 
-Groups start from existing pools of sgRNAs to guide Cas9, with minor differences in selection procedure
+It is hard (and long) for ISS to reliably sequence all ~20 bases of sgRNA, 
+the guides are selected so that reading only first 12-13 bases is enough to guess sgRNA.
+Groups start from existing pools of sgRNAs to guide Cas9, with minor differences in selection procedure:
 - Periscope uses 12 cycles and minimal Levenshtein distance ≥ 2, which means they detect if barcode contains one error (and discard the barcode).
 - CP-POSH uses 13 cycles and Levenshtein distance ≥ 3, and allows up to 1 error correction.
   Most cells have more than one amplicon, which makes barcode calling even more reliable.
@@ -234,7 +237,7 @@ I've also been avoiding training with supervision for a while, for a couple of r
 3. should there be any confounder, it is less likely to be picked
 
 It’s actually **impressive how little prior knowledge is required to get a decent grasp of biology just from looking at static cells**.
-We only need to know all genes of the organism, and that’s it.
+We only need to know all genes of the organism to run CRISPR, analysis of images does not use even this piece of information. 
 
 PERISCOPE relies on [Cell Profiler](https://cellprofiler.org/), and does not train any specific pipeline. 
 After averaging morphological profiles across the cells for the same gene, a matrix of gene similarities is computed.
