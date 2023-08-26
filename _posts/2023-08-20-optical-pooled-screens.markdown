@@ -70,7 +70,7 @@ To drive experiments in biological systems you need two components:
    and to find at least a majority of them in an unbiased manner, a number of attempts is required.
 
    Pooled screens are very efficient in experiment material: every cell is turned into a tiny individual experiment.
-   With all multiplexing/overloading tricks, a *cost-per-cell* in scRNAseq is comparable to *cost-per-well* in cell painting. 
+   Still, with all multiplexing/overloading tricks, a *cost-per-cell* in scRNAseq is comparable to *cost-per-well* in cell painting. 
    Quite a difference!
 
 Optical pooled CRISPR screening, a focus of this post, replaces expensive sequencing with cheap microscopy, and drops price-per-cell >200 fold (PERISCOPE reports price-per-cell ~$0.001).
