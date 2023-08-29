@@ -396,8 +396,15 @@ For instance, I have the following questions on my mind:
 Hopefully more research will come and we'll get answers to these and other questions soon.
 
 
+<div style="text-align: center; font-size: 40px; padding: 110px">👋</div>
+
+
+#### Acknowledgments
+
 Thanks to Kevan Shah and Tatiana Dvorkina for proofreading and comments.
 Thanks to CP-POSH team (Ci Chu, Max Salick) and PERISCOPE team (Meraj Ramezani, Paul C. Blainey) for answering questions.
+
+#### Comments
 
 Paul C. Blainey provided some pointers to prior works of his lab, relevant to the questions I discuss in the post:
 
