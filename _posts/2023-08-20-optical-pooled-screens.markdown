@@ -167,7 +167,7 @@ Interestingly, they optimized a sequence to have high correlation with TOMM20 **
 
 Resulting image (on the right) shows optimization was successful.
 
-RNA sequences were taken from the ribosome after search for fragments that would bind to 12S rRNA and 16S rRNA (two different location), 
+RNA sequences were taken from the ribosome after search for fragments that would bind to 12S rRNA and 16S rRNA (two different locations), 
 then tested 8 of them and left two: one for 12s and one for 16s in proportion 1:1. 
 This is an interesting solution and seems to overcome the issues seen in PERISCOPE approach, and likely to work in other species too.
 
@@ -396,9 +396,31 @@ For instance, I have the following questions on my mind:
 Hopefully more research will come and we'll get answers to these and other questions soon.
 
 
+Thanks to Kevan Shah and Tatiana Dvorkina for proofreading and comments.
+Thanks to CP-POSH team (Ci Chu, Max Salick) and PERISCOPE team (Meraj Ramezani, Paul C. Blainey) for answering questions.
+
+Paul C. Blainey provided some pointers to prior works of his lab, relevant to the questions I discuss in the post:
+
+> ... a couple of comments that you may find interesting:
+> - In Figure S2 of [Feldman et al., 2019](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6886477/) we showed efficient detection of 2 guides per cell (in ~80% of cells)
+> - In [Carlson et al, 2023](https://www.pnas.org/doi/10.1073/pnas.2210623120) we use a different 
+>   and simple strategy to overlap IHC and SBS in the same channels which is to titrate down the IHC reagents
+> - Both of these works demonstrate a potentially standardizable validation approach to do a follow-up ("secondary") 
+>   screen in an independent experiment with higher replication (more cells and/or guides per gene). 
+>   The hit ranks or feature scores can be compared gene-wise or guide-wise across the primary and secondary to check reproducibility of the results. 
+>   This can be for technical validation (same assay and guides) or biological validation (new assay and/or new biological model system).  
+>   So far we're seeing impressive reproducibility which supports some of the more challenging and informative use cases you suggest.  
+> - [Funk et al, 2022](https://www.biorxiv.org/content/10.1101/2021.11.28.470116v1.full) demostrated that cell cycle can be treated more explicitly, 
+>   we added 24-hour live imaging of cells prior to fixation
 
 
-
+<!--
+My comment: for some processes like mitosis / cell movement, 
+live imaging can be done together with pooled screen 
+and used as a functional validation to provide "arbitrage" between different screens.
+This still requires compared approaches to be implemented in the same lab, 
+or, at least, with the same culture. 
+-->
 
 
 
@@ -411,10 +433,7 @@ Hopefully more research will come and we'll get answers to these and other quest
 
 # Cell painting channels:
 
-
 Original cell paingting from the paper: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5223290/
-
-
 
 
 Phenotypic images were acquired using a 20X 0.75 NA CFI Plan Apo Lambda objective (Nikon MRD00205) and the following Semrock filters for each phenotypic probe: 
@@ -438,8 +457,6 @@ TOMM20 intersects with T
 ConA intersects with miseq A
 
 
-
-——
 
 Same for cell painting -POSH
 
