@@ -240,7 +240,7 @@ I've also been avoiding training with supervision for a while, for a couple of r
 3. should there be any confounder, it is less likely to be picked
 
 It’s actually **impressive how little prior knowledge is required to get a decent grasp of biology just from looking at static cells**.
-We only need to know all genes of the organism to run CRISPR, image processing and analysis don't need even this piece of information. 
+We only need to know all genes of the organism to run CRISPR, neural networks don't need even this piece of information. 
 
 PERISCOPE relies on [Cell Profiler](https://cellprofiler.org/), and does not train any specific pipeline. 
 After averaging morphological profiles across the cells for the same gene, a matrix of gene similarities is computed.
