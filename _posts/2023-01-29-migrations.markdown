@@ -21,7 +21,8 @@ This shift is clearly seen in management of cloud resources.
 In AWS CDK, pulumi, terraform and other [IaC](https://en.wikipedia.org/wiki/Infrastructure_as_code) tools user defines desired state of infrastructure, and it is responsibility of a tool to produce a correct ‘migration of infrastructure’.
 
 This shift is visible in dependency management:
-Dependency management relies on expected state (which packages/libraries are required) and less on imperative instructions that dictate order of installation (though imperative glue here is still frequently unavoidable - for instance, dockerfiles are still imperative). 
+Dependency management relies on expected state (which packages/libraries are required) and less on imperative instructions that dictate order of installation.
+Imperative glue here is still very common &mdash; e.g. dockerfiles, but tools like nix/nixos eliminate the glue as well. 
 
 <!-- Streamlit (tool used by data/ml folks) uses state (kept on client-side) to define the contents of the page. Every user action changes the state, and triggers computation of a new content with (mostly) preserved state.  -->
 
