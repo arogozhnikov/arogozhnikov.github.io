@@ -52,6 +52,13 @@
         h2 {
             color: #038;
         }
+
+        @media print {
+            .no-print { display: none !important;}
+            body {
+                font-size: 12.5px;
+            }
+        }
     </style>
 </head>
 
@@ -80,7 +87,7 @@
     <h2>Education and Career</h2>
     <p>
         2022-now  &mdash; head of data science at Parallel Biosystems<br />
-        2019-2022  &mdash; principal ML scientist at Herophilus (prev. name System1 Biosciences) <br />
+        2019-2022  &mdash; principal ML scientist at Herophilus <!-- (prev. name System1 Biosciences) --> <br />
         2017-2018 &mdash; leading research engineer at Intelligence Lab, Samsung Research <br />
         2014-2017 &mdash; research scientist at Yandex (leading search engine in Russia), worked on joint research projects with
         <a href='https://home.cern/'>CERN</a>
@@ -92,7 +99,7 @@
         2012 &mdash; M.Sc. in computer science from Moscow State University (diploma with honors) <br />
     </p>
     <p>
-        Previously a member of CERN experiments: LHCb, SHiP, and an associated member of the OPERA experiment at INFN.
+        Previously a member of experiments: LHCb (CERN), SHiP (CERN), associated member of OPERA (INFN).
         <!-- <br /> Winner of national olympiads in physics and mathematics. -->
     </p>
 
@@ -100,21 +107,22 @@
 
     <p>
         I develop algorithmic (and typically ML-based) solutions for the most important and intriguing problems.
+        Deep technical background helps in design of efficient algorithms and approaches,
+        while wide experience allows dealing with non-trivial aspects of algorithms' existence-in-the-wild.
+        And critical thinking is crucial to build proper validation.
     </p>
     <p>
         At Herophilus (biotech startup growing "brains-in-a-dish" called cerebral organoids)
-        built pipelines and automated analysis of TL imaging, single-cell sequencing, IF organoid slices, ICC images, video imaging of neural activity and gene expression profiles. 
+        built pipelines and automated analysis of TL imaging, single-cell sequencing, IF organoid slices, ICC images, video imaging of neural activity and gene expression profiles.
         <br />
         <br />
-        Reworked tooling of data analysis team, developed models/approaches for vision in company, introduced an efficient and reliable algorithm to learn genotypes during demultiplexing in single-cell sequencing. <br />
+        Reworked tooling of data analysis team, developed models/approaches for vision in company,
+        introduced an efficient and reliable algorithm to learn genotypes during demultiplexing in single-cell sequencing.
     </p>
     <p>
         At Intelligence Lab (Samsung Research) investigated various approaches to one-shot learning
-        for face recognition on mobile devices.
-        <br />
-        Led development of neural text-to-speech synthesis, developed a data-efficient soft alignment of speech and text.
-        <br />
-        Also worked on object detection, active learning, and model conversion for production
+        for face recognition on mobile devices. Also worked on object detection, active learning, and model conversion for production.
+<!--        Led development of neural text-to-speech synthesis, developed a data-efficient soft alignment of speech and text.-->
     </p>
 
     <p>
@@ -125,14 +133,10 @@
     <p>
         My methods were primarily developed for the LHCb experiment, but later spread across other CERN experiments.
     </p>
-
     <p>
         Previous research topics include optimal control, mathematical physics, and even solid state theory.
     </p>
     <p>
-        Deep technical background helps in design of efficient algorithms and approaches,
-        while wide experience allows dealing with non-trivial aspects of algorithms' existence-in-the-wild.
-        And critical thinking is crucial to build proper validation.
     </p>
 
 
@@ -240,7 +244,7 @@
     </p>
 
 
-    <div class='pagebreak'></div>
+<!--    <div class='pagebreak'></div>-->
 
 
 
@@ -250,9 +254,7 @@
         <br />
         Using HTML/CSS/JS stack from time to time, enjoying WebGL and shaders.
         <br />
-        Used in different projects: C# and .NET platform, have experience with C++, PHP, SQL, fortran, and a bit of Java.
-        <br />
-        Used in education, but not in real projects: in MATLAB, R, assembler, CUDA.
+        Used in different projects: C#/.NET, have experience with C++, PHP, SQL, fortran, CUDA, and a bit of Java.
     </p>
 
     <!-- <p>
@@ -273,13 +275,13 @@
     </p>
     <ul>
         <li>
-            Machine Learning in Science and Industry &mdash; invited lecturer
+            Machine Learning in Science and Industry
             (<a href='https://github.com/yandexdataschool/MLAtGradDays'>2017, Heidelberg, Germany</a>)
         </li>
         <li>
             Machine Learning in High Energy Physics school
             (<a href='https://github.com/yandexdataschool/mlhep2015'>2015: St. Petersburg, Russia</a>;
-            <a href='https://github.com/yandexdataschool/mlhep2016'>2016: Lund, Sweden</a>) &mdash; lecturer
+            <a href='https://github.com/yandexdataschool/mlhep2016'>2016: Lund, Sweden</a>)
         </li>
         <li>
             Machine learning at Imperial College, London
@@ -358,6 +360,7 @@
     <br />
     <br />
 
+    <div class="no-print">
     <h2>Detailed research projects </h2>
     <p>
         (click for details)
@@ -611,6 +614,7 @@
     <br />
     <br />
     <br />
+    </div>
 </body>
 
 </html>
