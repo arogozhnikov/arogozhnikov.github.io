@@ -20,7 +20,7 @@ In a number of ways einops is unique:
 - bends tensors for a number of very different frameworks. AFAIK all other efforts to make something truly multi-framework either died too soon or avoided touching internals of models 
 - never pulled back released features. At the same time einops lived much longer than any major version of tensorflow or pytorch. Some backends it originally supported (mxnet, chainer) are dead by now
 - bug tracker was empty for years, compared to usual hundreds in projects of similar scope. Now it reports several hardly fixable inconsistencies that appeared as frameworks introduced more features
-- einops adoption happens mostly through the code sharing between teams/projects, and not by hype-waving. Several mentions in twitter brought waves of likes but almost none were converted to users at that point
+- einops adoption happens mostly through the code sharing between teams/projects, and not by hype-waving. Several mentions in twitter brought waves of likes but almost none were converted to users at that point.
   Paper appeared only after einops circulated for three years in the wild nature of github, when it was pristine clear that idea "clicks".
 - "magical" universal dispatching, so users could write `rearrange(x, 'b c h w -> b h w c')` and not care about `x`'s framework/device/dtype/C-ordering. While this is more of a 'fancy' functionality, it was important during initial adoption. <!-- Magical is not a great description for technology, but einops was many times described as "magic" with a positive vibe in this word. -->
 - no dependencies (except Python). Everything else is optional, even numpy
