@@ -851,12 +851,10 @@ every single one of them were met with a storm of criticism.
 
 
 
-<br />
-<br />
-<br />
-<br />
+<div style="text-align: center; font-size: 40px; padding: 110px">👋</div>
 
-### Comments
+
+### Comments 💬
 
 - I received and collected a number of links for using delimiter-first in different contexts (lisp/scheme, formulas, translatable languages), will organize that material when I get time. 
 
