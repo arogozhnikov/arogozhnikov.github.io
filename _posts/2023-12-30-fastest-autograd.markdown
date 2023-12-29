@@ -123,15 +123,15 @@ run_graph_and_grad = jax.value_and_grad(run_graph_jax)
 run_graph_and_grad = jax.jit(jax.value_and_grad(run_graph_jax))
 ```
 
-Without jit computations are extremely slow
-1k ops x 10 iterations => 15.9 seconds
-10k ops x 10k iterations => 159,000 seconds (estimate)
+Without jit computations are extremely slow: 
+<br /> 1k ops x 10 iterations => 15.9 seconds
+<br /> 10k ops x 10k iterations => 159,000 seconds (estimate)
 
 That's a bit longer than forever! But whole point of jax is to JIT-compile stuff. So let's do it.
 
 jit: compilation of 1k ops = 47 seconds
-jit: run-time for 1k ops x 10k iterations = 0.66 seconds
-jit: 10k ops x 10k iterations (compilation + run-time) => **470 seconds** (estimate)
+<br /> jit: run-time for 1k ops x 10k iterations = 0.66 seconds
+<br /> jit: 10k ops x 10k iterations (compilation + run-time) => **470 seconds** (estimate)
 
 Speed up in execution time is more than impressive, but we spend  >99% of time compiling. 
 
@@ -141,6 +141,7 @@ Someone will mention TF anyway. I'll leave this as an exercise for you, TF fans.
 ### Let's autograd in python 
 
 Done with baselines, time to see if we can speed things up.
+
 Let's create a simplistic pseudo-framework and see how it competes with previous candidates.
 We'll implement a tape-like autograd where operations order is explicitly tracked in a tape.
 
@@ -524,7 +525,7 @@ unsafe fn autograd(
 
 Run-time: **1.4 seconds**
 
-We are in the realm of interactive experiences. <br />
+Success: we are in the realm of interactive experiences. <br />
 Recall we started from >1000 seconds. But should we stop here?
 
 ### Let's autograd in C
