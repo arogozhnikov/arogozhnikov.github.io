@@ -79,7 +79,7 @@ def run_benchmark_pytorch(n_iterations, n_operations):
 ```
 
 Run-time for 10k ops x 100 iterations: 11.3 seconds
-Run-time for 10k ops x 10k iterations: **1130 seconds** (estimate)
+<br />Run-time for 10k ops x 10k iterations: **1130 seconds** (estimate)
 
 Given we created 100M python objects, it's actually quite fast.
 And yes, that's not going to deliver an interactive experience.
