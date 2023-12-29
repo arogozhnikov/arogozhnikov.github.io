@@ -173,3 +173,15 @@ blockquote {
 .testmonial-links a.active {
     background-color: #eee;
 }
+
+.code-summary {
+    background-color: black;
+    color: white;
+    padding: 5px;
+    padding-left: 10px;
+}
+
+details:has(.code-summary) {
+    margin-top: 5px;
+    margin-bottom: 8px;
+}
