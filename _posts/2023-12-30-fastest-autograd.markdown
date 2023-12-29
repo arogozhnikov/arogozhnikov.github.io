@@ -395,7 +395,7 @@ Some optimization remarks:
 
 
 <details markdown="1">
-<summary class="code-summary">show rust code for simplistic autograd
+<summary class="code-summary">show rust code for minimal autograd
 </summary>
 ```rust
 // rustimport:pyo3
