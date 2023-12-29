@@ -11,7 +11,7 @@ meta: |
     <meta property="og:type" content="article" />
     <meta property="og:title" content="Fastest Autograd in the West" />
     <meta property="og:description" content="Who needs fast autograd? Seemingly everyone!" />
-    <meta property="og:url" content="https://arogozhnikov.github.io/2023/12/30/fastest-autograd.html" />
+    <meta property="og:url" content="https://arogozhnikov.github.io/2023/12/28/fastest-autograd.html" />
     <meta property="og:image" content="https://arogozhnikov.github.io/images/NFS_autograd.jpg" />
 
 ---
