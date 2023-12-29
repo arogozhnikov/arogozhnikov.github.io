@@ -523,7 +523,7 @@ unsafe fn autograd(
 ```
 </details>
 
-Run-time: **1.4 seconds**
+Run-time for 10k ops x 10k iterations: **1.4 seconds**
 
 Success: we are in the realm of interactive experiences. <br />
 Recall we started from >1000 seconds. But should we stop here?
