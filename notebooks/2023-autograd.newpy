@@ -1,0 +1,1071 @@
+# newpyter.format: 'v1'
+# newpyter.storage: 'local'
+# In[1]
+# Out: empty
+# import numpy as np
+import torch.nn.functional as F
+import torch
+
+# In[10]
+# Out: empty
+def run_graph(initial_variables, n_operations: int):
+    nodes = [*initial_variables]
+
+    for op in range(n_operations):
+        match op % 4:
+            case 0:
+                # softplus
+                nodes.append(F.softplus(nodes[-10]))
+            case 1:
+                # sum
+                nodes.append(sum(nodes[-30:-10:5]))
+            case 2:
+                # prod
+                nodes.append(nodes[-20] * nodes[-10])
+            case 3:
+                # softmax
+                softmaxes = F.softmax(torch.stack(nodes[-4:], dim=0), dim=0)
+                nodes.extend(softmaxes)
+
+    return nodes
+
+
+def run_benchmark_pytorch(n_iterations, n_operations):
+    init_vars = torch.arange(100, dtype=torch.float32, requires_grad=True)
+    for _ in range(n_iterations):
+        nodes = run_graph(
+            initial_variables=init_vars,
+            n_operations=n_operations,
+        )
+        nodes[-1].backward()
+
+# In[11]
+# Out: b4f9835e8d64434675fe0e2142c47773d10468d5
+%time run_benchmark_pytorch(n_iterations=1, n_operations=10000)
+%time run_benchmark_pytorch(n_iterations=100, n_operations=10000)
+
+# In[4]
+# Out: 1f010ee3c708921bb1ef2a1e5ba026f074d0f9cd
+result * 100_000
+
+# In[8]
+# Out: fcaff1c5e6034d410b0b6b872101c218f727c6e7
+%%time
+for _ in range(10000):
+    result = run_benchmark_pytorch(
+        torch.arange(100, dtype=torch.float32, requires_grad=True),
+        n_operations=100,
+    )
+    result.backward()
+
+# In[3]
+# Out: empty
+# around 900 seconds
+
+# In[5]
+# Out: e2c027a17ec44a325191510b1aaa0600f7fe60ae
+%%time
+for _ in range(1):
+    result = run_graph_compiled(
+        torch.arange(100, dtype=torch.float32, requires_grad=True),
+        n_operations=100,
+    )
+# for _ in range(1):
+#     result = run_graph_compiled(
+#         input,
+#         n_operations=100,
+#     )
+
+# In[4]
+# Out: empty
+# %%time
+# for _ in range(1):
+#     result = run_graph_compiled(
+#         torch.arange(100, dtype=torch.float32, requires_grad=True),
+#         n_operations=1000,
+#     )
+#     result.backward()
+
+# In[]
+# Out: empty
+%%time
+for _ in range(1000):
+    result = run_graph_compiled(
+        torch.arange(100, dtype=torch.float32, requires_grad=True),
+        n_operations=1000,
+    )
+    result.backward()
+
+"""md
+## Jax
+"""
+# In[]
+# Out: empty
+import jax
+import numpy as np
+
+def run_graph_jax(initial_variables):
+    nodes = [*initial_variables]
+    for op in range(n_operations):
+        match op % 4:
+            case 0:
+                # softplus
+                nodes.append(jax.nn.softplus(nodes[-10]))
+            case 1:
+                # sum
+                nodes.append(sum(nodes[-30:-10:5]))
+            case 2:
+                # prod
+                nodes += [nodes[-20] * nodes[-10]]
+            case 3:
+                # softmax
+                softmaxes = jax.nn.softmax(jax.numpy.stack(nodes[-4:], axis=0), axis=0)
+                nodes.extend(softmaxes)
+
+    return nodes[-1]
+
+# In[3]
+# Out: empty
+input_jax = np.arange(100) * 1.
+n_operations = 1000
+
+# In[5]
+# Out: 99f21f0fcc3419190794d07df1aaba545b6fa58f
+run_graph_and_grad = jax.jit(jax.value_and_grad(run_graph_jax))
+%time run_graph_and_grad(input_jax)
+
+# In[6]
+# Out: 37b9e3662df407055260f091d5aa4318d7ea328a
+%%time
+for _ in range(10000):
+    run_graph_and_grad(input_jax)
+
+# In[4]
+# Out: c61516af9a0046d60e4dfdc607c7ca799d9f57a8
+%%time
+# without JIT
+run_graph_and_grad_nojit = jax.value_and_grad(run_graph_jax)
+for _ in range(10):
+    run_graph_and_grad_nojit(input_jax)
+
+"""md
+## Do this in python
+"""
+# In[38]
+# Out: empty
+import math
+
+# In[39]
+# Out: empty
+class Var:
+    def __init__(self, val):
+        self.val = val
+        self.grad = 0.
+
+class Tape:
+    def __init__(self):
+        self.ops = []
+
+    def sum(self, *vars):
+        res = Var(sum(v.val for v in vars))
+        self.ops.append(('sum', vars, res))
+        return res
+
+    def prod(self, var1, var2):
+        res = Var(var1.val * var2.val)
+        self.ops.append(('prod', [var1, var2], res))
+        return res
+
+    def softmax(self, *vars):
+        vals = [v.val for v in vars]
+        maxval = max(vals)
+        vals = [v - maxval for v in vals]
+        denom = sum(math.exp(v) for v in vals)
+        res = [Var(math.exp(v) / denom ) for v in vals]
+        self.ops.append(('softmax', vars, denom))
+        return res
+
+    def softplus(self, var):
+        res = Var(math.log1p(math.exp(var.val)))
+        self.ops.append(('splus', var, res))
+        return res
+
+    def backward(self, var):
+        assert var.grad == 0
+        var.grad = 1
+        for op, inputs, outputs in self.ops[::-1]:
+            match op:
+                case 'sum':
+                    out = outputs
+                    for v in inputs:
+                        v.grad += out.grad
+                case 'prod':
+                    out = outputs
+                    in1, in2 = inputs
+                    in1.grad += in2.val * out.grad
+                    in2.grad += in1.val * out.grad
+                case 'splus':
+                    inputs.grad += out.grad / (1 + math.exp(-inputs.val))
+                case 'softmax':
+                    # skip for now
+                    pass
+                case _:
+                    raise NotImplementedError()
+
+# In[40]
+# Out: empty
+def run_graph_python_and_backward(initial_variables, n_operations):
+    nodes = [Var(x) for x in initial_variables]
+    tape = Tape(nodes)
+    for op in range(n_operations):
+        match op % 4:
+            case 0:
+                # softplus
+                nodes.append(tape.softplus(nodes[-10]))
+            case 1:
+                # sum
+                nodes.append(tape.sum(*nodes[-30:-10:5]))
+            case 2:
+                # prod
+                nodes.append(tape.prod(nodes[-20], nodes[-10]))
+            case 3:
+                # softmax
+                softmaxes = tape.softmax(*nodes[-4:])
+                nodes.extend(softmaxes)
+
+    tape.backward(nodes[-1])
+    return nodes[-1]
+
+# In[41]
+# Out: f36125136f1bc0fcb1b730cc3d7522379309f350
+%%time
+for _ in range(100):
+    run_graph_python_and_backward(
+        map(float, range(0, 100, 1)), n_operations=10000,
+    )
+
+"""md
+## Python + numba
+"""
+# In[124]
+# Out: empty
+import numba
+from numba.typed import List as NList
+import numpy as np
+import math
+
+class VarInd:
+    def __init__(self, index):
+        self.index = index
+
+class TapeInd:
+    def __init__(self):
+        self.ops = []
+        self.vals = []
+        self.grads = []
+
+    def make_var(self, value):
+        self.vals.append(value)
+        self.grads.append(0.)
+        return VarInd(len(self.vals) - 1)
+
+    def val(self, v: VarInd):
+        return self.vals[v.index]
+
+    def add_op(self, kls, input_vars, output_vars):
+        self.ops.append((kls, [x.index for x in input_vars], [x.index for x in output_vars]))
+
+    def sum(self, *vars):
+        res = self.make_var(sum(self.val(v) for v in vars))
+        self.add_op('sum', vars, [res])
+        return res
+
+    def prod(self, var1, var2):
+        res = self.make_var(self.val(var1) * self.val(var2))
+        self.add_op('prod', [var1, var2], [res])
+        return res
+
+    def softmax(self, *vars):
+        vals = [self.val(v) for v in vars]
+        maxval = max(vals)
+        vals = [v - maxval for v in vals]
+        denom = sum(math.exp(v) for v in vals)
+        res = [self.make_var(math.exp(v) / denom ) for v in vals]
+        self.add_op('softmax', vars, res)
+        return res
+
+    def softplus(self, var):
+        res = self.make_var(float(np.logaddexp(0, self.val(var))))
+        self.add_op('splus', [var], [res])
+        return res
+
+    def forward_backward(self, grad_var: VarInd, n_iterations: int):
+        XList = list # NList
+        self.vals = XList(self.vals)
+        self.grads = XList(self.grads)
+        return forward_backward_optimal(self.vals,
+                                        self.grads,
+                                        XList([x[0] for x in self.ops]),
+                                        XList([XList(x[1]) for x in self.ops]),
+                                        XList([XList(x[2]) for x in self.ops]),
+                                        grad_var_index=grad_var.index,
+                                        n_iterations=n_iterations,
+                                       )
+
+# @numba.jit(nopython=True, fastmath=False)
+def forward_backward_optimal(vals: list[float], grads: list[float],
+                             ops_names: list[str],
+                             ops_inputs: list[list[int]],
+                             ops_outputs: list[list[int]],
+                             grad_var_index: int,
+                             n_iterations: int,
+                            ):
+    v: list[float] = vals
+    g: list[float] = grads
+    for _ in range(n_iterations):
+        for op, ins, outs in zip(ops_names, ops_inputs, ops_outputs):
+            match op:
+                case 'sum':
+                    v[outs[0]] = 0.
+                    for i in ins:
+                        v[outs[0]] += v[i]
+                case 'prod':
+                    v[outs[0]] = v[ins[0]] * v[ins[1]]
+                case 'splus':
+                    x = v[ins[0]]
+                    v[outs[0]] = float(np.logaddexp(0, x))
+                case 'softmax':
+                    maximal = v[ins[0]]
+                    for i in ins:
+                        maximal = max(maximal, v[i])
+                    exps = [math.exp(v[i] - maximal) for i in ins]
+                    denom = sum(exps)
+                    for j, exp in zip(outs, exps):
+                        v[j] = exp / denom
+                case _:
+                    raise RuntimeError()
+
+        g[grad_var_index] += 1
+
+        for op, ins, outs in zip(ops_names[::-1], ops_inputs[::-1], ops_outputs[::-1]):
+            match op:
+                case 'sum':
+                    for i in ins:
+                        g[i] += g[outs[0]]
+                case 'prod':
+                    out: int = outs[0]
+                    in1, in2 = ins
+                    g[in1] += v[in2] * g[out]
+                    g[in2] += v[in1] * g[out]
+                case 'splus':
+                    g[ins[0]] += g[outs[0]] / (1 + math.exp(-v[ins[0]]))
+                case 'softmax':
+                    avg_grad = 0
+                    for i, j in zip(ins, outs):
+                        avg_grad += v[j] * g[j]
+                    for i, j in zip(ins, outs):
+                        g[i] += v[j] * (g[j] - avg_grad)
+                case _:
+                    raise RuntimeError()
+
+# In[125]
+# Out: empty
+def run_optimized_forward_and_backward(n_operations, n_iterations):
+    tape = TapeInd()
+    nodes = [tape.make_var(float(x)) for x in range(100)]
+
+    # record a static graph once.
+    for op in range(n_operations):
+        match op % 4:
+            case 0:
+                # softplus
+                nodes.append(tape.softplus(nodes[-10]))
+            case 1:
+                # sum
+                nodes.append(tape.sum(*nodes[-30:-10:5]))
+            case 2:
+                # prod
+                nodes.append(tape.prod(nodes[-20], nodes[-10]))
+            case 3:
+                # softmax
+                softmaxes = tape.softmax(*nodes[-4:])
+                nodes.extend(softmaxes)
+
+    # now execute it
+    tape.forward_backward(nodes[-1], n_iterations=n_iterations)
+    return tape
+
+# In[126]
+# Out: 67f90cad414376d6e3e2bf14c786337fad26f756
+%time _tape = run_optimized_forward_and_backward(n_operations=10000, n_iterations=1)
+%time _tape = run_optimized_forward_and_backward(n_operations=10000, n_iterations=1)
+%time _tape = run_optimized_forward_and_backward(n_operations=10000, n_iterations=100)
+
+# In[127]
+# Out: 24819c1fcce3d123cdc747ed6414799f7ba7eeb3
+%time _tape = run_optimized_forward_and_backward(n_operations=10000, n_iterations=10000)
+
+# In[4]
+# Out: f4461979aff8c753a7ac43de280634effac4af6a
+_tape.vals[-5:]
+
+"""md
+## Rust - execute the system
+"""
+# In[4]
+# Out: empty
+import os
+# import sys
+from pathlib import Path
+# from hashlib import md5
+# set stable position for rust build cache, so it was reused between compilations
+os.environ["CARGO_TARGET_DIR"] = "/tmp/cargo"
+
+
+# def hashify(x: str):
+#     h = md5(x.encode("utf-8"))
+#     return h.hexdigest()
+
+
+def build_and_import_rust(full_text, release):
+    from rustimport.importable import SingleFileImportable
+
+    p = Path("/tmp/rust_building")
+    p.mkdir(exist_ok=True)
+    _hash = abs(hash(full_text))
+    fullname = p.joinpath(f"rust_module_{_hash}.rs")
+    # module_name = fullname.name.removesuffix(".rs")
+    # if module_name in sys.modules:
+    #     return sys.modules[module_name]
+
+    fullname.write_text(full_text)
+
+    importable = SingleFileImportable.try_create(str(fullname))
+    importable.build(release=release)
+    return importable.load()
+
+# In[5]
+# Out: empty
+def run_autograd(n_operations: int, n_iterations: int):
+    inputs = [float(i) for i in range(100)]
+    ops = []
+    input_ids = []
+    output_ids = []
+    for op in range(n_operations):
+        ops.append(op % 4);
+        match op % 4:
+            case 0:
+                # softplus
+                # nodes.append(tape.softplus(nodes[-10]))
+                input_ids += [[len(inputs) - 10]]
+                output_ids += [[len(inputs)]]
+                inputs += [0.]
+            case 1:
+                # sum
+                input_ids += [list(range(len(inputs))[-30:-10:5])]
+                output_ids += [[len(inputs)]]
+                inputs += [0.]
+            case 2:
+                # prod
+                input_ids += [[len(inputs) - 20, len(inputs) - 10]]
+                output_ids += [[len(inputs)]]
+                inputs += [0.]
+            case 3:
+                # softmax
+                input_ids += [list(range(len(inputs)-4, len(inputs)))]
+                output_ids += [list(range(len(inputs), len(inputs) + 4))]
+                inputs += [0.] * 4
+
+                # softmaxes = tape.softmax(*nodes[-4:])
+                # nodes.extend(softmaxes)
+
+
+    print(f'{len(ops)=}')
+    module.autograd(inputs, ops, input_ids, output_ids, 0, n_iterations)
+
+# In[6]
+# Out: bc6db1607abbe33bec05f9deefa14faf61fafd65
+module = build_and_import_rust("""
+// rustimport:pyo3
+use pyo3::prelude::*;
+
+
+fn softmax_varlength(vals: &mut Vec<f32>, ins: &[usize], outs: &[usize]) {
+    let mut max = -1e20_f32;
+    let loc_vals: Vec<f32> = ins.into_iter().map(|i| { let x = vals[*i]; max = max.max(x); x} ).collect();
+    let mut sum: f32 = 0.0_f32;
+    let exps: Vec<f32> = loc_vals.iter().map(|v| {let _exp = f32::exp(*v - max); sum += _exp; _exp}).collect();
+    outs.iter().zip(exps.iter()).for_each(|(j, exp)| vals[*j] = exp / sum );
+}
+
+
+// vecs are slow so allocate slices on stack, and explicit computation order also helps
+fn softmax<const N: usize>(vals: &mut Vec<f32>, ins: &[usize], outs: &[usize]) {
+    let mut loc_vals: [f32; N] = [0_f32; N];
+    let mut exps: [f32; N] = [0_f32; N];
+    let mut max = -1e20_f32;
+    let mut sum: f32 = 0.;
+    for (n, i) in ins.into_iter().enumerate() {
+        let v = vals[*i];
+        loc_vals[n] = v;
+        max = max.max(v);
+    }
+    for (n, _i) in ins.into_iter().enumerate() {
+        let exp = f32::exp(loc_vals[n] - max);
+        exps[n] = exp;
+        sum += exp;
+    }
+    let invsum = 1.0_f32 / sum;
+    for (n, j) in outs.into_iter().enumerate() {
+        vals[*j] = exps[n] * invsum;
+    }
+}
+
+fn sigmoid(x: f32) -> f32 {
+    1.0 / (1.0 + (-x).exp())
+}
+
+
+
+#[pyfunction]
+unsafe fn autograd(
+    vals_input: Vec<f32>,
+    ops: Vec<i32>,
+    input_ids: Vec<Vec<usize>>, 
+    output_ids: Vec<Vec<usize>>,
+    backward_node_id: usize,
+    n_iteration: i32,
+) -> (Vec<f32>, Vec<f32>) {
+    let mut vals: Vec<f32> = vals_input.iter().map(|x| *x).collect();
+    let mut grad: Vec<f32> = vals_input.into_iter().map(|_| 0.0_f32).collect();
+
+    for _ in 0..n_iteration {
+        for (i_op, op) in ops.iter().enumerate(){
+            let ins: &Vec<usize> = &input_ids[i_op];
+            let outs: &Vec<usize> = &output_ids[i_op];
+            
+            match op {
+                0 => {
+                    // softplus
+                    let x = vals[ins[0]];
+                    let max = f32::max(0., x);
+                    let min = f32::min(0., x);
+                    vals[outs[0]] = max + f32::ln_1p(f32::exp(min - max));
+                }
+                1 => {
+                    // sum
+                    vals[outs[0]] = ins.iter().map(|i| vals.get_unchecked(*i)).sum();
+                }
+                2 => {
+                    // prod
+                    vals[outs[0]] = vals[ins[0]] * vals[ins[1]];
+                }
+                3 => {
+                    // softmax. we will need switch-case resolution here for most common cases
+                    match ins.len() {
+                        1 => {softmax::<1>(&mut vals, &ins, &outs)}
+                        2 => {softmax::<2>(&mut vals, &ins, &outs)}
+                        3 => {softmax::<3>(&mut vals, &ins, &outs)}
+                        4 => {softmax::<4>(&mut vals, &ins, &outs)}
+                        5 => {softmax::<5>(&mut vals, &ins, &outs)}
+                        _ => {softmax_varlength(&mut vals, &ins, &outs)}
+                    }
+                }
+                _ => { panic!(""); }
+           }
+        }
+        grad[backward_node_id] = 1.;
+        
+        for (i_op, op) in ops.iter().enumerate(){
+            let ins: &Vec<usize> = &input_ids[i_op];
+            let outs: &Vec<usize> = &output_ids[i_op];
+            
+            match op {
+                0 => {
+                    // softplus
+                    grad[ins[0]] += grad[outs[0]] * sigmoid(vals[ins[0]]);
+                }
+                1 => {
+                    // sum
+                    ins.iter().for_each(|i| grad[*i] += grad[outs[0]]);
+                }
+                2 => {
+                    // prod
+                    grad[ins[0]] += grad[outs[0]] * vals[ins[1]];
+                    grad[ins[1]] += grad[outs[0]] * vals[ins[0]];
+                }
+                3 => {
+                    let avg_grad: f32 = outs.iter().map(|j| grad[*j] * vals[*j] ).sum();
+                    for (i, j) in ins.iter().zip(outs.iter()) {
+                        grad[*i] += vals[*j] * (grad[*j] - avg_grad);
+                    }
+                }
+                _ => { panic!(""); }
+           }
+        }        
+    }
+    (vals, grad)
+}
+""".replace('f32', 'f64'), release=True)
+
+# In[7]
+# Out: bd5b72f3f4a763edbade216b06e87a6ef575cc88
+%time run_autograd(10000, 0)
+
+# In[8]
+# Out: c8eadf1e5d9373920629eaf2f1302776c48217dd
+%time run_autograd(10000, 10000)
+
+"""md
+## Writing in C
+"""
+# In[45]
+# Out: empty
+from cffi import FFI
+
+# In[9]
+# Out: empty
+cdefs = """
+typedef struct { 
+    int opcode;
+    size_t n_arguments; // used for softmax and sum
+    int ins[8];
+    int out; // for softmax points to the first output variable
+} MyOperation;
+
+void run_multiple_passes(
+    int n_operations,
+    MyOperation* ops,
+    double *values,
+    double *grads,
+    int n_iterations
+);
+
+MyOperation* allocate_memory(int n_elements);
+"""
+
+cffi_code = cdefs + """
+#include <math.h>
+
+MyOperation * allocate_memory(int n_elements) {
+    return (MyOperation *) malloc(sizeof(MyOperation) * n_elements);
+}
+
+double logaddexp(double x, double y) {
+    if (x > y) { return x + log1p(exp(y - x)); }
+    else       { return y + log1p(exp(x - y)); }
+}
+
+double sigmoid(double x) { return 1.0 / (1.0 + exp(-x)); }
+
+double sqr(double v) { return v * v; }
+
+int sign(double num) {
+    if (num > 0) {
+        return 1;
+    } else if (num < 0) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
+void run_multiple_passes(
+    int n_operations,
+    MyOperation *ops,
+    double *values,
+    double *grads,
+    int n_iterations
+) {
+    for(int iteration = 0; iteration < n_iterations; iteration++) {
+        for(int operation = 0; operation < n_operations; operation++) {
+            MyOperation op = ops[operation];
+            switch(op.opcode) {
+                case 1: 
+                    values[op.out] = logaddexp(0., values[op.ins[0]]);
+                    break;
+                case 2: 
+                    {
+                        double out = 0.;
+                        for(size_t i=0; i < op.n_arguments; i++) {
+                            out += values[op.ins[i]];
+                        }
+                        values[op.out] = out;
+                    }
+                    break;
+                case 3:
+                    values[op.out] = values[op.ins[0]] * values[op.ins[1]];
+                    break;
+                case 4:
+                    {
+                        double maximal = -1e20;
+                        size_t n_arg = (size_t) op.n_arguments;
+                        for(size_t i = 0; i < n_arg; i++) {
+                            maximal = fmax(maximal, values[op.ins[i]]);
+                        }
+                        double exps[n_arg];
+                        double sum = 0;
+                        for(size_t i = 0; i < n_arg; i++) {
+                            exps[i] = exp(op.ins[i] - maximal);
+                            sum += exps[i];
+                        }
+                        for(size_t i = 0; i < n_arg; i++) {
+                            values[op.out + i] = exps[i] / sum;
+                        }
+                    }
+                    break;
+            }
+        }  // end forward
+
+        // TODO set grad for backward variable.
+
+        for(int operation = 0; operation < n_operations; operation++) {
+            MyOperation op = ops[n_operations - 1 - operation];
+            switch(op.opcode) {
+                case 1: 
+                    grads[op.ins[0]] += grads[op.out] * sigmoid(values[op.ins[0]]);
+                    break;
+                case 2: 
+                    {
+                        for(size_t i=0; i < op.n_arguments; i++) { grads[op.ins[i]] += grads[op.out]; }
+                    }
+                    break;
+                case 3:
+                    grads[op.ins[0]] += grads[op.out] * values[op.ins[1]];
+                    grads[op.ins[1]] += grads[op.out] * values[op.ins[0]];
+                    break;
+                case 4:
+                    {
+                        size_t n_arg = (size_t) op.n_arguments;
+                        double avg_grad = 0.0;
+                        for(size_t i = 0; i < n_arg; i++) {
+                            avg_grad += values[op.out + i] * grads[op.out + i];
+                        }
+                        for(size_t i = 0; i < n_arg; i++) {
+                            grads[op.ins[i]] += values[op.out + i] * (grads[op.out + i] - avg_grad);
+                        }
+                    }
+                    break;
+            }
+        }  // end backward
+    }
+}
+"""
+
+# In[10]
+# Out: 7110170544ce2c855ec4ff0074dd12bd08666820
+_tape.ops[:10]
+
+# In[11]
+# Out: empty
+def hashify(x: str):
+    from hashlib import md5
+    h = md5(x.encode("utf-8"))
+    return h.hexdigest()
+
+def _get_module_in_c(no_opt=True):
+    import sys
+    import importlib
+    hash2module = {}
+    from pathlib import Path
+    source = cffi_code
+
+    ffibuilder = FFI()
+
+    module_name = f"generated_{hashify(source)}"
+    ffibuilder.set_source(
+        module_name, source,
+        extra_compile_args=["-O0", "-ffast-math"] if no_opt else ["-O3", "-ffast-math"]
+    )
+    ffibuilder.cdef(cdefs)
+
+    path = "/tmp/autograd"
+    Path(path).mkdir(exist_ok=True)
+    if module_name not in hash2module:
+        _filename = ffibuilder.compile(tmpdir=path)
+        if path not in sys.path:
+            sys.path.append(path)
+        module = importlib.import_module(module_name).lib
+
+        def dbl_array(x: list[float]):
+            res = ffibuilder.new("double[]", len(x))
+            for i, v in enumerate(x):
+                res[i] = v
+            return res
+
+        def int_array(x: list[float]):
+            res = ffibuilder.new("int[]", len(x))
+            for i, v in enumerate(x):
+                res[i] = v
+            return res
+
+        def run_multiple_passes(
+            _tape,
+            vals: list[float],
+            # indices_of_variables: list[int],
+            n_iterations: int,
+        ):
+            vals_out = dbl_array(vals)
+            grad_out = dbl_array([0. for _ in vals])
+            ops = module.allocate_memory(len(_tape.ops)) # MyOperation *
+            for i, (op, ins, outs) in enumerate(_tape.ops):
+                ops[i].ins[0:len(ins)] = ins
+                ops[i].out = outs[0]
+                match op:
+                    case 'splus':
+                        ops[i].opcode = 1
+                    case 'sum':
+                        ops[i].opcode = 2
+                        ops[i].n_arguments = len(ins)
+                    case 'prod':
+                        ops[i].opcode = 3
+                    case 'softmax':
+                        ops[i].opcode = 4
+                        ops[i].n_arguments = len(ins)
+
+            module.run_multiple_passes(
+                len(_tape.ops), # n_operations
+                ops,
+                vals_out, # values
+                grad_out, # grads
+                n_iterations, # n_iterations
+            )
+
+            return "done"
+
+        class Cls:
+            pass
+
+        pseudomodule = Cls()
+        pseudomodule.run_multiple_passes = run_multiple_passes
+        pseudomodule.module = module
+        hash2module[module_name] = pseudomodule
+    return hash2module[module_name]
+
+# In[12]
+# Out: 8f36a96cb8d13cf7549b88df82d1fe3aa1131d9c
+len(_tape.ops)
+
+# In[96]
+# Out: 0e5f6e2c0380e073f67b238e7ae1f7f3bd9aaa24
+%time cmodule = _get_module_in_c(no_opt=False)
+%time cmodule.run_multiple_passes(_tape, [0.] * 50_000, n_iterations=10_000)
+
+# In[97]
+# Out: cb487e444001ee8dcec504498ac82cdecc4ad120
+%time cmodule.run_multiple_passes(_tape, [0.] * 50_000, n_iterations=10_000)
+
+# In[79]
+# Out: 9e95f941af5332aa63fea1aaea6653c76a2d7e49
+%time cmodule.run_multiple_passes(_tape, [0.] * 50_000, n_iterations=10_000)
+
+# In[12]
+# Out: 4a343967efe789d7044cce22f3fdcbcd4dad8aa9
+%time cmodule.run_multiple_passes(_tape, [0.] * 50_000, n_iterations=1)
+
+"""md
+## Writing in C (again)
+"""
+# In[1]
+# Out: empty
+from multitrons.autograd import AutogradTape, Variable
+
+# In[2]
+# Out: empty
+def run_op(n_operations):
+    tape = AutogradTape()
+    nodes = [tape.Input(float(i)) for i in range(100)]
+    for i_op in range(n_operations):
+        match i_op % 4:
+            case 0:
+                nodes.append(tape.softplus(nodes[-10]))
+            case 1:
+                nodes.append(tape.sum(nodes[-30:-10:5]))
+            case 2:
+                nodes.append(nodes[-20] * nodes[-10])
+            case 3:
+                nodes.extend(tape.softmax(nodes[-4:]))
+
+    # tape.compute_grads_wrt(vars[-1])
+    return tape._get_module_in_c(target_var=nodes[-1], no_opt=False)
+
+# In[3]
+# Out: c6308e3503050a5612cf77c293a722d7698c2a84
+%%time
+module = run_op(1000)
+
+# In[3]
+# Out: 5f1cec2f5e26a9cd464330805b19639df9da520d
+%%time
+module = run_op(10000)
+
+# In[4]
+# Out: e3cdc5b43fc0682a8f91f5736790b6373d494bee
+%%time
+_ = module.irprop_optimize_from(
+    [0.] * 50_000,
+    [1],
+    10_000,
+    n_iterations=10_000,
+    min_step=1e-4,
+    max_step=1.,
+)
+
+"""md
+# Measuring switch costs
+"""
+# In[17]
+# Out: be13ad7621d326d16e845826b641fedb45f31db4
+module_switches = build_and_import_rust("""
+// rustimport:pyo3
+use pyo3::prelude::*;
+
+
+#[pyfunction]
+fn simple_switch(
+    vals_input: Vec<f32>, 
+    n_operations: i32,
+    n_iteration: i32,
+    backward_node_id: usize,
+) -> (Vec<f32>, Vec<f32>) {
+    let mut vals: Vec<f32> = vals_input.iter().map(|x| *x).collect();
+    let mut grad: Vec<f32> = vals_input.into_iter().map(|_| 0.0_f32).collect();
+
+    for _ in 0..n_iteration {
+        let mut n_inputs = 100;    
+        for i_op in 0..n_operations {
+            let op = i_op % 2;
+            n_inputs += 1;
+            match op {
+                0 => {
+                    // sum
+                    vals[n_inputs] = vals[n_inputs - 10] + vals[n_inputs - 12];
+                }
+                1 => {
+                    // prod
+                    vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 13];
+                }
+                _ => {
+                    panic!("");
+                }
+           }
+        }
+    }
+    grad[backward_node_id] = 1.;
+    (vals, grad)
+}
+
+
+#[pyfunction]
+fn simple_switch_many(
+    vals_input: Vec<f32>, 
+    n_operations: i32,
+    n_iteration: i32,
+    backward_node_id: usize,
+) -> (Vec<f32>, Vec<f32>) {
+    let mut vals: Vec<f32> = vals_input.iter().map(|x| *x).collect();
+    let mut grad: Vec<f32> = vals_input.into_iter().map(|_| 0.0_f32).collect();
+
+    for _ in 0..n_iteration {
+        let mut n_inputs = 100;    
+        for i_op in 0..n_operations {
+            let op = i_op % 20;
+            n_inputs += 1;
+            match op {
+                0 => {vals[n_inputs] = vals[n_inputs - 10] + vals[n_inputs - 12];}
+                1 => {vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 13];}
+                2 => {vals[n_inputs] = vals[n_inputs - 11] / vals[n_inputs - 13];}
+                3 => {vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 11];}
+                4 => {vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 10];}
+                5 => {vals[n_inputs] = vals[n_inputs - 10] + vals[n_inputs - 16];}
+                6 => {vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 13];}
+                7 => {vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 17];}
+                8 => {vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 19];}
+                9 => {vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 20];}
+                10 => {vals[n_inputs] = vals[n_inputs - 10] + vals[n_inputs - 20];}
+                11 => {vals[n_inputs] = vals[n_inputs - 11] * vals[n_inputs - 21];}
+                12 => {vals[n_inputs] = vals[n_inputs - 12] * vals[n_inputs - 22];}
+                13 => {vals[n_inputs] = vals[n_inputs - 13] * vals[n_inputs - 23];}
+                14 => {vals[n_inputs] = vals[n_inputs - 14] * vals[n_inputs - 24];}
+                15 => {vals[n_inputs] = vals[n_inputs - 15] + vals[n_inputs - 20];}
+                16 => {vals[n_inputs] = vals[n_inputs - 16] * vals[n_inputs - 21];}
+                17 => {vals[n_inputs] = vals[n_inputs - 17] * vals[n_inputs - 22];}
+                18 => {vals[n_inputs] = vals[n_inputs - 18] * vals[n_inputs - 23];}
+                19 => {vals[n_inputs] = vals[n_inputs - 19] * vals[n_inputs - 24];}
+                _ => {
+                    panic!("");
+                }
+           }
+        }
+    }
+    grad[backward_node_id] = 1.;
+    (vals, grad)
+}
+""", release=True)
+
+# In[18]
+# Out: 834724fbf5a88c72b7051828168ac2e9d2fa80b6
+%%time
+_ = module_switches.simple_switch([0] * 20_000, n_operations=10_000, n_iteration=30_000, backward_node_id=123)
+
+# In[19]
+# Out: c6429a6a5555d8d18721e8a8088c124f4385f612
+%%time
+_ = module_switches.simple_switch_many([0] * 20_000, n_operations=10_000, n_iteration=30_000, backward_node_id=123)
+
+"""md
+## Plain operations in C
+
+- measuring the very minimal time spent on computations.
+- practically, 500ms is minimal for forward, so going much faster than current state seems unrealistic
+"""
+# In[73]
+# Out: 4be8098d2b85e756dad0cf42419419917a7fae14
+%%writefile /tmp/source.c
+#include <math.h>
+#include <stdlib.h>
+
+int main() {
+    float* values = malloc(100000);
+    for(int i = 0; i < 10000; i++) {
+        int n_values = 100;
+        for(int op = 0; op < 10000; op += 1) {
+            int op_type = op % 4;
+            if (op_type == 0) {
+                values[n_values] = values[n_values - 10] + values[n_values - 15] + values[n_values - 20];
+                n_values += 1;
+            } else if (op_type == 1) {
+                values[n_values] = values[n_values - 10] * values[n_values - 15];
+                n_values += 1;
+            } else if (op_type == 2) {
+                values[n_values] = log1pf(1 + expf(values[n_values - 10]));
+                n_values += 1;
+            } else if (op_type == 3) {
+//                float e1 = expf(values[n_values - 10]);
+//                float e2 = expf(values[n_values - 11]);
+//                float e3 = expf(values[n_values - 13]);
+//                float e4 = expf(values[n_values - 16]);
+                float e1 = fabs(values[n_values - 10]);
+                float e2 = fabs(values[n_values - 11]);
+                float e3 = fabs(values[n_values - 13]);
+                float e4 = fabs(values[n_values - 16]);
+                float invsum = 1. / (e1 + e2 + e3 + e4);
+                values[n_values + 1] = e1 * invsum;
+                values[n_values + 2] = e2 * invsum;
+                values[n_values + 3] = e3 * invsum;
+                values[n_values + 4] = e4 * invsum;
+                n_values += 4;
+            }
+        }
+    }
+    return 0;
+}
+
+# In[76]
+# Out: empty
+!gcc -O2 -ffast-math -march=native /tmp/source.c
+!time ./a.out
+!time ./a.out
+
+
+
