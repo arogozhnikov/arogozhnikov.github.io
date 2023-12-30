@@ -93,6 +93,8 @@ For bigger graphs (1k operations) `torch.compile` crashes.
 
 ### Let's autograd in jax
 
+Jax is the new cool kid... well, not that new anymore.
+But in some aspects it is very interesting.
 Implementation for benchmark is similar to pytorch:
 ```python
 import jax
@@ -530,12 +532,12 @@ Recall we started from >1000 seconds. But should we stop here?
 
 ### Let's autograd in C
 
-To implement logic in C and interop with python, I used [python-cffi](https://cffi.readthedocs.io/en/stable/index.html). 
+To implement logic in C. For interop with python I use [python-cffi](https://cffi.readthedocs.io/en/stable/index.html). 
 
 I went bananas on optimization:
 - I used the fact that output nodes are placed consequentially in memory, so we pass only index of the first output
 - number of inputs is limited to 8, and those are baked into struct as `int[8]`, not `int *`  to avoid jumps in memory
-- dynamic stack allocations (compared to rust, those are straightforward in C)
+- dynamic stack allocations of variable size (compared to rust, those are straightforward in C)
 - `-O3`, and unsafe math: `-ffast-math`. Even experimented memory alignment, but no luck
 
 <details markdown="1">
