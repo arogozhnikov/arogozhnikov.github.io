@@ -24,7 +24,7 @@ Leaving project details aside, here are the requirements:
 
 - we test many computation graphs (graph is changing constantly)
 - many-many scalar operations with roughly **10k—100k nodes** in each graph
-- every graph should be compiled and ran **~10k times** both forward and backward
+- every graph should be compiled and ran around **10k times** both forward and backward
 - this should be done **wicked fast**, and with a convenient pythonic interface 
 
 Path that awaits us ahead:
