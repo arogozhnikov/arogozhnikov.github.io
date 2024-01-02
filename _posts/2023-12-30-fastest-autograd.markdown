@@ -94,7 +94,8 @@ For bigger graphs (1k operations) `torch.compile` crashes.
 ### Let's autograd in jax
 
 Jax is the new cool kid... well, not that new anymore.
-But in some aspects it is very interesting.
+But in some aspects it is very interesting. Jax's focus on JIT-compiling static graphs is very suitable for the problem at hand.
+
 Implementation for benchmark is similar to pytorch:
 ```python
 import jax
@@ -707,14 +708,14 @@ My major question was if speed of exponentiation is going to be sufficient, as `
 Alas, in a simple benchmark computing just exponents in wasm takes ~1.9 seconds, leaving it behind rust/C. 
 For reference, javascript computes the same number of exponents in 0.7 seconds.
 Hence, I take WASM branding of 'near-native speed' with a grain of salt, at least in the context of number crunching. 
-Hopefully this will improve.
+Hopefully this will improve, but for now WASM is out of competition.
 
 
 ## Summary
 
 So, we achieved a **1000X speed up** compared to leading libraries.
 
-I don't find this surprising — major scenario for autograd system is manipulating large ndarrays (tensors). 
+I don't find this surprising — major usecase for autograd system is manipulating large ndarrays. 
 Memory management, copy elimination, device synchronization, parallelization of computations — these things are the main focus, 
 and throughput of 1 million ops per second is totally reasonable for the vast majority of scenarios and users.
 
