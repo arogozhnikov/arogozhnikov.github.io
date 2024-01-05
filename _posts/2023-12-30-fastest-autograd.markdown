@@ -533,13 +533,14 @@ Recall we started from >1000 seconds. But should we stop here?
 
 ### Let's autograd in C
 
-To implement logic in C. For interop with python I use [python-cffi](https://cffi.readthedocs.io/en/stable/index.html). 
+Time to implement autograd logic in C. 
+For interop with python I use [python-cffi](https://cffi.readthedocs.io/en/stable/index.html). 
 
 I went bananas on optimization:
 - I used the fact that output nodes are placed consequentially in memory, so we pass only index of the first output
 - number of inputs is limited to 8, and those are baked into struct as `int[8]`, not `int *`  to avoid jumps in memory
 - dynamic stack allocations of variable size (compared to rust, those are straightforward in C)
-- `-O3`, and unsafe math: `-ffast-math`. Even experimented memory alignment, but no luck
+- `-O3`, and unsafe math: `-ffast-math`. Even experimented memory alignment and restrict-ing pointers, but no luck
 
 <details markdown="1">
 <summary class="code-summary">show me some code in C
@@ -726,3 +727,4 @@ Exploring different options was quite fun, and my expectations were challenged s
 
 <div style="text-align: center; font-size: 40px; padding: 110px">👋</div>
 
+❗ I'm currenlty open for new positions. Details in [github profile](https://github.com/arogozhnikov).
