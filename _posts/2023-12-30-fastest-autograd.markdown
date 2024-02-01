@@ -680,7 +680,8 @@ We can map a computational graph to just a set of low-level instruction, and avo
 These days x86/64 is not a king anymore, but neither armv7/armv8 is — 
 and writing assembly for several architectures is totally unreasonable.
 
-So ... how about using webassembly? It is low-level, fast to compile, and still cross-platform. Projects like `wasmer`/`wasmtime` allow interacting with wasm code from other languages.
+So ... how about using webassembly? It is low-level, fast to compile, and still cross-platform. 
+Projects like `wasmer`/`wasmtime` allow interacting with wasm code from other languages.
 That's my first encounter with WASM, and I've got quite positive impression: WASM mixes lisp-style syntax (for efficient streaming parsing) and execution model of stack machine. 
 Unlike canonical stack machines, and unlike canonical assembly, WASM allows grouping expressions, e.g.
 
