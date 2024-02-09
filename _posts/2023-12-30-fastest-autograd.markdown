@@ -727,5 +727,3 @@ Exploring different options was quite fun, and my expectations were challenged s
 
 
 <div style="text-align: center; font-size: 40px; padding: 110px">👋</div>
-
-❗ I'm currenlty open for new positions. Details in [github profile](https://github.com/arogozhnikov).

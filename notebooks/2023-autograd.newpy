@@ -1,5 +1,5 @@
 # newpyter.format: 'v1'
-# newpyter.storage: 'local'
+# newpyter.storage: 's3://pllbucket/newpyter/output_fragments/'
 # In[1]
 # Out: empty
 # import numpy as np
@@ -247,7 +247,7 @@ for _ in range(100):
 """md
 ## Python + numba
 """
-# In[124]
+# In[2]
 # Out: empty
 import numba
 from numba.typed import List as NList
@@ -368,7 +368,7 @@ def forward_backward_optimal(vals: list[float], grads: list[float],
                 case _:
                     raise RuntimeError()
 
-# In[125]
+# In[3]
 # Out: empty
 def run_optimized_forward_and_backward(n_operations, n_iterations):
     tape = TapeInd()
@@ -395,8 +395,8 @@ def run_optimized_forward_and_backward(n_operations, n_iterations):
     tape.forward_backward(nodes[-1], n_iterations=n_iterations)
     return tape
 
-# In[126]
-# Out: 67f90cad414376d6e3e2bf14c786337fad26f756
+# In[4]
+# Out: 91d26e6dd9ab6369dab302b0bd1c1b69ce926f03
 %time _tape = run_optimized_forward_and_backward(n_operations=10000, n_iterations=1)
 %time _tape = run_optimized_forward_and_backward(n_operations=10000, n_iterations=1)
 %time _tape = run_optimized_forward_and_backward(n_operations=10000, n_iterations=100)
@@ -619,11 +619,11 @@ unsafe fn autograd(
 """md
 ## Writing in C
 """
-# In[45]
+# In[5]
 # Out: empty
 from cffi import FFI
 
-# In[9]
+# In[6]
 # Out: empty
 cdefs = """
 typedef struct { 
@@ -672,9 +672,9 @@ int sign(double num) {
 
 void run_multiple_passes(
     int n_operations,
-    MyOperation *ops,
-    double *values,
-    double *grads,
+    MyOperation *restrict ops,
+    double *restrict values,
+    double *restrict grads,
     int n_iterations
 ) {
     for(int iteration = 0; iteration < n_iterations; iteration++) {
@@ -752,11 +752,11 @@ void run_multiple_passes(
 }
 """
 
-# In[10]
-# Out: 7110170544ce2c855ec4ff0074dd12bd08666820
+# In[7]
+# Out: 0e90e361dea52623540b2d821ab91ef8ca347165
 _tape.ops[:10]
 
-# In[11]
+# In[8]
 # Out: empty
 def hashify(x: str):
     from hashlib import md5
@@ -842,17 +842,17 @@ def _get_module_in_c(no_opt=True):
         hash2module[module_name] = pseudomodule
     return hash2module[module_name]
 
-# In[12]
-# Out: 8f36a96cb8d13cf7549b88df82d1fe3aa1131d9c
+# In[9]
+# Out: 487d4e3e460b942d3cfcd876bc939977bda96bc9
 len(_tape.ops)
 
-# In[96]
-# Out: 0e5f6e2c0380e073f67b238e7ae1f7f3bd9aaa24
+# In[10]
+# Out: b7a9552de060847a9fec15abc88eebb6bd07c850
 %time cmodule = _get_module_in_c(no_opt=False)
 %time cmodule.run_multiple_passes(_tape, [0.] * 50_000, n_iterations=10_000)
 
-# In[97]
-# Out: cb487e444001ee8dcec504498ac82cdecc4ad120
+# In[11]
+# Out: 3ebd364d06fd60952ac189c85562d37fc41b2b6c
 %time cmodule.run_multiple_passes(_tape, [0.] * 50_000, n_iterations=10_000)
 
 # In[79]
@@ -890,12 +890,12 @@ def run_op(n_operations):
     return tape._get_module_in_c(target_var=nodes[-1], no_opt=False)
 
 # In[3]
-# Out: c6308e3503050a5612cf77c293a722d7698c2a84
+# Out: 1af809cc871284c92a49293a9f76bda3853d5cc1
 %%time
 module = run_op(1000)
 
-# In[3]
-# Out: 5f1cec2f5e26a9cd464330805b19639df9da520d
+# In[4]
+# Out: 73a11cfc836f4a32558e60c7d90b89601ce38b67
 %%time
 module = run_op(10000)
 
@@ -1066,6 +1066,4 @@ int main() {
 !gcc -O2 -ffast-math -march=native /tmp/source.c
 !time ./a.out
 !time ./a.out
-
-
 
