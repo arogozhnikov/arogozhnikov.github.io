@@ -77,7 +77,7 @@ Based on observations and the evolution of programming.
 
 - automation. Second most valuable thing. Automate everything from typo checks to testing, deployment, migrations, user-testing and staging.
 
-  Key here is not reducing human efforts, but glue-ing them. Large teams just can't work without good process automation.
+  Key here is not reducing human efforts, but glue-ing people. Large teams just can't work without good process automation.
   
   Large open-source collaborations similarly can exist only with good process support.
 
@@ -110,7 +110,8 @@ Based on observations and the evolution of programming.
   it is tempting to use novel resource dispatching mechanism or introduce better build procedure for the application,
   or interface system. Very few projects managed to survive after spreading efforts over multiple layers of stack.
   
-  On a big project level it is still building level-by-level, it is hard to build several layers simultaneously.
+  Within a big project it is still mostly building level-by-level, 
+  it is hard to design several layers simultaneously (unless you had experience with them).
 
 - data is precious
   
@@ -131,7 +132,7 @@ Based on observations and the evolution of programming.
   In modern terms: which file is where, what are input arguments, and their types, agreement between arguments, availability of connections, 
   API version, packages, ability to run on GPU, amount of available space, need specific type of text input, support of specific fonts required,   etc. 
 
-- Avoid implicit assumptions. Make them explicit (and correct &mdash; better auto-checkable).
+- Avoid or minimize implicit assumptions. Make them explicit (and correct &mdash; better auto-checkable).
   
 - Do not expect that final user of your code is aware about existence of your code, even when user is a coder.
 
@@ -167,13 +168,13 @@ Based on observations and the evolution of programming.
 
   Internal abstractions and abstractions that are available in API may be quite different.
   
-  Number of abstractions that user should deal with (i.e. those in API), should be limited. 
+  Number of abstractions that user should deal with (i.e. those in API), should be limited; better if user already knows those. 
 
 - Very beneficial when system can globally take care of some aspects. <br /> 
   On the opposite side, this makes interaction between systems harder.
 
   Python/Ruby/.net take care of memory management / types / access control. <br />
-  Rust has concept of ownership.<br />
+  Rust has a concept of ownership.<br />
   Go can do concurrency management with goroutines.<br />
   
   But concept of ownership can't propagate through non-rust code.<br />
@@ -186,10 +187,10 @@ Based on observations and the evolution of programming.
   
 - Adoption ladder: use-case, then API, then community support. <br />
   Even the best API is unlikely to bring success if there is no clear case which is not addressed by existing systems. <br />
-  There are multiple examples of opposite.
+  There are multiple examples of opposite (success of poorly designed APIs).
 
 - Education in programming focuses on "how to make a thing that works while your hands are not on the keyboard". <br />
-  More appropriate goal is "system that can be adjusted for tomorrow needs and be continuously modified without interruptions, allow multiple users and maintains sufficient reliability".
+  More valuable goal is "system that can be adjusted for tomorrow needs and be continuously modified without interruptions, allow multiple users and maintains sufficient reliability".
 
 - Migration from simplest to hardest: refactor code, change entities, refactor API, migrate data, migrate users.
 
@@ -199,11 +200,19 @@ Based on observations and the evolution of programming.
 
 - Tests can be randomized, and sometimes they should be. They only need to be reproducible.
 
+## Dependency management
 
-<!---
+- after several experiments I came to conclusion that explicit (manual) management of dependencies is the best; 
+  in this scenario developer documents current and potential (direct) dependencies, and describes why specific version is chosen. 
 
-TODO 
-- dependency management
-- environments
+- it requires time and exposure to "environment" - what to expect from each package and its maintainers, but that turns out to be beneficial
 
---->
+
+## Environment 
+
+- efficient, convenient environment is critical
+
+- multiple environments introduce perceptual overhead, 
+  specially if tools are tuned similarly, 
+  or if there are similar-but-slightly different version of the same library/functionality.   
+
