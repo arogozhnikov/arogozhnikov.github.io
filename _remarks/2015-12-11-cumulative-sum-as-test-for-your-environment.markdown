@@ -8,7 +8,7 @@ tags:
 - numpy
 - fortran 
 - parallel primitives
-
+permalink: /2015/12/11/cumulative-sum-as-test-for-your-environment.html
 ---
 
 This post may be useful for those researchers and programmers, who work much with numerical crunching. 

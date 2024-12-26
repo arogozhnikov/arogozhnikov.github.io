@@ -8,6 +8,7 @@ tags:
 - Python
 - AppendableList
 - next_value
+permalink: /2016/05/22/new-item-for-lists.html
 ---
 
 Simple but neat python class `AppendableList` is introduced 

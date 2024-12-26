@@ -7,8 +7,7 @@ tags:
 - Machine Learning
 - Graphical Models
 modified_time: '2015-07-04T14:36:00.664-07:00'
-blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-1319838903330630919
-blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/07/multimixture-fitting.html
+permalink: /2015/07/04/multimixture-fitting.html
 ---
 
 I was wondering how one can modify Expectation-Maximization procedure for fitting mixtures

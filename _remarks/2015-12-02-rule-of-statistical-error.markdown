@@ -5,6 +5,7 @@ date: 2015-12-02 12:00:00
 author: Alex Rogozhnikov
 tags: 
 - Other
+permalink: /2015/12/02/rule-of-statistical-error.html
 
 ---
 

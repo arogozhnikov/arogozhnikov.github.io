@@ -2,11 +2,10 @@
 layout: post
 title: Cousteau
 date: '2014-12-14T12:13:00.001-08:00'
-author: Alex
-tags: 
+author: Alex 
 modified_time: '2014-12-14T12:13:02.952-08:00'
-blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-7521666145742283062
-blogger_orig_url: http://brilliantlywrong.blogspot.com/2014/12/cousteau.html
+permalink: /2014/12/14/cousteau.html
+
 ---
 
 I always thought of Jacques Cousteau as film director, maybe scientist or biologist.
@@ -15,7 +14,8 @@ Today I've read in [wiki](https://en.wikipedia.org/wiki/Jacques_Cousteau),
 that he was academician, the co-inventor of aqua-lung, 
 he worked over first waterproof film cameras.
   
-Sounds logical, but I didn't expect this.
+Reasonable, but I never thought of him this way &mdash; 
+so rare for academicians to do some 'field work'.
 
 Moreover, he was the man who worked over (and experimented with) 
 ships with sails working on Magnus effect. 
