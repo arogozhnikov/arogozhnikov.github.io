@@ -12,9 +12,7 @@ blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-457524962042606905
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/06/a-programming-language.html
 ---
 
-Since I'm very interested in
-<a href="{% post_url 2015-01-07-benchmarks-of-speed-numpy-vs-all %}">numpy and
-vectorization</a>, I became curious about when how this approach appeared.
+Since I'm [very interested](https://arogozhnikov.github.io/2015/09/08/SpeedBenchmarks.html) in numpy and vectorization, I became curious about when how this approach appeared.
 I find this notion very convenient and very productive,
 while it leaves the space for optimizations inside.
 
