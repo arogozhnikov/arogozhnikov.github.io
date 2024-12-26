@@ -16,6 +16,12 @@ layout: default
         </h2>
       </li>
     {% endfor %}
+
+    <h1>Remarks </h1>
+    {% for item in site.remarks %}
+      <p><a href="{{ item.url }}">{{ item.title }}</a> <span class="post-meta">{{ item.date | date: "%b %-d, %Y" }}</span></p>
+      <p>{{ item.description }}</p>
+    {% endfor %}
   </ul>
 
   <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
