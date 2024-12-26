@@ -111,7 +111,7 @@ Why actually it is good idea to use third-party functions is that their implemen
 to the environment and situation. This is what already happened to many `MATLAB` operations.
  
 People that were writing code in `MATLAB` 15 years ago had no idea, what is GPU. However, 
-today many of their programs are enjoying <a href='https://www.mathworks.com/discovery/matlab-gpu.html'>GPU</a> acceleration. I.e. the [GEMM]({% post_url 2015-07-01-do-you-know-that-convolution-operation %}) operation is almost surely to be run on GPU today.
+today many of their programs are enjoying <a href='https://www.mathworks.com/discovery/matlab-gpu.html'>GPU</a> acceleration. I.e. the GEMM operation is almost surely to be run on GPU today.
 
 Contrary to this, fortran doesn't provide any convenient way to perform computation of cumsum.  
 
