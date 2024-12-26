@@ -11,18 +11,18 @@ modified_time: '2014-11-23T12:59:14.267-08:00'
 permalink: /2014/11/01/theano-python-library.html
 ---
 
-If you want to experiment with neural networks, and you know Python, then my best recommendation is: use Theano.
+If you're interested in experimenting with neural networks and you know Python, my top recommendation is to use Theano.
 
-Theano is not about neural networks, really – it is ... hm ... a mathematical engine. Something between Matlab and Mathematica.
-- It is close to Matlab because it uses vectorization (the final function will operate on vectors).
-- It is close to Mathematica because first you define some expressions (functions as analytical expressions). You can compute (analytical) derivatives, which is crucial for neural networks because the main thing you need is derivatives, and nobody wants to spend time computing derivatives manually, especially when a library can do this for you.
+Theano isn’t strictly about neural networks – it’s more of a mathematical engine, somewhere between Matlab and Mathematica:  
+- It’s similar to Matlab because it uses vectorization (the resulting functions operate on vectors).  
+- It’s akin to Mathematica because you first define expressions (functions as analytical formulas). You can compute analytical derivatives, which is critical for neural networks. Derivatives are essential, but no one wants to spend time calculating them manually, especially when a library can handle this for you.
 
-After you define the needed function-expressions (e.g., activation function and gradient of the loss function for a neural network), you can compile them with Theano (resulting in a function that can be evaluated for some arguments). The compiled function is vectorized and very fast (though compilation usually takes some time). Your functions can also be evaluated on a GPU.
+Once you've defined the necessary function expressions (such as the activation function and the gradient of the loss function for a neural network), you can compile them with Theano. This gives you an efficient, compiled function that can evaluate arguments quickly. The compiled functions are vectorized and highly optimized (although the compilation process can take some time). Additionally, these functions can run on a GPU for even better performance.
 
-This allows you to define your **new** neural networks in a few lines of code (just by defining the activation function). Impressive?
+This capability allows you to define **new** neural networks in just a few lines of code, simply by specifying the activation function. Impressive, isn’t it?
 
-- [Documentation on Theano](http://deeplearning.net/software/theano/)
-- [GitHub](https://github.com/Theano/Theano/)
-- [Examples](http://deeplearning.net/tutorial/) (mostly about neural networks, probably the easiest way to start and understand how good Theano is)
+- [Documentation on Theano](http://deeplearning.net/software/theano/)  
+- [GitHub](https://github.com/Theano/Theano/)  
+- [Examples](http://deeplearning.net/tutorial/) (primarily focused on neural networks, making it an excellent starting point to see the power of Theano)  
 
 Even more examples (with less explanation) can be found [here](https://github.com/lisa-lab/DeepLearningTutorials/tree/master/code).
