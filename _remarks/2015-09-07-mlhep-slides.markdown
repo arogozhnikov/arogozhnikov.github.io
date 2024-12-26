@@ -8,6 +8,7 @@ tags:
 - materials
 - Machine Learning
 - MLHEP 2015
+permalink: /2015/09/07/mlhep-slides.html
 ---
 
 In the end of this August our team from Yandex organized MLHEP 2015 - summer school on Machine Learning in High Energy Physics.
