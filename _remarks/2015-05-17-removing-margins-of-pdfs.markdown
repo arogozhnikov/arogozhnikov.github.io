@@ -7,6 +7,7 @@ tags:
 modified_time: '2015-05-17T13:00:28.072-07:00'
 blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-4352709138282125967
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/05/removing-margins-of-pdfs.html
+permalink: /2015/05/17/removing-margins-of-pdfs.html
 ---
 
 BRISS is an awesomely simple tool written in java to remove large
