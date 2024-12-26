@@ -8,6 +8,7 @@ tags:
 - Stats
 - Life
 - Analysis
+permalink: /2020/02/01/93-percent-of-readers.html
 ---
 
 Either you don't understand what they mean or how those were cooked.
