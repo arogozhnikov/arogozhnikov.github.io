@@ -8,6 +8,7 @@ tags:
 - materials
 - Machine Learning
 - MLHEP 2016
+permalink: /2016/07/12/mlhep-2016-slides.html
 ---
 
 This year my team at Yandex organized [MLHEP](http://indico.cern.ch/event/497368/) (Machine Learning in High Energy Physics) summer school in Lund, Sweden. 
