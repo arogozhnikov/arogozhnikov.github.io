@@ -1,7 +1,6 @@
 ---
 layout: post
-title: Do you know that convolution operation was implemented in deep learning systems
-  via matrix multiplication?
+title: Convolution operation was often implemented via matrix multiplication
 date: 2015-07-01 12:00:00
 author: Alex
 tags:
