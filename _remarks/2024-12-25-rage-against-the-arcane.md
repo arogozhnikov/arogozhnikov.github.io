@@ -133,9 +133,9 @@ A number of plot holes can be patched easily:
   some leaders reasonably want to trade Jinx for better positions for themselves with upper city;
   afraid that it is so easy to set members against each other, starts fighting for Jinx;  
   then comes to realization that Jinx could be a symbol, and uses it. 
-- redo fight Sevika/Caitlyn/Vi/Jinx — Vi with Jinx, Sevika wins Caitlyn; 
-  Vi releases Jinx in exchange for Caitlyn, everyone is disappointed.
-- forget Vi in pit-fighting until the end where sisters reunite,
+- redo fight Sevika/Caitlyn/Vi/Jinx — Vi wins Jinx, Sevika wins Caitlyn; 
+  Vi releases Jinx in exchange for Caitlyn, everyone is disappointed in each other.
+- forget Vi in pit-fighting until the end where sisters "reunite",
   (and maybe save commander cupcake for some epic moments, and maybe die for tragic moments).
 - move appearance of Joyce till the very end — he discharges gates, 
   and after some fighting disarms Victor by showing some artifact he and different Victor made together
