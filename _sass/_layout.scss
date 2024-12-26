@@ -174,7 +174,7 @@
     list-style: none;
 
     > li {
-        margin-bottom: $spacing-unit;
+        margin-bottom: 0.5 * $spacing-unit;
     }
 }
 
@@ -185,7 +185,7 @@
 
 .post-link {
     display: block;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 
