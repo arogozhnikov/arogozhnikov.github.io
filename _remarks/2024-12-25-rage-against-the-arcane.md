@@ -1,6 +1,12 @@
-## rage against the arcane
+---
+layout: post
+title:  "Rage against the arcane"
+date: 2024-12-05 13:00:00
+author: Alex Rogozhnikov
+---
 
-It is dec 2024, I've recently watched Arcane (TV series), and I really need to rant about it. 
+It is dec 2024, I've recently watched Arcane (first TV series for me in years),
+and I really need to rant about it. 
 **If you didn't watch it - please don't**. Period, now you can close this tab.
 
 Arcane consists of two seasons, first one is very promising, 
@@ -63,8 +69,8 @@ Why upper city did not use shimmer during defense?
 
 **Mel Medarda**
 
-She is a part of Black Rose after all? If so, why Rose killed her right hand Elora?
-If so, why would they kidnap Mel?
+Is Mel a part of Black Rose after all? If so, why Rose killed her right hand Elora?
+And why would they kidnap Mel?
 If Mel is good at finding/empowering talents (we saw that in the first chapter), 
 why she doesn't use this power afterwards, relying purely on magic?
 
@@ -72,20 +78,20 @@ why she doesn't use this power afterwards, relying purely on magic?
 
 Whole Ambessa's storyline in fked up to unbearable levels.
 
-Runes is all that protected her and nobody could take it off? Really? Why wouldn't Rose attack her soldiers one-by-one? Why runes are just hanging there?
-Why she had problems with black rose? What's the story with brother?
+Runes are all that protected her and nobody could take it off? Really? Why wouldn't Rose attack her soldiers one-by-one? Why runes are just hanging there for everyone to see?
+Why Ambessa had problems with black rose? What's the story with brother?
 Why she was not confused when Mel disappeared?
 
 How comes that Ambessa survived Vi's trap? Why Vi survived it too? That whole part was a complete mess.
-Did she want to develop hextech into a more powerful weapon? Then she should've appointed anyone but Caitlyn, but she appointed Caitlyn - who for sure will avoid any big conflicts. How comes?
+Did Ambessa want to develop hextech into a more powerful weapon? Then she should've appointed anyone but Caitlyn, but she appointed Caitlyn — who for sure will avoid any big conflicts. How comes?
 Why Mel claims that Ambessa "is not Medarda"?
 
-Final antagonist without a consistent storyline - worse than no ending at all.
+Final antagonist without a consistent storyline — worse than no ending at all.
 
 **Caitlyn**
 
 Caitlyn's romances are absurd. Romance with Maddie comes out of the blue, Maddie's betrayal also comes unexplained. 
-Why no help was asked from hexgate-connected worlds? If trade center (Piltover) is under attack, there is strong economic incentive to bring external forces to pretect it.
+Why no help was asked from hexgate-connected worlds? If trade center (Piltover) is under attack, there is strong economic incentive to bring external forces to protect it.
 
 Commander Caitlyn guards the camp while catching Vi? Not what commanders do. 
 
@@ -107,12 +113,13 @@ Time machine (even for 4 seconds) is a powerful tool in discussions, why not usi
 - Second chapter has some nice parts with Ekko and time travels.
 
 ---
-In total, scenario of second part hardly contains any interesting turns, and ruins some nice arcs that could be built. I've intentionally ignored broad questions like "why nobody uses runes if they are powerful" and "if there are hoverbards, why building/blocking bridges at all?", focusing more on character development.
+
+In total, scenario of the second season hardly contains any interesting turns, and ruins some nice arcs that could be built. I've intentionally ignored broad questions like "why nobody uses runes if they are powerful" and "if there are hoverbards, why building/blocking bridges at all?", focusing more on character development.
 
 Animation of the second part is impressive, I believe animators had a lot of fun with shuffling visual styles. 
 However animation is a wrapper and medium for content; content left me deeply unsatisfied, and wrappers can't change that.
 
-----
+---
 
 ## Are there ways to fix this?
 
