@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Rage against the arcane"
-date: 2024-12-05 13:00:00
+date: 2024-12-25 13:00:00
 author: Alex Rogozhnikov
 ---
 

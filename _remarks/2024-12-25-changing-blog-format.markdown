@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Introducing remarks"
-date: 2024-12-05 12:00:00
+date: 2024-12-25 12:00:00
 author: Alex Rogozhnikov
 ---
 
