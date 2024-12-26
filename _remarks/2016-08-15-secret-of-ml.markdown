@@ -9,7 +9,7 @@ tags:
 - Machine Learning
 - decision tree
 - terminology
-
+permalink: /2016/07/12/secret-of-ml.html
 ---
 
 <div style='padding-left: 50%; margin-bottom: 50px;'>
@@ -20,9 +20,9 @@ Occam's razor (Russell's version)
 
 
 If Russell was studying Machine Learning our days, 
-he'd probably throw out all of the textbooks.
+he'd probably throw out all the textbooks.
 
-The reason is that ML introduces too many terms with subtle or no difference.
+Why? Well, ML introduces too many terms with subtle or no difference.
 It's hard understand the scale of the problem without a good example.
  
 You can ask your ML-experienced friends how many of the **entities**
