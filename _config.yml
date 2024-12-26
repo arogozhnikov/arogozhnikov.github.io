@@ -5,6 +5,13 @@ email: name.secondname.phd@gmail.com
 description: Brilliantly Wrong — Alex Rogozhnikov's blog about math, machine learning, programming, physics and biology.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "https://arogozhnikov.github.io" # the base hostname & protocol for your site
+# make jekyll process two types of posts
+collections:
+  remarks:
+    output: true
+  posts:
+    output: true
+
 #twitter_username: jekyllrb
 github_username: arogozhnikov
 # Build settings
