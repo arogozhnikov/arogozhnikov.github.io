@@ -10,6 +10,7 @@ tags:
 modified_time: '2015-04-30T12:31:13.299-07:00'
 blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-7890012778117168020
 blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/04/numpy-exercises.html
+permalink: /2015/04/30/numpy-exercises.html
 ---
 
 <p>When one starts writing in python, the typical reaction is disappointment about how slow it is compared to any compilable language. After a while, you learn numpy and find out it's actually not so bad.</p>
