@@ -18,8 +18,10 @@ layout: default
     {% endfor %}
 
     <h1>Remarks </h1>
-    {% for item in site.remarks %}
-      <p><a href="{{ item.url }}">{{ item.title }}</a> <span class="post-meta">{{ item.date | date: "%b %-d, %Y" }}</span></p>
+    {% assign sorted_remarks = site.remarks | sort: "date" %}
+    {% assign reversed_remarks = sorted_remarks | reverse %}
+    {% for item in reversed_remarks %}
+    <p> <span class="post-date-prefix">{{ item.date | date: "%Y %b %d, " }}</nobr></span> <a href="{{ item.url }}">{{ item.title }}</a> </p>
       <p>{{ item.description }}</p>
     {% endfor %}
   </ul>
