@@ -14,7 +14,7 @@ and at the same time allow him to avoid criticism for his (simple, numerous and 
 
 I will omit AI part of this story, and I'll call this type of worker *Julii*, as was suggested in comments.
 
-Discussion provides several advices:
+Discussion provides incoherent pieces of advice:
 
 1. I believe that to prevent *Julii* from proliferating one needs to stop making up for their mistakes.
   Generally I have found that allowing things to fail is a great way to communicate a reality to management...
