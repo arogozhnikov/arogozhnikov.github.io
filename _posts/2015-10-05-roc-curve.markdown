@@ -139,7 +139,7 @@ Presentation was prepared by Oleg Alenkin and Alex Rogozhnikov.
 
     <link rel="stylesheet" href="/css/roc_curve.css">
     <script src="/scripts/d3.min.js" charset="utf-8"></script>
-    <script src="/scripts/jquery-2.1.4.js" charset="utf-8"></script>
+    <script src="/scripts/jquery-3.7.1.min.js" charset="utf-8"></script>
     <script src="/scripts/roc_curve.js" charset="utf-8"></script>
 </div>
 
