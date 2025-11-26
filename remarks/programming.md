@@ -1,7 +1,6 @@
 ---
 layout: post
 title: "Remarks"
-excerpt: "Mini-course about machine learning given at GradDays of Heidelberg University"
 
 date: "2021-01-01"
 author: Alex Rogozhnikov
