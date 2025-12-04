@@ -21,3 +21,5 @@ kramdown:
   input: GFM
   math_engine: mathjax
   syntax_highlighter: rouge
+
+exclude: ['_site', '.idea', '.jj']

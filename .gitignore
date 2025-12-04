@@ -9,3 +9,4 @@ _site/
 Gemfile.lock
 .jekyll-metadata
 .vscode
+.jj
