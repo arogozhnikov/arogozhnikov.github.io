@@ -101,6 +101,20 @@ However, there are some algorithms that are available (apart from regression, of
 
 ### Some comparison (randomly sampled pictures from net):
 
+<style>
+figure.image {
+    max-width: 700px;
+    text-align: center;
+    margin: 10px auto;
+    display: table-cell;
+}
+
+figure.image img {
+    margin: auto;
+    max-width: 700px;
+}
+</style>
+
 <figure class='image'>
 <img src="/images/letor_number1.png" />
 <caption>Taken from&nbsp;<a href="http://www2009.org/pdf/T7A-LEARNING%20TO%20RANK%20TUTORIAL.pdf">http://www2009.org/pdf/T7A-LEARNING%20TO%20RANK%20TUTORIAL.pdf</a></caption>

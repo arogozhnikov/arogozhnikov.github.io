@@ -29,7 +29,7 @@ This means, that
 * if 10'000 scientists say that they are working on deep learning, only 100 of them are able to improve something in this area
 * if 1'000'000 people say that they know machine learning, new working methods and libraries will be brought by 1000 of them
 * if 100'000'000 people claim to be professionals in business administration, 
-  we have 10'000 professionals, which won't follow prepared recipes 
+  we have 10'000 professionals, who won't simply follow prepared recipes 
 
 So, the more knowledge 'widespread', the less portion of people are really into it, most people are just following trendy words.
 Still, area with 100x more researchers is developed 10x times faster.

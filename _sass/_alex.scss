@@ -13,23 +13,13 @@ table.comparison th {
     font-weight: bold;
 }
 
-figure.image {
-    width: 800px;
-    text-align: center;
-    margin: 10px auto;
-    display: table-cell;
-}
-
-figure.image img {
-    margin: auto;
-    max-width: 800px;
-}
 
 .site-header {
     color: #000000;
     background: black url(space_background.jpg) repeat-x fixed top center;
 }
 
+/* used in COMET posts */
 table.image-wrapper td {
     text-align: center;
     font-size: 80%;

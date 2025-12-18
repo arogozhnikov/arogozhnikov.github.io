@@ -12,15 +12,6 @@ tags:
 <link rel="stylesheet" href="{{ "/css/remarks.css" | prepend: site.baseurl }}">
 
 
-<!---
-<details class="post" markdown="1">
-<summary markdown="1">
-## Programming principles
-</summary>
-Conrrtwere
-</details>
--->
-
 
 
 ## Programming foundations
