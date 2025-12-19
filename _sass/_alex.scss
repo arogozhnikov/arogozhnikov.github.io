@@ -184,8 +184,8 @@ hr {
     margin: 20px 10px 20px 10px;
 }
 
-// this rule narrows plain text paragraphs in the blog.
-// it was applied late and likely works inconsistently for older posts
+/* this rule narrows plain text paragraphs in the blog. */
+/* it was applied late and likely works inconsistently for older posts */
 article>p {    
     max-width: 690px;
     margin-left: auto;
