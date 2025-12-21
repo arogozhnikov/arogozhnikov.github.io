@@ -1,3 +1,5 @@
+"use strict";
+
 let vertex_shader_text = ` 			
 varying vec2 uv_fragment;
 varying vec3 pos;

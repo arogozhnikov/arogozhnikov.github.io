@@ -1,3 +1,5 @@
+"use strict";
+
 class RandomGenerator {
     constructor(seed) {
         this.m_w = seed || 123456789;

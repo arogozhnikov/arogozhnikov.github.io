@@ -1,3 +1,4 @@
+"use strict";
 
 function takeSumDiff(x) {
     return [(x[0] + x[1]) / Math.sqrt(2.), (x[0] - x[1]) / Math.sqrt(2.)];
