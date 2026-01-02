@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Cheatsheet (translations)"
+title:  "The Cheat Sheet (translation)"
 date: 2025-12-25 12:00:00
 author: Alex Rogozhnikov
 ---
@@ -16,6 +16,7 @@ Tatiana alluded to it so many times that it would be nice to have it in English 
 ## The Cheat Sheet
 
 ### Alexander Les, 1980
+
 “Teacher!” little Nick said respectfully. “I have completed everything you told me and came to study. What lesson will we have today?”
 
 “The last one, my child.” Old Tan turned his chair toward Nick. “Today we have the final lesson in the history of the civilization of planet Kalrun. So sit closer and be attentive: I will tell you… about the cheat sheet. Do you remember what that is?”
