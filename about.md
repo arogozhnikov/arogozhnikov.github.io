@@ -34,15 +34,16 @@ I have some other degrees as well :)
 If you're interested in things I am doing, take a look at
 
 * [einops](https://github.com/arogozhnikov/einops) - a new way for tensor manipulation  
+* [chai-1](https://github.com/chaidiscovery/chai-lab) - protein folding (we also work on protein design)
+* [demuxalot](https://github.com/arogozhnikov/demuxalot) - fast, data-efficient and reliable demultiplexing of single-cell sequencing
 * [InfiniteBoost](https://github.com/arogozhnikov/infiniteboost) 
 * [machine learning demonstrations](https://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html) 
 * [gradient boosted reweighter](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/DemoReweighting.ipynb)
 * [uniform gradient boosting](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/BoostingToUniformity.ipynb)
 * [visualization of optimal control of oscillations](http://arogozhnikov.github.io/2015/12/19/optimal-control-of-oscillations.html) 
 
-Sometimes I give courses of Machine Learning: 
-Take a look at [MLHEP 2016 slides]({% post_url 2016-07-12-mlhep-2016-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2016) 
-or [course](https://github.com/yandexdataschool/MLatImperial2017) at Imperial College, London.
-
-There is also quite complete course of 
+Or take a look at some of my (old) Machine Learning courses: 
+[MLHEP 2016 slides]({% post_url 2016-07-12-mlhep-2016-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2016) 
+and [course](https://github.com/yandexdataschool/MLatImperial2017) at Imperial College, London.
+There is also a more detailed course of 
 [machine learning in science and industry]({% post_url 2017-04-20-machine-learning-in-science-and-industry %})
