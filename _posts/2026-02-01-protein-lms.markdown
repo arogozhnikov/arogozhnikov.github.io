@@ -210,6 +210,7 @@ Some teams work on this, so we'll see soon.
 Is there a double descent in biology? Given the size of ESM-3 I'll put this hypothesis off the table. 
 
 Are we memorizing phylogenetic noise? Almost surely yes. Larger models can generate proteins from more families (as shown by E1), while the best property prediction is still provided by analysis of MSAs (within the same family). 
+PLMs trained without viral proteins can't generalize to them at all &mdash; but they aren't *that special* families.
 
 Maybe nature does not care much about *our* downstream tasks. Maybe much memory isn't necessary to memorize everything useful in biology (we're far from optimal performance, so probably not). 
 
