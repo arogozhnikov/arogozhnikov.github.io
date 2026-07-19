@@ -171,7 +171,7 @@ $$
 \partial_x f = 0  \qquad   \partial_y f = 1
 $$
 
-So far so good. How about we switch to polar coorinates?
+So far so good. How about we switch to polar coordinates?
 $$
 x = r \cos \phi   \qquad   y = r \sin \phi
 $$
@@ -194,7 +194,7 @@ $$
 $$
 
 Answer to this riddle is very simple - just look again at the very first formula in this post.
-New notations do not reflect conditioning on other variables &mdash; and first expression implcitly conditions on $$\phi$$ 
+New notations do not reflect conditioning on other variables &mdash; and first expression implicitly conditions on $$\phi$$ 
 while second conditions on $$x$$, hence the difference.
 
 
@@ -222,7 +222,7 @@ This works beautifully because theorists don't pay much attention to a particula
 It is just "plain" or "with hat" or "indexed by j" or "indexed by alpha-primed".
 
 
-Since in many partical cases you actually care about specific coordinates, 
+Since in many partial cases you actually care about specific coordinates, 
 your best tool is avoiding *any* overlaps in names between coordinate systems.
 Then you can safely use $\partial_x$ (and don't fall for a "ratio" trap!).
 

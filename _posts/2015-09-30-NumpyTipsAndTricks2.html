@@ -262,7 +262,7 @@ but there are also:</p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Strides-and-training-on-sequences">Strides and training on sequences<a class="anchor-link" href="#Strides-and-training-on-sequences">&#182;</a></h2><p>ML algorithms in python are often taking <code>numpy.arrays</code>. In many cases when working with sequences you need to pass some data many times as part of different chunks.</p>
-<p>Example: you have exhange rates for a year, you want GBDT to predict next exchange rate based on the previous 10.</p>
+<p>Example: you have exchange rates for a year, you want GBDT to predict next exchange rate based on the previous 10.</p>
 
 </div>
 </div>
@@ -430,7 +430,7 @@ but there are also:</p>
     <span class="n">strided_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lib</span><span class="o">.</span><span class="n">stride_tricks</span><span class="o">.</span><span class="n">as_strided</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> 
                                                     <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">w</span> <span class="o">-</span> <span class="n">window_w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">h</span> <span class="o">-</span> <span class="n">window_h</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">window_w</span><span class="p">,</span> <span class="n">window_h</span><span class="p">],</span>
                                                     <span class="n">strides</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">strides</span> <span class="o">+</span> <span class="n">image</span><span class="o">.</span><span class="n">strides</span><span class="p">)</span>
-    <span class="c1"># important: trying to reshape image will create complete 4-dimensional compy</span>
+    <span class="c1"># important: trying to reshape image will create complete 4-dimensional copy</span>
     <span class="n">means</span> <span class="o">=</span> <span class="n">strided_image</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span> 
     <span class="n">mean_squares</span> <span class="o">=</span> <span class="p">(</span><span class="n">strided_image</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> 
     <span class="n">maximums</span> <span class="o">=</span> <span class="n">strided_image</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -701,7 +701,7 @@ Wall time: 928 ms
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Ok, but what if we apply <strong>bitwise operations for 64-bit integers</strong>? This should require <strong>8 times less operations</strong>, because currently there are 8-bit operations (not handled natively by 64bit procesors).</p>
+<p>Ok, but what if we apply <strong>bitwise operations for 64-bit integers</strong>? This should require <strong>8 times less operations</strong>, because currently there are 8-bit operations (not handled natively by 64bit processors).</p>
 <p>Result of computation is the same, but this requires the length of data to be divisible by 8.</p>
 <p>This trick significantly speeds up shift <code>&lt;&lt;</code> and bitwise or <code>|</code> in the code, and the major part of time (&gt;80%) is now spent on checking conditions.</p>
 
@@ -873,7 +873,7 @@ $$ \text{leaf\_value} = \frac{1}{2} \log \left( \dfrac{w_{leaf,+}}{w_{leaf, -}} 
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">compute_optimal_leaf_values</span><span class="p">(</span><span class="n">terminal_regions</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    terminal regions are integers, correspong to the number of leaf each event belongs to</span>
+<span class="sd">    terminal regions are integers, correspond to the number of leaf each event belongs to</span>
 <span class="sd">    labels are +1 and -1</span>
 <span class="sd">    predictions are real numbers - sum of predictions given by previous trees in boosting</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1289,7 +1289,7 @@ houses which are very expensive (top 5%) are probably expensive not due to their
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Numpy.ufunc.reduceat-to-work-with-multicategories.">Numpy.ufunc.reduceat to work with multicategories.<a class="anchor-link" href="#Numpy.ufunc.reduceat-to-work-with-multicategories.">&#182;</a></h2><p>Multicategory is type of feature: each sample in dataset can belong to several (possibly zero) groups.</p>
-<p>For instance, samples are people, and we have informations about which languages they are programing. Programming languages are multicategory.</p>
+<p>For instance, samples are people, and we have information about which languages they are programing. Programming languages are multicategory.</p>
 <p>Assume we have two parallel arrays, corresponding pair denote programmer id and language id he/she knows.</p>
 
 </div>
@@ -1715,7 +1715,7 @@ for each event which part of its neighbors pass the given threshold. Sparse matr
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Fast-residual">Fast residual<a class="anchor-link" href="#Fast-residual">&#182;</a></h2><p>when having deal with words or other categorical variables, there are frequently troubles with applying one-hot encoding (don't want to keep the mapping or too many parameters for model).</p>
 <p>Hashing trick is good alternative: each value is mapped by hash to small number.</p>
-<p>Funny fact is that integer resudial is not very cheap operation, though shall be applied many times:</p>
+<p>Funny fact is that integer residual is not very cheap operation, though shall be applied many times:</p>
 
 </div>
 </div>
@@ -1966,8 +1966,8 @@ result = (categories.view(&#39;uint8&#39;)[::8].copy().view(&#39;uint64&#39;) &a
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">compute_online_counter_numpy</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">):</span>
-    <span class="n">occurences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)</span>
-    <span class="n">before</span> <span class="o">=</span> <span class="n">occurences</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">-</span> <span class="n">occurences</span>
+    <span class="n">occurrences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">categories_stream</span><span class="p">)</span>
+    <span class="n">before</span> <span class="o">=</span> <span class="n">occurrences</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span> <span class="o">-</span> <span class="n">occurrences</span>
     <span class="n">positions</span> <span class="o">=</span> <span class="n">categories_stream</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;mergesort&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;mergesort&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">positions</span> <span class="o">-</span> <span class="n">before</span><span class="p">[</span><span class="n">categories_stream</span><span class="p">]</span>
 </pre></div>

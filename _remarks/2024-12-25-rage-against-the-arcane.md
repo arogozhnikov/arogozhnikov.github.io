@@ -112,7 +112,7 @@ Time machine (even for 4 seconds) is a powerful tool in discussions, why not usi
 - Enforcers's stories (Grayson, Marcus) were consistent.
 - Silco — storyline of the second part makes it sound like Silco would care about Vi, but it was the opposite in the first season. 
   When considering just first season, his story is consistent, and has some meaningful turns — he has to run underground, and faces both external and internal pressure that he deals with in his ways.
-- Council — sometimes funny, controllable, over-reacting, sometimes full of under-the-rug fighting and ultimatly deciding on Zion's independence.
+- Council — sometimes funny, controllable, over-reacting, sometimes full of under-the-rug fighting and ultimately deciding on Zion's independence.
   Multiple interesting parts there.
 - Second chapter has some nice parts with Ekko and time travels.
 

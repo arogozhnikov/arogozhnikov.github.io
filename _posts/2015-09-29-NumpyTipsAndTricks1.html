@@ -388,7 +388,7 @@ tags:
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="IronTransform-(flattener-of-distribution)">IronTransform (flattener of distribution)<a class="anchor-link" href="#IronTransform-(flattener-of-distribution)">&#182;</a></h3><p>Sometimes you need to write monotonic tranformation, which turns one distribution into uniform.</p>
+<h3 id="IronTransform-(flattener-of-distribution)">IronTransform (flattener of distribution)<a class="anchor-link" href="#IronTransform-(flattener-of-distribution)">&#182;</a></h3><p>Sometimes you need to write monotonic transformation, which turns one distribution into uniform.</p>
 <p>This method is useful to compare distributions or to work with distributions with heavy tails or strange shape.</p>
 
 </div>
@@ -6963,7 +6963,7 @@ b7aZrFvvkgAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Counter">Counter<a class="anchor-link" href="#Counter">&#182;</a></h3><p>Need to know number of occurences for each category? Use <code>numpy.bincount</code> to compute the statistics:</p>
+<h3 id="Counter">Counter<a class="anchor-link" href="#Counter">&#182;</a></h3><p>Need to know number of occurrences for each category? Use <code>numpy.bincount</code> to compute the statistics:</p>
 
 </div>
 </div>
@@ -7093,7 +7093,7 @@ b7aZrFvvkgAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Replace-category-with-number-of-occurences">Replace category with number of occurences<a class="anchor-link" href="#Replace-category-with-number-of-occurences">&#182;</a></h3><p>There are several tricks important to process the categorical features. 
+<h3 id="Replace-category-with-number-of-occurrences">Replace category with number of occurrences<a class="anchor-link" href="#Replace-category-with-number-of-occurrences">&#182;</a></h3><p>There are several tricks important to process the categorical features. 
 Most known one is one-hot encoding, but let's speak about others.</p>
 <p>One of tricks is to replace in each event category (which cannot be processed by most algorithms) with a number of times it presents in data.</p>
 <p>This can be written in <strong>numpy</strong> one-liner:</p>
@@ -7190,7 +7190,7 @@ Most known one is one-hot encoding, but let's speak about others.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Variation-of-predictions-over-category">Variation of predictions over category<a class="anchor-link" href="#Variation-of-predictions-over-category">&#182;</a></h3><p>The same trick can be applied to measure deviation after invloving some math:
+<h3 id="Variation-of-predictions-over-category">Variation of predictions over category<a class="anchor-link" href="#Variation-of-predictions-over-category">&#182;</a></h3><p>The same trick can be applied to measure deviation after involving some math:
 $$ \mathbb{V}x = \mathbb{E}x^2 - (\mathbb{E}x)^2 $$</p>
 
 </div>
@@ -7243,7 +7243,7 @@ $$ \mathbb{V}x = \mathbb{E}x^2 - (\mathbb{E}x)^2 $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="5.-Numpy.ufunc.at">5. Numpy.ufunc.at<a class="anchor-link" href="#5.-Numpy.ufunc.at">&#182;</a></h2><p>To proceed futher, we need to know that there is class of binary (and unary) functions: <code>numpy.ufuncs</code></p>
+<h2 id="5.-Numpy.ufunc.at">5. Numpy.ufunc.at<a class="anchor-link" href="#5.-Numpy.ufunc.at">&#182;</a></h2><p>To proceed further, we need to know that there is class of binary (and unary) functions: <code>numpy.ufuncs</code></p>
 <p>Examples: <code>numpy.add</code>, <code>numpy.subtract</code>, <code>numpy.multiply</code>, <code>numpy.maximum</code>, <code>numpy.minimum</code></p>
 <p>In the following example we cook a new column with maximal predictions over category using <code>ufunc.at</code></p>
 
@@ -7368,7 +7368,7 @@ $$ \mathbb{V}x = \mathbb{E}x^2 - (\mathbb{E}x)^2 $$</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Now some useful things we can do with colected statistic. First thing is create feature, for which we use fancy indexing:</p>
+<p>Now some useful things we can do with collected statistic. First thing is create feature, for which we use fancy indexing:</p>
 
 </div>
 </div>
@@ -7417,7 +7417,7 @@ $$ \mathbb{V}x = \mathbb{E}x^2 - (\mathbb{E}x)^2 $$</p>
 <div class="prompt input_prompt">In&nbsp;[53]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># occurences of second category</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># occurrences of second category</span>
 <span class="n">counters</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">second_category</span><span class="p">]</span>
 </pre></div>
 
@@ -7447,7 +7447,7 @@ $$ \mathbb{V}x = \mathbb{E}x^2 - (\mathbb{E}x)^2 $$</p>
 <div class="prompt input_prompt">In&nbsp;[54]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># maximal occurences of second category with same value of first category</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># maximal occurrences of second category with same value of first category</span>
 <span class="n">counters</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="n">second_category</span><span class="p">]</span>
 </pre></div>
 
@@ -7477,7 +7477,7 @@ $$ \mathbb{V}x = \mathbb{E}x^2 - (\mathbb{E}x)^2 $$</p>
 <div class="prompt input_prompt">In&nbsp;[55]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython2"><pre><span class="c"># number of occurences of second category with fixed first category:</span>
+<div class=" highlight hl-ipython2"><pre><span class="c"># number of occurrences of second category with fixed first category:</span>
 <span class="n">counters</span><span class="p">[</span><span class="mi">42</span><span class="p">,</span> <span class="n">second_category</span><span class="p">]</span>
 </pre></div>
 
@@ -7848,7 +7848,7 @@ shCWJElSKVkIS5IkqZQshCVJklRK/x91gL1gGwmS4wAAAABJRU5ErkJggg==
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h3 id="Weighted-Kolmogorov-Smirnov-distance">Weighted Kolmogorov-Smirnov distance<a class="anchor-link" href="#Weighted-Kolmogorov-Smirnov-distance">&#182;</a></h3><p>ROC curve is an important object by itself and freqently used in ML to compare distribution, 
+<h3 id="Weighted-Kolmogorov-Smirnov-distance">Weighted Kolmogorov-Smirnov distance<a class="anchor-link" href="#Weighted-Kolmogorov-Smirnov-distance">&#182;</a></h3><p>ROC curve is an important object by itself and frequently used in ML to compare distribution, 
 but the magic is that it contains all order-based information about original distributions.</p>
 <p>Next we compute KS distance based on ROC curve:</p>
 $$ KS = \max_x \left| F_1(x) - F_2(x) \right| $$<p>(Order-based information == information, which is preserved under monotonic transformations)</p>
@@ -7956,7 +7956,7 @@ $$ KS = \max_x \left| F_1(x) - F_2(x) \right| $$<p>(Order-based information == i
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>Many things can be written in numpy in efficient way, moreover resulting code will be short and (surpise!) more readable.</p>
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>Many things can be written in numpy in efficient way, moreover resulting code will be short and (surprise!) more readable.</p>
 <p>But this skill requires much practice.</p>
 <h2 id="See-also">See also<a class="anchor-link" href="#See-also">&#182;</a></h2><ul>
 <li>Second part of post: <a href="/2015/09/30/NumpyTipsAndTricks2.html">numpy tips and tricks 2</a></li>

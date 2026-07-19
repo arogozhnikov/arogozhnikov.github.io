@@ -343,14 +343,14 @@ $ echo -n 'bad file without newline in the end' && echo -n 'another good file wi
 bad file without  newline in the endanother good file with newline in the end
 ```
 problem is in the first file, but it is the second one to get printed the wrong way.
-No such misattrbution issue with newline-first. 
+No such misattribution issue with newline-first. 
 
 
 If it is ok to end each file with `\n`, then it is ok to start it with `\n`.
 
 Having lines start with `\n` maintains the simplicity of unix utilities, but is a bit simpler to visualize in editor.
 
-Imagine that in parallel universe text and binary files are different in the very first character. What a science finction we could live in!
+Imagine that in parallel universe text and binary files are different in the very first character. What a science fiction we could live in!
 
 **Do I really want to change all files to newline-first?** 
 Of course not.
@@ -436,7 +436,7 @@ I think there is a way to solve this issue too, and it will be discussed.
 
 ## Delimiter-first pseudo-python
 
-To better demostrate how all these ideas come together, I'll imagine a new language (pseudo-python).
+To better demonstrate how all these ideas come together, I'll imagine a new language (pseudo-python).
 To focus only on syntax changes, I'll keep all other aspects of the language the same.
 
 I will consider an artificially complicated example. It includes different arguments, list, empty list, string, multiline string, method chaining, multiline logical arithmetics, few or no arguments
@@ -771,7 +771,7 @@ print(
 
 </pre>
 you type only argument. <br />
-Ready to preceed
+Ready to proceed
 <pre class='precode'>
 print(
     , 42
@@ -888,7 +888,7 @@ every single one of them were met with a storm of criticism.
   I believe that's a better way to structure code (for readability, editing, and better language tools).
   Based on what I've learnt so far, I am sceptical about integration of additional syntax to existing languages:
   two notations side-by-side are worse for users than one. 
-  From the perspetive of language maintainers, all tooling would need to deal with two dialects, which is also a downgrade.
+  From the perspective of language maintainers, all tooling would need to deal with two dialects, which is also a downgrade.
 
   So main audience are *authors of new programming languages.* 
   However, it is not only authors - to get adopted, any new feature should get at least minimal support from community. That's where this page can help.
@@ -924,9 +924,9 @@ every single one of them were met with a storm of criticism.
 
 - Question "Don't you think that current tools have already solved the issues solved by delimiter-first?"
   
-  I developed a simple 4-line code with missed comma that is compeletely fine for flake8 and ruff. And black formatter considers it well-formatter.
+  I developed a simple 4-line code with missed comma that is completely fine for flake8 and ruff. And black formatter considers it well-formatter.
   It took me less than a minute to develop this example, and if you start thinking, I'm sure you'll find a handful of similar cases.
-  Authors of one utitity that is supposed to mark these cases [claim](https://blog.devgenius.io/5-of-666-python-repos-had-comma-typos-including-tensorflow-and-pytorch-sentry-and-v8-7bc3ad9a1bb7) that '5% of 666 Python repos had comma typos (including Tensorflow, and PyTorch, Sentry, and V8)'.
+  Authors of one utility that is supposed to mark these cases [claim](https://blog.devgenius.io/5-of-666-python-repos-had-comma-typos-including-tensorflow-and-pytorch-sentry-and-v8-7bc3ad9a1bb7) that '5% of 666 Python repos had comma typos (including Tensorflow, and PyTorch, Sentry, and V8)'.
 
   We can continue patching problems with even more tools and more special cases, but I'd better have it solved by design.
   Core point is - *delimiter-last is flawed*.

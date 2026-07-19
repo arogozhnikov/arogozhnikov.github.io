@@ -238,7 +238,7 @@ def run_graph_python_and_backward(initial_variables, n_operations):
 
 Run-time for 10k ops and 10k iterations: **312 seconds**.
 
-Expectably not fast. But compared to previous candidates, that's actually quite competitive!
+Expectedly not fast. But compared to previous candidates, that's actually quite competitive!
 
 ### Let's autograd in python, again
 

@@ -16,7 +16,7 @@ This year my team at Yandex organized [MLHEP](http://indico.cern.ch/event/497368
 There were two tracks: basic and advanced, lasting for three days + 2 days on neural networks for both tracks together.
 
 School was accompanied by two kaggle challenges: one for both tracks and one for advanced.
-This is the most producive way to try and learn techniques in practice.
+This is the most productive way to try and learn techniques in practice.
 
 Just as [a year ago](http://arogozhnikov.github.io/2015/09/07/mlhep-slides.html), 
 I gave lectures for basic track. Previous materials were enriched with new topics and more explanations.
@@ -85,7 +85,7 @@ Applications within High Energy Physics and outside HEP.
     * softmax modifications
 * Feature engineering and output engineering
 * Feature selection
-* Dimensionality rediction:
+* Dimensionality reduction:
     * PCA
     * LDA, CSP
     * LLE 
@@ -96,7 +96,7 @@ Applications within High Energy Physics and outside HEP.
 
 ## Day 4, part 1
 
-<iframe src="//www.slideshare.net/slideshow/embed_code/key/4IoUzJawfjXMCt" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/reweighting-and-boosting-to-uniforimty-in-hep" title="Reweighting and Boosting to uniforimty in HEP" target="_blank">Reweighting and Boosting to uniforimty in HEP</a> </strong> from <strong><a href="//www.slideshare.net/arogozhnikov" target="_blank">arogozhnikov</a></strong> </div>
+<iframe src="//www.slideshare.net/slideshow/embed_code/key/4IoUzJawfjXMCt" width="595" height="485" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:1px solid #CCC; border-width:1px; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe> <div style="margin-bottom:5px"> <strong> <a href="//www.slideshare.net/arogozhnikov/reweighting-and-boosting-to-uniforimty-in-hep" title="Reweighting and Boosting to uniformity in HEP" target="_blank">Reweighting and Boosting to uniformity in HEP</a> </strong> from <strong><a href="//www.slideshare.net/arogozhnikov" target="_blank">arogozhnikov</a></strong> </div>
 
 Slides of Tatiana Likhomanenko on non-trivial applications of boosting in High Energy Physics.
 
