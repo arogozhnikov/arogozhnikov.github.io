@@ -417,7 +417,7 @@ Paul C. Blainey provided some pointers to prior works of his lab, relevant to th
 >   The hit ranks or feature scores can be compared gene-wise or guide-wise across the primary and secondary to check reproducibility of the results. 
 >   This can be for technical validation (same assay and guides) or biological validation (new assay and/or new biological model system).  
 >   So far we're seeing impressive reproducibility which supports some of the more challenging and informative use cases you suggest.  
-> - [Funk et al, 2022](https://www.biorxiv.org/content/10.1101/2021.11.28.470116v1.full) demostrated that cell cycle can be treated more explicitly, 
+> - [Funk et al, 2022](https://www.biorxiv.org/content/10.1101/2021.11.28.470116v1.full) demonstrated that cell cycle can be treated more explicitly, 
 >   we added 24-hour live imaging of cells prior to fixation
 
 

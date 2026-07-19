@@ -69,7 +69,7 @@ So each processing unit will work with subarray of length $\text{chunk}$.
   result = array of length n
   
   subarray_sums = array of length m
-  for i in 0, 1, .., m - 1 in parrallel:
+  for i in 0, 1, .., m - 1 in parallel:
       subarray_sums[i] = sum(result[i * chunk : (i + 1) * chunk])
        
   # Now we can compute 

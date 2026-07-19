@@ -35,7 +35,7 @@ Alternatively, you can compute statistics in `numpy` with one-liner:
 ```python
 order_statistics = numpy.argsort(numpy.argsort(initial_array))
 ```
-(isn't this beatiful? I don't say simple, I say beautiful)
+(isn't this beautiful? I don't say simple, I say beautiful)
 
 <br/>
 Want to compute mean value over the group of events? With one-liner? Here you go:

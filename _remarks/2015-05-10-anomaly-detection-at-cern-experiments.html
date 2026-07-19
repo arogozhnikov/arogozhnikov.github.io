@@ -19,6 +19,6 @@ permalink: /2015/05/10/anomaly-detection-at-cern-experiments.html
 <p>However, this detects only deviations of single variable. How
     to compute deviations of many variables? <br/> Inside LHCb experiment, for instance, we have topological trigger,
     which uses gradient-boosted regression trees to filter out events. Trees are actually splitting data into bins, so
-    one can use this and eatimate for one tree the probability of observing anomaly. Here we can apply <a
+    one can use this and estimate for one tree the probability of observing anomaly. Here we can apply <a
             href='http://en.wikipedia.org/wiki/Likelihood-ratio_test#Distribution:_Wilks.27s_theorem'>Wilks theorem</a>,
     but only for every particular tree, since bins of different trees are correlated. </p>

@@ -155,7 +155,7 @@ there are also some more useful visualizations.
 
 ## Dimensionality reduction
 
-![embddings](/images/ml_demonstrations/colah_embeddings.png)
+![embeddings](/images/ml_demonstrations/colah_embeddings.png)
 
 A [post](http://colah.github.io/posts/2014-10-Visualizing-MNIST/) by Christopher Olah 
 visualizes different dimensionality reduction algorithms using MNIST dataset.

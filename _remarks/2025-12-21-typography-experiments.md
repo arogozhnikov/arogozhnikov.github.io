@@ -21,7 +21,7 @@ All three can be used in one sentence, sometimes along with latin and letters.
 
 That's probably a lot to learn, but my concern was graphic representation. I am accustomed to flow of similarly-looking letters, and niceties: kerning and ligatures.
 These are absent in Japanese writings &mdash; characters are all square and take up the same amount of space. 
-That's ... great actually (ha-ha you probably think differrently). 
+That's ... great actually (ha-ha you probably think differently). 
 D. Knuth would never need to develop latex/metafont if his writings were Japanese.
 
 Characters look incoherent &mdash; but that's an explicit decision to make scripts visually distinct, not an overlook. Unavoidably, this choice restricts easy font variations that one can apply to many other languages. And of course developing new Japanese font is a tough job.
@@ -61,7 +61,7 @@ All of this made me thinking: is there an easy way to make our writing better?
 I don't have plans to change the way others write stuff, but if I can come up with a better way to read texts myself, that could be something valuable. 
 
 **Monospace?** Consider idea of same-size letters, is there a problem with just using monospace fonts? 
-I use them all the time for coding and rarely for writing, but for reading literature text they seem like wrong choice because of all problems with kerning and unueven visual density.
+I use them all the time for coding and rarely for writing, but for reading literature text they seem like wrong choice because of all problems with kerning and uneven visual density.
 In Russian, specifically, those would be several wide letters: Ж, Ш, Щ. In English, there are M, W (and "I" is too narrow). 
 As a solution, wide letters can be rotated 90 degrees to fit same "portrait-like" shape.
 
@@ -242,7 +242,7 @@ In this version, a combination consonant+vowel is replaced with consonant + vowe
 Vowel letter preceded by another vowel or space is not modified. 
 A couple of sound-modifiers were also treated as vowels.
 
-This version probably saves a tuny bit of space, and not too hard to switch to; 
+This version probably saves a tiny bit of space, and not too hard to switch to; 
 its usefulness is limited because a number of vowels still should be kept on the main line.
 
 Something should be done to vowels though &mdash; there should be a more compact form to encode 12 characters.

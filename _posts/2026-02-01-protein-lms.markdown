@@ -69,7 +69,7 @@ Overall: yes, we can significantly improve perplexity/recovery, and model size i
 
 Multiple works in this list sprinkle structure tokens in training (and sometimes inference). This work instead utilizes a CLIP-like contrastive alignment step between PLM token and protein GNN (GearNet) structure token. Second loss is a direct prediction of structure tokens.
  
-This delivers a good improvements on contact predictions, fold and secondary structure, but interestingly not so much for downstream tasks (specially in Table 8/ Fugire 10 SaAMPLIFY isn't better than plain AMPLIFY).
+This delivers a good improvements on contact predictions, fold and secondary structure, but interestingly not so much for downstream tasks (specially in Table 8/ Figure 10 SaAMPLIFY isn't better than plain AMPLIFY).
 
 SaESM-2 (aligned ESM-2) transfers to downstream tasks better than SaAMPLIFY &mdash; again confirming very poor correlation between perplexity and transferability.
 
@@ -129,12 +129,12 @@ Metagenomic sequences are diverse and abundant, likely a good complement to UniP
 
 Paper builds a good contrast between MLMs and causal LMs (CLMs). MLMs are efficient and easy to overfit, opposite to CLMs. 
 
-They claim that optimal training recipe is starting from CLMs, then switchin loss to MLM; Surprisingly, training on two losses at the same time isn't better. Authors argue that flops-optimal scaling favors larger models (and they train up to 10B parameters). Results are mixed:
+They claim that optimal training recipe is starting from CLMs, then switching loss to MLM; Surprisingly, training on two losses at the same time isn't better. Authors argue that flops-optimal scaling favors larger models (and they train up to 10B parameters). Results are mixed:
 
 - transfer to downstream tasks isn't impressive
 - contact prediction: minor fine-tuning of ~1B model achieves higher quality than larger model
 
-Insteresting observation: BERT's 15% masking ratio (used in ESMs) is still a good choice in protein MLMs.
+Interesting observation: BERT's 15% masking ratio (used in ESMs) is still a good choice in protein MLMs.
 
 
 
@@ -147,7 +147,7 @@ This paper stands out because 1. they show good improvement in contact predictio
 A model jointly optimized on two objectives: encoder-decoder protein completion and MLM denoising (with 15%, 20% or 50% masking probability, and apparently short spans were masked, not individual tokens). Both points contradict previous paper in this list &mdash; could be results of encoder-decoder architecture.
 
 Preprint leaves many questions unanswered:
-- model is deep (72 layers), so it could be just ineffecient
+- model is deep (72 layers), so it could be just inefficient
 - evaluation is limited to datasets without easy 'leaderboard' to estimate downstream performance.
 - I'm a bit concerned that ESM-2 and Ankh results were "sourced from ankh paper" instead of being reproduced.
 
@@ -160,8 +160,8 @@ Preprint leaves many questions unanswered:
 1. Employ huge curated dataset (PPA-1) that combines genomic and metagenomic sources and excludes fragments.
 2. Model is trained on left-to-right, right-to-left and span infilling objectives (finally!). Then aligned on downstream tasks using IRPO &mdash; modification of DPO.
 
-Results: non-aligned perfomance frequently peaks at ~3B, aligned performance usually still improves. 
-Larger models can generate proteins from more clusters, with tiny implevements in expression.
+Results: non-aligned performance frequently peaks at ~3B, aligned performance usually still improves. 
+Larger models can generate proteins from more clusters, with tiny improvements in expression.
 
 Exact numbers on proteinGYM aren't impressive, but overall dynamics after alignment looks encouraging.
 
@@ -188,7 +188,7 @@ PoET model started a direction in PLMs where homologous sequences are passed as 
 
 This direction inherits weak sides of both PLMs and MSA-based models: 1. one still has to retrieve MSAs 2. alignment should be done by model implicitly 3. more weights compared to MSA-based models and 4. long+deep MSAs are expensive because of quadratic attention. 
 
-One paper from this family ([Profluent E1](https://www.biorxiv.org/content/10.1101/2025.11.12.688125v1.abstract), also trained on PPA-1) claims good perfomance on gym and contact prediction (better than MsaPairformer and other PLMs) and shows positive scaling ... up to 600M. From plots I'd expect further improvement on contact prediction, but not on downstream tasks.
+One paper from this family ([Profluent E1](https://www.biorxiv.org/content/10.1101/2025.11.12.688125v1.abstract), also trained on PPA-1) claims good performance on gym and contact prediction (better than MsaPairformer and other PLMs) and shows positive scaling ... up to 600M. From plots I'd expect further improvement on contact prediction, but not on downstream tasks.
 Given cost of training, it isn't surprising that largest model is only 600M.
 
 
@@ -204,7 +204,7 @@ PLMs started from assumption that better perplexity means overall better underst
 
 If, in addition to protein sequences, training data contained various tokens related to expression, function, interaction, biophysical properties, etc., then all those metrics would go up. 
 Protein sequences alone don't provide enough training signal. 
-Can correlation with other genes from the same organism provide a more useful context? Can functional descrption form a better prompt? 
+Can correlation with other genes from the same organism provide a more useful context? Can functional description form a better prompt? 
 Some teams work on this, so we'll see soon.
 
 Is there a double descent in biology? Given the size of ESM-3 I'll put this hypothesis off the table. 

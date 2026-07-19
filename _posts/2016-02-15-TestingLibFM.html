@@ -31,7 +31,7 @@ This approach is frequently used in recommendation systems, because it generaliz
 <li>does not provide a way to save / load trained formula. Each time you want to predict something, you need to restart training process </li>
 <li>has some extensions (that almost nobody uses)</li>
 <li>supports linux, mac os</li>
-<li>has non-oficial <a href="https://github.com/jfloff/pywFM">pythonic wrapper</a></li>
+<li>has non-official <a href="https://github.com/jfloff/pywFM">pythonic wrapper</a></li>
 </ul>
 </li>
 </ul>
@@ -71,7 +71,7 @@ there is still one parameter one has to pass - namely, regularization. Quality o
 MCMC uses however some priors (which don't influence the result that much).</p>
 <p>So I am testing the quality libraries provide <strong>without additional tuning</strong> to check how bayesian inference and other heuristics work.</p>
 <h2 id="Logistic-regression">Logistic regression<a class="anchor-link" href="#Logistic-regression">&#182;</a></h2><p>Logistic regression is used as a stable <strong>baseline</strong>, because it is basic method to work with highly categorical data.</p>
-<p>However, logistic regression, for instance, does not encounter the relation between user variables and movie variables (in the context of movie recommendations), so this approach is not able to provide any senseful recommendations.</p>
+<p>However, logistic regression, for instance, does not encounter the relation between user variables and movie variables (in the context of movie recommendations), so this approach is not able to provide any sensible recommendations.</p>
 
 </div>
 </div>
@@ -1041,7 +1041,7 @@ load_problems.py:79: ParserWarning: Falling back to the &apos;python&apos; engin
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h2 id="Test-on-flights-dataset---1m">Test on flights dataset - 1m<a class="anchor-link" href="#Test-on-flights-dataset---1m">&#182;</a></h2><p>Flights dataset is quite famous due to <a href="github.com/szilard/benchm-ml">these benchmarks</a> by szilard.</p>
-<p>Based on defferent charateristics the goal is to predict whether the flight was delayed by 15 minutes or more.</p>
+<p>Based on different characteristics the goal is to predict whether the flight was delayed by 15 minutes or more.</p>
 
 </div>
 </div>
@@ -2192,7 +2192,7 @@ RMSE should be minimal, ROC AUC - maximal.</p>
 <li><code>FastFM</code> and <code>LibFM</code> are quite stable and fast</li>
 <li>but <code>LibFM</code>, being a bit faster, on average provides much better results.</li>
 </ul>
-<p>As a sidenote, we saw on example with flight dataset that some feature engineering with providing quadratic features gives very significant boost in quality - even logisitic regression can work much better and faster than FMs on original features.</p>
+<p>As a sidenote, we saw on example with flight dataset that some feature engineering with providing quadratic features gives very significant boost in quality - even logistic regression can work much better and faster than FMs on original features.</p>
 
 </div>
 </div>

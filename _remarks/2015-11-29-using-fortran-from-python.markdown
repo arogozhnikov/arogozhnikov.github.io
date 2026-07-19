@@ -81,7 +81,7 @@ In[4]: %%fortran -vvv
        end subroutine
 </pre>
 
-If you want to use `openmp` with fortran in python, this is how you can do it with gfortan:
+If you want to use `openmp` with fortran in python, this is how you can do it with gfortran:
 
 <pre>
 In[5]: %%fortran -vvv --f90flags='-fopenmp' --extra='-lgomp'
