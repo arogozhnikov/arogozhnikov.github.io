@@ -21,8 +21,8 @@ Once you've defined the necessary function expressions (such as the activation f
 
 This capability allows you to define **new** neural networks in just a few lines of code, simply by specifying the activation function. Impressive, isn’t it?
 
-- [Documentation on Theano](http://deeplearning.net/software/theano/)  
+- [Documentation on Theano](https://deeplearning.net/software/theano/)  
 - [GitHub](https://github.com/Theano/Theano/)  
-- [Examples](http://deeplearning.net/tutorial/) (primarily focused on neural networks, making it an excellent starting point to see the power of Theano)  
+- [Examples](https://deeplearning.net/tutorial/) (primarily focused on neural networks, making it an excellent starting point to see the power of Theano)  
 
 Even more examples (with less explanation) can be found [here](https://github.com/lisa-lab/DeepLearningTutorials/tree/master/code).

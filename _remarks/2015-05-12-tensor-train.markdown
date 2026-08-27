@@ -12,7 +12,7 @@ permalink: /2015/05/11/tensor-train.html
 
 ![Tensor Train](https://mdnip.files.wordpress.com/2012/09/tensortrain.jpg?w=500&crop=1)
 
-One of the probable approaches to building graphical models with categorical variables is [tensor decomposition](http://bayesgroup.ru/wp-content/uploads/2014/05/icml2014_NROV-1.pdf).
+One of the probable approaches to building graphical models with categorical variables is [tensor decomposition](https://bayesgroup.ru/wp-content/uploads/2014/05/icml2014_NROV-1.pdf).
 
 Notably, both tensor decomposition (tensor train format) and the method to use it for graphical models were developed at my faculty, though by different people in different departments.
 

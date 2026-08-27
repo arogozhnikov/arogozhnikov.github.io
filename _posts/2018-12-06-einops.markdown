@@ -16,12 +16,12 @@ Recently I've open-sourced [einops](https://github.com/arogozhnikov/einops)
 Einops introduces a new notation and new operations.
 
 <video controls autoplay>
-  <source src="http://arogozhnikov.github.io/images/einops/einops_video.mp4" type="video/mp4">
-  <img src="http://arogozhnikov.github.io/images/einops/einops_video.gif" alt="einops package examples" />
+  <source src="https://arogozhnikov.github.io/images/einops/einops_video.mp4" type="video/mp4">
+  <img src="https://arogozhnikov.github.io/images/einops/einops_video.gif" alt="einops package examples" />
 </video> 
 
 It perfectly complements existing frameworks (pytorch, tensorflow, gluon, chainer, numpy and others)
-allowing you to write better deep learning code (see [examples for pytorch](http://arogozhnikov.github.io/einops/pytorch-examples.html)).
+allowing you to write better deep learning code (see [examples for pytorch](https://arogozhnikov.github.io/einops/pytorch-examples.html)).
 
 [Einops at Github](https://github.com/arogozhnikov/einops)
 

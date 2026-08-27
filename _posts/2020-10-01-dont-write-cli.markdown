@@ -59,7 +59,7 @@ Here are the options that you should consider ...
 
 - [argparse](https://docs.python.org/3/library/argparse.html) (or ancient optparse)
 - [click](https://click.palletsprojects.com/en/7.x/)
-- [docopt](http://docopt.org/)
+- [docopt](https://docopt.org/)
 - [python-fire](https://github.com/google/python-fire)
 
 ... **deprecated**. Yes, consider them deprecated.

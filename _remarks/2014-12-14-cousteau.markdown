@@ -8,16 +8,16 @@ permalink: /2014/12/14/cousteau.html
 
 ---
 
-I always thought of Jacques Cousteau as film director, maybe scientist or biologist.
+I always thought of Jacques Cousteau as a film director, maybe a scientist or biologist.
 
 Today I've read in [wiki](https://en.wikipedia.org/wiki/Jacques_Cousteau), 
-that he was academician, the co-inventor of aqua-lung, 
-he worked over first waterproof film cameras.
+that he was an academician, the co-inventor of the aqua-lung, 
+and worked on the first waterproof film cameras.
   
 Reasonable, but I never thought of him this way &mdash; 
 so rare for academicians to do some 'field work'.
 
-Moreover, he was the man who worked over (and experimented with) 
-ships with sails working on Magnus effect. 
+Moreover, he was the man who worked on (and experimented with) 
+ships with sails working on the Magnus effect. 
 The [turbosail](https://en.wikipedia.org/wiki/Turbosail) technology was co-invented by him, 
-but there is only one ship using it — the Alcyone, one Cousteau was engineering with his team.
+but there is only one ship using it — the Alcyone, which Cousteau was engineering with his team.

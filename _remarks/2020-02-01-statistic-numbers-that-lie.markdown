@@ -107,7 +107,7 @@ Consider this as a practice for your scepticism. Or keep reading. But better fir
 
 - Does it mean there are 99% of spam and 1% of ham, and everything is put into the spam folder?
   - or maybe it is only 1% of spam and everything lands in your inbox?
-  - so, we need to start from [TPR, FRP, curves](http://arogozhnikov.github.io/2015/10/05/roc-curve.html) and relative rates of spam?
+  - so, we need to start from [TPR, FRP, curves](https://arogozhnikov.github.io/2015/10/05/roc-curve.html) and relative rates of spam?
   - do you think those rates will be the same in your case? Some people/companies get lots of spam, some don't
 - False negatives are messages from your relatives or maybe from your colleagues? Or some newsletters you don't mind to receive?
 - Languages the system supports. 'English' is not an answer, there are many dialects on this planet.

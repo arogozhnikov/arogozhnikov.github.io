@@ -10,7 +10,7 @@ tags:
 - vectorization
 modified_time: '2015-05-22T04:54:19.085-07:00'
 blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-1585621610654534431
-blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/05/decision-train-classifier.html
+blogger_orig_url: https://brilliantlywrong.blogspot.com/2015/05/decision-train-classifier.html
 permalink: /2015/05/22/decision-train-classifier.html
 ---
 
@@ -37,4 +37,4 @@ For instance, considering the GBRT implementation, there are separate classes/fu
 
 This 'modular structure' made it possible to write loss functions once and use them with different classifiers.
 
-Maybe I'll find time to provide support for [FlatnessLoss](http://arxiv.org/abs/1410.4140) inside [my neural networks](http://brilliantlywrong.blogspot.com/2015/05/libraries-of-machine-learning.html). Since it is flexible and uses only gradients, this should not be very complicated.
+Maybe I'll find time to provide support for [FlatnessLoss](https://arxiv.org/abs/1410.4140) inside [my neural networks](https://brilliantlywrong.blogspot.com/2015/05/libraries-of-machine-learning.html). Since it is flexible and uses only gradients, this should not be very complicated.

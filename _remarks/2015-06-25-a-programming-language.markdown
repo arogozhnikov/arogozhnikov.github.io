@@ -9,7 +9,7 @@ tags:
 - Optimization
 modified_time: '2015-06-25T02:33:02.587-07:00'
 blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-4575249620426069058
-blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/06/a-programming-language.html
+blogger_orig_url: https://brilliantlywrong.blogspot.com/2015/06/a-programming-language.html
 ---
 
 Since I'm [very interested](https://arogozhnikov.github.io/2015/09/08/SpeedBenchmarks.html) in numpy and vectorization, I became curious about when how this approach appeared.

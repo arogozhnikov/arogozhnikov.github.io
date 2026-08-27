@@ -20,13 +20,13 @@ My name is Alex Rogozhnikov (Алексей Михайлович Рогожни�
 
 Area of my interest is development and improvement of Machine Learning methods. 
 
-I have PhD in mathematics and physics from [Moscow University](http://www.msu.ru/en/).
+I have PhD in mathematics and physics from [Moscow University](https://www.msu.ru/en/).
 
 I have some other degrees as well :)
 
 * master degree in Math &amp; CS from Computer Science faculty of MSU
-* master degree from [faculty of mathematics](http://math.hse.ru) of Higher School of Economics (definitely great place if you want to devote your life to math) 
-* degree from [Yandex School of Data Analysis](http://yandexdataschool.com), 
+* master degree from [faculty of mathematics](https://math.hse.ru) of Higher School of Economics (definitely great place if you want to devote your life to math) 
+* degree from [Yandex School of Data Analysis](https://yandexdataschool.com), 
   which is one of the best places (or simply best place?) to study programming, data analysis and machine learning.
 * I also have many [degrees of freedom](https://en.wikipedia.org/wiki/Degrees_of_freedom_(mechanics)) (as many other complex physical systems :)     
 
@@ -40,7 +40,7 @@ If you're interested in things I am doing, take a look at
 * [machine learning demonstrations](https://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html) 
 * [gradient boosted reweighter](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/DemoReweighting.ipynb)
 * [uniform gradient boosting](https://github.com/arogozhnikov/hep_ml/blob/master/notebooks/BoostingToUniformity.ipynb)
-* [visualization of optimal control of oscillations](http://arogozhnikov.github.io/2015/12/19/optimal-control-of-oscillations.html) 
+* [visualization of optimal control of oscillations](https://arogozhnikov.github.io/2015/12/19/optimal-control-of-oscillations.html) 
 
 Or take a look at some of my (old) Machine Learning courses: 
 [MLHEP 2016 slides]({% post_url 2016-07-12-mlhep-2016-slides %}) and [repository](https://github.com/yandexdataschool/mlhep2016) 
