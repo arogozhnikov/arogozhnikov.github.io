@@ -14,12 +14,12 @@ tags:
 I like __numpy__ (a core library for numerical computations in python), but in some very-very rare cases I need to achieve 
 the maximal possible speed of number crunching.
 
-There is a number of options you can use (see [my post]({% post_url 2015-09-08-SpeedBenchmarks %}) 
+There are a number of options you can use (see [my post]({% post_url 2015-09-08-SpeedBenchmarks %}) 
 with benchmarking of number crunchers). So the option I choose is to use fortran.
 
 Several reasons for such inobvious choice:
 
-* speed (fortran usually gives slightly faster programs then C++)
+* speed (fortran usually gives slightly faster programs than C++)
 * vector operations, which shorten your code (i.e. to add two matrices and save it to third, you can write `x(:, :) = y(:, :) + z(:, :)`)
 * simple memory management
 
@@ -27,12 +27,12 @@ However, there are demerits that I discovered during experimenting:
 
 * 1-based indexing parameters. <br />
   In fortran enumeration goes from 1 by default, but you can change it for all arrays,
-  for the exception of assumed-shape parameters
+  with the exception of assumed-shape parameters
   (and assumed-shape parameters are the most convenient way to interface with python)
-* pointers cannot be set to allocatable arrays, which seems to be artificial limitation 
+* pointers cannot be set to allocatable arrays, which seems to be an artificial limitation 
 * slow casting - you cannot convert int64[:] to int8[:], because such operations are forbidden.
   (however, you can use transfer, but this is copying, not casting)
-* lack of support for unsigned integers (and ways to substitute it, for instance, `zext` functions)
+* lack of support for unsigned integers (and ways to substitute them, for instance, `zext` functions)
 * non-trivial vector operations frequently give worse results compared to explicitly written loops.
 
 So just in case: fortran isn't friendly to different bit hacks.
@@ -65,7 +65,7 @@ In[3]: # Now we can use this function
        z = my_function(x, y)
 </pre>
 
-Result of computations `z` is numpy array.
+The result of the computation, `z`, is a numpy array.
 This code doesn't look like those old fortran77 programs with lots of 'C' and strange indentations, 
 because it uses fortran 90 standard, which is rather permissive.
 
@@ -100,7 +100,7 @@ Also useful:
 ## F2py
 
 Fortran magic uses `f2py` under the hood. `f2py` currently is a part of `numpy` installation.
-That's the function you need to get `openmp + fortan 90` working with python:
+That's the function you need to get `openmp + fortran 90` working with python:
 
 <pre>
 def compile_fortran(source, module_name, extra_args=''):

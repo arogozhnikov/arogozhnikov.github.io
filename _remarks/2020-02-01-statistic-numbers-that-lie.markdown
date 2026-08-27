@@ -23,14 +23,14 @@ We desperately need ways to receive and analyze less information to make judgeme
 and here they are &mdash; simple numbers that help us with decisions.
 
 However, **connecting numbers and real things is surprisingly hard**.
-And producing just *some* numbers is times easier. 
-Most shocking numbers are spread ny media but almost never checked.
+And producing just *some* numbers is much easier. 
+Most shocking numbers are spread by media but almost never checked.
 
 Let's talk in examples.
 
 ### Example: surveys
 
-Surveys are perfect tool for newsmakers:
+Surveys are a perfect tool for newsmakers:
 - 76% of people are not aware that ...
 - 82% support new initiative ...
 
@@ -70,23 +70,23 @@ Have you ever heard media to discuss the way a particular number from poll was r
 Many years ago I heard frequently remarks like 'people in age from X to Y were surveyed in regions 1,2,3', but no mentions nowadays. Only endless percentages.
 
 Companies that run surveys publish their protocol, but that's only a part of the story. <br/>
-Common benchmark for such companies are elections. How often elections' results coincide with polls? Why?  
+A common benchmark for such companies is elections. How often elections' results coincide with polls? Why?  
 
 ### Another example: face recognition system
 
-Suppose you simply want reliable face recognition system, and don't care about money and speed. 
+Suppose you simply want a reliable face recognition system, and don't care about money and speed. 
 
-Sounds simple. Independent benchmark says the system of your choice has an accuracy of 99.9%. Impressive, right? Wait.
+Sounds simple. An independent benchmark says the system of your choice has an accuracy of 99.9%. Impressive, right? Wait.
 
 - what does 'accuracy' mean? Is it verification (e.g. of device owner) or recognition (finding correct person in the database)?
 - if second, how many people are there in the database? 100? 1'000? 1'000'000?
-- if we know size of the database, which photos are there? On the street? At home? What's light conditions? 
+- if we know the size of the database, which photos are there? On the street? At home? What's light conditions? 
   
   these questions apply both to images in the database and to images you will recognize from.
   
   oh, and don't forget about image/camera quality 
 
-- quality drops when person does not look straight at the camera. How significant is this drop in quality depending on angle?
+- quality drops when the person does not look straight at the camera. How significant is this drop in quality depending on angle?
 - what ethnicities are there in the database? Do they cover all your cases of interest?
 - how much data do you need to identify a person?
 - glasses? makeup? should I update images in the database each year? Twins are considered the same person or not? 
@@ -105,13 +105,13 @@ Cases when everything sounds quantifiable turn out to be already quite complicat
 
 Consider this as a practice for your scepticism. Or keep reading. But better first try to collect questions about this number.
 
-- Does it mean there are 99% of spam and 1% of ham, and everything put into spam folder?
-  - or maybe it is only 1% percent of spam ond everything lands in your inbox?
+- Does it mean there are 99% of spam and 1% of ham, and everything is put into the spam folder?
+  - or maybe it is only 1% of spam and everything lands in your inbox?
   - so, we need to start from [TPR, FRP, curves](http://arogozhnikov.github.io/2015/10/05/roc-curve.html) and relative rates of spam?
   - do you think those rates will be the same in your case? Some people/companies get lots of spam, some don't
 - False negatives are messages from your relatives or maybe from your colleagues? Or some newsletters you don't mind to receive?
 - Languages the system supports. 'English' is not an answer, there are many dialects on this planet.
-- Hey, you know, those sites I left by mistake my address three years ago, they keep sending me stuff, 
+- Hey, you know, those sites where I mistakenly left my address three years ago, that keep sending me stuff, 
   do you consider that spam?
 - What is spam after all?
   
@@ -140,8 +140,8 @@ News shoot numbers at you. Ads claim more numbers. Presentations bury you in num
 - X is clinically shown to improve attentiveness by nearly 20%.
 - Our support resolves N% of issues within 12 hours
 - This display can show N billion colors!
-- X fights disease symptoms 50% faster then other medications
-- University rankings, school rankings &mdash; what's this they compare? Why formulae are readjusted each year??
+- X fights disease symptoms 50% faster than other medications
+- University rankings, school rankings &mdash; what is it they compare? Why formulae are readjusted each year??
 - etc.
 
 Do you really understand what those mean and how useful they are? Can you connect number with an effect or reason in real world?
@@ -155,7 +155,7 @@ Numbers give us impression of general insight into situation. <br />
 
 That's only an illusion.
 
-Numbers have story and context, discovering those breaks an illusion of simplicity but gives number a meaning.
+Numbers have a story and a context, discovering those breaks an illusion of simplicity but gives numbers meaning.
 
 ## More
 
