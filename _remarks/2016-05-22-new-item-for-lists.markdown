@@ -132,5 +132,5 @@ It is crucial in the case of neural networks, since the amount of computations m
 ## Links for python developers
 
 1. [Beyond PEP 8 -- Best practices for beautiful intelligible code](https://www.youtube.com/watch?v=wf-BqAjZb8M)
-2. [An intro to itertools](http://www.blog.pythonlibrary.org/2016/04/20/python-201-an-intro-to-itertools/)
+2. [An intro to itertools](https://www.blog.pythonlibrary.org/2016/04/20/python-201-an-intro-to-itertools/)
 3. Also check [an awesome page about formatting in python](https://pyformat.info/)  

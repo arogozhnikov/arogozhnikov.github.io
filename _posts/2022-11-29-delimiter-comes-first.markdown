@@ -947,7 +947,7 @@ lisp proposals, more (Via Nikishkin)
     https://srfi.schemers.org/srfi-49/
     https://srfi.schemers.org/srfi-110/
 one more version of lisp:
-    http://calcit-lang.org/
+    https://calcit-lang.org/
 
 elm https://elm-lang.org/docs/style-guide
 ocaml https://github.com/ocaml-ppx/ocamlformat/blob/main/test/failing/gen/gen.ml
@@ -957,7 +957,7 @@ Ruby has no-delimiter lists (not so interesting)
 Coffeescript and Civet
 https://github.com/DanielXMoore/Civet "Coffeescript for typescript"
 
-http://www.rebol.com/pre-view.html
+https://www.rebol.com/pre-view.html
 
 leslie lamport and formulas https://www.hpl.hp.com/techreports/Compaq-DEC/SRC-RR-119.pdf
 -->

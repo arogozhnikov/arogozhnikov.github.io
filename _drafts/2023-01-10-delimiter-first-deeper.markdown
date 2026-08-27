@@ -133,7 +133,7 @@ lisp proposals, more (Via Nikishkin)
     https://srfi.schemers.org/srfi-49/
     https://srfi.schemers.org/srfi-110/
 one more version of lisp:
-    http://calcit-lang.org/
+    https://calcit-lang.org/
 
 Farther of lisp himself tried and dropped the ball. 
 Some suggestions are very well-designed, but neither got any traction.

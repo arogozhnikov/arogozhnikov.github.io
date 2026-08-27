@@ -11,14 +11,14 @@ tags:
 permalink: /2016/07/12/mlhep-2016-slides.html
 ---
 
-This year my team at Yandex organized [MLHEP](http://indico.cern.ch/event/497368/) (Machine Learning in High Energy Physics) summer school in Lund, Sweden. 
+This year my team at Yandex organized [MLHEP](https://indico.cern.ch/event/497368/) (Machine Learning in High Energy Physics) summer school in Lund, Sweden. 
  
 There were two tracks: basic and advanced, lasting for three days + 2 days on neural networks for both tracks together.
 
 School was accompanied by two kaggle challenges: one for both tracks and one for advanced.
 This is the most productive way to try and learn techniques in practice.
 
-Just as [a year ago](http://arogozhnikov.github.io/2015/09/07/mlhep-slides.html), 
+Just as [a year ago](https://arogozhnikov.github.io/2015/09/07/mlhep-slides.html), 
 I gave lectures for basic track. Previous materials were enriched with new topics and more explanations.
 
 Also, I've added many visualizations and animations compared to the previous year.
@@ -103,7 +103,7 @@ Slides of Tatiana Likhomanenko on non-trivial applications of boosting in High E
 # Links
 
 1. All materials from school are available at [MLHEP 2016 repository](https://github.com/yandexdataschool/mlhep2016)
-2. [Official page at indico](http://indico.cern.ch/event/497368/)
+2. [Official page at indico](https://indico.cern.ch/event/497368/)
 3. Kaggle competitions for school: [exotic higgs](https://inclass.kaggle.com/c/mlhep-2016-higgs-detection) and [triggers](https://inclass.kaggle.com/c/mlhep-2016-trigger-system)
  
 

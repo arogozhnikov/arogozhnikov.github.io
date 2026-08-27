@@ -13,8 +13,8 @@ tags:
 ---
 
 Recently we (Alex & Tatiana) were invited to give lectures about machine learning at
-[GradDays](http://gsfp.physi.uni-heidelberg.de/graddays/) —
-an event that is organized twice a year at the [Heidelberg University](http://gsfp.physi.uni-heidelberg.de/graddays/) 
+[GradDays](https://gsfp.physi.uni-heidelberg.de/graddays/) —
+an event that is organized twice a year at the [Heidelberg University](https://gsfp.physi.uni-heidelberg.de/graddays/) 
 (Germany's oldest university).
 
 GradDays are giving courses that broaden the physics knowledge of students and teach specialized useful techniques.
@@ -28,7 +28,7 @@ Program of GradDays included:
 - Solar System Exploration Missions and their Scientific Outcome
 - Quantum Field Theory in Extreme Environments
 
-as well as [other sweet things](http://gsfp.physi.uni-heidelberg.de/graddays/index.php?m=2).
+as well as [other sweet things](https://gsfp.physi.uni-heidelberg.de/graddays/index.php?m=2).
 
 Even so, our course **"Machine learning and applications in Science and Industry"** was the most popular.
 Focus of the course (heavily influenced by time constraints: only 4 days) 
@@ -101,6 +101,6 @@ Also, an active learning was demonstrated in couple with gaussian processes.
 
 # Links
 
-- [interactive demonstrations of machine learning models](http://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html)
+- [interactive demonstrations of machine learning models](https://arogozhnikov.github.io/2016/04/28/demonstrations-for-ml-courses.html)
     - thanks to authors of all materials / demonstrations that were used in the course
 - [materials of GradDays at github (including practice assignments in jupyter notebooks)](https://github.com/yandexdataschool/MLAtGradDays)

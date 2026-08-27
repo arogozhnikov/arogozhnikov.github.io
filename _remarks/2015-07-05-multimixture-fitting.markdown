@@ -30,4 +30,4 @@ At each stage we attribute each event to one (in simplest case) component of mix
 This kind of randomization should prevent 'shrinking' of component distributions.
 
 The core idea I am trying to introduce here is very similar to **dropout** &mdash; a trick,
-which allowed researches to train neural networks with more parameters than amount of observations we have.
+which allowed researchers to train neural networks with more parameters than the amount of observations we have.

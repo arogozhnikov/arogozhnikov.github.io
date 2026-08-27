@@ -8,10 +8,10 @@ tags:
 - Optimization
 modified_time: '2015-01-02T12:43:26.234-08:00'
 blogger_id: tag:blogger.com,1999:blog-307916792578626510.post-2272022213403979655
-blogger_orig_url: http://brilliantlywrong.blogspot.com/2015/01/why-using-hdf5.html
+blogger_orig_url: https://brilliantlywrong.blogspot.com/2015/01/why-using-hdf5.html
 ---
 
-**Update**: Everything below is inessential since I found the [StackOverflow](http://stackoverflow.com/a/27713489/498892) answer about HDF5.
+**Update**: Everything below is inessential since I found the [StackOverflow](https://stackoverflow.com/a/27713489/498892) answer about HDF5.
 
 The only thing I don't agree with is Blaze. I've tried it, and it’s clearly still in a raw state and needs a lot of time to become not just stable but truly useful.
 

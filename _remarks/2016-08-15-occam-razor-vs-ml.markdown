@@ -43,8 +43,8 @@ are there in this list of **terms**?
 1. ordinary least squares
 1. mutual information 
 1. [logarithmic loss](https://www.kaggle.com/wiki/LogarithmicLoss)
-1. [information gain](http://www.cs.cmu.edu/afs/cs.cmu.edu/project/theo-20/www/mlbook/ch3.pdf)
-1. [softmax classifier](http://cs231n.github.io/linear-classify/#softmax)
+1. [information gain](https://www.cs.cmu.edu/afs/cs.cmu.edu/project/theo-20/www/mlbook/ch3.pdf)
+1. [softmax classifier](https://cs231n.github.io/linear-classify/#softmax)
 
 
 Not to mention some trivial things, like the fact that the sum of squared errors 

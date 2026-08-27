@@ -95,7 +95,7 @@ In[5]: %%fortran -vvv --f90flags='-fopenmp' --extra='-lgomp'
 
 Also useful: 
   * `--opt='-O3'` for O3 optimization level
-  * [Fortran 90 best practices](http://www.fortran90.org/src/best-practices.html)
+  * [Fortran 90 best practices](https://www.fortran90.org/src/best-practices.html)
 
 ## F2py
 

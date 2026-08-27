@@ -52,7 +52,7 @@ But the code we wrote for cumulative sum is not parallelizable at all, the compu
 next iteration shall be done exactly after the previous one. Unless you use some dangerous flag like `-fmath`, the 
 compiler will never be able (even in theory) to speed up this code, because otherwise it will have to break a summation order.
 
-Summation order matters, because addition <a href='http://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html'>is not associative</a>
+Summation order matters, because addition <a href='https://docs.oracle.com/cd/E19957-01/806-3568/ncg_goldberg.html'>is not associative</a>
 in floating-point numbers.
 
 ## Ways to parallelize cumulative sum computation
