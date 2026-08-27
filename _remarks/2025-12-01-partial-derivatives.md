@@ -14,7 +14,7 @@ There is a [nice remark](https://johncarlosbaez.wordpress.com/2021/09/13/the-cyc
 This simple example completely shatters analogy with ratios and infinitesimals that works so nicely in one-dimensional case.
 
 There are some other problems with partial derivatives, but let's discuss the ratio first.
-There are some interesting ideas how one develop an intuition for negative sign.
+There are some interesting ideas how one develops an intuition for the negative sign.
 
 One of them is via differential forms:
 
@@ -57,14 +57,14 @@ $$
 
 Relations in the first line are actually super neat and are useful in a more broad context, 
 but I've seen them for the first time!
-Above equation is based on observation that the space of 2-forms in 2d in 1-dimensional, so you can "divide" 2-forms 
-and do this trickery with swapping multiplicants &mdash; normally this operations would be meaningless.
+The equation above is based on the observation that the space of 2-forms in 2d is 1-dimensional, so you can "divide" 2-forms 
+and do this trickery with swapping multiplicants &mdash; normally this operation would be meaningless.
 
 
-This proof is concise and elegant &mdash; it explains sign and generalizes to higher dimensions.
+This proof is concise and elegant &mdash; it explains the sign and generalizes to higher dimensions.
 Geometrically, I still lack intuition after reading it.
 
-I find this explanation for total sign (-1) very useful: sign of 
+I find this explanation for the total sign (-1) very useful: sign of 
 $ \left.\frac{\partial u}{\partial v}\right|\_{w} $
 is positive if gradients of `u` and `v` are on the same side of gradient `w`. In other words, 
 
@@ -73,12 +73,12 @@ $$
 \operatorname{sign} \left( \operatorname{grad} w \times \operatorname{grad} v, \operatorname{grad} w \times \operatorname{grad} u \right)
 $$
 
-now you can plot three arrows from origin on a plane (one for each gradient) and see yourself that either one of signs is negative, or all three. When explicitly stated, you can also see this from the formula with differential forms.
+now you can plot three arrows from the origin on a plane (one for each gradient) and see for yourself that either one of the signs is negative, or all three. When explicitly stated, you can also see this from the formula with differential forms.
 
 
 ### Surfaces
 
-Another interesting idea from comments to the same post is to consider 2d surface formed by (u, v, w) in 3d space.
+Another interesting idea from the comments to the same post is to consider a 2d surface formed by (u, v, w) in 3d space.
 
 Normal can be written as (up to coefficients, all expressions are the same vector):
 
@@ -88,16 +88,16 @@ $$
   \; \propto \; (\frac{\partial w}{\partial u}|_{w}, \frac{\partial w}{\partial v}|_{v}, -1) 
 $$
 
-and for example we can derive from proportionality of first and second vectors that 
+and for example we can derive from the proportionality of the first and second vectors that 
 $$
 \frac{\partial u}{\partial v}|_{w} \cdot \frac{\partial v}{\partial w}|_{u}
  = -1 \cdot \frac{\partial u}{\partial w}|_{v}
-$$, and original equality immediately follows from it.
+$$, and the original equality immediately follows from it.
 
 ### Surfaces (my approach)
 
-Let's consider walking along the 2d surface in 3d while keeping one of coordinates fixed.
-Tangent vector to our movement is proportional to one of:
+Let's consider walking along the 2d surface in 3d while keeping one of the coordinates fixed.
+The tangent vector to our movement is proportional to one of:
 
 $$
 (1, - \frac{∂v}{∂u}|_w, 0)
@@ -107,7 +107,7 @@ $$
 (-\frac{∂u}{∂w}|_v , 0, 1) 
 $$
 
-These three vectors are still in the same plane (tangent plane to the surface):
+These three vectors are still in the same plane (the tangent plane to the surface):
 
 $$
 \det \left| \begin{matrix} 
@@ -118,26 +118,26 @@ $$
 $$
 
 and after expanding the $$\det$$ one proves the original equation. 
-Proof is "symmetric" yet still "basic".
+The proof is "symmetric" yet still "basic".
 
 Now let me discuss another problem of partial derivatives:
 they are bulky to write (even on paper, and even more so in latex).
 
 ### How a math. physicist would write partial derivatives
 
-In mathematical physics (more of math branch rather than physics) it is somewhat common to use notation with lower indices, for example:
+In mathematical physics (more of a math branch rather than physics) it is somewhat common to use notation with lower indices, for example:
 
 $$
 u_x = \frac{\partial u}{\partial x}|_{y} \qquad u_y = \frac{\partial u}{\partial y}|_{x} 
 $$
 
-Noticed something? Constant clause disappears. 
+Noticed something? The constant clause disappears. 
 One soon gets skilled in manipulating derivatives:
 $$
 u_\phi = u_x x_\phi + u_y y_\phi
 $$ etc, etc
 
-Let's rewrite one more approach from comments. Let's assume that surface is defined as $ f(u, v, w) $.
+Let's rewrite one more approach from the comments. Let's assume that surface is defined as $ f(u, v, w) $.
 
 $$
 0 = df   = f_u du + f_v dv + f_w dw
@@ -150,15 +150,15 @@ all 6 terms in brackets are zero, thus we get many relations in a form of ratio:
 
 $$ u_v = - \frac{f_v}{f_u}, ... \rightarrow  u_v v_w w_u = - \frac{f_v}{f_u} \times - \frac{f_v}{f_u} \times - \frac{f_v}{f_u} = -1 $$
 
-This ratio relationships are somehow more intuitive because we fixed $f$ constant.
+These ratio relationships are somehow more intuitive because we fixed $f$ constant.
 
 
-Another notation, more common across actual physicists is operator:
+Another notation, more common among actual physicists, is the operator:
 $$
 \partial_x u = \frac{\partial u}{\partial x}|_{y} \qquad \partial_y u = \frac{\partial u}{\partial y}|_{x} 
 $$
 
-line-saving, has no "fraction pitfall", an easy to handle operations:
+line-saving, has no "fraction pitfall", and easy-to-handle operations:
 $$
 \partial_x uv = v \partial_x u + u \partial_x v
 $$
@@ -193,14 +193,14 @@ $$
 \partial_r f = \sin \phi \leq 1 \qquad \text{and} \qquad \partial_r f = \frac{r}{\sqrt{r^2 - x^2}} \geq 1
 $$
 
-Answer to this riddle is very simple - just look again at the very first formula in this post.
-New notations do not reflect conditioning on other variables &mdash; and first expression implicitly conditions on $$\phi$$ 
-while second conditions on $$x$$, hence the difference.
+The answer to this riddle is very simple - just look again at the very first formula in this post.
+New notations do not reflect conditioning on other variables &mdash; and the first expression implicitly conditions on $$\phi$$ 
+while the second conditions on $$x$$, hence the difference.
 
 
 ### Approach from theoretical physicists
 
-So how does someone who operates on coordinates all the time avoids this trap?
+So how does someone who operates on coordinates all the time avoid this trap?
 
 $$
 \partial_1 f = \frac{\partial f(x_1, x_2, ... , x_n )}{\partial x_1} |_{x_2, \dots, x_n}
@@ -210,16 +210,16 @@ $$
 $$
 
 
-index implicitly assures there is "rest of variables in this pack". And then one would casually index as such:
+The index implicitly ensures there is "the rest of variables in this pack". And then one would casually index as such:
 
 $$
 \partial_i f = \partial_i \hat{x}_i \cdot \partial_{\hat{i}} f
 $$
 
-Note present of hats: $$\hat{i}$$ &mdash; reflects that another coordinate system is used.
+Note the presence of hats: $$\hat{i}$$ &mdash; reflects that another coordinate system is used.
 
 This works beautifully because theorists don't pay much attention to a particular coordinate system.
-It is just "plain" or "with hat" or "indexed by j" or "indexed by alpha-primed".
+It is just "plain" or "with a hat" or "indexed by j" or "indexed by alpha-primed".
 
 
 Since in many partial cases you actually care about specific coordinates, 
