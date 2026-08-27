@@ -19,11 +19,11 @@ Occam's razor (Russell's version)
 </div>
 
 
-If Russell was studying Machine Learning our days, 
+If Russell were studying Machine Learning in our days, 
 he'd probably throw out all the textbooks.
 
 Why? Well, ML introduces too many terms with subtle or no difference.
-It's hard understand the scale of the problem without a good example.
+It's hard to understand the scale of the problem without a good example.
  
 You can ask your ML-experienced friends how many of the **entities**
 are there in this list of **terms**?
@@ -47,7 +47,7 @@ are there in this list of **terms**?
 1. [softmax classifier](http://cs231n.github.io/linear-classify/#softmax)
 
 
-Not to name some trivial things like sum of squared errors 
+Not to mention some trivial things, like the fact that the sum of squared errors 
 is the same **entity** as MSE.
  
 <div style='height: 100px;'></div> 
@@ -153,7 +153,7 @@ When selecting optimal predictions in a leaf, we optimize:
 \text{LogLoss}_\text{leaf} = \sum_{i \in \text{leaf}} \sum_{c} y_{i,c} \log p_{\text{leaf}, c}
 $$</div>
 
-Easy to prove that an optimal point is <span>$p_{\text{leaf}, c} = \dfrac{n_{\text{leaf}, c}}{n_{\text{leaf}}} $</span>
+It is easy to prove that an optimal point is <span>$p_{\text{leaf}, c} = \dfrac{n_{\text{leaf}, c}}{n_{\text{leaf}}} $</span>
 
 <div>$$
 \text{LogLoss}_\text{leaf}

@@ -29,7 +29,7 @@ Alliance of Jinx and Sevika made zero sense from both sides (Sevika got her prev
 
 Ashi's appearance is laughable – 3 gorillas with weapons chasing a kid who can't even speak? 
 Ashi's self-sacrifice made no sense and had no effect (for anyone except Jinx), 
-was just smashed into plot to artificially derail Jinx.
+was just smashed into the plot to artificially derail Jinx.
 
 
 **Vi (Violet)**
@@ -42,12 +42,12 @@ Scriptwriters use Vi as an excuse why conflicts appear again and again, or why a
 
 Positive spin in the second part is alternative branch where Vi died and things go great.
 
-Another cool moment is Vi becoming a pit fighter — that's where plot should've forgotten her existence. 
-Sadly, Vi is the one lived to tell the story.
+Another cool moment is Vi becoming a pit fighter — that's where the plot should've forgotten her existence. 
+Sadly, Vi is the one who lived to tell the story.
 
 **Viktor**
 
-The last minutes of series completely scramble Victor's arc.
+The last minutes of the series completely scramble Victor's arc.
 
 If Victor can travel in time (apparent from the ending), why wouldn't he leave a message for himself? 
 If he succeeded in his 'final evolution', why everything in that universe is destroyed? That's nonsense.
@@ -59,10 +59,10 @@ What's the point of taking Vander to attack? (aside from 'scenarist wants ending
 
 **Joyce**
 
-In the final Viktor told Jayce 'you can show me this', not 'get this hammer and kill me first, I'll get mad and start conquest, then we should discuss matters more sanely'.
+In the finale Viktor told Jayce 'you can show me this', not 'get this hammer and kill me first, I'll get mad and start conquest, then we should discuss matters more sanely'.
 Joyce's behavior after return makes little sense.
-Minor question: how comes Joyce got out of massacre after Ashi's self-sacrifice? 
-Where Joyce been while everyone was planning for attack/defense? 
+Minor question: how come Joyce got out of the massacre after Ashi's self-sacrifice? 
+Where has Joyce been while everyone was planning for attack/defense? 
 
 **Shimmer**
 
@@ -78,14 +78,14 @@ why she doesn't use this power afterward, relying purely on magic?
 
 **Ambessa Medarda**
 
-Whole Ambessa's storyline in fked up to unbearable levels.
+Whole Ambessa's storyline is fked up to unbearable levels.
 
-Runes are all that protected her and nobody could take it off? Really? Why wouldn't Rose attack her soldiers one-by-one? Why runes are just hanging there for everyone to see?
-Why Ambessa had problems with black rose? What's the story with brother?
+Runes are all that protected her and nobody could take them off? Really? Why wouldn't Rose attack her soldiers one-by-one? Why runes are just hanging there for everyone to see?
+Why Ambessa had problems with black rose? What's the story with her brother?
 Why she was not confused when Mel disappeared?
 
-How comes that Ambessa survived Vi's trap? Why Vi survived it too? That whole part was a complete mess.
-Did Ambessa want to develop hextech into a more powerful weapon? Then she should've appointed anyone but Caitlyn, but she appointed Caitlyn — who for sure will avoid any big conflicts. How comes?
+How come Ambessa survived Vi's trap? Why Vi survived it too? That whole part was a complete mess.
+Did Ambessa want to develop hextech into a more powerful weapon? Then she should've appointed anyone but Caitlyn, but she appointed Caitlyn — who for sure will avoid any big conflicts. How come?
 Why Mel claims that Ambessa "is not Medarda"?
 
 Final antagonist without a consistent storyline — worse than no ending at all.
@@ -99,10 +99,10 @@ Commander Caitlyn guards the camp while catching Vi? Not what commanders do.
 
 **Ekko**
 
-Why returning back from the world where everything is ok?
-If returning, why not taking several well-raised folks with you? (specially those who died in your reality?) Knowing how things could be, they would be in best position to fix undercity?
+Why returning from the world where everything is ok?
+If returning, why not taking several well-raised folks with you? (especially those who died in your reality?) Knowing how things could be, they would be in the best position to fix undercity?
 
-Time machine (even for 4 seconds) is a powerful tool in discussions, why not using it even more?
+Time machine (even for 4 seconds) is a powerful tool in discussions, why not use it even more?
 
 ---
 
@@ -112,7 +112,7 @@ Time machine (even for 4 seconds) is a powerful tool in discussions, why not usi
 - Enforcers's stories (Grayson, Marcus) were consistent.
 - Silco — storyline of the second part makes it sound like Silco would care about Vi, but it was the opposite in the first season. 
   When considering just first season, his story is consistent, and has some meaningful turns — he has to run underground, and faces both external and internal pressure that he deals with in his ways.
-- Council — sometimes funny, controllable, over-reacting, sometimes full of under-the-rug fighting and ultimately deciding on Zion's independence.
+- Council — sometimes funny, controllable, over-reacting, sometimes full of under-the-rug fighting and ultimately deciding on Zaun's independence.
   Multiple interesting parts there.
 - Second chapter has some nice parts with Ekko and time travels.
 

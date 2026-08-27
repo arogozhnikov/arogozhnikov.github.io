@@ -11,20 +11,19 @@ tags:
 permalink: /2015/09/07/mlhep-slides.html
 ---
 
-In the end of this August our team from Yandex organized MLHEP 2015 - summer school on Machine Learning in High Energy Physics.
+At the end of this August our team from Yandex organized MLHEP 2015 - summer school on Machine Learning in High Energy Physics.
 
-School lasted only for 4 days, but even in this little time we managed to teach many things.
+The school lasted only for 4 days, but even in this little time we managed to teach many things.
 
-School contained of two tracks: introductory and advanced, every day each track has 2 lectures + 2 practical seminars.
-Also in each evening there was a special physical talk by invited speakers from CERN. 
+The school consisted of two tracks: introductory and advanced, every day each track has 2 lectures + 2 practical seminars.
+Also, each evening there was a special physics talk by invited speakers from CERN. 
 
-No, this is not everything: we organized [inclass kaggle competition](http://inclass.kaggle.com/c/comet-track-recognition-mlhep-2015)
+No, this is not everything: we organized [an inclass kaggle competition](http://inclass.kaggle.com/c/comet-track-recognition-mlhep-2015)
 based on the COMET tracking problem I wrote about ([part 1]({% post_url 2015-06-22-machine-learning-used-in-tracking-of%}), 
 [part 2]({% post_url 2015-07-05-machine-learning-in-comet-experiment %})), 
-so participants played with ML methods on real-world problem.
+so participants played with ML methods on a real-world problem.
 
-I gave lectures on introductory track. This was really challenging - put the course of ML in 4 days to people who have no experience in ML 
-and have different background (while major part of introductory track listeners were particle physicists, but this is not very helpful).
+I gave lectures on the introductory track. This was really challenging - to put the course of ML in 4 days to people who have no experience in ML and have different backgrounds (while the major part of introductory track listeners were particle physicists, but this was not very helpful).
  
 One more caveat: since the schedule was completely filled, we decided to give no tasks (and thus all the theoretical knowledge
 will be obtained from slides). 
@@ -32,7 +31,7 @@ will be obtained from slides).
 For this purpose I decided to minimize the number of things introduced in course. The only non-trivial notion I used was decision function.
 No $F(x)$, no $h_i(x)$, no $Q(x, y)$, no margins, no $\Theta$, no $C(Y, F)$ and other stuff.
 
-Despite this limitations, course contained all the 'starter kit' and even more:
+Despite these limitations, course contained all the 'starter kit' and even more:
 
  * knn
  * optimal bayesian classifier, QDA
@@ -55,8 +54,7 @@ Despite this limitations, course contained all the 'starter kit' and even more:
 
 Also I significantly reduced number of formulas and added different demonstrations of how different algorithms work.
   
-This is really much for introductory 4-days course, but I consider this to be ok to give more during the course. 
-The problem is I forgot to put some important notes with conclusions, next time I'll add them explicitly to slides :) 
+This is really a lot for introductory 4-days course, but I like this density of ideas.
 
 ## Slides 
 

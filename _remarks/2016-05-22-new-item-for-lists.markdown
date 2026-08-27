@@ -16,12 +16,12 @@ and explained in this post.
 
 First, let me describe the situation when I need it.
  For example, take [a Lasagne tutorial](https://github.com/Lasagne/Lasagne/blob/5a009f98cb479c6c39157027de830a83462dabc0/examples/mnist.py).
- It is quite long (which pushes researchers from lasagne), but mostly filled with fairly trivial operations that make it hard to grasp everything fast.
+ It is quite long (which pushes researchers away from lasagne), but mostly filled with fairly trivial operations that make it hard to grasp everything fast.
  
 Expressiveness ( = ability to write what you want to do without spending time on introducing additional entities) 
 is considered to be a strong side of python.
  
-But in this example it seems to me that newcomer may be lost in the jungles of computing validation quality:  
+But in this example it seems to me that a newcomer may be lost in the jungles of computing validation quality:  
 
 ```python
 # And a full pass over the validation data:
@@ -47,7 +47,7 @@ It is better to inspect original code, here I give a minor part of a function.
 Basically, we compute two measures of quality (loss value, which is called `err` here, and accuracy) 
 on minibatches and average those over minibatches.
 
-Now, how this would be done in python if there was only one metric of quality?
+Now, how would this be done in python if there was only one metric of quality?
 
 ```python
 validation_accuracies = [val_fn(inputs, targets) for inputs, targets
@@ -70,10 +70,10 @@ print("  validation loss:\t\t{:.6f}".format(numpy.mean(validation_losses)))
 print("  validation accuracy:\t\t{:.2f} %".format(numpy.mean(validation_accuracies) * 100.))
 ```
 
-This code is not that bad, but required some kung-fu and may look even more scary for a python novice. 
+This code is not that bad, but requires some kung-fu and may look even more scary for a python novice. 
 
 Now let's imagine that during tuple unpacking we can append values 
-to lists without storing those in intermediate variable.   
+to lists without storing those in an intermediate variable.   
  
 ```python
 validation_losses = AppendableList()
