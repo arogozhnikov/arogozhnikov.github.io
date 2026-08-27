@@ -5,26 +5,26 @@ date: 2025-12-20 12:00:00
 author: Alex Rogozhnikov
 ---
 
-Recent trip to Japan left me with many positive impressions: 
-unseen politeness and thankfulness, fantastic attention to details. 
+A recent trip to Japan left me with many positive impressions: 
+unseen politeness and thankfulness, fantastic attention to detail. 
 
 Great organization on multiple levels: from super-small rooms to huge transport hubs. 
 I had very few problems navigating their (rather complicated) transport system. 
 
-There is just one thing kept bothering me &mdash; every time I saw text. Do you see this too?
+There is just one thing that kept bothering me &mdash; every time I saw text. Do you see this too?
 
 シアーミュージック 京都駅前校
 
 A bit of context: there are 3 different types of scripts used.
-One, historical, is *kanji*; two others are phonetic. 
-All three can be used in one sentence, sometimes along with latin and letters.
+One, historical, is *kanji*; two others are phonetic.
+All three can be used in one sentence, sometimes along with latin letters and digits.
 
-That's probably a lot to learn, but my concern was graphic representation. I am accustomed to flow of similarly-looking letters, and niceties: kerning and ligatures.
-These are absent in Japanese writings &mdash; characters are all square and take up the same amount of space. 
+That's probably a lot to learn, but my concern was graphic representation. I am accustomed to the flow of similarly-looking letters, and niceties: kerning and ligatures.
+These are absent in Japanese writing &mdash; characters are all square and take up the same amount of space. 
 That's ... great actually (ha-ha you probably think differently). 
 D. Knuth would never need to develop latex/metafont if his writings were Japanese.
 
-Characters look incoherent &mdash; but that's an explicit decision to make scripts visually distinct, not an overlook. Unavoidably, this choice restricts easy font variations that one can apply to many other languages. And of course developing new Japanese font is a tough job.
+Characters look incoherent &mdash; but that's an explicit decision to make scripts visually distinct, not an oversight. Unavoidably, this choice restricts easy font variations that one can apply to many other languages. And of course developing a new Japanese font is a tough job.
 
 So what's bothering me if not kerning and styles? Well, this:
 
@@ -32,13 +32,13 @@ So what's bothering me if not kerning and styles? Well, this:
 <span style='font-size: 0.50em;'> シアーミュージック 京都駅前校 </span> <br />
 <span style='font-size: 0.35em;'> シアーミュージック 京都駅前校 </span> <br />
 
-Kanji has a different amount of details in it, and while other characters are always easy to distinguish, kanji *requires* using a larger font. So potential benefit of newer scripts can't be realized because of "compatibility" with historical one.
-Kind of migration stories I hate, because they never end.
+Kanji has a different amount of detail in it, and while other characters are always easy to distinguish, kanji *requires* using a larger font. So the potential benefit of newer scripts can't be realized because of "compatibility" with the historical one.
+The kind of migration stories I hate, because they never end.
 If, on the other hand, someone designed character sets so that kanji was ~2x wider than other characters, this step would create a tiny but consistent pressure to prefer phonetic scripts.
 <!-- omitting here problems of all options with latin and letters -->
 
-Letter `ë` in modern Russian in the process of disappearance because its position on keyboard is inconsistent. 
-Slow but steady, this pressure of inconvenience drives to replacement of letter by similarly-looking `е`, which looks similar but phonetically different.
+Letter `ë` in modern Russian is in the process of disappearing because its position on the keyboard is inconsistent. 
+Slow but steady, this pressure of inconvenience drives the replacement of the letter by the similarly-looking `е`, which looks similar but is phonetically different.
 
 ### Success story: Hangul
 
@@ -46,7 +46,7 @@ Japan's neighbor Korea is praised by linguists for reforming
 their language: they made it more "compositional" and consistent.
 Letters' shapes correspond to tongue position and letters are grouped into syllables.
 
-Hangul chart reminds a multiplication table, with every symbol composing vowel and consonant:
+Hangul chart reminds a multiplication table, with every symbol composed of a vowel and a consonant:
 
 ![Hangul syllables](/images/etc/fonts/Hangul_Chart_2.jpg)
 
@@ -56,28 +56,28 @@ Source: [wikimedia](https://commons.wikimedia.org/wiki/File:Hangul_Chart_2.jpg),
 
 (it is more complicated, one "glyph" may contain 3 or 4 letters, and old writing in South Korea is not *completely* eliminated, but that's still by far the most systematic writing system).
 
-All of this made me thinking: is there an easy way to make our writing better?
+All of this made me think: is there an easy way to make our writing better?
 
 I don't have plans to change the way others write stuff, but if I can come up with a better way to read texts myself, that could be something valuable. 
 
-**Monospace?** Consider idea of same-size letters, is there a problem with just using monospace fonts? 
-I use them all the time for coding and rarely for writing, but for reading literature text they seem like wrong choice because of all problems with kerning and uneven visual density.
+**Monospace?** Consider the idea of same-size letters: is there a problem with just using monospace fonts? 
+I use them all the time for coding and rarely for writing, but for reading literary text they seem like a wrong choice because of all the problems with kerning and uneven visual density.
 In Russian, specifically, those would be several wide letters: Ж, Ш, Щ. In English, there are M, W (and "I" is too narrow). 
-As a solution, wide letters can be rotated 90 degrees to fit same "portrait-like" shape.
+As a solution, wide letters can be rotated 90 degrees to fit the same "portrait-like" shape.
 
-And after briefly evaluating [Martian Mono](https://github.com/evilmartians/mono) (latin + cyrillic), I found that rendering of monospace fonts actually handles well even tough cases.
+And after briefly evaluating [Martian Mono](https://github.com/evilmartians/mono) (latin + cyrillic), I found that the rendering of monospace fonts actually handles even tough cases well.
 
 I've tried reading some sci-fi texts in mono and didn't feel any discomfort. 
 When testing several book reader apps, I couldn't choose any monospace font. Oh the irony!
-Some blogs I'm reading (targeted for coders) use monospace fonts, and my eyes like this.
+Some blogs I'm reading (targeted at coders) use monospace fonts, and my eyes like this.
 
 There should be some research to confirm I'm wrong... 
-ChatGPT insisted on superiority of proportional fonts but could not find any non-ancient paper to confirm this.
-Not-so-aged research (2010 and later) does not detect difference in *reading speed* for *small* sentences.
+ChatGPT insisted on the superiority of proportional fonts but could not find any non-ancient paper to confirm this.
+Not-so-aged research (2010 and later) does not detect a difference in *reading speed* for *small* sentences.
 
 Undoubtedly, there *were* strong reasons to prefer proportional fonts 50 years ago.
-But today, I work with monospaced text a lot, and outcomes of same tests for me are likely different.
-This research worth revisiting instead of blindly relying on results from ~1930.
+But today, I work with monospaced text a lot, and outcomes of the same tests for me are likely different.
+This research is worth revisiting instead of blindly relying on results from ~1930.
 
 <!-- With modern fonts, not old typewriter systems. -->
 
@@ -86,11 +86,11 @@ This research worth revisiting instead of blindly relying on results from ~1930.
 
 
 Russian language has a clear distinction between vowels and consonants &mdash; so it is 
-more suitable to experiments. (vowel letter can't produce consonant sound and vice versa)
+more suitable for experiments. (a vowel letter can't produce a consonant sound and vice versa)
 
 
-Additional observation is that in some cases seeing just consonants is (almost) enough to read contents if you know the context.
-Let's move vowels out of main line so that one could read only when necessary. 
+An additional observation is that in some cases seeing just consonants is (almost) enough to read the content if you know the context.
+Let's move vowels out of the main line so that one could read only when necessary. 
 Here is an example fragment from Winnie the Pooh that uses this strange writing:
 
 <pre id="pre-supped">
@@ -235,20 +235,20 @@ usual text for comparison, the same fragment:
   }
 </style>
 
-This was best-working result after a couple of experiments. 
+This was the best-working result after a couple of experiments. 
 It requires 10-20 minutes to adjust yourself to this writing, but it is readable afterwards.
 
 In this version, a combination consonant+vowel is replaced with consonant + vowel above. 
-Vowel letter preceded by another vowel or space is not modified. 
+A vowel letter preceded by another vowel or space is not modified. 
 A couple of sound-modifiers were also treated as vowels.
 
-This version probably saves a tiny bit of space, and not too hard to switch to; 
+This version probably saves a tiny bit of space, and is not too hard to switch to; 
 its usefulness is limited because a number of vowels still should be kept on the main line.
 
 Something should be done to vowels though &mdash; there should be a more compact form to encode 12 characters.
 One option is diacritics-like modifications (above/below the consonant).
-Other options is space-efficient vertical symbols. 
-When tinkering about this, I was 'rediscovering' korean vowels &mdash; it is indeed natural to add a vertical line and 'attach' a branch at some position.
+Another option is space-efficient vertical symbols. 
+When tinkering with this, I was 'rediscovering' Korean vowels &mdash; it is indeed natural to add a vertical line and 'attach' a branch at some position.
 
 
 
