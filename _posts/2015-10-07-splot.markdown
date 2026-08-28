@@ -27,7 +27,7 @@ The distribution of some characteristic is different for them (let this be the `
 
 ## Observed distributions
 
-Picture above shows how this distribution should look like, 
+The picture above shows what this distribution should look like, 
 but due to inaccuracies during classification we will observe a different picture, and this is important.
 
 Let's assume that with a probability of 80% a particle is classified correctly 
@@ -42,12 +42,12 @@ we see that distributions are distorted. We lost the original shapes of distribu
 
 Think of it in the following way: there are 2 bins. 
 First bin contains 80% of electrons and 20% of positrons. 
-And visa versa in the second bin.
+And vice versa in the second bin.
 
 To reconstruct the initial distribution, one can plot the histogram where each event from the first bin has weight 0.8, and each event from the second bin has weight -0.2. 
 These numbers are called *sWeights*.
 
-In other words, let's say we had 8000 $e^{-}$ + 2000 $e^{+}$ in first bin and 8000 $e^{+}$ + 2000 $e^{-}$ 
+In other words, let's say we had 8000 $e^{-}$ + 2000 $e^{+}$ in the first bin and 8000 $e^{+}$ + 2000 $e^{-}$ 
 ($ e^-, e^+$ are electron and positron). 
 After summing with introduced sWeights:
 
@@ -71,11 +71,11 @@ Let's compare reconstructed distribution for electrons with original:
 
 In the case when we have only two 'bins' things are simple and straightforward. 
 
-But when there are more than two bins, the solution is not unique. There are many appropriate combinations of sWeights, which one to choose (like in example below with 3 bins)?
+But when there are more than two bins, the solution is not unique. There are many appropriate combinations of sWeights — which one to choose (like in the example below with 3 bins)?
  
 ![proportions inside each bin](/images/splot/5-3bins.png)
 
-But things are more complex in practice. We have not bins, but continuous distributions (which can be treated as many bins). 
+But things are more complex in practice. We do not have bins, but continuous distributions (which can be treated as many bins). 
 
 Typically this is a distribution over mass. By fitting the mass we are able to split the mixture into two parts: signal channel and everything else.
 
@@ -85,7 +85,7 @@ Let's show how this works. First we generate two fake distributions (signal and 
 
 ![comparison of reconstructed variable](/images/splot/6-splot-reconstructed-comparison.png)
 
-### Of course we don't have labels which events are signal and which are background.
+### Of course we don't have labels for which events are signal and which are background.
 
 And we observe the mixture of two distributions:
 
@@ -93,7 +93,7 @@ And we observe the mixture of two distributions:
 
 ### We have no information about real labels
 
-But we know a priori that the background is distributed as an exponential distribution and signal as a gaussian (more complex models can be met in practice, but idea is the same).
+But we know a priori that the background is distributed as an exponential distribution and signal as a gaussian (more complex models can be met in practice, but the idea is the same).
 
 After fitting the mixture (let me skip this process), we get the following result:
 
@@ -104,7 +104,7 @@ After fitting the mixture (let me skip this process), we get the following resul
 But it gives information about probabilities, which allows us to estimate the number of signal and background events within each bin. 
 
 We won't use bins, but instead we'll compute for each event probability that it is signal or background (this probability is computed from the mass. 
-Make sure you see the connection with previous plot):
+Make sure you see the connection with the previous plot):
 
 ![reconstructed probabilities over mass](/images/splot/9-probabilities-over-mass.png)
 
@@ -112,7 +112,7 @@ Make sure you see the connection with previous plot):
 
 sPlot converts probabilities to sWeights, using the implementation from `hep_ml`:
 
-As you can see, there are also negative sWeights, which are needed to compensate the contributions of other class 
+As you can see, there are also negative sWeights, which are needed to compensate the contributions of the other class 
 (remember that in the first example we needed negative weights).
 
 ![computed sWeights dependency over mass](/images/splot/10-splot-sweights-over-mass.png)
@@ -128,15 +128,15 @@ Let's check that we achieved our goal and now we can reconstruct momentum distri
 Reconstructed variable (i.e. $p$ or lifetime or flight distance) and splotted variable (i.e. mass) shall be statistically independent within each class.
 
 Read the line above again. 
-Reconstructed and splotted variable are correlated, but when you consider only signal they are independent!
+Reconstructed and splotted variables are correlated, but when you consider only signal they are independent!
 
-as a demonstration why this is important let's use sweights to reconstruct the mass (obviously the mass is correlated with the mass):
+To demonstrate why this is important, let's use sweights to reconstruct the mass (obviously the mass is correlated with the mass):
 
 ![distributions](/images/splot/12-splot-to-reconstruct-mass.png)
 
 # Derivation of sWeights
 
-Now, after we seen how this works, let's derive the formula for sWeights.
+Now, after we have seen how this works, let's derive the formula for sWeights.
 
 
 The only information we have from fitting over the mass is  $ p_s(x) $, $ p_b(x)$ which are probabilities of event $x$ to be signal and background.
@@ -146,12 +146,12 @@ We introduce unknown $p_s$ and $p_b$ — probability that signal or background e
 
 (Since mass and reconstructed variable are statistically independent for each class, $p_s$ and $p_b$ do not depend on mass.)
 
-The mathematical expectation should be obviously equal to $p_s N_s$, where $N_s$ is total amount of signal events available from fitting.
+The mathematical expectation should be obviously equal to $p_s N_s$, where $N_s$ is the total amount of signal events available from fitting.
 
-Let's also introduce random variable $1_{x \in bin}$, which is 1 iff event $x$ lies in selected bin. 
+Let's also introduce a random variable $1_{x \in bin}$, which is 1 iff event $x$ lies in the selected bin. 
 
-The __estimate for number of signal event in bin__ is equal to:
-$$X = \sum_x sw_s(x) \; 1_{x \in bin},$$ where $sw_s(x)$ are sPlot weights and are subject to find.
+The __estimate for the number of signal events in a bin__ is equal to:
+$$X = \sum_x sw_s(x) \; 1_{x \in bin},$$ where $sw_s(x)$ are sPlot weights and are yet to be determined.
 
 ## First main property of sweights
 
@@ -176,7 +176,7 @@ After reduction:
 <br />$ N_s = \sum_x sw_s(x) \; p_s(x)  $
 <br />$ 0 = \sum_x sw_s(x) \; p_b(x) $
 
-This way we can guarantee that average contribution of background is 0 
+This way we can guarantee that the average contribution of background is 0 
 (expectation is zero, but observed number will not be zero due to statistical deviation), 
 and the expected contribution of signal is $N$
 
@@ -186,7 +186,7 @@ and the expected contribution of signal is $N$
 
 $ sw_s(x) = a_1 p_b(x) + a_2 p_s(x)$
 
-We can easily reconstruct those numbers, first let's rewrite our system:
+We can easily reconstruct those numbers; first, let's rewrite our system:
 
 $ \sum_x (a_1 p_b(x) + a_2 p_s(x)) \; p_s(x) = 0$ <br />
 $ \sum_x (a_1 p_b(x) + a_2 p_s(x)) \; p_b(x) = N_{sig}$
@@ -197,21 +197,21 @@ $ a_1 V_{sb} + a_2 V_{ss} = N_{sig}$ <br />
 Where 
 $V_{ss} = \sum_x p_s(x) \; p_s(x) $, $V_{bs} = V_{sb} = \sum_x p_s(x) \; p_b(x)$, $V_{bb} = \sum_x p_b(x) \; p_b(x)$
 
-Having solved this linear equation, we get needed coefficients (as those in the paper)
+Having solved this linear system, we get the needed coefficients (as those in the paper)
 
-NB. There is minor difference between $V$ matrix I use and $V$ matrix in the paper. 
+NB. There is a minor difference between the $V$ matrix I use and the $V$ matrix in the paper. 
 <br />
 
 
 ## Minimization of variation
 
-Previous part allows one to get the correct result. But there is still no reason for linearity given, we just *assumed this*..
+The previous part allows one to get the correct result. But there is still no reason for linearity given — we just *assumed this*.
 
 Apart from having a correct mean, we should also minimize variation of any reconstructed variable. Let's try to optimize it 
 
 <p>$$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} = \sum_x sw_s(x)^2 \; (p_s p_s(x) + p_b p_b(x))(1 - p_s p_s(x) - p_b p_b(x))$$</p>
 
-A bit complex, isn't it? Instead of optimizing such a complex expression (which is individual for each bin), let's minimize it's __uniform upper estimate__
+A bit complex, isn't it? Instead of optimizing such a complex expression (which is individual for each bin), let's minimize its __uniform upper estimate__
 
 <p>$$ \mathbb{V}\, X = \sum_x sw_s(x)^2 \; \mathbb{V}\, 1_{x \in bin} \leq  \sum_x sw_s(x)^2  $$</p>
 
@@ -221,7 +221,7 @@ so if we are going to minimize this upper estimate, we should solve the followin
 <br />$\sum_x sw_s(x) \; p_b(x) = 0$ 
 <br />$\sum_x sw_s(x) \; p_s(x) = N_{sig}$
 
-Let's write lagrangian of optimization problem:
+Let's write the Lagrangian of the optimization problem:
 
 <p>$$ \mathcal{L} =  \sum_x sw_s(x)^2 + 
 \lambda_1 \left[\sum_x sw_s(x) \; p_b(x) \right] + 
@@ -242,9 +242,9 @@ we confirmed linear dependency.
  
 ### Statistical independence
 
-The main assumption we used here is that distribution inside each bin is absolutely identical.
+The main assumption we used here is that the distribution inside each bin is absolutely identical.
 
-In other words, we stated that there is no correlation between the index of bin and the reconstructed variable. 
+In other words, we stated that there is no correlation between the index of the bin and the reconstructed variable. 
 Remember that bin corresponds to some interval in mass, and finally we get:
 
 __reconstructed variable shall not be correlated with mass variables (or any other splotted variable)__
@@ -252,9 +252,9 @@ __reconstructed variable shall not be correlated with mass variables (or any oth
 # Conclusion
 
 1. sPlot allows reconstruction of some variables.
-2. the only information used is probabilities taken from fit over variable. If fact, any probability estimates fit well.
-3. the source of probabilities should be statistically independent from reconstructed variable (for each class!).
-4. mixture may contain more than 2 classes (this is supported by `hep_ml.splot` as well)
+2. the only information used is the probabilities taken from a fit over the variable. In fact, any probability estimates fit well.
+3. the source of probabilities should be statistically independent from the reconstructed variable (for each class!).
+4. the mixture may contain more than 2 classes (this is supported by `hep_ml.splot` as well)
 
 ## Sources and code
 
@@ -263,7 +263,7 @@ The code for this post may be found at [`hep_ml` repository](https://github.com/
 ## Links
 
 A very close [explanation](https://indico.cern.ch/event/257864/contributions/1587661/attachments/453353/628570/sweff.pdf) was written by Michael Schmelling.
-[Updated version](https://indico.cern.ch/event/940874/contributions/3953530/) which is publicly available.
+An [updated version](https://indico.cern.ch/event/940874/contributions/3953530/) is publicly available.
 
 Many thanks to [Konstantin Schubert](https://github.com/KonstantinSchubert) for proof-reading this post.
 
