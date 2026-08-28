@@ -8,7 +8,7 @@ tags:
 - Binary classification
 ---
 
-There are lots of applications to machine learning, and the most popular problem in practice is __binary classification__.
+There are lots of applications of machine learning, and the most popular problem in practice is __binary classification__.
 Examples of things we want to predict:
 
 * user will click / buy something or not
@@ -30,13 +30,13 @@ Scary [image from wikipedia](https://en.wikipedia.org/wiki/Binary_classification
  
 Let me introduce my own notion, hopefully more systematic (%picture about 15 standards%):
 
-* isS (isSignal), isB (isBackground) &mdash; how many observation really belong to this class
-* asS (asSignal), asB (asBackground) &mdash; how many observation were classified as signal (background)
-* isSasB (isSignalasBackground) &mdash; how many signal observation were erroneously classified as background.
+* isS (isSignal), isB (isBackground) &mdash; how many observations really belong to this class
+* asS (asSignal), asB (asBackground) &mdash; how many observations were classified as signal (background)
+* isSasB (isSignalasBackground) &mdash; how many signal observations were erroneously classified as background.
   isSasS, isBasB, isBasS are defined in the same way.
 
 
-Hardly one can misunderstand what each of introduced numbers means.
+One can hardly misunderstand what each of the introduced numbers means.
   
 So, there are actually only 4 basic numbers:  isSasS, isSasB, isBasS, isBasB.
 
@@ -61,28 +61,28 @@ Other typically used measures:
   ```
 * also there are `tnr = isBasB / isB` and `fnr = isSasB / isS` (tnr also known as _specificity_)  
 
-Other way to define parameters is True/False Positives/Negatives:
+Another way to define parameters is True/False Positives/Negatives:
  
 ``` 
 TP = isSasS, FP = isBasS, TN = isBasB, FN = isSasB  
 ```
 
-But it is too easy (at least for me) to mess FP and FN, so I prefer to avoid this notion.
+But it is too easy (at least for me) to mix up FP and FN, so I prefer to avoid this notion.
  
 ## Continuous predictions. ROC curve 
 
 As it is clear now, there are different ways to measure quality of binary predictions.
-The bad thing is people frequently start by comparing those.
+The bad thing is that people frequently start by comparing those.
 
-Meanwhile, the output of classifier is __real-valued, not binary__.
+Meanwhile, the output of a classifier is __real-valued, not binary__.
 
 What's wrong with using binary predictions?
 
 
-1. to estimate quality, one needs to select threshold. Usually people forget about this (and use default, which far from the optimal one)
+1. to estimate quality, one needs to select a threshold. Usually people forget about this (and use the default value, which is far from the optimal one)
 2. binary metrics are frequently unstable and need many samples in validation (statistical variation is comparable to gain obtained by changing parameters),
-   this drives to unstable model selection.
-3. in many cases, trained classifier is not used to make decisions, but needed reconstruct the probabilities later used in next stages of ML pipeline
+   this leads to unstable model selection.
+3. in many cases, a trained classifier is not used to make decisions, but is needed to reconstruct the probabilities later used in the next stages of the ML pipeline
  
 <blockquote>
     It's a bad idea to use rough predictions of classifier (<code>classifier.predict(X)</code> in scikit-learn), 
@@ -90,14 +90,14 @@ What's wrong with using binary predictions?
 </blockquote>
 
 So the right way is to look at the whole picture and compare how well the classifier was able to separate classes.
-How 'far' distributions of output of signal and background. 
+How 'far' are the distributions of output of signal and background. 
  
 
 ## ROC curve
 
 The graphical way to compare output of two classifiers is ROC curve, 
 which is built by checking *all possible thresholds*.
-For each threshold `tpr` and `fpr` are computed (which part of signal/background event passes this threshold).
+For each threshold `tpr` and `fpr` are computed (which part of signal/background events passes this threshold).
    
 After checking all possible thresholds, we get the ROC curve.
 When ROC curve coincides with diagonal &mdash; this is the worst situation,
@@ -124,7 +124,7 @@ Controls:
 * 4 inputs with means and variances of distributions
 * Also vertical line corresponding to threshold can be moved
 
-Presentation was prepared by Oleg Alenkin and Alex Rogozhnikov.
+This presentation was prepared with help of Oleg Alenkin.
 
 <div class="layout-wrapper">
     <div class="controls">
@@ -164,25 +164,25 @@ Or if you exponentiate predictions &mdash; again, nothing changes.
 This notable property makes ROC curve the universal base for comparison of classification models, because it contains 
 all necessary information (fractions of observations passing thresholds) while ignoring everything inessential (predictions values).
 
-However curve is not a number, and the final quality still should be computed according to real problem (based on ROC curve).
+However, the curve is not a number, and the final quality still should be computed according to the real problem (based on the ROC curve).
 
 __accuracy__: assuming that you have $N_s$ signal objects and $N_b$ background objects, 
-the expected number of quest samples is $N_s \times TPR + N_b \times (1 - FPR)$, to maximize the number 
-of correctly predicted objects, you should select a threshold, which corresponds to maximum of this value on the ROC.
-(As you can check, at this point ROC should be tangent to line $N_s \times TPR - N_b \times FPR = const$.
+the expected number of correctly guessed samples is $N_s \times TPR + N_b \times (1 - FPR)$, to maximize the number 
+of correctly predicted objects, you should select a threshold, which corresponds to the maximum of this value on the ROC.
+(As you can check, at this point ROC should be tangent to line $N_s \times TPR - N_b \times FPR = const$).
 
-__weighted accuracy__: another example (which frequently corresponds to practice). 
-Imaging that for each correct guess about new object you are paid.
+__weighted accuracy__: another example (which is common in practice). 
+Imagine that for each correct guess about a new object you are paid.
 But the cost for correctly guessing signal and background are different: $c_s, c_b$. 
-To maximize the income, the threshold for decision rule should correspond to point at ROC curve, where
+To maximize the income, the threshold for the decision rule should correspond to a point on the ROC curve, where
  $$ N_s \times TPR \times c_s + N_b \times (1 - FPR) \times c_b $$ is maximal.
 
 One of such examples is email spam filtering:
-cost for incorrect classification of ham letter is times higher than cost for making wrong prediction for spam letter.
+cost for incorrect classification of ham letter is n times higher than cost for making wrong prediction for spam letter.
  
 In particle physics more complicated expressions are usually taken as a final measure of classification quality.
-Those are corresponding to hypothesis testing (punzy metric, median significance), but the idea is still the same: 
-one should maximize some figure of merit and take corresponding threshold.  
+These correspond to hypothesis testing (Punzi metric, median significance), but the idea is still the same: 
+one should maximize some figure of merit and take corresponding threshold.
  
 ## Links
 
