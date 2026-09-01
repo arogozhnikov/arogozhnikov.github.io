@@ -98,7 +98,7 @@ and each compared option saves its logs to a corresponding subfolder.
 
 I don't think that fixed random seed is reliable enough to be considered as an alternative way to achieve similarity in training.
 
-THere are many different RNGs provided by different modules, and RNGs are used in too many places. 
+There are many different RNGs provided by different modules, and RNGs are used in too many places. 
 And you need to precisely control RNG flow in your program.
 Because if some of your functions use global RNGs like `random` or `np.random` directly, 
 this implies that *any* side call to those from anywhere in your program completely changes all following sampled numbers.

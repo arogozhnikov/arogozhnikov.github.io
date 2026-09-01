@@ -27,7 +27,7 @@ The only difference between these two datasets is the number of queries (10000 a
 *  Apart from these datasets, 
 [LETOR3.0](https://research.microsoft.com/en-us/um/beijing/projects/letor/letor3dataset.aspx) and [LETOR 4.0](https://research.microsoft.com/en-us/um/beijing/projects/letor/letor4dataset.aspx)
 are available, which were published in 2008 and 2009. Those datasets are smaller. From LETOR4.0 MQ-2007 and MQ-2008 are interesting (46 features there). 
-MQ stays for million queries.
+MQ stands for million queries.
 
 * [Yahoo! LETOR dataset](https://webscope.sandbox.yahoo.com/catalog.php?datatype=c),&nbsp;from challenge organized in 2010. There are currently two versions: 1.0(400Mb) and 2.0 (600Mb). Here is more info about two sets within this data<br />
 	<table class='comparison'>
@@ -92,7 +92,7 @@ However, there are some algorithms that are available (apart from regression, of
 2. <a href="https://bitbucket.org/ilps/lerot">LEROT</a>: written in python <i>online learning to rank</i> framework.<br />Also there is less detailed, but longer list of datasets:&nbsp;<a href="https://bitbucket.org/ilps/lerot#rst-header-data">https://bitbucket.org/ilps/lerot#rst-header-data</a>
 2. <a href="https://github.com/ogrisel/notebooks/blob/master/Learning%20to%20Rank.ipynb">IPython demo</a> on learning to rank
 3. <a href="https://github.com/arifqodari/ExpediaLearningToRank">Implementation of LambdaRank</a>&nbsp;(in python specially for kaggle ranking competition)
-4. <a href="https://github.com/xapian/xapian/tree/master/xapian-letor">xapian-letor</a>&nbsp;is part of xapian project, this library was developed at GSoC 2014. Though I haven't found anythong on ranking in documentation, some implementations can be found in C++ code:<br />https://github.com/xapian/xapian/tree/master/xapian-letor<br />https://github.com/v-hasu/xapian/tree/master/xapian-letor
+4. <a href="https://github.com/xapian/xapian/tree/master/xapian-letor">xapian-letor</a>&nbsp;is part of xapian project, this library was developed at GSoC 2014. Though I haven't found anything on ranking in documentation, some implementations can be found in C++ code:<br />https://github.com/xapian/xapian/tree/master/xapian-letor<br />https://github.com/v-hasu/xapian/tree/master/xapian-letor
 5. <a href="https://github.com/bmcfee/mlr">Metric learning to rank</a>&nbsp;(mlr)&nbsp;for matlab
 6. <a href="https://www.cs.cornell.edu/people/tj/svm_light/svm_rank.html">SVM-Rank implementation</a> in C++
 7. <a href="https://sourceforge.net/projects/listmle/">ListMLE</a>, <a href="https://sourceforge.net/projects/listnet/?source=recommended">ListNET</a> rankers (probably these were used in xapian)
