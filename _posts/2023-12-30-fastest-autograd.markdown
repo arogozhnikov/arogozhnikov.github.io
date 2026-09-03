@@ -146,7 +146,7 @@ Someone will mention TF anyway. I'll leave this as an exercise for you, TF fans.
 Done with baselines, time to see if we can speed things up.
 
 Let's create a simplistic pseudo-framework and see how it competes with previous candidates.
-We'll implement a tape-like autograd where operations order is explicitly tracked in a tape.
+We'll implement a tape-like autograd where the order of operations is explicitly tracked in a tape.
 
 <details markdown="1">
 <summary class="code-summary">show autograd engine in plain python
